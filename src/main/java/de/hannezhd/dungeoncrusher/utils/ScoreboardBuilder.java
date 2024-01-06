@@ -66,6 +66,7 @@ public class ScoreboardBuilder implements Listener {
         Team kills = scoreboard.registerNewTeam("kills");
         kills.addEntry("§3");
         updateKills(player);
+        //Items
     }
     @EventHandler
     public void onJoin(PlayerJoinEvent event) {

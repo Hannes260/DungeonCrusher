@@ -23,6 +23,7 @@ public class StatsCommand implements CommandExecutor {
                 Player player = (Player) sender;
                 if (args.length == 0) {
                 player.sendMessage(ConfigManager.getPrefix() + "§aKills: §6" + mysqlManager.getKills(String.valueOf(player.getUniqueId())));
+                System.out.println(mysqlManager.getItemAmount(player.getUniqueId().toString(), "copper_ingot"));
             }else
                 player.sendMessage(ConfigManager.getConfigMessage("message.statsusage",""));
         }else

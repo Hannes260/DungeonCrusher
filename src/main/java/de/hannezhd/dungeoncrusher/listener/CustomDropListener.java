@@ -20,28 +20,43 @@ import java.util.Random;
 public class CustomDropListener implements Listener {
     MYSQLManager mysqlManager;
     ScoreboardBuilder scoreboardBuilder;
-    private final Random random;
     public CustomDropListener(DungeonCrusher dungeonCrusher,MYSQLManager mysqlManager) {
         this.mysqlManager = mysqlManager;
         this.scoreboardBuilder = new ScoreboardBuilder(dungeonCrusher);
-        this.random = new Random();
     }
     @EventHandler
     public void onEntityDeath(EntityDeathEvent event) {
         List<ItemStack> drops = event.getDrops();
         Player player = event.getEntity().getKiller();
+        String playerUUID = player.getUniqueId().toString();
         if (event.getEntityType() == EntityType.ZOMBIE) {
             double random = Math.random();
             if (random < 0.3) {
-                drops.add(new ItemStack(Material.DIAMOND,1));
+                ItemStack diamond = new ItemStack(Material.DIAMOND, 1);
+
+                int currentdiamond = mysqlManager.getItemAmount(playerUUID,"diamond");
+                mysqlManager.updateItemAmount(playerUUID, diamond.getType().toString(), currentdiamond + diamond.getAmount());
+
+                player.sendMessage(ConfigManager.getConfigMessage("message.additem","%item%",diamond.getType().toString()));
             }
         } else if (event.getEntityType() == EntityType.FROG) {
             double random = Math.random();
             if (random < 0.05) {
-                drops.add(new ItemStack(Material.COPPER_INGOT));
+                ItemStack copperingot = new ItemStack(Material.COPPER_INGOT,1);
+
+                int currentcopperingot = mysqlManager.getItemAmount(playerUUID, "copper_ingot");
+                mysqlManager.updateItemAmount(playerUUID, copperingot.getType().toString(), currentcopperingot + copperingot.getAmount());
+
+                player.sendMessage(ConfigManager.getConfigMessage("message.additem","%item%",copperingot.getType().toString()));
             }else if (random < 0.25) {
-                drops.add(new ItemStack(Material.RAW_COPPER));
+                ItemStack rawcopper = new ItemStack(Material.RAW_COPPER,1);
+
+                int currentrawcopper = mysqlManager.getItemAmount(playerUUID, "raw_copper");
+                mysqlManager.updateItemAmount(playerUUID, rawcopper.getType().toString(), currentrawcopper + rawcopper.getAmount());
+
+                player.sendMessage(ConfigManager.getConfigMessage("message.additem","%item%", rawcopper.getType().toString()));
             } else if (random < 0.4) {
+
                 double giveMoney = Math.round((random * 9.99 + 1) * 100.0) / 100.0;
                 double newMoney;
                 String currentMoney = mysqlManager.getBalance(player.getUniqueId().toString());
@@ -51,9 +66,15 @@ public class CustomDropListener implements Listener {
                 String formattedMoney = String.format(Locale.ENGLISH, "%,.2f", newMoney);
                 mysqlManager.updateBalance(String.valueOf(player.getUniqueId()), formattedMoney);
                 scoreboardBuilder.updateMoney(player);
-                player.sendMessage(ConfigManager.getPrefix() + ConfigManager.getConfigMessage("message.killedmobmoney", "%money%", String.valueOf(giveMoney)));
+
+                player.sendMessage(ConfigManager.getConfigMessage("message.addmobkilledmoney", "%money%", String.valueOf(giveMoney)));
         } else if (random < 0.65) {
-                drops.add(new ItemStack(Material.COAL));
+                ItemStack coal = new ItemStack(Material.COAL,1);
+
+                int currentcoal = mysqlManager.getItemAmount(playerUUID, "coal");
+                mysqlManager.updateItemAmount(playerUUID, coal.getType().toString(), currentcoal + coal.getAmount());
+
+                player.sendMessage(ConfigManager.getConfigMessage("message.additem","%item%",coal.getType().toString()));
             }
         }
     }

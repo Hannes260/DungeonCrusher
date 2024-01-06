@@ -7,8 +7,11 @@ import java.io.IOException;
 import java.sql.*;
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
+import org.bukkit.entity.Player;
 
 import javax.sql.DataSource;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -23,6 +26,7 @@ public class MYSQLManager {
     private static MYSQLManager instance;
     private static final Logger logger = Logger.getLogger(MYSQLManager.class.getName());
     private HikariDataSource dataSource;
+
     public MYSQLManager(File dataFolder) {
         File configFile = new File(dataFolder, "mysql.config");
 
@@ -82,16 +86,28 @@ public class MYSQLManager {
             logger.info("Verbindung zur MySQL hergestellt");
         } catch (SQLException e) {
             logger.log(Level.SEVERE, "Verbindung zur MySQL konnte nicht hergestellt werden. Überprüfe deine Daten", e);
-            connection = null;
+            throw new RuntimeException("Failed to connect to MySQL", e);
         }
     }
 
     public void disconnect() {
-        if (dataSource != null && !dataSource.isClosed()) {
-            dataSource.close();
-            logger.info("Verbindung zur MySQL getrennt");
+        try {
+            if (dataSource != null) {
+                dataSource.close();
+                logger.info("Verbindung zur MySQL getrennt");
+            }
+        } finally {
+            if (connection != null) {
+                try {
+                    connection.close();
+                    logger.info("Verbindung zur MySQL getrennt");
+                } catch (SQLException e) {
+                    logger.log(Level.SEVERE, "Fehler beim Schließen der Verbindung", e);
+                }
+            }
         }
     }
+
     public void createTables() {
         try {
             Statement statement = connection.createStatement();
@@ -113,6 +129,23 @@ public class MYSQLManager {
                     + "boots_lvl INT DEFAULT 0 NOT NULL"
                     + ")";
             statement.execute(createStatsTableQuery);
+            String createItemsTableQuery = "CREATE TABLE IF NOT EXISTS player_items ("
+                    + "uuid VARCHAR(36),"
+                    + "cobblestone INT DEFAULT 0 NOT NULL,"
+                    + "stone INT DEFAULT 0 NOT NULL,"
+                    + "raw_copper INT DEFAULT 0 NOT NULL,"
+                    + "copper_ingot INT DEFAULT 0 NOT NULL,"
+                    + "raw_iron INT DEFAULT 0 NOT NULL,"
+                    + "iron_ingot INT DEFAULT 0 NOT NULL,"
+                    + "raw_gold INT DEFAULT 0 NOT NULL,"
+                    + "gold_ingot INT DEFAULT 0 NOT NULL,"
+                    + "diamond INT DEFAULT 0 NOT NULL,"
+                    + "diamond_ore INT DEFAULT 0 NOT NULL,"
+                    + "netherite_scrap INT DEFAULT 0 NOT NULL,"
+                    + "netherite_ingot INT DEFAULT 0 NOT NULL,"
+                    + "coal INT DEFAULT 0 NOT NULL"
+                    + ")";
+            statement.execute(createItemsTableQuery);
             statement.close();
         } catch (Exception e) {
             e.printStackTrace();
@@ -176,6 +209,55 @@ public class MYSQLManager {
             e.printStackTrace();
         }
         return balance;
+    }
+    public int getItemAmount(String uuid, String itemName) {
+        int itemAmount = 0;
+
+        try {
+            String query = "SELECT " + itemName + " FROM player_items WHERE uuid = ?";
+            try (PreparedStatement statement = connection.prepareStatement(query)) {
+                statement.setString(1, uuid);
+
+                try (ResultSet resultSet = statement.executeQuery()) {
+                    if (resultSet.next()) {
+                        itemAmount = resultSet.getInt(itemName);
+                    }
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return itemAmount;
+
+    }
+
+    public void updateItemAmount(String uuid, String itemName, int newItemAmount) {
+        try {
+            // Aktualisiere die Item-Menge
+            String updateQuery = "UPDATE player_items SET " + itemName + " = ? WHERE uuid = ?";
+            try (PreparedStatement updateStatement = connection.prepareStatement(updateQuery)) {
+                updateStatement.setInt(1, newItemAmount);
+                updateStatement.setString(2, uuid);
+
+                int rowsUpdated = updateStatement.executeUpdate();
+
+                // Wenn keine Zeile aktualisiert wurde, füge einen neuen Datensatz ein
+                if (rowsUpdated == 0) {
+                    String insertQuery = "INSERT INTO player_items (uuid, " + itemName + ") VALUES (?, ?)";
+                    try (PreparedStatement insertStatement = connection.prepareStatement(insertQuery)) {
+                        insertStatement.setString(1, uuid);
+                        insertStatement.setInt(2, newItemAmount);
+                        insertStatement.executeUpdate();
+                    }
+                }
+            }
+
+            if (!connection.getAutoCommit()) {
+                connection.commit();
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
     public int getDeaths(String uuid) {
         int totalDeaths = 0;
@@ -260,38 +342,34 @@ public class MYSQLManager {
         return kills;
     }
     public void updateKills(String uuid, String newKills) {
-        try {
-            // Überprüfen, ob der Spieler bereits in der Tabelle vorhanden ist
-            String checkQuery = "SELECT uuid FROM player_stats WHERE uuid = ?";
-            try (PreparedStatement checkStatement = connection.prepareStatement(checkQuery)) {
-                checkStatement.setString(1, uuid);
-                try (ResultSet resultSet = checkStatement.executeQuery()) {
-                    if (resultSet.next()) {
-                        // Spieler existiert, also aktualisiere die Kill-Anzahl
-                        String updateQuery = "UPDATE player_stats SET kills = ? WHERE uuid = ?";
-                        try (PreparedStatement updateStatement = connection.prepareStatement(updateQuery)) {
-                            updateStatement.setString(1, newKills);
-                            updateStatement.setString(2, uuid);
-                            updateStatement.executeUpdate();
-                            checkStatement.close();
-                            resultSet.close();
-                        }
-                    } else {
-                        // Spieler existiert nicht, füge neuen Datensatz ein
-                        String insertQuery = "INSERT INTO player_stats (uuid, kills) VALUES (?, ?)";
-                        try (PreparedStatement insertStatement = connection.prepareStatement(insertQuery)) {
-                            insertStatement.setString(1, uuid);
-                            insertStatement.setString(2, newKills);
-                            insertStatement.executeUpdate();
-                            insertStatement.close();
-                            resultSet.close();
-                        }
+        String checkQuery = "SELECT uuid FROM player_stats WHERE uuid = ?";
+        String updateQuery = "UPDATE player_stats SET kills = ? WHERE uuid = ?";
+        String insertQuery = "INSERT INTO player_stats (uuid, kills) VALUES (?, ?)";
+
+        try (
+                PreparedStatement checkStatement = connection.prepareStatement(checkQuery);
+        ) {
+            checkStatement.setString(1, uuid);
+            try (ResultSet resultSet = checkStatement.executeQuery()) {
+                if (resultSet.next()) {
+                    // Spieler existiert, also aktualisiere die Kill-Anzahl
+                    try (PreparedStatement updateStatement = connection.prepareStatement(updateQuery)) {
+                        updateStatement.setString(1, newKills);
+                        updateStatement.setString(2, uuid);
+                        updateStatement.executeUpdate();
+                    }
+                } else {
+                    // Spieler existiert nicht, füge neuen Datensatz ein
+                    try (PreparedStatement insertStatement = connection.prepareStatement(insertQuery)) {
+                        insertStatement.setString(1, uuid);
+                        insertStatement.setString(2, newKills);
+                        insertStatement.executeUpdate();
                     }
                 }
-            }
 
-            if (!connection.getAutoCommit()) {
-                connection.commit();
+                if (!connection.getAutoCommit()) {
+                    connection.commit();
+                }
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -649,6 +727,20 @@ public class MYSQLManager {
             }
         } catch (SQLException e) {
             e.printStackTrace();
+        }
+    }
+    private void executeUpdate(String query, Object... params) {
+        try (PreparedStatement statement = connection.prepareStatement(query)) {
+            setParameters(statement, params);
+            statement.executeUpdate();
+        } catch (SQLException e) {
+            logger.log(Level.SEVERE, "Fehler beim Ausführen der Abfrage", e);
+        }
+    }
+
+    private void setParameters(PreparedStatement statement, Object... params) throws SQLException {
+        for (int i = 0; i < params.length; i++) {
+            statement.setObject(i + 1, params[i]);
         }
     }
 
