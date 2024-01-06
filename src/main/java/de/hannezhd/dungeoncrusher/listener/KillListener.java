@@ -3,9 +3,12 @@ package de.hannezhd.dungeoncrusher.listener;
 import de.hannezhd.dungeoncrusher.DungeonCrusher;
 import de.hannezhd.dungeoncrusher.sql.MYSQLManager;
 import de.hannezhd.dungeoncrusher.utils.ScoreboardBuilder;
+import org.bukkit.Material;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDeathEvent;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
 
 public class KillListener implements Listener {
     public final DungeonCrusher dungeonCrusher;

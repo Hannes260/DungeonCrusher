@@ -37,11 +37,12 @@ public final class DungeonCrusher extends JavaPlugin {
     private MarkierungsManager markierungsManager;
     MobHealthBuilder healthBuilder = new MobHealthBuilder();
     MobDamageListener damageListener = new MobDamageListener(healthBuilder);
-    MYSQLManager mysqlManager = new MYSQLManager(getDataFolder());
+    MYSQLManager mysqlManager;
     @Override
     public void onEnable() {
         instance = this;
         this.configManager = new ConfigManager(this);
+        mysqlManager = MYSQLManager.getInstance(getDataFolder());
         locationconfigManager = new LocationConfigManager(this);
         MarkierungsManager markierungsManager = new MarkierungsManager(locationconfigManager);
         DungeonProtectionListener dungeonProtectionListener = new DungeonProtectionListener();
@@ -139,7 +140,9 @@ public final class DungeonCrusher extends JavaPlugin {
     @Override
     public void onDisable() {
             ConfigManager.saveConfig();
+        if (mysqlManager != null) {
             mysqlManager.disconnect();
+        }
     }
     public static DungeonCrusher getInstance() {
         return instance;

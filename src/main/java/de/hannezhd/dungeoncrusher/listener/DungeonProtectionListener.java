@@ -40,6 +40,14 @@ public class DungeonProtectionListener implements Listener {
         }
     }
     @EventHandler
+    public void onInventoryClick(InventoryClickEvent event) {
+        Player player = (Player) event.getWhoClicked();
+        if (event.getClickedInventory() != null && event.getClickedInventory().equals(event.getWhoClicked().getInventory())) {
+            if (!isBuildModeEnabled(player))
+                event.setCancelled(true);
+        }
+    }
+    @EventHandler
     public void onBlockPlace(BlockPlaceEvent event) {
         Player player = event.getPlayer();
         if (!isBuildModeEnabled(player)) {

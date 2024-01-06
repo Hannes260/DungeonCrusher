@@ -96,6 +96,8 @@ public class MYSQLManager {
                 dataSource.close();
                 logger.info("Verbindung zur MySQL getrennt");
             }
+        } catch (Exception e) {
+            logger.log(Level.SEVERE, "Fehler beim Schließen der Datenquelle", e);
         } finally {
             if (connection != null) {
                 try {
@@ -366,13 +368,13 @@ public class MYSQLManager {
                         insertStatement.executeUpdate();
                     }
                 }
+            }
 
-                if (!connection.getAutoCommit()) {
-                    connection.commit();
-                }
+            if (!connection.getAutoCommit()) {
+                connection.commit();
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            logger.log(Level.SEVERE, "Fehler beim Aktualisieren der Kills in der Datenbank", e);
         }
     }
     public int getSwordLevel(String uuid) {

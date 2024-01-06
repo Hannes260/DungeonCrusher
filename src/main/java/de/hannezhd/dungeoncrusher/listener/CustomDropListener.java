@@ -12,6 +12,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
 
 import java.util.List;
 import java.util.Locale;
@@ -47,12 +48,23 @@ public class CustomDropListener implements Listener {
                 int currentcopperingot = mysqlManager.getItemAmount(playerUUID, "copper_ingot");
                 mysqlManager.updateItemAmount(playerUUID, copperingot.getType().toString(), currentcopperingot + copperingot.getAmount());
 
+                ItemMeta copperingotmeta = copperingot.getItemMeta();
+                copperingotmeta.setDisplayName("§bAnzahl ➝ §6" + mysqlManager.getItemAmount(playerUUID, "copper_ingot"));
+                copperingot.setItemMeta(copperingotmeta);
+                player.getInventory().setItem(10, copperingot);
+
                 player.sendMessage(ConfigManager.getConfigMessage("message.additem","%item%",copperingot.getType().toString()));
             }else if (random < 0.25) {
                 ItemStack rawcopper = new ItemStack(Material.RAW_COPPER,1);
 
                 int currentrawcopper = mysqlManager.getItemAmount(playerUUID, "raw_copper");
                 mysqlManager.updateItemAmount(playerUUID, rawcopper.getType().toString(), currentrawcopper + rawcopper.getAmount());
+
+                ItemStack rawcopperitem = new ItemStack(Material.RAW_COPPER);
+                ItemMeta rawcoppermeta = rawcopperitem.getItemMeta();
+                rawcoppermeta.setDisplayName("§bAnzahl ➝ §6" + mysqlManager.getItemAmount(playerUUID, "raw_copper"));
+                rawcopperitem.setItemMeta(rawcoppermeta);
+                player.getInventory().setItem(9, rawcopperitem);
 
                 player.sendMessage(ConfigManager.getConfigMessage("message.additem","%item%", rawcopper.getType().toString()));
             } else if (random < 0.4) {
@@ -73,6 +85,11 @@ public class CustomDropListener implements Listener {
 
                 int currentcoal = mysqlManager.getItemAmount(playerUUID, "coal");
                 mysqlManager.updateItemAmount(playerUUID, coal.getType().toString(), currentcoal + coal.getAmount());
+
+                ItemMeta coalmeta = coal.getItemMeta();
+                coalmeta.setDisplayName("§bAnzahl ➝ §6" + mysqlManager.getItemAmount(player.getUniqueId().toString(), "coal"));
+                coal.setItemMeta(coalmeta);
+                player.getInventory().setItem(22, coal);
 
                 player.sendMessage(ConfigManager.getConfigMessage("message.additem","%item%",coal.getType().toString()));
             }

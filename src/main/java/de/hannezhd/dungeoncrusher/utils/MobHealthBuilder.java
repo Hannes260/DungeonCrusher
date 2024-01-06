@@ -16,17 +16,15 @@ public class MobHealthBuilder {
     public MobHealthBuilder() {
         // Hier kannst du die initialen Lebenspunkte für verschiedene Mobs festlegen
         this.initialHealthMap = new HashMap<>();
-        this.initialHealthMap.put(EntityType.FROG, 50.0);
-        this.initialHealthMap.put(EntityType.RABBIT,200.0);
-        this.initialHealthMap.put(EntityType.CHICKEN,350.0);
-        this.initialHealthMap.put(EntityType.CAT, 500.0);
-        this.initialHealthMap.put(EntityType.FOX, 650.0);
-        this.initialHealthMap.put(EntityType.WOLF, 800.0);
-        this.initialHealthMap.put(EntityType.SHEEP, 950.0);
-        this.initialHealthMap.put(EntityType.PIG, 1100.0);
-        this.initialHealthMap.put(EntityType.COW, 1250.0);
-        this.initialHealthMap.put(EntityType.SKELETON, 1000000.0);
-        this.initialHealthMap.put(EntityType.IRON_GOLEM, 2000000.0);
+        this.initialHealthMap.put(EntityType.FROG, 24.0);
+        this.initialHealthMap.put(EntityType.RABBIT,39.0);
+        this.initialHealthMap.put(EntityType.CHICKEN,54.0);
+        this.initialHealthMap.put(EntityType.CAT, 69.0);
+        this.initialHealthMap.put(EntityType.FOX, 84.0);
+        this.initialHealthMap.put(EntityType.WOLF, 99.0);
+        this.initialHealthMap.put(EntityType.SHEEP, 114.0);
+        this.initialHealthMap.put(EntityType.PIG, 129.0);
+        this.initialHealthMap.put(EntityType.COW, 144.0);
     }
 
     public void applyAdjustments(LivingEntity entity) {
