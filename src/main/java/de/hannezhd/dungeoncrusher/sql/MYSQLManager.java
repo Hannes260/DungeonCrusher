@@ -7,11 +7,6 @@ import java.io.IOException;
 import java.sql.*;
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
-import org.bukkit.entity.Player;
-
-import javax.sql.DataSource;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -132,7 +127,7 @@ public class MYSQLManager {
                     + ")";
             statement.execute(createStatsTableQuery);
             String createItemsTableQuery = "CREATE TABLE IF NOT EXISTS player_items ("
-                    + "uuid VARCHAR(36),"
+                    + "uuid VARCHAR(255) PRIMARY KEY,"
                     + "cobblestone INT DEFAULT 0 NOT NULL,"
                     + "stone INT DEFAULT 0 NOT NULL,"
                     + "raw_copper INT DEFAULT 0 NOT NULL,"

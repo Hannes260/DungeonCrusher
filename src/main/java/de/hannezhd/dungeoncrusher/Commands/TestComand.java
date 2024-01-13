@@ -2,7 +2,6 @@ package de.hannezhd.dungeoncrusher.Commands;
 
 import de.hannezhd.dungeoncrusher.DungeonCrusher;
 import de.hannezhd.dungeoncrusher.sql.MYSQLManager;
-import de.hannezhd.dungeoncrusher.utils.LocationConfigManager;
 import org.bukkit.Material;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.attribute.AttributeModifier;

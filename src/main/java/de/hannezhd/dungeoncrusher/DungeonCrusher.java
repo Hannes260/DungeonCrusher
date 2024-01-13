@@ -1,15 +1,9 @@
 package de.hannezhd.dungeoncrusher;
 
-import com.comphenix.protocol.PacketType;
-import com.comphenix.protocol.ProtocolLibrary;
-import com.comphenix.protocol.ProtocolManager;
-import com.comphenix.protocol.events.ListenerPriority;
-import com.comphenix.protocol.events.PacketAdapter;
-import com.comphenix.protocol.events.PacketEvent;
-import com.comphenix.protocol.wrappers.EnumWrappers;
 import de.hannezhd.dungeoncrusher.Commands.*;
 import de.hannezhd.dungeoncrusher.Commands.Economy.CoinsCommand;
 import de.hannezhd.dungeoncrusher.Commands.Economy.PayCommand;
+import de.hannezhd.dungeoncrusher.Commands.LevelSystem.UpgradeClickListener;
 import de.hannezhd.dungeoncrusher.Commands.LevelSystem.UpgradeCommand;
 import de.hannezhd.dungeoncrusher.Commands.Shops.ShopClickListener;
 import de.hannezhd.dungeoncrusher.Commands.Shops.ShopCommand;
@@ -17,7 +11,6 @@ import de.hannezhd.dungeoncrusher.listener.*;
 import de.hannezhd.dungeoncrusher.sql.MYSQLManager;
 import de.hannezhd.dungeoncrusher.utils.*;
 import org.bukkit.Bukkit;
-import org.bukkit.Particle;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -26,8 +19,6 @@ import org.bukkit.plugin.java.JavaPlugin;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-
-import static org.bukkit.Particle.*;
 
 public final class DungeonCrusher extends JavaPlugin {
     public static DungeonCrusher plugin;
@@ -99,6 +90,7 @@ public final class DungeonCrusher extends JavaPlugin {
         pluginManager.registerEvents(new DungeonListener(locationconfigManager),this);
         pluginManager.registerEvents(new MobkillListener(), this);
         pluginManager.registerEvents(new ShopClickListener(this, mysqlManager),this);
+        pluginManager.registerEvents(new UpgradeClickListener(this, mysqlManager),this);
     }
     public List<String> onTabComplete(CommandSender sender, Command cmd, String alias, String[] args) {
         if (cmd.getName().equalsIgnoreCase("config")) {

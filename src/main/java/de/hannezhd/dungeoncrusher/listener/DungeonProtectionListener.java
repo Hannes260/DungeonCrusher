@@ -55,6 +55,13 @@ public class DungeonProtectionListener implements Listener {
         }
     }
     @EventHandler
+    public void onPlayerDropItem(PlayerDropItemEvent event) {
+        Player player = event.getPlayer();
+        if (!isBuildModeEnabled(player)) {
+            event.setCancelled(true);
+        }
+    }
+    @EventHandler
     public void onEntityDamage(EntityDamageEvent event) {
         if (event.getEntity() instanceof Player) {
             if (event.getCause() == EntityDamageEvent.DamageCause.PROJECTILE) {

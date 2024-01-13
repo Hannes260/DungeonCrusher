@@ -1,7 +1,5 @@
 package de.hannezhd.dungeoncrusher.Commands.Shops;
 
-import com.mojang.authlib.GameProfile;
-import com.mojang.authlib.properties.Property;
 import de.hannezhd.dungeoncrusher.DungeonCrusher;
 import de.hannezhd.dungeoncrusher.objects.PlayerHead;
 import de.hannezhd.dungeoncrusher.sql.MYSQLManager;
@@ -9,12 +7,10 @@ import de.hannezhd.dungeoncrusher.utils.ItemBuilder;
 import de.hannezhd.dungeoncrusher.utils.TexturedHeads;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
-import org.bukkit.OfflinePlayer;
 import org.bukkit.Sound;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
-import org.bukkit.entity.Item;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.InventoryHolder;
@@ -22,13 +18,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.SkullMeta;
 import org.bukkit.profile.PlayerProfile;
-import org.bukkit.profile.PlayerTextures;
 import org.bukkit.scheduler.BukkitRunnable;
-
-import java.lang.reflect.Field;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.util.UUID;
 
 public class ShopCommand implements CommandExecutor {
     MYSQLManager mysqlManager;

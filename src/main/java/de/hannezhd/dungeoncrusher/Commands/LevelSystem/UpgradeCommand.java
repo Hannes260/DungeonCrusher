@@ -5,7 +5,6 @@ import de.hannezhd.dungeoncrusher.objects.PlayerHead;
 import de.hannezhd.dungeoncrusher.sql.MYSQLManager;
 import de.hannezhd.dungeoncrusher.utils.ConfigManager;
 import de.hannezhd.dungeoncrusher.utils.ItemBuilder;
-import de.hannezhd.dungeoncrusher.utils.TexturedHeads;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.Sound;
@@ -18,6 +17,9 @@ import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.scheduler.BukkitRunnable;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class UpgradeCommand implements CommandExecutor {
     MYSQLManager mysqlManager;

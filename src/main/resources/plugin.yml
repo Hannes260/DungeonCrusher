@@ -32,3 +32,4 @@ commands:
     description: Upgrade deine Items
     aliases: [upgrade, levelup]
   customgui:
+  flyspeed:

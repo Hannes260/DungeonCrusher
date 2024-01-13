@@ -5,18 +5,18 @@ import de.hannezhd.dungeoncrusher.sql.MYSQLManager;
 import de.hannezhd.dungeoncrusher.utils.ConfigManager;
 import de.hannezhd.dungeoncrusher.utils.ScoreboardBuilder;
 import org.bukkit.Material;
+import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.EntityType;
-import org.bukkit.entity.Item;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDeathEvent;
+import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
 import java.util.List;
 import java.util.Locale;
-import java.util.Random;
 
 public class CustomDropListener implements Listener {
     MYSQLManager mysqlManager;
@@ -50,6 +50,8 @@ public class CustomDropListener implements Listener {
 
                 ItemMeta copperingotmeta = copperingot.getItemMeta();
                 copperingotmeta.setDisplayName("§bAnzahl ➝ §6" + mysqlManager.getItemAmount(playerUUID, "copper_ingot"));
+                copperingotmeta.addEnchant(Enchantment.KNOCKBACK,1,true);
+                copperingotmeta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
                 copperingot.setItemMeta(copperingotmeta);
                 player.getInventory().setItem(10, copperingot);
 
@@ -60,11 +62,12 @@ public class CustomDropListener implements Listener {
                 int currentrawcopper = mysqlManager.getItemAmount(playerUUID, "raw_copper");
                 mysqlManager.updateItemAmount(playerUUID, rawcopper.getType().toString(), currentrawcopper + rawcopper.getAmount());
 
-                ItemStack rawcopperitem = new ItemStack(Material.RAW_COPPER);
-                ItemMeta rawcoppermeta = rawcopperitem.getItemMeta();
+                ItemMeta rawcoppermeta = rawcopper.getItemMeta();
                 rawcoppermeta.setDisplayName("§bAnzahl ➝ §6" + mysqlManager.getItemAmount(playerUUID, "raw_copper"));
-                rawcopperitem.setItemMeta(rawcoppermeta);
-                player.getInventory().setItem(9, rawcopperitem);
+                rawcoppermeta.addEnchant(Enchantment.KNOCKBACK,1,true);
+                rawcoppermeta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
+                rawcopper.setItemMeta(rawcoppermeta);
+                player.getInventory().setItem(9, rawcopper);
 
                 player.sendMessage(ConfigManager.getConfigMessage("message.additem","%item%", rawcopper.getType().toString()));
             } else if (random < 0.4) {
@@ -88,6 +91,8 @@ public class CustomDropListener implements Listener {
 
                 ItemMeta coalmeta = coal.getItemMeta();
                 coalmeta.setDisplayName("§bAnzahl ➝ §6" + mysqlManager.getItemAmount(player.getUniqueId().toString(), "coal"));
+                coalmeta.addEnchant(Enchantment.KNOCKBACK,1,true);
+                coalmeta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
                 coal.setItemMeta(coalmeta);
                 player.getInventory().setItem(22, coal);
 
