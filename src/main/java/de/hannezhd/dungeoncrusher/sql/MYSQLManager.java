@@ -70,8 +70,10 @@ public class MYSQLManager {
         config.setUsername(username);
         config.setPassword(password);
         config.addDataSourceProperty("autoReconnect", true);
-        config.setMaximumPoolSize(10); // Anpassen nach Bedarf
-
+        config.setMaximumPoolSize(5); // Anpassen nach Bedarf
+        config.setMinimumIdle(2);
+        config.setIdleTimeout(300000);
+        config.setPoolName("DungeonCrusher");
         dataSource = new HikariDataSource(config);
     }
 

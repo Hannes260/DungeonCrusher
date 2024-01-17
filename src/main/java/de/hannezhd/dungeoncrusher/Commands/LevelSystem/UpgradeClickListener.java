@@ -289,7 +289,7 @@ public class UpgradeClickListener implements Listener {
                 mysqlManager.updateSwordLevel(player.getUniqueId().toString(), currentLevel + 1);
                 giveSwordToPlayer(player, currentLevel + 1);
                 updateItems(player);
-                player.sendMessage("upgrade erfolg");
+                player.sendMessage(ConfigManager.getPrefix() + ConfigManager.getConfigMessage("message.upgradesword"));
             } else {
                 player.sendMessage(ConfigManager.getPrefix() + ConfigManager.getConfigMessage("message.notenoughtmoneyupgrade", "", ""));
             }
@@ -833,7 +833,7 @@ public class UpgradeClickListener implements Listener {
                 player.updateInventory();
                 break;
             default:
-                player.sendMessage(ConfigManager.getPrefix() + ConfigManager.getConfigMessage("message.upgradesword","",""));
+                player.sendMessage(ConfigManager.getPrefix() + ConfigManager.getConfigMessage("message.upgradeswordfailure","",""));
                 return;
         }
     }
