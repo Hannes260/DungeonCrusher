@@ -70,9 +70,10 @@ public class MYSQLManager {
         config.setUsername(username);
         config.setPassword(password);
         config.addDataSourceProperty("autoReconnect", true);
-        config.setMaximumPoolSize(5); // Anpassen nach Bedarf
+        config.setMaximumPoolSize(10); // Anpassen nach Bedarf
         config.setMinimumIdle(2);
-        config.setIdleTimeout(300000);
+        config.setIdleTimeout(0);
+        config.addDataSourceProperty("autoclose", false);
         config.setPoolName("DungeonCrusher");
         dataSource = new HikariDataSource(config);
     }
@@ -164,7 +165,6 @@ public class MYSQLManager {
                             updateStatement.setString(2, uuid);
                             updateStatement.executeUpdate();
                             checkStatement.close();
-                            resultSet.close();
                         }
                     } else {
                         String insertQuery = "INSERT INTO player_accounts (uuid, balance) VALUES (?, ?)";
@@ -172,8 +172,6 @@ public class MYSQLManager {
                             insertStatement.setString(1, uuid);
                             insertStatement.setString(2, balance);
                             insertStatement.executeUpdate();
-                            insertStatement.close();
-                            resultSet.close();
                         }
                     }
                 }
