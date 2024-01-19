@@ -985,36 +985,52 @@ public class SwordUpgradeClickListener implements Listener {
                 updatestoneSword(player, 88.0, 85);
                 break;
             case 86:
+                updateironSword(player, 89.0, 86);
                 break;
             case 87:
+                updateironSword(player, 90.0, 87);
                 break;
             case 88:
+                updateironSword(player, 91.0, 88);
                 break;
             case 89:
+                updateironSword(player, 92.0, 89);
                 break;
             case 90:
+                updateironSword(player, 93.0, 90);
                 break;
             case 91:
+                updateironSword(player, 94.0, 91);
                 break;
             case 92:
+                updateironSword(player, 95.0, 92);
                 break;
             case 93:
+                updateironSword(player, 96.0, 93);
                 break;
             case 94:
+                updateironSword(player, 97.0, 94);
                 break;
             case 95:
+                updateironSword(player, 98.0, 95);
                 break;
             case 96:
+                updateironSword(player, 99.0, 96);
                 break;
             case 97:
+                updateironSword(player, 100.0, 97);
                 break;
             case 98:
+                updateironSword(player, 101, 98);
                 break;
             case 99:
+                updateironSword(player, 102, 99);
                 break;
             case 100:
+                updateironSword(player, 103, 100);
                 break;
             case 101:
+                updateironSword(player, 104, 101);
                 break;
             case 102:
                 break;
@@ -1488,5 +1504,19 @@ public class SwordUpgradeClickListener implements Listener {
         stonemeta.setUnbreakable(true);
         stonesword.setItemMeta(stonemeta);
         player.getInventory().setItem(0, stonesword);
+    }
+    private void updateironSword(Player player, double damage, int level) {
+        ItemStack ironsword = new ItemStack(Material.IRON_SWORD);
+        AttributeModifier modifier = new AttributeModifier(UUID.randomUUID(), "generic.attackDamage", damage, AttributeModifier.Operation.ADD_NUMBER);
+        ItemMeta ironmeta = ironsword.getItemMeta();
+        ironmeta.setDisplayName("§7<< §6Steinschwert §7- §aLv."+ level + "§7>>");
+        ironmeta.setLore(Collections.singletonList("§a "));
+        ironmeta.setLore(Collections.singletonList("§9" + damage + " Angrifsschaden"));
+        ironmeta.setLore(Collections.singletonList("§b "));
+        ironmeta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
+        ironmeta.addAttributeModifier(Attribute.GENERIC_ATTACK_DAMAGE, modifier);
+        ironmeta.setUnbreakable(true);
+        ironsword.setItemMeta(ironmeta);
+        player.getInventory().setItem(0, ironsword);
     }
 }
