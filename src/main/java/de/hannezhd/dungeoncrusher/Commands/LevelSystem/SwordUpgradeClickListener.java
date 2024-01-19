@@ -1021,334 +1021,493 @@ public class SwordUpgradeClickListener implements Listener {
                 updateironSword(player, 100.0, 97);
                 break;
             case 98:
-                updateironSword(player, 101, 98);
+                updateironSword(player, 101.0, 98);
                 break;
             case 99:
-                updateironSword(player, 102, 99);
+                updateironSword(player, 102.0, 99);
                 break;
             case 100:
-                updateironSword(player, 103, 100);
+                updateironSword(player, 103.0, 100);
                 break;
             case 101:
-                updateironSword(player, 104, 101);
+                updateironSword(player, 104.0, 101);
                 break;
             case 102:
+                updateironSword(player, 105.0, 102);
                 break;
             case 103:
+                updateironSword(player, 106.0, 103);
                 break;
             case 104:
+                updateironSword(player, 107.0, 104);
                 break;
             case 105:
+                updateironSword(player, 108.0, 105);
                 break;
             case 106:
+                updateironSword(player, 109.0, 106);
                 break;
             case 107:
+                updateironSword(player, 110.0, 107);
                 break;
             case 108:
+                updateironSword(player, 111.0, 108);
                 break;
             case 109:
+                updateironSword(player, 112.0, 109);
                 break;
             case 110:
+                updateironSword(player, 113.0, 110);
                 break;
             case 111:
+                updateironSword(player, 114.0, 111);
                 break;
             case 112:
+                updateironSword(player, 115.0, 112);
                 break;
             case 113:
+                updateironSword(player, 116.0,113);
                 break;
             case 114:
+                updateironSword(player, 117.0, 114);
                 break;
             case 115:
+                updateironSword(player, 118.0, 115);
                 break;
             case 116:
+                updateironSword(player, 119.0, 116);
                 break;
             case 117:
+                updateironSword(player, 120.0, 117);
                 break;
             case 118:
+                updateironSword(player, 121.0, 118);
                 break;
             case 119:
+                updateironSword(player, 122.0, 119);
                 break;
             case 120:
+                updateironSword(player, 123.0, 120);
                 break;
             case 121:
+                updateironSword(player, 124.0, 121);
                 break;
             case 122:
+                updateironSword(player, 125.0, 122);
                 break;
             case 123:
+                updateironSword(player, 126.0, 123);
                 break;
             case 124:
+                updateironSword(player, 127.0, 124);
                 break;
             case 125:
+                updateironSword(player, 128.0, 125);
                 break;
             case 126:
+                updateironSword(player, 129.0, 126);
                 break;
             case 127:
+                updateironSword(player, 130.0, 127);
                 break;
             case 128:
+                updateironSword(player, 131.0, 128);
                 break;
             case 129:
+                updateironSword(player, 132.0, 129);
                 break;
             case 130:
+                updateironSword(player, 133.0, 130);
                 break;
             case 131:
+                updategoldSword(player, 134.0, 131);
                 break;
             case 132:
+                updategoldSword(player, 135.0, 132);
                 break;
             case 133:
+                updategoldSword(player, 136.0, 133);
                 break;
             case 134:
+                updategoldSword(player, 137.0, 134);
                 break;
             case 135:
+                updategoldSword(player, 138.0, 135);
                 break;
             case 136:
+                updategoldSword(player, 139.0, 136);
                 break;
             case 137:
+                updategoldSword(player, 140.0, 137);
                 break;
             case 138:
+                updategoldSword(player, 141.0, 138);
                 break;
             case 139:
+                updategoldSword(player, 142.0, 139);
                 break;
             case 140:
+                updategoldSword(player, 143.0, 140);
                 break;
             case 141:
+                updategoldSword(player, 144.0, 141);
                 break;
             case 142:
+                updategoldSword(player, 145.0, 142);
                 break;
             case 143:
+                updategoldSword(player, 146.0, 143);
                 break;
             case 144:
+                updategoldSword(player, 147.0, 144);
                 break;
             case 145:
+                updategoldSword(player, 148.0, 145);
                 break;
             case 146:
+                updategoldSword(player, 149.0, 146);
                 break;
             case 147:
+                updategoldSword(player, 150.0, 147);
                 break;
             case 148:
+                updategoldSword(player, 151.0, 148);
                 break;
             case 149:
+                updategoldSword(player, 152.0, 149);
                 break;
             case 150:
+                updategoldSword(player, 153.0, 150);
                 break;
             case 151:
+                updategoldSword(player, 154.0, 151);
                 break;
-                case 152:
-                    break;
+            case 152:
+                updategoldSword(player, 155.0, 152);
+                break;
             case 153:
+                updategoldSword(player, 156.0, 153);
                 break;
             case 154:
+                updategoldSword(player, 157.0, 154);
                 break;
             case 155:
+                updategoldSword(player, 158.0, 155);
                 break;
             case 156:
+                updategoldSword(player, 159.0, 156);
                 break;
             case 157:
+                updategoldSword(player, 160.0, 157);
                 break;
             case 158:
+                updategoldSword(player, 161.0, 158);
                 break;
             case 159:
+                updategoldSword(player, 162.0, 159);
                 break;
             case 160:
+                updategoldSword(player, 163.0, 160);
                 break;
             case 161:
+                updategoldSword(player, 164.0, 161);
                 break;
             case 162:
+                updategoldSword(player, 165.0, 162);
                 break;
             case 163:
+                updategoldSword(player, 166.0, 163);
                 break;
             case 164:
+                updategoldSword(player, 167.0, 164);
                 break;
             case 165:
+                updategoldSword(player, 168.0, 165);
                 break;
             case 166:
+                updategoldSword(player, 169.0, 166);
                 break;
             case 167:
+                updategoldSword(player, 170.0, 167);
                 break;
             case 168:
+                updategoldSword(player, 171.0, 168);
                 break;
             case 169:
+                updategoldSword(player, 172.0, 169);
                 break;
             case 170:
+                updategoldSword(player, 173.0, 170);
                 break;
             case 171:
+                updategoldSword(player, 174.0, 171);
                 break;
             case 172:
+                updategoldSword(player, 175.0, 172);
                 break;
             case 173:
+                updategoldSword(player, 176.0, 173);
                 break;
             case 174:
+                updategoldSword(player, 177.0, 174);
                 break;
             case 175:
+                updategoldSword(player, 178.0, 175);
                 break;
             case 176:
+                updatediamondSword(player, 179.0, 176);
                 break;
             case 177:
+                updatediamondSword(player, 180.0, 177);
                 break;
             case 178:
+                updatediamondSword(player, 181.0, 178);
                 break;
             case 179:
+                updatediamondSword(player, 182.0, 179);
                 break;
             case 180:
+                updatediamondSword(player, 183.0, 180);
                 break;
             case 181:
+                updatediamondSword(player, 184.0, 181);
                 break;
             case 182:
+                updatediamondSword(player, 185.0, 182);
                 break;
             case 183:
+                updatediamondSword(player, 186.0, 183);
                 break;
             case 184:
+                updatediamondSword(player, 187.0, 184);
                 break;
             case 185:
+                updatediamondSword(player, 188.0, 185);
                 break;
             case 186:
+                updatediamondSword(player, 189.0, 186);
                 break;
             case 187:
+                updatediamondSword(player, 190.0, 187);
                 break;
             case 188:
+                updatediamondSword(player, 191.0, 188);
                 break;
             case 189:
+                updatediamondSword(player, 192.0, 189);
                 break;
             case 190:
+                updatediamondSword(player, 193.0, 190);
                 break;
             case 191:
+                updatediamondSword(player, 194.0, 191);
                 break;
             case 192:
+                updatediamondSword(player, 195.0, 192);
                 break;
             case 193:
+                updatediamondSword(player, 196.0, 193);
                 break;
             case 194:
+                updatediamondSword(player, 197.0, 194);
                 break;
             case 195:
+                updatediamondSword(player, 198.0, 195);
                 break;
             case 196:
+                updatediamondSword(player, 199.0, 196);
                 break;
             case 197:
+                updatediamondSword(player, 200.0, 197);
                 break;
             case 198:
+                updatediamondSword(player, 201.0, 198);
                 break;
             case 199:
+                updatediamondSword(player, 202.0, 199);
                 break;
             case 200:
+                updatediamondSword(player, 203.0, 200);
                 break;
             case 201:
+                updatediamondSword(player, 204.0, 201);
                 break;
             case 202:
+                updatediamondSword(player, 205.0, 202);
                 break;
             case 203:
+                updatediamondSword(player, 206.0, 203);
                 break;
             case 204:
+                updatediamondSword(player, 207.0, 204);
                 break;
             case 205:
+                updatediamondSword(player, 208.0, 205);
                 break;
             case 206:
+                updatediamondSword(player, 209.0, 206);
                 break;
             case 207:
+                updatediamondSword(player, 210.0, 207);
                 break;
             case 208:
+                updatediamondSword(player, 211.0, 208);
                 break;
             case 209:
+                updatediamondSword(player, 212.0, 209);
                 break;
             case 210:
+                updatediamondSword(player, 213.0, 210);
                 break;
             case 211:
+                updatediamondSword(player, 214.0, 211);
                 break;
             case 212:
+                updatediamondSword(player, 215.0, 212);
                 break;
             case 213:
+                updatediamondSword(player, 216.0, 213);
                 break;
             case 214:
+                updatediamondSword(player, 217.0, 214);
                 break;
             case 215:
+                updatediamondSword(player, 218.0, 215);
                 break;
             case 216:
+                updatenetheriteSword(player, 219.0, 216);
                 break;
             case 217:
+                updatenetheriteSword(player, 220.0, 217);
                 break;
             case 218:
+                updatenetheriteSword(player, 221.0, 218);
                 break;
             case 219:
+                updatenetheriteSword(player, 222.0, 219);
                 break;
             case 220:
+                updatenetheriteSword(player, 223.0, 220);
                 break;
             case 221:
+                updatenetheriteSword(player, 224.0, 221);
                 break;
             case 222:
+                updatenetheriteSword(player, 225.0, 222);
                 break;
             case 223:
+                updatenetheriteSword(player, 226.0, 223);
                 break;
             case 224:
+                updatenetheriteSword(player, 227.0, 224);
                 break;
             case 225:
+                updatenetheriteSword(player, 228.0, 225);
                 break;
             case 226:
+                updatenetheriteSword(player, 229.0, 226);
                 break;
             case 227:
+                updatenetheriteSword(player, 230.0, 227);
                 break;
             case 228:
+                updatenetheriteSword(player, 231.0, 228);
                 break;
             case 229:
+                updatenetheriteSword(player, 232.0, 229);
                 break;
             case 230:
+                updatenetheriteSword(player, 233.0, 230);
                 break;
             case 231:
+                updatenetheriteSword(player, 234.0, 231);
                 break;
             case 232:
+                updatenetheriteSword(player, 235.0, 232);
                 break;
             case 233:
+                updatenetheriteSword(player, 236.0, 233);
                 break;
             case 234:
+                updatenetheriteSword(player, 237.0, 234);
                 break;
             case 235:
+                updatenetheriteSword(player, 238.0, 235);
                 break;
             case 236:
+                updatenetheriteSword(player, 239.0, 236);
                 break;
             case 237:
+                updatenetheriteSword(player, 240.0, 237);
                 break;
             case 238:
+                updatenetheriteSword(player, 241.0, 238);
                 break;
             case 239:
+                updatenetheriteSword(player, 242.0, 239);
                 break;
             case 240:
+                updatenetheriteSword(player, 243.0, 240);
                 break;
             case 241:
+                updatenetheriteSword(player, 244.0, 241);
                 break;
             case 242:
+                updatenetheriteSword(player, 245.0, 242);
                 break;
             case 243:
+                updatenetheriteSword(player, 246.0, 243);
                 break;
             case 244:
+                updatenetheriteSword(player, 247.0, 244);
                 break;
-                case 245:
-                    break;
+            case 245:
+                updatenetheriteSword(player, 248.0, 245);
+                break;
             case 246:
+                updatenetheriteSword(player, 249.0, 246);
                 break;
             case 247:
+                updatenetheriteSword(player, 250.0, 247);
                 break;
             case 248:
+                updatenetheriteSword(player, 251.0, 248);
                 break;
             case 249:
+                updatenetheriteSword(player, 252.0, 249);
                 break;
             case 250:
+                updatenetheriteSword(player, 253.0, 250);
                 break;
             case 251:
+                updatenetheriteSword(player, 254.0, 251);
                 break;
             case 252:
+                updatenetheriteSword(player, 255.0, 252);
                 break;
             case 253:
+                updatenetheriteSword(player, 256.0, 253);
                 break;
             case 254:
+                updatenetheriteSword(player, 257.0, 254);
                 break;
             case 255:
+                updatenetheriteSword(player, 258.0, 255);
                 break;
             case 256:
+                updatenetheriteSword(player, 259.0, 256);
                 break;
             case 257:
+                updatenetheriteSword(player, 260.0, 257);
                 break;
             case 258:
+                updatenetheriteSword(player, 261.0, 258);
                 break;
             case 259:
+                updatenetheriteSword(player, 262.0, 259);
                 break;
             case 260:
+                updatenetheriteSword(player, 263.0, 260);
                 break;
             default:
                 player.sendMessage(ConfigManager.getPrefix() + ConfigManager.getConfigMessage("message.upgradeswordfailure","",""));
@@ -1482,9 +1641,7 @@ public class SwordUpgradeClickListener implements Listener {
         AttributeModifier modifier = new AttributeModifier(UUID.randomUUID(), "generic.attackDamage", damage, AttributeModifier.Operation.ADD_NUMBER);
         ItemMeta woodenmeta = woodensword.getItemMeta();
         woodenmeta.setDisplayName("§7<< §6Holzschwert §7- §aLv."+ level + "§7>>");
-        woodenmeta.setLore(Collections.singletonList("§a "));
         woodenmeta.setLore(Collections.singletonList("§9"+ damage + " Angrifsschaden"));
-        woodenmeta.setLore(Collections.singletonList("§b "));
         woodenmeta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
         woodenmeta.addAttributeModifier(Attribute.GENERIC_ATTACK_DAMAGE, modifier);
         woodenmeta.setUnbreakable(true);
@@ -1496,9 +1653,7 @@ public class SwordUpgradeClickListener implements Listener {
         AttributeModifier modifier = new AttributeModifier(UUID.randomUUID(), "generic.attackDamage", damage, AttributeModifier.Operation.ADD_NUMBER);
         ItemMeta stonemeta = stonesword.getItemMeta();
         stonemeta.setDisplayName("§7<< §6Steinschwert §7- §aLv."+ level + "§7>>");
-        stonemeta.setLore(Collections.singletonList("§a "));
-        stonemeta.setLore(Collections.singletonList("§9" + damage + " Angrifsschaden"));
-        stonemeta.setLore(Collections.singletonList("§b "));
+        stonemeta.setLore(Collections.singletonList("§9" + damage + " Angrifsschaden"));;
         stonemeta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
         stonemeta.addAttributeModifier(Attribute.GENERIC_ATTACK_DAMAGE, modifier);
         stonemeta.setUnbreakable(true);
@@ -1510,13 +1665,47 @@ public class SwordUpgradeClickListener implements Listener {
         AttributeModifier modifier = new AttributeModifier(UUID.randomUUID(), "generic.attackDamage", damage, AttributeModifier.Operation.ADD_NUMBER);
         ItemMeta ironmeta = ironsword.getItemMeta();
         ironmeta.setDisplayName("§7<< §6Steinschwert §7- §aLv."+ level + "§7>>");
-        ironmeta.setLore(Collections.singletonList("§a "));
         ironmeta.setLore(Collections.singletonList("§9" + damage + " Angrifsschaden"));
-        ironmeta.setLore(Collections.singletonList("§b "));
         ironmeta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
         ironmeta.addAttributeModifier(Attribute.GENERIC_ATTACK_DAMAGE, modifier);
         ironmeta.setUnbreakable(true);
         ironsword.setItemMeta(ironmeta);
         player.getInventory().setItem(0, ironsword);
+    }
+    private void updategoldSword(Player player, double damage, int level) {
+        ItemStack goldsword = new ItemStack(Material.GOLDEN_SWORD);
+        AttributeModifier modifier = new AttributeModifier(UUID.randomUUID(), "generic.attackDamage", damage, AttributeModifier.Operation.ADD_NUMBER);
+        ItemMeta goldmeta = goldsword.getItemMeta();
+        goldmeta.setDisplayName("§7<< §6Steinschwert §7- §aLv."+ level + "§7>>");
+        goldmeta.setLore(Collections.singletonList("§9" + damage + " Angrifsschaden"));
+        goldmeta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
+        goldmeta.addAttributeModifier(Attribute.GENERIC_ATTACK_DAMAGE, modifier);
+        goldmeta.setUnbreakable(true);
+        goldsword.setItemMeta(goldmeta);
+        player.getInventory().setItem(0, goldsword);
+    }
+    private void updatediamondSword(Player player, double damage, int level) {
+        ItemStack diamondsword = new ItemStack(Material.GOLDEN_SWORD);
+        AttributeModifier modifier = new AttributeModifier(UUID.randomUUID(), "generic.attackDamage", damage, AttributeModifier.Operation.ADD_NUMBER);
+        ItemMeta diamondmeta = diamondsword.getItemMeta();
+        diamondmeta.setDisplayName("§7<< §6Steinschwert §7- §aLv."+ level + "§7>>");
+        diamondmeta.setLore(Collections.singletonList("§9" + damage + " Angrifsschaden"));
+        diamondmeta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
+        diamondmeta.addAttributeModifier(Attribute.GENERIC_ATTACK_DAMAGE, modifier);
+        diamondmeta.setUnbreakable(true);
+        diamondsword.setItemMeta(diamondmeta);
+        player.getInventory().setItem(0, diamondsword);
+    }
+    private void updatenetheriteSword(Player player, double damage, int level) {
+        ItemStack netheritesword = new ItemStack(Material.GOLDEN_SWORD);
+        AttributeModifier modifier = new AttributeModifier(UUID.randomUUID(), "generic.attackDamage", damage, AttributeModifier.Operation.ADD_NUMBER);
+        ItemMeta netheritemeta = netheritesword.getItemMeta();
+        netheritemeta.setDisplayName("§7<< §6Steinschwert §7- §aLv."+ level + "§7>>");
+        netheritemeta.setLore(Collections.singletonList("§9" + damage + " Angrifsschaden"));
+        netheritemeta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
+        netheritemeta.addAttributeModifier(Attribute.GENERIC_ATTACK_DAMAGE, modifier);
+        netheritemeta.setUnbreakable(true);
+        netheritesword.setItemMeta(netheritemeta);
+        player.getInventory().setItem(0, netheritesword);
     }
 }
