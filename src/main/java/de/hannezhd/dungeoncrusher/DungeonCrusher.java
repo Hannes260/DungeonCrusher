@@ -50,13 +50,6 @@ public final class DungeonCrusher extends JavaPlugin {
         getLogger().info("Authors: HanneZHD,DBsGameplay");
         getLogger().info("Version: 1.0");
         getLogger().info(" ");
-        //SQL
-        if (mysqlManager.getConnection() != null) {
-            mysqlManager.createTables();
-        } else {
-            getLogger().severe("Fehler: Verbindung zu MYSQL konnte nicht Hergestellt werden. Plugin wird deaktiviert...");
-            getServer().getPluginManager().disablePlugin(this);
-        }
 
         this.getCommand("config").setExecutor(new ConfigCommand());
         this.getCommand("pay").setExecutor(new PayCommand(this, mysqlManager));

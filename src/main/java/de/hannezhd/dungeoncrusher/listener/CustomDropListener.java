@@ -29,74 +29,76 @@ public class CustomDropListener implements Listener {
     public void onEntityDeath(EntityDeathEvent event) {
         List<ItemStack> drops = event.getDrops();
         Player player = event.getEntity().getKiller();
-        String playerUUID = player.getUniqueId().toString();
-        if (event.getEntityType() == EntityType.ZOMBIE) {
-            double random = Math.random();
-            if (random < 0.3) {
-                ItemStack diamond = new ItemStack(Material.DIAMOND, 1);
+        if (player != null) {
+            String playerUUID = player.getUniqueId().toString();
+            if (event.getEntityType() == EntityType.ZOMBIE) {
+                double random = Math.random();
+                if (random < 0.3) {
+                    ItemStack diamond = new ItemStack(Material.DIAMOND, 1);
 
-                int currentdiamond = mysqlManager.getItemAmount(playerUUID,"diamond");
-                mysqlManager.updateItemAmount(playerUUID, diamond.getType().toString(), currentdiamond + diamond.getAmount());
+                    int currentdiamond = mysqlManager.getItemAmount(playerUUID, "diamond");
+                    mysqlManager.updateItemAmount(playerUUID, diamond.getType().toString(), currentdiamond + diamond.getAmount());
 
-                player.sendMessage(ConfigManager.getConfigMessage("message.additem","%item%",diamond.getType().toString()));
-            }
-        } else if (event.getEntityType() == EntityType.FROG) {
-            double random = Math.random();
-            if (random < 0.05) {
-                ItemStack copperingot = new ItemStack(Material.COPPER_INGOT,1);
+                    player.sendMessage(ConfigManager.getConfigMessage("message.additem", "%item%", diamond.getType().toString()));
+                }
+            } else if (event.getEntityType() == EntityType.FROG) {
+                double random = Math.random();
+                if (random < 0.05) {
+                    ItemStack copperingot = new ItemStack(Material.COPPER_INGOT, 1);
 
-                int currentcopperingot = mysqlManager.getItemAmount(playerUUID, "copper_ingot");
-                mysqlManager.updateItemAmount(playerUUID, copperingot.getType().toString(), currentcopperingot + copperingot.getAmount());
+                    int currentcopperingot = mysqlManager.getItemAmount(playerUUID, "copper_ingot");
+                    mysqlManager.updateItemAmount(playerUUID, copperingot.getType().toString(), currentcopperingot + copperingot.getAmount());
 
-                ItemMeta copperingotmeta = copperingot.getItemMeta();
-                copperingotmeta.setDisplayName("§bAnzahl ➝ §6" + mysqlManager.getItemAmount(playerUUID, "copper_ingot"));
-                copperingotmeta.addEnchant(Enchantment.KNOCKBACK,1,true);
-                copperingotmeta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
-                copperingot.setItemMeta(copperingotmeta);
-                player.getInventory().setItem(10, copperingot);
+                    ItemMeta copperingotmeta = copperingot.getItemMeta();
+                    copperingotmeta.setDisplayName("§bAnzahl ➝ §6" + mysqlManager.getItemAmount(playerUUID, "copper_ingot"));
+                    copperingotmeta.addEnchant(Enchantment.KNOCKBACK, 1, true);
+                    copperingotmeta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
+                    copperingot.setItemMeta(copperingotmeta);
+                    player.getInventory().setItem(10, copperingot);
 
-                player.sendMessage(ConfigManager.getConfigMessage("message.additem","%item%",copperingot.getType().toString()));
-            }else if (random < 0.25) {
-                ItemStack rawcopper = new ItemStack(Material.RAW_COPPER,1);
+                    player.sendMessage(ConfigManager.getConfigMessage("message.additem", "%item%", copperingot.getType().toString()));
+                } else if (random < 0.25) {
+                    ItemStack rawcopper = new ItemStack(Material.RAW_COPPER, 1);
 
-                int currentrawcopper = mysqlManager.getItemAmount(playerUUID, "raw_copper");
-                mysqlManager.updateItemAmount(playerUUID, rawcopper.getType().toString(), currentrawcopper + rawcopper.getAmount());
+                    int currentrawcopper = mysqlManager.getItemAmount(playerUUID, "raw_copper");
+                    mysqlManager.updateItemAmount(playerUUID, rawcopper.getType().toString(), currentrawcopper + rawcopper.getAmount());
 
-                ItemMeta rawcoppermeta = rawcopper.getItemMeta();
-                rawcoppermeta.setDisplayName("§bAnzahl ➝ §6" + mysqlManager.getItemAmount(playerUUID, "raw_copper"));
-                rawcoppermeta.addEnchant(Enchantment.KNOCKBACK,1,true);
-                rawcoppermeta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
-                rawcopper.setItemMeta(rawcoppermeta);
-                player.getInventory().setItem(9, rawcopper);
+                    ItemMeta rawcoppermeta = rawcopper.getItemMeta();
+                    rawcoppermeta.setDisplayName("§bAnzahl ➝ §6" + mysqlManager.getItemAmount(playerUUID, "raw_copper"));
+                    rawcoppermeta.addEnchant(Enchantment.KNOCKBACK, 1, true);
+                    rawcoppermeta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
+                    rawcopper.setItemMeta(rawcoppermeta);
+                    player.getInventory().setItem(9, rawcopper);
 
-                player.sendMessage(ConfigManager.getConfigMessage("message.additem","%item%", rawcopper.getType().toString()));
-            } else if (random < 0.4) {
+                    player.sendMessage(ConfigManager.getConfigMessage("message.additem", "%item%", rawcopper.getType().toString()));
+                } else if (random < 0.4) {
 
-                double giveMoney = Math.round((random * 9.99 + 1) * 100.0) / 100.0;
-                double newMoney;
-                String currentMoney = mysqlManager.getBalance(player.getUniqueId().toString());
-                currentMoney = currentMoney.replace(",", "");
-                double money = Double.parseDouble(currentMoney);
-                newMoney = money + giveMoney;
-                String formattedMoney = String.format(Locale.ENGLISH, "%,.2f", newMoney);
-                mysqlManager.updateBalance(String.valueOf(player.getUniqueId()), formattedMoney);
-                scoreboardBuilder.updateMoney(player);
+                    double giveMoney = Math.round((random * 9.99 + 1) * 100.0) / 100.0;
+                    double newMoney;
+                    String currentMoney = mysqlManager.getBalance(player.getUniqueId().toString());
+                    currentMoney = currentMoney.replace(",", "");
+                    double money = Double.parseDouble(currentMoney);
+                    newMoney = money + giveMoney;
+                    String formattedMoney = String.format(Locale.ENGLISH, "%,.2f", newMoney);
+                    mysqlManager.updateBalance(String.valueOf(player.getUniqueId()), formattedMoney);
+                    scoreboardBuilder.updateMoney(player);
 
-                player.sendMessage(ConfigManager.getConfigMessage("message.addmobkilledmoney", "%money%", String.valueOf(giveMoney)));
-        } else if (random < 0.65) {
-                ItemStack coal = new ItemStack(Material.COAL,1);
+                    player.sendMessage(ConfigManager.getConfigMessage("message.addmobkilledmoney", "%money%", String.valueOf(giveMoney)));
+                } else if (random < 0.65) {
+                    ItemStack coal = new ItemStack(Material.COAL, 1);
 
-                int currentcoal = mysqlManager.getItemAmount(playerUUID, "coal");
-                mysqlManager.updateItemAmount(playerUUID, coal.getType().toString(), currentcoal + coal.getAmount());
+                    int currentcoal = mysqlManager.getItemAmount(playerUUID, "coal");
+                    mysqlManager.updateItemAmount(playerUUID, coal.getType().toString(), currentcoal + coal.getAmount());
 
-                ItemMeta coalmeta = coal.getItemMeta();
-                coalmeta.setDisplayName("§bAnzahl ➝ §6" + mysqlManager.getItemAmount(player.getUniqueId().toString(), "coal"));
-                coalmeta.addEnchant(Enchantment.KNOCKBACK,1,true);
-                coalmeta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
-                coal.setItemMeta(coalmeta);
-                player.getInventory().setItem(22, coal);
+                    ItemMeta coalmeta = coal.getItemMeta();
+                    coalmeta.setDisplayName("§bAnzahl ➝ §6" + mysqlManager.getItemAmount(player.getUniqueId().toString(), "coal"));
+                    coalmeta.addEnchant(Enchantment.KNOCKBACK, 1, true);
+                    coalmeta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
+                    coal.setItemMeta(coalmeta);
+                    player.getInventory().setItem(22, coal);
 
-                player.sendMessage(ConfigManager.getConfigMessage("message.additem","%item%",coal.getType().toString()));
+                    player.sendMessage(ConfigManager.getConfigMessage("message.additem", "%item%", coal.getType().toString()));
+                }
             }
         }
     }

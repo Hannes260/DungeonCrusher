@@ -17,7 +17,6 @@ public class MYSQLManager {
     private String database;
     private String username;
     private String password;
-    private Connection connection;
     private static MYSQLManager instance;
     private static final Logger logger = Logger.getLogger(MYSQLManager.class.getName());
     private HikariDataSource dataSource;
@@ -46,7 +45,6 @@ public class MYSQLManager {
 
         loadConfig();
         initializeDataSource();
-        connect();
     }
 
     public static MYSQLManager getInstance(File dataFolder) {
@@ -78,38 +76,19 @@ public class MYSQLManager {
         dataSource = new HikariDataSource(config);
     }
 
-    private void connect() {
-        try {
-            connection = dataSource.getConnection();
-            logger.info("Verbindung zur MySQL hergestellt");
-        } catch (SQLException e) {
-            logger.log(Level.SEVERE, "Verbindung zur MySQL konnte nicht hergestellt werden. Überprüfe deine Daten", e);
-            throw new RuntimeException("Failed to connect to MySQL", e);
-        }
-    }
-
     public void disconnect() {
-        try {
+        try (Connection connection = dataSource.getConnection()) {
             if (dataSource != null) {
                 dataSource.close();
                 logger.info("Verbindung zur MySQL getrennt");
             }
         } catch (Exception e) {
             logger.log(Level.SEVERE, "Fehler beim Schließen der Datenquelle", e);
-        } finally {
-            if (connection != null) {
-                try {
-                    connection.close();
-                    logger.info("Verbindung zur MySQL getrennt");
-                } catch (SQLException e) {
-                    logger.log(Level.SEVERE, "Fehler beim Schließen der Verbindung", e);
-                }
-            }
         }
     }
 
     public void createTables() {
-        try {
+        try (Connection connection = dataSource.getConnection()) {
             Statement statement = connection.createStatement();
             String createTableQuery = "CREATE TABLE IF NOT EXISTS player_accounts ("
                     + "uuid VARCHAR(255) PRIMARY KEY,"
@@ -153,7 +132,7 @@ public class MYSQLManager {
     }
 
     public void updateBalance(String uuid, String balance) {
-        try {
+        try (Connection connection = dataSource.getConnection()) {
             String checkQuery = "SELECT uuid FROM player_accounts WHERE uuid = ?";
             try (PreparedStatement checkStatement = connection.prepareStatement(checkQuery)) {
                 checkStatement.setString(1, uuid);
@@ -187,7 +166,7 @@ public class MYSQLManager {
     public String getBalance(String uuid) {
         String balance = "0.00";
 
-        try {
+        try (Connection connection = dataSource.getConnection()) {
             // Query vorbereiten
             String query = "SELECT balance FROM player_accounts WHERE uuid = ?";
             try (PreparedStatement statement = connection.prepareStatement(query)) {
@@ -210,7 +189,7 @@ public class MYSQLManager {
     public int getItemAmount(String uuid, String itemName) {
         int itemAmount = 0;
 
-        try {
+        try (Connection connection = dataSource.getConnection()) {
             String query = "SELECT " + itemName + " FROM player_items WHERE uuid = ?";
             try (PreparedStatement statement = connection.prepareStatement(query)) {
                 statement.setString(1, uuid);
@@ -229,7 +208,7 @@ public class MYSQLManager {
     }
 
     public void updateItemAmount(String uuid, String itemName, int newItemAmount) {
-        try {
+        try (Connection connection = dataSource.getConnection()) {
             // Aktualisiere die Item-Menge
             String updateQuery = "UPDATE player_items SET " + itemName + " = ? WHERE uuid = ?";
             try (PreparedStatement updateStatement = connection.prepareStatement(updateQuery)) {
@@ -259,7 +238,7 @@ public class MYSQLManager {
     public int getDeaths(String uuid) {
         int totalDeaths = 0;
 
-        try {
+        try (Connection connection = dataSource.getConnection()) {
             String query = "SELECT deaths FROM player_stats WHERE uuid = ?";
             try (PreparedStatement statement = connection.prepareStatement(query)) {
                 statement.setString(1, uuid);
@@ -278,7 +257,7 @@ public class MYSQLManager {
         return totalDeaths;
     }
     public void updateDeaths(String uuid, int newDeaths) {
-        try {
+        try (Connection connection = dataSource.getConnection()) {
             // Überprüfen, ob der Spieler bereits in der Tabelle vorhanden ist
             String checkQuery = "SELECT uuid FROM player_stats WHERE uuid = ?";
             try (PreparedStatement checkStatement = connection.prepareStatement(checkQuery)) {
@@ -318,7 +297,7 @@ public class MYSQLManager {
     public String getKills(String uuid) {
         String kills = "0";
 
-        try {
+        try (Connection connection = dataSource.getConnection()) {
             // Query vorbereiten
             String query = "SELECT kills FROM player_stats WHERE uuid = ?";
             try (PreparedStatement statement = connection.prepareStatement(query)) {
@@ -343,9 +322,8 @@ public class MYSQLManager {
         String updateQuery = "UPDATE player_stats SET kills = ? WHERE uuid = ?";
         String insertQuery = "INSERT INTO player_stats (uuid, kills) VALUES (?, ?)";
 
-        try (
-                PreparedStatement checkStatement = connection.prepareStatement(checkQuery);
-        ) {
+        try (Connection connection = dataSource.getConnection()) {
+            PreparedStatement checkStatement = connection.prepareStatement(checkQuery);
             checkStatement.setString(1, uuid);
             try (ResultSet resultSet = checkStatement.executeQuery()) {
                 if (resultSet.next()) {
@@ -375,7 +353,7 @@ public class MYSQLManager {
     public int getSwordLevel(String uuid) {
         int swordLevel = 0;
 
-        try {
+        try (Connection connection = dataSource.getConnection()) {
             String query = "SELECT sword_lvl FROM player_stats WHERE uuid = ?";
             try (PreparedStatement statement = connection.prepareStatement(query)) {
                 statement.setString(1, uuid);
@@ -394,7 +372,7 @@ public class MYSQLManager {
         return swordLevel;
     }
     public void updateSwordLevel(String uuid, int newSwordLevel) {
-        try {
+        try (Connection connection = dataSource.getConnection()){
             // Überprüfen, ob der Spieler bereits in der Tabelle vorhanden ist
             String checkQuery = "SELECT uuid FROM player_stats WHERE uuid = ?";
             try (PreparedStatement checkStatement = connection.prepareStatement(checkQuery)) {
@@ -434,7 +412,7 @@ public class MYSQLManager {
     public int getHelmetLevel(String uuid) {
         int helmetLevel = 0;
 
-        try {
+        try (Connection connection = dataSource.getConnection()){
             String query = "SELECT helm_lvl FROM player_stats WHERE uuid = ?";
             try (PreparedStatement statement = connection.prepareStatement(query)) {
                 statement.setString(1, uuid);
@@ -453,7 +431,7 @@ public class MYSQLManager {
         return helmetLevel;
     }
     public void updateHelmLevel(String uuid, int newHelmLevel) {
-        try {
+        try (Connection connection = dataSource.getConnection()){
             // Überprüfen, ob der Spieler bereits in der Tabelle vorhanden ist
             String checkQuery = "SELECT uuid FROM player_stats WHERE uuid = ?";
             try (PreparedStatement checkStatement = connection.prepareStatement(checkQuery)) {
@@ -493,7 +471,7 @@ public class MYSQLManager {
     public int getChestplateLevel(String uuid) {
         int chestplateLevel = 0;
 
-        try {
+        try (Connection connection = dataSource.getConnection()){
             String query = "SELECT chestplate_lvl FROM player_stats WHERE uuid = ?";
             try (PreparedStatement statement = connection.prepareStatement(query)) {
                 statement.setString(1, uuid);
@@ -512,7 +490,7 @@ public class MYSQLManager {
         return chestplateLevel;
     }
     public void updateChestplateLevel(String uuid, int newChestplateLevel) {
-        try {
+        try (Connection connection = dataSource.getConnection()){
             // Überprüfen, ob der Spieler bereits in der Tabelle vorhanden ist
             String checkQuery = "SELECT uuid FROM player_stats WHERE uuid = ?";
             try (PreparedStatement checkStatement = connection.prepareStatement(checkQuery)) {
@@ -552,7 +530,7 @@ public class MYSQLManager {
     public int getLeggingsLevel(String uuid) {
         int leggingsLevel = 0;
 
-        try {
+        try (Connection connection = dataSource.getConnection()){
             String query = "SELECT leggings_lvl FROM player_stats WHERE uuid = ?";
             try (PreparedStatement statement = connection.prepareStatement(query)) {
                 statement.setString(1, uuid);
@@ -571,7 +549,7 @@ public class MYSQLManager {
         return leggingsLevel;
     }
     public void updateLeggingsLevel(String uuid, int newLeggingsLevel) {
-        try {
+        try (Connection connection = dataSource.getConnection()){
             // Überprüfen, ob der Spieler bereits in der Tabelle vorhanden ist
             String checkQuery = "SELECT uuid FROM player_stats WHERE uuid = ?";
             try (PreparedStatement checkStatement = connection.prepareStatement(checkQuery)) {
@@ -611,7 +589,7 @@ public class MYSQLManager {
     public int getBootsLevel(String uuid) {
         int bootsLevel = 0;
 
-        try {
+        try (Connection connection = dataSource.getConnection()){
             String query = "SELECT boots_lvl FROM player_stats WHERE uuid = ?";
             try (PreparedStatement statement = connection.prepareStatement(query)) {
                 statement.setString(1, uuid);
@@ -630,7 +608,7 @@ public class MYSQLManager {
         return bootsLevel;
     }
     public void updateBootsLevel(String uuid, int newBootsLevel) {
-        try {
+        try (Connection connection = dataSource.getConnection()){
             // Überprüfen, ob der Spieler bereits in der Tabelle vorhanden ist
             String checkQuery = "SELECT uuid FROM player_stats WHERE uuid = ?";
             try (PreparedStatement checkStatement = connection.prepareStatement(checkQuery)) {
@@ -670,7 +648,7 @@ public class MYSQLManager {
     public int getDungeonCountForPlayer(String uuid) {
         int dungeonCount = 0;
 
-        try {
+        try (Connection connection = dataSource.getConnection()){
             String query = "SELECT dungeon FROM player_stats WHERE uuid = ?";
             try (PreparedStatement statement = connection.prepareStatement(query)) {
                 statement.setString(1, uuid);
@@ -689,7 +667,7 @@ public class MYSQLManager {
         return dungeonCount;
     }
     public void updateDungeonCount(String uuid, int newDungeonCount) {
-        try {
+        try (Connection connection = dataSource.getConnection()){
             // Überprüfen, ob der Spieler bereits in der Tabelle vorhanden ist
             String checkQuery = "SELECT uuid FROM player_stats WHERE uuid = ?";
             try (PreparedStatement checkStatement = connection.prepareStatement(checkQuery)) {
@@ -725,24 +703,6 @@ public class MYSQLManager {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-    }
-    private void executeUpdate(String query, Object... params) {
-        try (PreparedStatement statement = connection.prepareStatement(query)) {
-            setParameters(statement, params);
-            statement.executeUpdate();
-        } catch (SQLException e) {
-            logger.log(Level.SEVERE, "Fehler beim Ausführen der Abfrage", e);
-        }
-    }
-
-    private void setParameters(PreparedStatement statement, Object... params) throws SQLException {
-        for (int i = 0; i < params.length; i++) {
-            statement.setObject(i + 1, params[i]);
-        }
-    }
-
-    public Connection getConnection() {
-        return connection;
     }
 
 }

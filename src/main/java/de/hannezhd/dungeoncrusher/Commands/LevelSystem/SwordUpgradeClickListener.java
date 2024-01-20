@@ -49,675 +49,56 @@ public class SwordUpgradeClickListener implements Listener {
 
     private void handleSwordUpgrade(Player player) {
         int currentLevel = mysqlManager.getSwordLevel(player.getUniqueId().toString());
-        int requiredRawCopper = 0;
-        int requiredCopperIngots = 0;
-        double requiredMoney = 0;
 
-        switch (currentLevel) {
-            case 1:
-                requiredRawCopper = 10;
-                requiredCopperIngots = 6;
-                requiredMoney = 365;
-                break;
-            case 2:
-                requiredRawCopper = 15;
-                requiredCopperIngots = 11;
-                requiredMoney = 730;
-                break;
-            case 3:
-                requiredRawCopper = 20;
-                requiredCopperIngots = 16;
-                requiredMoney = 1095;
-                break;
-            case 4:
-                requiredRawCopper = 25;
-                requiredCopperIngots = 22;
-                requiredMoney = 1460;
-                break;
-            case 5:
-                requiredRawCopper = 30;
-                requiredCopperIngots = 27;
-                requiredMoney = 1825;
-                break;
-            case 6:
-                requiredRawCopper = 35;
-                requiredCopperIngots = 32;
-                requiredMoney = 2190;
-                break;
-            case 7:
-                requiredRawCopper = 40;
-                requiredCopperIngots = 38;
-                requiredMoney = 2555;
-                break;
-            case 8:
-                requiredRawCopper = 45;
-                requiredCopperIngots = 43;
-                requiredMoney = 2920;
-                break;
-            case 9:
-                requiredRawCopper = 50;
-                requiredCopperIngots = 48;
-                requiredMoney = 3285;
-                break;
-            case 10:
-                requiredRawCopper = 55;
-                requiredCopperIngots = 54;
-                requiredMoney = 3650;
-                break;
-            case 11:
-                requiredRawCopper = 60;
-                requiredCopperIngots = 59;
-                requiredMoney = 4015;
-                break;
-            case 12:
-                requiredRawCopper = 65;
-                requiredCopperIngots = 65;
-                requiredMoney = 4380;
-                break;
-            case 13:
-                requiredRawCopper = 70;
-                requiredCopperIngots = 70;
-                requiredMoney = 4745;
-                break;
-            case 14:
-                requiredRawCopper = 75;
-                requiredCopperIngots = 75;
-                requiredMoney = 5110;
-                break;
-            case 15:
-                requiredRawCopper = 80;
-                requiredCopperIngots = 81;
-                requiredMoney = 5475;
-                break;
-            case 16:
-                requiredRawCopper = 85;
-                requiredCopperIngots = 86;
-                requiredMoney = 5840;
-                break;
-            case 17:
-                requiredRawCopper = 90;
-                requiredCopperIngots = 91;
-                requiredMoney = 6205;
-                break;
-            case 18:
-                requiredRawCopper = 95;
-                requiredCopperIngots = 97;
-                requiredMoney = 6570;
-                break;
-            case 19:
-                requiredRawCopper = 100;
-                requiredCopperIngots = 102;
-                requiredMoney = 6935;
-                break;
-            case 20:
-                requiredRawCopper = 105;
-                requiredCopperIngots = 108;
-                requiredMoney = 7300;
-                break;
-            case 21:
-                requiredRawCopper = 110;
-                requiredCopperIngots = 113;
-                requiredMoney = 7665;
-                break;
-            case 22:
-                requiredRawCopper = 115;
-                requiredCopperIngots = 118;
-                requiredMoney = 8030;
-                break;
-            case 23:
-                requiredRawCopper = 120;
-                requiredCopperIngots = 124;
-                requiredMoney = 8395;
-                break;
-            case 24:
-                requiredRawCopper = 125;
-                requiredCopperIngots = 129;
-                requiredMoney = 8760;
-                break;
-            case 25:
-                requiredRawCopper = 130;
-                requiredCopperIngots = 134;
-                requiredMoney = 9125;
-                break;
-            case 26:
-                requiredRawCopper = 135;
-                requiredCopperIngots = 140;
-                requiredMoney = 9490;
-                break;
-            case 27:
-                requiredRawCopper = 140;
-                requiredCopperIngots = 145;
-                requiredMoney = 9855;
-                break;
-            case 28:
-                requiredRawCopper = 145;
-                requiredCopperIngots = 151;
-                requiredMoney = 10220;
-                break;
-            case 29:
-                requiredRawCopper = 150;
-                requiredCopperIngots = 156;
-                requiredMoney = 10585;
-                break;
-            case 30:
-                requiredRawCopper = 155;
-                requiredCopperIngots = 161;
-                requiredMoney = 10950;
-                break;
-            case 31:
-                requiredRawCopper = 160;
-                requiredCopperIngots = 167;
-                requiredMoney = 11315;
-                break;
-            case 32:
-                requiredRawCopper = 165;
-                requiredCopperIngots = 172;
-                requiredMoney = 11680;
-                break;
-            case 33:
-                requiredRawCopper = 170;
-                requiredCopperIngots = 177;
-                requiredMoney = 12045;
-                break;
-            case 34:
-                requiredRawCopper = 175;
-                requiredCopperIngots = 183;
-                requiredMoney = 12410;
-                break;
-            case 35:
-                requiredRawCopper = 180;
-                requiredCopperIngots = 188;
-                requiredMoney = 12775;
-                break;
-            case 36:
-                requiredRawCopper = 185;
-                requiredCopperIngots = 193;
-                requiredMoney = 13140;
-                break;
-            case 37:
-                requiredRawCopper = 190;
-                requiredCopperIngots = 199;
-                requiredMoney = 13505;
-                break;
-            case 38:
-                requiredRawCopper = 195;
-                requiredCopperIngots = 204;
-                requiredMoney = 13870;
-                break;
-            case 39:
-                requiredRawCopper = 200;
-                requiredCopperIngots = 210;
-                requiredMoney = 14235;
-                break;
-            case 40:
-                requiredRawCopper = 205;
-                requiredCopperIngots = 215;
-                requiredMoney = 14600;
-                break;
-            case 41:
-                requiredRawCopper = 210;
-                requiredCopperIngots = 220;
-                requiredMoney = 14965;
-                break;
-            case 42:
-                requiredRawCopper = 215;
-                requiredCopperIngots = 226;
-                requiredMoney = 15330;
-                break;
-            case 43:
-                requiredRawCopper = 220;
-                requiredCopperIngots = 231;
-                requiredMoney = 15695;
-                break;
-            case 44:
-                requiredRawCopper = 225;
-                requiredCopperIngots = 236;
-                requiredMoney = 16060;
-                break;
-            case 45:
-                break;
-            case 46:
-                break;
-            case 47:
-                break;
-            case 48:
-                break;
-            case 49:
-                break;
-            case 50:
-                break;
-            case 51:
-                break;
-            case 52:
-                break;
-            case 53:
-                break;
-            case 54:
-                break;
-            case 55:
-                break;
-            case 56:
-                break;
-            case 57:
-                break;
-            case 58:
-                break;
-            case 59:
-                break;
-            case 60:
-                break;
-            case 61:
-                break;
-            case 62:
-                break;
-            case 63:
-                break;
-            case 64:
-                break;
-            case 65:
-                break;
-            case 66:
-                break;
-            case 67:
-                break;
-            case 68:
-                break;
-            case 69:
-                break;
-            case 70:
-                break;
-            case 71:
-                break;
-            case 72:
-                break;
-            case 73:
-                break;
-            case 74:
-                break;
-            case 75:
-                break;
-            case 76:
-                break;
-            case 77:
-                break;
-            case 78:
-                break;
-            case 79:
-                break;
-            case 80:
-                break;
-            case 81:
-                break;
-            case 82:
-                break;
-            case 83:
-                break;
-            case 84:
-                break;
-            case 85:
-                break;
-            case 86:
-                break;
-            case 87:
-                break;
-            case 88:
-                break;
-            case 89:
-                break;
-            case 90:
-                break;
-            case 91:
-                break;
-            case 92:
-                break;
-            case 93:
-                break;
-            case 94:
-                break;
-            case 95:
-                break;
-            case 96:
-                break;
-            case 97:
-                break;
-            case 98:
-                break;
-            case 99:
-                break;
-            case 100:
-                break;
-            case 101:
-                break;
-            case 102:
-                break;
-            case 103:
-                break;
-            case 104:
-                break;
-            case 105:
-                break;
-            case 106:
-                break;
-            case 107:
-                break;
-            case 108:
-                break;
-            case 109:
-                break;
-            case 110:
-                break;
-            case 111:
-                break;
-            case 112:
-                break;
-            case 113:
-                break;
-            case 114:
-                break;
-            case 115:
-                break;
-            case 116:
-                break;
-            case 117:
-                break;
-            case 118:
-                break;
-            case 119:
-                break;
-            case 120:
-                break;
-            case 121:
-                break;
-            case 122:
-                break;
-            case 123:
-                break;
-            case 124:
-                break;
-            case 125:
-                break;
-            case 126:
-                break;
-            case 127:
-                break;
-            case 128:
-                break;
-            case 129:
-                break;
-            case 130:
-                break;
-            case 131:
-                break;
-            case 132:
-                break;
-            case 133:
-                break;
-            case 134:
-                break;
-            case 135:
-                break;
-            case 136:
-                break;
-            case 137:
-                break;
-            case 138:
-                break;
-            case 139:
-                break;
-            case 140:
-                break;
-            case 141:
-                break;
-            case 142:
-                break;
-            case 143:
-                break;
-            case 144:
-                break;
-            case 145:
-                break;
-            case 146:
-                break;
-            case 147:
-                break;
-            case 148:
-                break;
-            case 149:
-                break;
-            case 150:
-                break;
-            case 151:
-                break;
-            case 152:
-                break;
-            case 153:
-                break;
-            case 154:
-                break;
-            case 155:
-                break;
-            case 156:
-                break;
-            case 157:
-                break;
-            case 158:
-                break;
-            case 159:
-                break;
-            case 160:
-                break;
-            case 161:
-                break;
-            case 162:
-                break;
-            case 163:
-                break;
-            case 164:
-                break;
-            case 165:
-                break;
-            case 166:
-                break;
-            case 167:
-                break;
-            case 168:
-                break;
-            case 169:
-                break;
-            case 170:
-                break;
-            case 171:
-                break;
-            case 172:
-                break;
-            case 173:
-                break;
-            case 174:
-                break;
-            case 175:
-                break;
-            case 176:
-                break;
-            case 177:
-                break;
-            case 178:
-                break;
-            case 179:
-                break;
-            case 180:
-                break;
-            case 181:
-                break;
-            case 182:
-                break;
-            case 183:
-                break;
-            case 184:
-                break;
-            case 185:
-                break;
-            case 186:
-                break;
-            case 187:
-                break;
-            case 188:
-                break;
-            case 189:
-                break;
-            case 190:
-                break;
-            case 191:
-                break;
-            case 192:
-                break;
-            case 193:
-                break;
-            case 194:
-                break;
-            case 195:
-                break;
-            case 196:
-                break;
-            case 197:
-                break;
-            case 198:
-                break;
-            case 199:
-                break;
-            case 200:
-                break;
-            case 201:
-                break;
-            case 202:
-                break;
-            case 203:
-                break;
-            case 204:
-                break;
-            case 205:
-                break;
-            case 206:
-                break;
-            case 207:
-                break;
-            case 208:
-                break;
-            case 209:
-                break;
-            case 210:
-                break;
-            case 211:
-                break;
-            case 212:
-                break;
-            case 213:
-                break;
-            case 214:
-                break;
-            case 215:
-                break;
-            case 216:
-                break;
-            case 217:
-                break;
-            case 218:
-                break;
-            case 219:
-                break;
-            case 220:
-                break;
-            case 221:
-                break;
-            case 222:
-                break;
-            case 223:
-                break;
-            case 224:
-                break;
-            case 225:
-                break;
-            case 226:
-                break;
-            case 227:
-                break;
-            case 228:
-                break;
-            case 229:
-                break;
-            case 230:
-                break;
-            case 231:
-                break;
-            case 232:
-                break;
-            case 233:
-                break;
-            case 234:
-                break;
-            case 235:
-                break;
-            case 236:
-                break;
-            case 237:
-                break;
-            case 238:
-                break;
-            case 239:
-                break;
-            case 240:
-                break;
-            case 241:
-                break;
-            case 242:
-                break;
-            case 243:
-                break;
-            case 244:
-                break;
-            case 245:
-                break;
-            case 246:
-                break;
-            case 247:
-                break;
-            case 248:
-                break;
-            case 249:
-                break;
-            case 250:
-                break;
-            case 251:
-                break;
-            case 252:
-                break;
-            case 253:
-                break;
-            case 254:
-                break;
-            case 255:
-                break;
-            case 256:
-                break;
-            case 257:
-                break;
-            case 258:
-                break;
-            case 259:
-                break;
-            case 260:
-                break;
-            default:
-                player.sendMessage(ConfigManager.getPrefix() + ConfigManager.getConfigMessage("message.upgradesword", "", ""));
-                return;
+        int[] upgradeData = getUpgradeData(currentLevel);
+        if (upgradeData == null) {
+            player.sendMessage(ConfigManager.getPrefix() + ConfigManager.getConfigMessage("message.upgradesword", "", ""));
+            return;
         }
 
+        int requiredRawCopper = upgradeData[0];
+        int requiredCopperIngots = upgradeData[1];
+        double requiredMoney = upgradeData[2];
+        int requiredCobblestone = upgradeData[3];
+        int requiredStone = upgradeData[4];
+        int requiredRawIron = upgradeData[5];
+        int requiredIron = upgradeData[6];
+        int requiredRawGold = upgradeData[7];
+        int requiredGold = upgradeData[8];
+        int requiredDiamondOre = upgradeData[9];
+        int requiredDiamond = upgradeData[10];
+        int requiredNetheriteScrap = upgradeData[11];
+        int requiredNetherite = upgradeData[12];
 
         int currentRawCopper = mysqlManager.getItemAmount(player.getUniqueId().toString(), "raw_copper");
         int currentCopperIngots = mysqlManager.getItemAmount(player.getUniqueId().toString(), "copper_ingot");
-        if (currentRawCopper >= requiredRawCopper && currentCopperIngots >= requiredCopperIngots) {
+        int currentCobblestone = mysqlManager.getItemAmount(player.getUniqueId().toString(), "cobblestone");
+        int currentStone = mysqlManager.getItemAmount(player.getUniqueId().toString(), "stone");
+        int currentRawIron = mysqlManager.getItemAmount(player.getUniqueId().toString(), "raw_iron");
+        int currentIron = mysqlManager.getItemAmount(player.getUniqueId().toString(), "iron_ingot");
+        int currentRawGold = mysqlManager.getItemAmount(player.getUniqueId().toString(), "raw_gold");
+        int currentGold = mysqlManager.getItemAmount(player.getUniqueId().toString(), "gold_ingot");
+        int currentDiamondOre = mysqlManager.getItemAmount(player.getUniqueId().toString(), "diamond_ore");
+        int currentDiamond = mysqlManager.getItemAmount(player.getUniqueId().toString(), "diamond");
+        int currentNetheriteScrap = mysqlManager.getItemAmount(player.getUniqueId().toString(), "netherite_scrap");
+        int currentNetherite = mysqlManager.getItemAmount(player.getUniqueId().toString(), "netherite_ingot");
+
+        if (currentRawCopper >= requiredRawCopper && currentCopperIngots >= requiredCopperIngots
+                && currentCobblestone >= requiredCobblestone && currentStone >= requiredStone && currentRawIron >= requiredRawIron && currentRawGold >= requiredRawGold
+                && currentGold >= requiredGold && currentDiamondOre >= requiredDiamondOre && currentDiamond >= requiredDiamond && currentNetheriteScrap >= requiredNetheriteScrap && currentNetherite >= requiredNetherite) {
             if (removeMoney(player, requiredMoney)) {
                 mysqlManager.updateItemAmount(player.getUniqueId().toString(), "raw_copper", currentRawCopper - requiredRawCopper);
                 mysqlManager.updateItemAmount(player.getUniqueId().toString(), "copper_ingot", currentCopperIngots - requiredCopperIngots);
+                mysqlManager.updateItemAmount(player.getUniqueId().toString(), "cobblestone", currentCobblestone - requiredCobblestone);
+                mysqlManager.updateItemAmount(player.getUniqueId().toString(), "stone", currentStone - requiredStone);
+                mysqlManager.updateItemAmount(player.getUniqueId().toString(), "raw_iron", currentRawIron - requiredRawIron);
+                mysqlManager.updateItemAmount(player.getUniqueId().toString(), "iron_ingot", currentIron - requiredIron);
+                mysqlManager.updateItemAmount(player.getUniqueId().toString(), "raw_gold", currentRawGold - requiredRawGold);
+                mysqlManager.updateItemAmount(player.getUniqueId().toString(), "gold_ingot", currentGold - requiredGold);
+                mysqlManager.updateItemAmount(player.getUniqueId().toString(), "diamond_ore", currentDiamondOre - requiredDiamondOre);
+                mysqlManager.updateItemAmount(player.getUniqueId().toString(), "diamond", currentDiamond - requiredDiamond);
+                mysqlManager.updateItemAmount(player.getUniqueId().toString(), "netherite_scrap", currentNetheriteScrap - requiredNetheriteScrap);
+                mysqlManager.updateItemAmount(player.getUniqueId().toString(), "netherite_ingot", currentNetherite - requiredNetherite);
                 mysqlManager.updateSwordLevel(player.getUniqueId().toString(), currentLevel + 1);
                 giveSwordToPlayer(player, currentLevel + 1);
                 updateItems(player);
@@ -729,6 +110,102 @@ public class SwordUpgradeClickListener implements Listener {
             player.sendMessage(ConfigManager.getPrefix() + ConfigManager.getConfigMessage("message.notenoughtitemsupgrade", "", ""));
         }
     }
+
+    private int[] getUpgradeData(int level) {
+        int[][] upgradeData = {
+                {10, 6, 365, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+                {15, 11, 730, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+                {20, 16, 1095, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+                {25, 22, 1460, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+                {30, 27, 1825, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+                {35, 32, 2190, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+                {40, 38, 2555, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+                {45, 43, 2920, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+                {50, 48, 3285, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+                {55, 54, 3650, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+                {60, 59, 4015, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+                {65, 65, 4380, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+                {70, 70, 4745, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+                {75, 75, 5110, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+                {80, 81, 5475, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+                {85, 86, 5840, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+                {90, 91, 6205, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+                {95, 97, 6570, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+                {100, 102, 6935, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+                {105, 108, 7300, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+                {110, 113, 7665, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+                {115, 118, 8030, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+                {120, 124, 8395, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+                {125, 129, 8760, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+                {130, 134, 9125, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+                {135, 140, 9490, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+                {140, 145, 9855, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+                {145, 151, 10220, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+                {150, 156, 10585, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+                {155, 161, 10950, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+                {160, 167, 11315, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+                {165, 172, 11680, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+                {170, 177, 12045, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+                {175, 183, 12410, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+                {180, 188, 12775, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+                {185, 193, 13140, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+                {190, 199, 13505, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+                {195, 204, 13870, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+                {200, 210, 14235, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+                {205, 215, 14600, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+                {210, 220, 14965, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+                {215, 226, 15330, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+                {220, 231, 15695, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+                {225, 236, 16060, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+                {0, 0, 16424, 230, 242, 0, 0, 0, 0, 0, 0, 0, 0},
+                {0, 0, 16790, 235, 247, 0, 0, 0, 0, 0, 0, 0, 0},
+                {0, 0, 17155, 240, 253, 0, 0, 0, 0, 0, 0, 0, 0},
+                {0, 0, 17520, 245, 258, 0, 0, 0, 0, 0, 0, 0, 0},
+                {0, 0, 17855, 250, 263, 0, 0, 0, 0, 0, 0, 0, 0},
+                {0, 0, 18250, 255, 269, 0, 0, 0, 0, 0, 0, 0, 0},
+                {0, 0, 18615, 260, 274, 0, 0, 0, 0, 0, 0, 0, 0},
+                {0, 0, 18980, 265, 279, 0, 0, 0, 0, 0, 0, 0, 0},
+                {0, 0, 19345, 270, 285, 0, 0, 0, 0, 0, 0, 0, 0},
+                {0, 0, 19710, 275, 290, 0, 0, 0, 0, 0, 0, 0, 0},
+                {0, 0, 20075, 280, 301, 0, 0, 0, 0, 0, 0, 0, 0},
+                {0, 0, 20440, 285, 306, 0, 0, 0, 0, 0, 0, 0, 0},
+                {0, 0, 20805, 290, 312, 0, 0, 0, 0, 0, 0, 0, 0},
+                {0, 0, 21170, 295, 317, 0, 0, 0, 0, 0, 0, 0, 0},
+                {0, 0, 21535, 300, 323, 0, 0, 0, 0, 0, 0, 0, 0},
+                {0, 0, 21900, 305, 323, 0, 0, 0, 0, 0, 0, 0, 0},
+                {0, 0, 22265, 310, 333, 0, 0, 0, 0, 0, 0, 0, 0},
+                {0, 0, 22630, 315, 339, 0, 0, 0, 0, 0, 0, 0, 0},
+                {0, 0, 22995, 320, 344, 0, 0, 0, 0, 0, 0, 0, 0},
+                {0, 0, 23360, 325, 349, 0, 0, 0, 0, 0, 0, 0, 0},
+                {0, 0, 23725, 330, 355, 0, 0, 0, 0, 0, 0, 0, 0},
+                {0, 0, 24090, 335, 360, 0, 0, 0, 0, 0, 0, 0, 0},
+                {0, 0, 24455, 340, 365, 0, 0, 0, 0, 0, 0, 0, 0},
+                {0, 0, 24820, 345, 371, 0, 0, 0, 0, 0, 0, 0, 0},
+                {0, 0, 25185, 350, 376, 0, 0, 0, 0, 0, 0, 0, 0},
+                {0, 0, 25550, 355, 382, 0, 0, 0, 0, 0, 0, 0, 0},
+                {0, 0, 25915, 360, 387, 0, 0, 0, 0, 0, 0, 0, 0},
+                {0, 0, 26280, 365, 392, 0, 0, 0, 0, 0, 0, 0, 0},
+                {0, 0, 26645, 370, 398, 0, 0, 0, 0, 0, 0, 0, 0},
+                {0, 0, 27010, 375, 403, 0, 0, 0, 0, 0, 0, 0, 0},
+                {0, 0, 27375, 380, 408, 0, 0, 0, 0, 0, 0, 0, 0},
+                {0, 0, 27740, 385, 414, 0, 0, 0, 0, 0, 0, 0, 0},
+                {0, 0, 28105, 390, 419, 0, 0, 0, 0, 0, 0, 0, 0},
+                {0, 0, 28470, 395, 425, 0, 0, 0, 0, 0, 0, 0, 0},
+                {0, 0, 28835, 400, 430, 0, 0, 0, 0, 0, 0, 0, 0},
+                {0, 0, 29200, 405, 435, 0, 0, 0, 0, 0, 0, 0, 0},
+                {0, 0, 29565, 410, 441, 0, 0, 0, 0, 0, 0, 0, 0},
+                {0, 0, 29930, 415, 446, 0, 0, 0, 0, 0, 0, 0, 0},
+                {0, 0, 30295, 420, 451, 0, 0, 0, 0, 0, 0, 0, 0},
+                {0, 0, 30660, 425, 457, 0, 0, 0, 0, 0, 0, 0, 0}
+        };
+
+        if (level >= 1 && level <= upgradeData.length) {
+            return upgradeData[level - 1];
+        } else {
+            return null;
+        }
+    }
+
     private void giveSwordToPlayer(Player player, int level) {
 
         switch (level) {
@@ -868,13 +345,13 @@ public class SwordUpgradeClickListener implements Listener {
                 updatestoneSword(player, 49.0, 46);
                 break;
             case 47:
-                updatewoodenSword(player, 50.0, 47);
+                updatestoneSword(player, 50.0, 47);
                 break;
             case 48:
                 updatestoneSword(player, 51.0, 48);
                 break;
             case 49:
-                updatewoodenSword(player, 52.0, 49);
+                updatestoneSword(player, 52.0, 49);
                 break;
             case 50:
                 updatestoneSword(player, 53.0, 50);
