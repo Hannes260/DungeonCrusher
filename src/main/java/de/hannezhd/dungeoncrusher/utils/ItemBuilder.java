@@ -46,7 +46,6 @@ public class ItemBuilder {
         return this;
     }
 
-
     public String toString() {
         return "ItemBuilder{itemMeta=" + this.itemMeta + ", itemStack=" + this.itemStack + '}';
     }

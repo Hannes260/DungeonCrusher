@@ -1035,7 +1035,7 @@ public class SwordUpgradeClickListener implements Listener {
         ItemStack stonesword = new ItemStack(Material.STONE_SWORD);
         AttributeModifier modifier = new AttributeModifier(UUID.randomUUID(), "generic.attackDamage", damage, AttributeModifier.Operation.ADD_NUMBER);
         ItemMeta stonemeta = stonesword.getItemMeta();
-        stonemeta.setDisplayName("§7<< §6Steinschwert §7- §aLv."+ level + "§7>>");
+        stonemeta.setDisplayName("§7<<§6Steinschwert §7- §aLv."+ level + "§7>>");
         stonemeta.setLore(Collections.singletonList("§9" + damage + " Angrifsschaden"));;
         stonemeta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
         stonemeta.addAttributeModifier(Attribute.GENERIC_ATTACK_DAMAGE, modifier);
@@ -1047,7 +1047,7 @@ public class SwordUpgradeClickListener implements Listener {
         ItemStack ironsword = new ItemStack(Material.IRON_SWORD);
         AttributeModifier modifier = new AttributeModifier(UUID.randomUUID(), "generic.attackDamage", damage, AttributeModifier.Operation.ADD_NUMBER);
         ItemMeta ironmeta = ironsword.getItemMeta();
-        ironmeta.setDisplayName("§7<< §6Steinschwert §7- §aLv."+ level + "§7>>");
+        ironmeta.setDisplayName("§7<<§6Eisenschwert §7- §aLv."+ level + "§7>>");
         ironmeta.setLore(Collections.singletonList("§9" + damage + " Angrifsschaden"));
         ironmeta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
         ironmeta.addAttributeModifier(Attribute.GENERIC_ATTACK_DAMAGE, modifier);
@@ -1059,7 +1059,7 @@ public class SwordUpgradeClickListener implements Listener {
         ItemStack goldsword = new ItemStack(Material.GOLDEN_SWORD);
         AttributeModifier modifier = new AttributeModifier(UUID.randomUUID(), "generic.attackDamage", damage, AttributeModifier.Operation.ADD_NUMBER);
         ItemMeta goldmeta = goldsword.getItemMeta();
-        goldmeta.setDisplayName("§7<< §6Steinschwert §7- §aLv."+ level + "§7>>");
+        goldmeta.setDisplayName("§7<<§6Goldschwert §7- §aLv."+ level + "§7>>");
         goldmeta.setLore(Collections.singletonList("§9" + damage + " Angrifsschaden"));
         goldmeta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
         goldmeta.addAttributeModifier(Attribute.GENERIC_ATTACK_DAMAGE, modifier);
@@ -1071,7 +1071,7 @@ public class SwordUpgradeClickListener implements Listener {
         ItemStack diamondsword = new ItemStack(Material.GOLDEN_SWORD);
         AttributeModifier modifier = new AttributeModifier(UUID.randomUUID(), "generic.attackDamage", damage, AttributeModifier.Operation.ADD_NUMBER);
         ItemMeta diamondmeta = diamondsword.getItemMeta();
-        diamondmeta.setDisplayName("§7<< §6Steinschwert §7- §aLv."+ level + "§7>>");
+        diamondmeta.setDisplayName("§7<<§6Diamantschwert §7- §aLv."+ level + "§7>>");
         diamondmeta.setLore(Collections.singletonList("§9" + damage + " Angrifsschaden"));
         diamondmeta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
         diamondmeta.addAttributeModifier(Attribute.GENERIC_ATTACK_DAMAGE, modifier);
@@ -1083,7 +1083,7 @@ public class SwordUpgradeClickListener implements Listener {
         ItemStack netheritesword = new ItemStack(Material.GOLDEN_SWORD);
         AttributeModifier modifier = new AttributeModifier(UUID.randomUUID(), "generic.attackDamage", damage, AttributeModifier.Operation.ADD_NUMBER);
         ItemMeta netheritemeta = netheritesword.getItemMeta();
-        netheritemeta.setDisplayName("§7<< §6Steinschwert §7- §aLv."+ level + "§7>>");
+        netheritemeta.setDisplayName("§7<<§6Netheriteschwert §7- §aLv."+ level + "§7>>");
         netheritemeta.setLore(Collections.singletonList("§9" + damage + " Angrifsschaden"));
         netheritemeta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
         netheritemeta.addAttributeModifier(Attribute.GENERIC_ATTACK_DAMAGE, modifier);
