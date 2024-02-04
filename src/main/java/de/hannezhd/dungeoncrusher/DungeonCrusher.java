@@ -64,6 +64,7 @@ public final class DungeonCrusher extends JavaPlugin {
         this.getCommand("test").setExecutor(new TestComand(this,mysqlManager));
         this.getCommand("customgui").setExecutor(new CustomGUICommand());
         this.getCommand("flyspeed").setExecutor(new FlySpeedCommand());
+
         //Tab
         this.getCommand("config").setTabCompleter(this);
         this.getCommand("money").setTabCompleter(this);
