@@ -31,6 +31,7 @@ public class UpgradeCommand implements CommandExecutor {
         if (sender instanceof Player) {
             Player player = (Player) sender;
             if (args.length == 0) {
+
                 Inventory upgrade = Bukkit.createInventory(null, 9*6, "§9§lUpgrades");
                 upgrade.setItem(45, new ItemBuilder(Material.BARRIER).setDisplayname("§7➢ §bSchließen").setLocalizedName("schließen").build());
 
@@ -42,7 +43,6 @@ public class UpgradeCommand implements CommandExecutor {
 
                 int currentLevel = mysqlManager.getSwordLevel(player.getUniqueId().toString());
                 int[] upgradeData = UpgradeData.getUpgradeData(currentLevel);
-
 
                 int currentRawCopper = mysqlManager.getItemAmount(player.getUniqueId().toString(), "raw_copper");
                 int currentCopperIngots = mysqlManager.getItemAmount(player.getUniqueId().toString(), "copper_ingot");
@@ -92,14 +92,25 @@ public class UpgradeCommand implements CommandExecutor {
                                 upgrade.setItem(40, new ItemBuilder(Material.DIAMOND_BOOTS).setDisplayname("§7➢ Schuh Upgrade").setLocalizedName("bootsupgrade").addItemFlags(ItemFlag.HIDE_ATTRIBUTES).build());
                                 break;
                             case 5:
-                                upgrade.setItem(20, new ItemBuilder(Material.DIAMOND_SWORD).setDisplayname("§7➢ Schwert Upgrade").setLocalizedName("swordupgrade").setLore("§7Level: §6" + nextLevel,
-                                        "§7Geld: §6" + currentmoney +"§7/§6" + requiredMoney,"§7Rohkupfer: §6" + currentRawCopper + "§7/§6" + requiredRawCopper, "§7Kupferbarren: §6" +currentCopperIngots  + "§7/§6" + requiredCopperIngots,
-                                        "§7Bruchstein: §6" + currentCobblestone + "§7/§6" +requiredCobblestone ,
-                                        "§7Stein: §6" + currentStone + "§7/§6" + requiredStone, "§7RohEisen: §6" + currentRawIron + "§7/§6" + requiredRawIron,
-                                        "§7Eisenbarren: §6" + currentIron + "§7/§6" + requiredIron, "§7RohGold: §6" + currentRawGold + "§7/§6" + requiredRawGold,
-                                        "§7GoldBarren: §6" + currentGold + "§7/§6" + requiredGold, "§7DiamantErz: §6" + currentDiamondOre + "§7/§6" + requiredDiamondOre,
-                                        "§7Diamanten: §6" + currentDiamond + "§7/§6" + requiredDiamond, "§7Netheriteplatten: §6" + currentNetheriteScrap + "§7/§6" + requiredNetheriteScrap,
-                                        "§7NetheriteBarren: §6" + currentNetherite + "§6/§6" + requiredNetherite).addItemFlags(ItemFlag.HIDE_ATTRIBUTES).build());
+                                if (currentLevel >= 260) {
+                                    ItemStack maxLevelSword = new ItemBuilder(Material.DIAMOND_SWORD)
+                                            .setDisplayname("§7➢ Schwert Upgrade")
+                                            .setLocalizedName("swordupgrade")
+                                            .setLore("§7Level: §6§lMaximales Level erreicht!")
+                                            .addItemFlags(ItemFlag.HIDE_ATTRIBUTES)
+                                            .build();
+                                    upgrade.setItem(20, maxLevelSword);
+                                }else {
+                                    upgrade.setItem(20, new ItemBuilder(Material.DIAMOND_SWORD).setDisplayname("§7➢ Schwert Upgrade").setLocalizedName("swordupgrade").setLore("§7Level: §6" + nextLevel,
+                                            "§7Geld: §6" + currentmoney +"§7/§6" + requiredMoney,"§7Rohkupfer: §6" + currentRawCopper + "§7/§6" + requiredRawCopper, "§7Kupferbarren: §6" +currentCopperIngots  + "§7/§6" + requiredCopperIngots,
+                                            "§7Bruchstein: §6" + currentCobblestone + "§7/§6" +requiredCobblestone ,
+                                            "§7Stein: §6" + currentStone + "§7/§6" + requiredStone, "§7RohEisen: §6" + currentRawIron + "§7/§6" + requiredRawIron,
+                                            "§7Eisenbarren: §6" + currentIron + "§7/§6" + requiredIron, "§7RohGold: §6" + currentRawGold + "§7/§6" + requiredRawGold,
+                                            "§7GoldBarren: §6" + currentGold + "§7/§6" + requiredGold, "§7DiamantErz: §6" + currentDiamondOre + "§7/§6" + requiredDiamondOre,
+                                            "§7Diamanten: §6" + currentDiamond + "§7/§6" + requiredDiamond, "§7Netheriteplatten: §6" + currentNetheriteScrap + "§7/§6" + requiredNetheriteScrap,
+                                            "§7NetheriteBarren: §6" + currentNetherite + "§6/§6" + requiredNetherite).addItemFlags(ItemFlag.HIDE_ATTRIBUTES).build());
+                                }
+
                             case 13:
                                 try {
                                     Thread.sleep(50000000 / 1000000);

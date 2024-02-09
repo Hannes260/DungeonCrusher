@@ -19,6 +19,7 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
+import sun.security.krb5.Config;
 
 import java.util.*;
 
@@ -71,14 +72,24 @@ public class SwordUpgradeClickListener implements Listener {
                         int requiredNetheriteScrap = upgradeData[11];
                         int requiredNetherite = upgradeData[12];
                         Inventory upgrade = Bukkit.createInventory(null, 9*6, "§9§lUpgrades");
-                        upgrade.setItem(20, new ItemBuilder(Material.DIAMOND_SWORD).setDisplayname("§7➢ Schwert Upgrade").setLocalizedName("swordupgrade").setLore("§7Level: §6" + nextLevel,
-                                "§7Geld: §6" + currentmoney +"§7/§6" + requiredMoney,"§7Rohkupfer: §6" + currentRawCopper + "§7/§6" + requiredRawCopper, "§7Kupferbarren: §6" +currentCopperIngots  + "§7/§6" + requiredCopperIngots,
-                                "§7Bruchstein: §6" + currentCobblestone + "§7/§6" +requiredCobblestone ,
-                                "§7Stein: §6" + currentStone + "§7/§6" + requiredStone, "§7RohEisen: §6" + currentRawIron + "§7/§6" + requiredRawIron,
-                                "§7Eisenbarren: §6" + currentIron + "§7/§6" + requiredIron, "§7RohGold: §6" + currentRawGold + "§7/§6" + requiredRawGold,
-                                "§7GoldBarren: §6" + currentGold + "§7/§6" + requiredGold, "§7DiamantErz: §6" + currentDiamondOre + "§7/§6" + requiredDiamondOre,
-                                "§7Diamanten: §6" + currentDiamond + "§7/§6" + requiredDiamond, "§7Netheriteplatten: §6" + currentNetheriteScrap + "§7/§6" + requiredNetheriteScrap,
-                                "§7NetheriteBarren: §6" + currentNetherite + "§6/§6" + requiredNetherite).addItemFlags(ItemFlag.HIDE_ATTRIBUTES).build());
+                        if (currentLevel >= 260) {
+                            ItemStack maxLevelSword = new ItemBuilder(Material.DIAMOND_SWORD)
+                                    .setDisplayname("§7➢ Schwert Upgrade")
+                                    .setLocalizedName("swordupgrade")
+                                    .setLore("§7Level: §6§lMaximales Level erreicht!")
+                                    .addItemFlags(ItemFlag.HIDE_ATTRIBUTES)
+                                    .build();
+                            upgrade.setItem(20, maxLevelSword);
+                        }else {
+                            upgrade.setItem(20, new ItemBuilder(Material.DIAMOND_SWORD).setDisplayname("§7➢ Schwert Upgrade").setLocalizedName("swordupgrade").setLore("§7Level: §6" + nextLevel,
+                                    "§7Geld: §6" + currentmoney + "§7/§6" + requiredMoney, "§7Rohkupfer: §6" + currentRawCopper + "§7/§6" + requiredRawCopper, "§7Kupferbarren: §6" + currentCopperIngots + "§7/§6" + requiredCopperIngots,
+                                    "§7Bruchstein: §6" + currentCobblestone + "§7/§6" + requiredCobblestone,
+                                    "§7Stein: §6" + currentStone + "§7/§6" + requiredStone, "§7RohEisen: §6" + currentRawIron + "§7/§6" + requiredRawIron,
+                                    "§7Eisenbarren: §6" + currentIron + "§7/§6" + requiredIron, "§7RohGold: §6" + currentRawGold + "§7/§6" + requiredRawGold,
+                                    "§7GoldBarren: §6" + currentGold + "§7/§6" + requiredGold, "§7DiamantErz: §6" + currentDiamondOre + "§7/§6" + requiredDiamondOre,
+                                    "§7Diamanten: §6" + currentDiamond + "§7/§6" + requiredDiamond, "§7Netheriteplatten: §6" + currentNetheriteScrap + "§7/§6" + requiredNetheriteScrap,
+                                    "§7NetheriteBarren: §6" + currentNetherite + "§6/§6" + requiredNetherite).addItemFlags(ItemFlag.HIDE_ATTRIBUTES).build());
+                        }
                         upgrade.setItem(13, new ItemBuilder(Material.DIAMOND_HELMET).setDisplayname("§7➢ Helm Upgrade").setLocalizedName("helmetupgrade").addItemFlags(ItemFlag.HIDE_ATTRIBUTES).build());
                         upgrade.setItem(22, new ItemBuilder(Material.DIAMOND_CHESTPLATE).setDisplayname("§7➢ Chestplate Upgrade").setLocalizedName("chestplateupgrade").addItemFlags(ItemFlag.HIDE_ATTRIBUTES).build());
                         upgrade.setItem(31, new ItemBuilder(Material.DIAMOND_LEGGINGS).setDisplayname("§7➢ Hosen Upgrade").setLocalizedName("leggingsupgrade").addItemFlags(ItemFlag.HIDE_ATTRIBUTES).build());
@@ -97,6 +108,11 @@ public class SwordUpgradeClickListener implements Listener {
 
     private void handleSwordUpgrade(Player player) {
         int currentLevel = mysqlManager.getSwordLevel(player.getUniqueId().toString());
+
+        if (currentLevel >= 260) {
+            player.sendMessage(ConfigManager.getPrefix() + ConfigManager.getConfigMessage("message.maxlevel","",""));
+            return;
+        }
 
         int[] upgradeData = UpgradeData.getUpgradeData(currentLevel);
         if (upgradeData == null) {
@@ -158,7 +174,6 @@ public class SwordUpgradeClickListener implements Listener {
             player.sendMessage(ConfigManager.getPrefix() + ConfigManager.getConfigMessage("message.notenoughtitemsupgrade", "", ""));
         }
     }
-
     private void giveSwordToPlayer(Player player, int level) {
 
         switch (level) {
@@ -1115,7 +1130,7 @@ public class SwordUpgradeClickListener implements Listener {
         player.getInventory().setItem(0, goldsword);
     }
     private void updatediamondSword(Player player, double damage, int level) {
-        ItemStack diamondsword = new ItemStack(Material.GOLDEN_SWORD);
+        ItemStack diamondsword = new ItemStack(Material.DIAMOND_SWORD);
         AttributeModifier modifier = new AttributeModifier(UUID.randomUUID(), "generic.attackDamage", damage, AttributeModifier.Operation.ADD_NUMBER);
         ItemMeta diamondmeta = diamondsword.getItemMeta();
         diamondmeta.setDisplayName("§7<<§6Diamantschwert §7- §aLv."+ level + "§7>>");
@@ -1127,7 +1142,7 @@ public class SwordUpgradeClickListener implements Listener {
         player.getInventory().setItem(0, diamondsword);
     }
     private void updatenetheriteSword(Player player, double damage, int level) {
-        ItemStack netheritesword = new ItemStack(Material.GOLDEN_SWORD);
+        ItemStack netheritesword = new ItemStack(Material.NETHERITE_SWORD);
         AttributeModifier modifier = new AttributeModifier(UUID.randomUUID(), "generic.attackDamage", damage, AttributeModifier.Operation.ADD_NUMBER);
         ItemMeta netheritemeta = netheritesword.getItemMeta();
         netheritemeta.setDisplayName("§7<<§6Netheriteschwert §7- §aLv."+ level + "§7>>");
