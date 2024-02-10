@@ -26,14 +26,7 @@ public class TestComand implements CommandExecutor {
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         if (sender instanceof Player) {
             Player player = (Player) sender;
-            ItemStack customSword = new ItemStack(Material.WOODEN_SWORD);
-            ItemMeta meta = customSword.getItemMeta();
-
-            double damage = 1000000.0;
-            AttributeModifier modifier = new AttributeModifier(UUID.randomUUID(), "generic.attackDamage", damage, AttributeModifier.Operation.ADD_NUMBER);
-            meta.addAttributeModifier(Attribute.GENERIC_ATTACK_DAMAGE, modifier);
-            customSword.setItemMeta(meta);
-            player.getInventory().addItem(customSword);
+            player.getAttribute(Attribute.GENERIC_MAX_HEALTH).setBaseValue(10);
         }
         return false;
     }
