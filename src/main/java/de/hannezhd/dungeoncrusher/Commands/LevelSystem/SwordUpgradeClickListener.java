@@ -109,7 +109,7 @@ public class SwordUpgradeClickListener implements Listener {
     private void handleSwordUpgrade(Player player) {
         int currentLevel = mysqlManager.getSwordLevel(player.getUniqueId().toString());
 
-        if (currentLevel >= 260) {
+        if (currentLevel >= 280) {
             player.sendMessage(ConfigManager.getPrefix() + ConfigManager.getConfigMessage("message.maxlevel","",""));
             return;
         }
@@ -953,6 +953,66 @@ public class SwordUpgradeClickListener implements Listener {
                 break;
             case 260:
                 updatenetheriteSword(player, 263.0, 260);
+                break;
+            case 261:
+                updatenetheriteSword(player, 264.0, 261);
+                break;
+            case 262:
+                updatenetheriteSword(player, 265.0, 262);
+                break;
+            case 263:
+                updatenetheriteSword(player, 266.0, 263);
+                break;
+            case 264:
+                updatenetheriteSword(player, 267.0, 264);
+                break;
+            case 265:
+                updatenetheriteSword(player, 268.0, 265);
+                break;
+            case 266:
+                updatenetheriteSword(player, 269.0, 266);
+                break;
+            case 267:
+                updatenetheriteSword(player, 270.0, 267);
+                break;
+            case 268:
+                updatenetheriteSword(player, 271.0, 268);
+                break;
+            case 269:
+                updatenetheriteSword(player, 272.0, 269);
+                break;
+            case 270:
+                updatenetheriteSword(player, 273.0, 270);
+                break;
+            case 271:
+                updatenetheriteSword(player, 274.0, 271);
+                break;
+            case 272:
+                updatenetheriteSword(player, 275.0, 272);
+                break;
+            case 273:
+                updatenetheriteSword(player, 276.0, 273);
+                break;
+            case 274:
+                updatenetheriteSword(player, 277.0, 274);
+                break;
+            case 275:
+                updatenetheriteSword(player, 278.0, 275);
+                break;
+            case 276:
+                updatenetheriteSword(player, 279.0, 276);
+                break;
+            case 277:
+                updatenetheriteSword(player, 280.0, 277);
+                break;
+            case 278:
+                updatenetheriteSword(player, 281.0, 278);
+                break;
+            case 279:
+                updatenetheriteSword(player, 282.0, 279);
+                break;
+            case 280:
+                updatenetheriteSword(player, 283.0, 280);
                 break;
             default:
                 player.sendMessage(ConfigManager.getPrefix() + ConfigManager.getConfigMessage("message.upgradeswordfailure","",""));

@@ -160,7 +160,7 @@ public class ShopClickListener implements Listener {
                                         upgrades.setItem(40, new ItemBuilder(Material.DIAMOND_BOOTS).setDisplayname("§7➢ Schuh Upgrade").setLocalizedName("bootsupgrade").addItemFlags(ItemFlag.HIDE_ATTRIBUTES).build());
                                         break;
                                     case 5:
-                                        if (currentLevel >= 260) {
+                                        if (currentLevel >= 280) {
                                             ItemStack maxLevelSword = new ItemBuilder(Material.DIAMOND_SWORD)
                                                     .setDisplayname("§7➢ Schwert Upgrade")
                                                     .setLocalizedName("swordupgrade")

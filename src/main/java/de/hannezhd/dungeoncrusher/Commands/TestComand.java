@@ -26,7 +26,7 @@ public class TestComand implements CommandExecutor {
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         if (sender instanceof Player) {
             Player player = (Player) sender;
-            player.getAttribute(Attribute.GENERIC_MAX_HEALTH).setBaseValue(10);
+            player.getAttribute(Attribute.GENERIC_MAX_HEALTH).setBaseValue(Double.parseDouble(args[0]));
         }
         return false;
     }

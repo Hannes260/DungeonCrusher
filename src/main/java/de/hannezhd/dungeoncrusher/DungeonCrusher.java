@@ -3,6 +3,7 @@ package de.hannezhd.dungeoncrusher;
 import de.hannezhd.dungeoncrusher.Commands.*;
 import de.hannezhd.dungeoncrusher.Commands.Economy.CoinsCommand;
 import de.hannezhd.dungeoncrusher.Commands.Economy.PayCommand;
+import de.hannezhd.dungeoncrusher.Commands.LevelSystem.HelmUpgradeClickListener;
 import de.hannezhd.dungeoncrusher.Commands.LevelSystem.SwordUpgradeClickListener;
 import de.hannezhd.dungeoncrusher.Commands.LevelSystem.UpgradeCommand;
 import de.hannezhd.dungeoncrusher.Commands.Shops.ShopClickListener;
@@ -86,6 +87,7 @@ public final class DungeonCrusher extends JavaPlugin {
         pluginManager.registerEvents(new MobkillListener(), this);
         pluginManager.registerEvents(new ShopClickListener(this, mysqlManager),this);
         pluginManager.registerEvents(new SwordUpgradeClickListener(this, mysqlManager),this);
+        pluginManager.registerEvents(new HelmUpgradeClickListener(this, mysqlManager),this);
     }
     public List<String> onTabComplete(CommandSender sender, Command cmd, String alias, String[] args) {
         if (cmd.getName().equalsIgnoreCase("config")) {
