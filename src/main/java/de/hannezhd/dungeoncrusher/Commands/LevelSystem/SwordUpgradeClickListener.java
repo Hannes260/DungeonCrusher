@@ -72,7 +72,7 @@ public class SwordUpgradeClickListener implements Listener {
                         int requiredNetheriteScrap = upgradeData[11];
                         int requiredNetherite = upgradeData[12];
                         Inventory upgrade = Bukkit.createInventory(null, 9*6, "§9§lUpgrades");
-                        if (currentLevel >= 260) {
+                        if (currentLevel >= 280) {
                             ItemStack maxLevelSword = new ItemBuilder(Material.DIAMOND_SWORD)
                                     .setDisplayname("§7➢ Schwert Upgrade")
                                     .setLocalizedName("swordupgrade")

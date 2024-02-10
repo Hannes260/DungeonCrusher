@@ -31,6 +31,7 @@ public class HelmUpgradeClickListener implements Listener {
         this.mysqlManager = mysqlManager;
         this.scoreboardBuilder = new ScoreboardBuilder(dungeonCrusher);
     }
+
     @EventHandler
     public void onInvClick(InventoryClickEvent event) {
         if (event.getCurrentItem() == null) return;
@@ -39,9 +40,7 @@ public class HelmUpgradeClickListener implements Listener {
             event.setCancelled(true);
             if (event.getCurrentItem().getItemMeta().hasLocalizedName()) {
                 switch (event.getCurrentItem().getItemMeta().getLocalizedName()) {
-
                     case "helmetupgrade":
-                        handleHelmUpgrade(player);
                         int currentLevel = mysqlManager.getHelmetLevel(player.getUniqueId().toString());
                         int[] upgradeData = UpgradeData.getUpgradeData(currentLevel);
                         String currentmoney = mysqlManager.getBalance(player.getUniqueId().toString());
@@ -72,17 +71,18 @@ public class HelmUpgradeClickListener implements Listener {
                         int requiredDiamond = upgradeData[10];
                         int requiredNetheriteScrap = upgradeData[11];
                         int requiredNetherite = upgradeData[12];
+                        handleHelmUpgrade(player);
                         Inventory upgrade = Bukkit.createInventory(null, 9 * 6, "§9§lUpgrades");
                         if (currentLevel >= 280) {
-                            ItemStack maxLevelSword = new ItemBuilder(Material.DIAMOND_HELMET)
-                                    .setDisplayname("§7➢ Helm Upgrade")
-                                    .setLocalizedName("helmetupgrade")
+                            ItemStack maxLevelSword = new ItemBuilder(Material.DIAMOND_SWORD)
+                                    .setDisplayname("§7➢ Schwert Upgrade")
+                                    .setLocalizedName("swordupgrade")
                                     .setLore("§7Level: §6§lMaximales Level erreicht!")
                                     .addItemFlags(ItemFlag.HIDE_ATTRIBUTES)
                                     .build();
                             upgrade.setItem(20, maxLevelSword);
-                        } else {
-                            upgrade.setItem(20, new ItemBuilder(Material.DIAMOND_HELMET).setDisplayname("§7➢ Helm Upgrade").setLocalizedName("helmetupgrade").setLore("§7Level: §6" + nextLevel,
+                        }else {
+                            upgrade.setItem(20, new ItemBuilder(Material.DIAMOND_SWORD).setDisplayname("§7➢ Schwert Upgrade").setLocalizedName("swordupgrade").setLore("§7Level: §6" + nextLevel,
                                     "§7Geld: §6" + currentmoney + "§7/§6" + requiredMoney, "§7Rohkupfer: §6" + currentRawCopper + "§7/§6" + requiredRawCopper, "§7Kupferbarren: §6" + currentCopperIngots + "§7/§6" + requiredCopperIngots,
                                     "§7Bruchstein: §6" + currentCobblestone + "§7/§6" + requiredCobblestone,
                                     "§7Stein: §6" + currentStone + "§7/§6" + requiredStone, "§7RohEisen: §6" + currentRawIron + "§7/§6" + requiredRawIron,
@@ -116,7 +116,7 @@ public class HelmUpgradeClickListener implements Listener {
 
             int[] upgradeData = UpgradeData.getUpgradeData(currentLevel);
             if (upgradeData == null) {
-                player.sendMessage(ConfigManager.getPrefix() + ConfigManager.getConfigMessage("message.upgradesword", "", ""));
+                player.sendMessage(ConfigManager.getPrefix() + ConfigManager.getConfigMessage("message.upgradehelm", "", ""));
                 return;
             }
 
@@ -163,10 +163,10 @@ public class HelmUpgradeClickListener implements Listener {
                     mysqlManager.updateItemAmount(player.getUniqueId().toString(), "diamond", currentDiamond - requiredDiamond);
                     mysqlManager.updateItemAmount(player.getUniqueId().toString(), "netherite_scrap", currentNetheriteScrap - requiredNetheriteScrap);
                     mysqlManager.updateItemAmount(player.getUniqueId().toString(), "netherite_ingot", currentNetherite - requiredNetherite);
-                    mysqlManager.updateSwordLevel(player.getUniqueId().toString(), currentLevel + 1);
+                    mysqlManager.updateHelmLevel(player.getUniqueId().toString(), currentLevel + 1);
                     giveHelmToPlayer(player, currentLevel + 1);
                     updateItems(player);
-                    player.sendMessage(ConfigManager.getPrefix() + ConfigManager.getConfigMessage("message.upgradesword"));
+                    player.sendMessage(ConfigManager.getPrefix() + ConfigManager.getConfigMessage("message.upgradehelm"));
                 } else {
                     player.sendMessage(ConfigManager.getPrefix() + ConfigManager.getConfigMessage("message.notenoughtmoneyupgrade", "", ""));
                 }
@@ -458,52 +458,52 @@ public class HelmUpgradeClickListener implements Listener {
     }
     private void updatelederhelmet(Player player, double rüstung, int level, double health) {
         ItemStack woodenhelm = new ItemStack(Material.LEATHER_HELMET);
-        AttributeModifier modifier = new AttributeModifier(UUID.randomUUID(), "generic.armor", rüstung, AttributeModifier.Operation.ADD_NUMBER);
+        AttributeModifier modifier = new AttributeModifier(UUID.randomUUID(), "generic.armor_toughness", rüstung, AttributeModifier.Operation.ADD_NUMBER);
         player.getAttribute(Attribute.GENERIC_MAX_HEALTH).setBaseValue(player.getHealth() + health);
         ItemMeta woodenmeta = woodenhelm.getItemMeta();
         woodenmeta.setDisplayName("§7<< §6LederHelm §7- §aLv."+ level + "§7>>");
         woodenmeta.setLore(Collections.singletonList("§9+"+ rüstung + " Rüstung"));
         woodenmeta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
-        woodenmeta.addAttributeModifier(Attribute.GENERIC_ARMOR, modifier);
+        woodenmeta.addAttributeModifier(Attribute.GENERIC_ARMOR_TOUGHNESS, modifier);
         woodenmeta.setUnbreakable(true);
         woodenhelm.setItemMeta(woodenmeta);
         player.getInventory().setHelmet(woodenhelm);
     }
     private void updatelederchestplate(Player player, double rüstung, int level, double health) {
         ItemStack woodenhelm = new ItemStack(Material.LEATHER_CHESTPLATE);
-        AttributeModifier modifier = new AttributeModifier(UUID.randomUUID(), "generic.armor", rüstung, AttributeModifier.Operation.ADD_NUMBER);
+        AttributeModifier modifier = new AttributeModifier(UUID.randomUUID(), "generic.armor_toughness", rüstung, AttributeModifier.Operation.ADD_NUMBER);
         player.getAttribute(Attribute.GENERIC_MAX_HEALTH).setBaseValue(player.getHealth() + health);
         ItemMeta woodenmeta = woodenhelm.getItemMeta();
         woodenmeta.setDisplayName("§7<< §6LederBrustplatte §7- §aLv."+ level + "§7>>");
         woodenmeta.setLore(Collections.singletonList("§9+"+ rüstung + " Rüstung"));
         woodenmeta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
-        woodenmeta.addAttributeModifier(Attribute.GENERIC_ARMOR, modifier);
+        woodenmeta.addAttributeModifier(Attribute.GENERIC_ARMOR_TOUGHNESS, modifier);
         woodenmeta.setUnbreakable(true);
         woodenhelm.setItemMeta(woodenmeta);
         player.getInventory().setChestplate(woodenhelm);
     }
     private void updatelederleggings(Player player, double rüstung, int level, double health) {
         ItemStack woodenhelm = new ItemStack(Material.LEATHER_LEGGINGS);
-        AttributeModifier modifier = new AttributeModifier(UUID.randomUUID(), "generic.armor", rüstung, AttributeModifier.Operation.ADD_NUMBER);
+        AttributeModifier modifier = new AttributeModifier(UUID.randomUUID(), "generic.armor_toughness", rüstung, AttributeModifier.Operation.ADD_NUMBER);
         player.getAttribute(Attribute.GENERIC_MAX_HEALTH).setBaseValue(player.getHealth() + health);
         ItemMeta woodenmeta = woodenhelm.getItemMeta();
         woodenmeta.setDisplayName("§7<< §6LederHose §7- §aLv."+ level + "§7>>");
         woodenmeta.setLore(Collections.singletonList("§9+"+ rüstung + " Rüstung"));
         woodenmeta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
-        woodenmeta.addAttributeModifier(Attribute.GENERIC_ARMOR, modifier);
+        woodenmeta.addAttributeModifier(Attribute.GENERIC_ARMOR_TOUGHNESS, modifier);
         woodenmeta.setUnbreakable(true);
         woodenhelm.setItemMeta(woodenmeta);
         player.getInventory().setLeggings(woodenhelm);
     }
     private void updatelederboots(Player player, double rüstung, int level, double health) {
         ItemStack woodenhelm = new ItemStack(Material.LEATHER_BOOTS);
-        AttributeModifier modifier = new AttributeModifier(UUID.randomUUID(), "generic.armor", rüstung, AttributeModifier.Operation.ADD_NUMBER);
+        AttributeModifier modifier = new AttributeModifier(UUID.randomUUID(), "generic.armor_toughness", rüstung, AttributeModifier.Operation.ADD_NUMBER);
         player.getAttribute(Attribute.GENERIC_MAX_HEALTH).setBaseValue(player.getHealth() + health);
         ItemMeta woodenmeta = woodenhelm.getItemMeta();
         woodenmeta.setDisplayName("§7<< §6LederSchuhe §7- §aLv."+ level + "§7>>");
         woodenmeta.setLore(Collections.singletonList("§9+"+ rüstung + " Rüstung"));
         woodenmeta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
-        woodenmeta.addAttributeModifier(Attribute.GENERIC_ARMOR, modifier);
+        woodenmeta.addAttributeModifier(Attribute.GENERIC_ARMOR_TOUGHNESS, modifier);
         woodenmeta.setUnbreakable(true);
         woodenhelm.setItemMeta(woodenmeta);
         player.getInventory().setBoots(woodenhelm);

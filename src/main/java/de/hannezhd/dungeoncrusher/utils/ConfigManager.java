@@ -69,6 +69,7 @@ public class ConfigManager {
             setDefaultIfNotSet("message.addmobkilledmoney","&7[&a+&7] &6%money%€");
             setDefaultIfNotSet("message.upgradeswordfailure", "&cUpgrade für dieses Level nicht verfügbar.");
             setDefaultIfNotSet("message.upgradesword", "&aSchwert erfolgreich aufgerüstet");
+            setDefaultIfNotSet("message.upgradehelm", "&aHelm erfolgreich aufgerüstet");
             setDefaultIfNotSet("message.notenoughtmoneyupgrade","&cDu hast nicht genügend Geld für das Upgrade!");
             setDefaultIfNotSet("message.notenoughtitemsupgrade","&cDu hast nicht genügend Ressourcen für das Upgrade!");
             setDefaultIfNotSet("message.maxlevel", "&6Du hast das Maximale Level erreicht!");
