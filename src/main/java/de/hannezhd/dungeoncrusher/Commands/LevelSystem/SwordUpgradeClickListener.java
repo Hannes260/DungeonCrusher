@@ -42,7 +42,9 @@ public class SwordUpgradeClickListener implements Listener {
                     case"swordupgrade":
                         handleSwordUpgrade(player);
                         int currentLevel = mysqlManager.getSwordLevel(player.getUniqueId().toString());
+                        int currentLevelHelmet = mysqlManager.getHelmetLevel(player.getUniqueId().toString());
                         int[] upgradeData = UpgradeData.getUpgradeData(currentLevel);
+                        int [] upgradeDataHelmet = UpgradeData.getUpgradeData(currentLevelHelmet);
                         String currentmoney = mysqlManager.getBalance(player.getUniqueId().toString());
                         int currentRawCopper = mysqlManager.getItemAmount(player.getUniqueId().toString(), "raw_copper");
                         int currentCopperIngots = mysqlManager.getItemAmount(player.getUniqueId().toString(), "copper_ingot");
@@ -56,6 +58,21 @@ public class SwordUpgradeClickListener implements Listener {
                         int currentDiamond = mysqlManager.getItemAmount(player.getUniqueId().toString(), "diamond");
                         int currentNetheriteScrap = mysqlManager.getItemAmount(player.getUniqueId().toString(), "netherite_scrap");
                         int currentNetherite = mysqlManager.getItemAmount(player.getUniqueId().toString(), "netherite_ingot");
+
+                        String nextLevelHelmet = String.valueOf(currentLevelHelmet + 1);
+                        int requiredRawCopperHelmet = upgradeDataHelmet[0];
+                        int requiredCopperIngotsHelmet = upgradeDataHelmet[1];
+                        double requiredMoneyHelmet = upgradeDataHelmet[2];
+                        int requiredCobblestoneHelmet = upgradeDataHelmet[3];
+                        int requiredStoneHelmet = upgradeDataHelmet[4];
+                        int requiredRawIronHelmet = upgradeDataHelmet[5];
+                        int requiredIronHelmet = upgradeDataHelmet[6];
+                        int requiredRawGoldHelmet = upgradeDataHelmet[7];
+                        int requiredGoldHelmet = upgradeDataHelmet[8];
+                        int requiredDiamondOreHelmet = upgradeDataHelmet[9];
+                        int requiredDiamondHelmet = upgradeDataHelmet[10];
+                        int requiredNetheriteScrapHelmet = upgradeDataHelmet[11];
+                        int requiredNetheriteHelmet = upgradeDataHelmet[12];
 
                         String nextLevel = String.valueOf(currentLevel + 1);
                         int requiredRawCopper = upgradeData[0];
@@ -90,10 +107,24 @@ public class SwordUpgradeClickListener implements Listener {
                                     "§7Diamanten: §6" + currentDiamond + "§7/§6" + requiredDiamond, "§7Netheriteplatten: §6" + currentNetheriteScrap + "§7/§6" + requiredNetheriteScrap,
                                     "§7NetheriteBarren: §6" + currentNetherite + "§6/§6" + requiredNetherite).addItemFlags(ItemFlag.HIDE_ATTRIBUTES).build());
                         }
-                        upgrade.setItem(13, new ItemBuilder(Material.DIAMOND_HELMET).setDisplayname("§7➢ Helm Upgrade").setLocalizedName("helmetupgrade").addItemFlags(ItemFlag.HIDE_ATTRIBUTES).build());
-                        upgrade.setItem(22, new ItemBuilder(Material.DIAMOND_CHESTPLATE).setDisplayname("§7➢ Chestplate Upgrade").setLocalizedName("chestplateupgrade").addItemFlags(ItemFlag.HIDE_ATTRIBUTES).build());
-                        upgrade.setItem(31, new ItemBuilder(Material.DIAMOND_LEGGINGS).setDisplayname("§7➢ Hosen Upgrade").setLocalizedName("leggingsupgrade").addItemFlags(ItemFlag.HIDE_ATTRIBUTES).build());
-                        upgrade.setItem(40, new ItemBuilder(Material.DIAMOND_BOOTS).setDisplayname("§7➢ Schuh Upgrade").setLocalizedName("bootsupgrade").addItemFlags(ItemFlag.HIDE_ATTRIBUTES).build());
+
+                        if (currentLevelHelmet >= 10) {
+                            player.sendMessage(ConfigManager.getConfigMessage("message.upgradefirstchestplate","",""));
+                            upgrade.setItem(13, new ItemBuilder(Material.BARRIER).setDisplayname("§7➢ Helm Upgrade").setLocalizedName("helmetupgrade").setLore("§cMax Level erreicht!").addItemFlags(ItemFlag.HIDE_ATTRIBUTES).build());
+                            return;
+                        }else {
+                            upgrade.setItem(13, new ItemBuilder(Material.DIAMOND_HELMET).setDisplayname("§7➢ Helm Upgrade").setLocalizedName("helmetupgrade").setLore("§7Level: §6" + nextLevelHelmet,
+                                    "§7Geld: §6" + currentmoney + "§7/§6" + requiredMoneyHelmet, "§7Rohkupfer: §6" + currentRawCopper + "§7/§6" + requiredRawCopperHelmet, "§7Kupferbarren: §6" + currentCopperIngots + "§7/§6" + requiredCopperIngotsHelmet,
+                                    "§7Bruchstein: §6" + currentCobblestone + "§7/§6" + requiredCobblestoneHelmet,
+                                    "§7Stein: §6" + currentStone + "§7/§6" + requiredStoneHelmet, "§7RohEisen: §6" + currentRawIron + "§7/§6" + requiredRawIronHelmet,
+                                    "§7Eisenbarren: §6" + currentIron + "§7/§6" + requiredIronHelmet, "§7RohGold: §6" + currentRawGold + "§7/§6" + requiredRawGoldHelmet,
+                                    "§7GoldBarren: §6" + currentGold + "§7/§6" + requiredGoldHelmet, "§7DiamantErz: §6" + currentDiamondOre + "§7/§6" + requiredDiamondOreHelmet,
+                                    "§7Diamanten: §6" + currentDiamond + "§7/§6" + requiredDiamondHelmet, "§7Netheriteplatten: §6" + currentNetheriteScrap + "§7/§6" + requiredNetheriteScrapHelmet,
+                                    "§7NetheriteBarren: §6" + currentNetherite + "§6/§6" + requiredNetheriteHelmet).addItemFlags(ItemFlag.HIDE_ATTRIBUTES).build());
+                        }
+                         upgrade.setItem(22, new ItemBuilder(Material.DIAMOND_CHESTPLATE).setDisplayname("§7➢ Chestplate Upgrade").setLocalizedName("chestplateupgrade").addItemFlags(ItemFlag.HIDE_ATTRIBUTES).build());
+                         upgrade.setItem(31, new ItemBuilder(Material.DIAMOND_LEGGINGS).setDisplayname("§7➢ Hosen Upgrade").setLocalizedName("leggingsupgrade").addItemFlags(ItemFlag.HIDE_ATTRIBUTES).build());
+                         upgrade.setItem(40, new ItemBuilder(Material.DIAMOND_BOOTS).setDisplayname("§7➢ Schuh Upgrade").setLocalizedName("bootsupgrade").addItemFlags(ItemFlag.HIDE_ATTRIBUTES).build());
                         player.openInventory(upgrade);
                         break;
                     case"schließen":
