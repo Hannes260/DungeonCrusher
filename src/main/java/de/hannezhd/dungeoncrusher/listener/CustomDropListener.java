@@ -31,19 +31,9 @@ public class CustomDropListener implements Listener {
         Player player = event.getEntity().getKiller();
         if (player != null) {
             String playerUUID = player.getUniqueId().toString();
-            if (event.getEntityType() == EntityType.ZOMBIE) {
+            if (event.getEntityType() == EntityType.FROG) {
                 double random = Math.random();
-                if (random < 0.3) {
-                    ItemStack diamond = new ItemStack(Material.DIAMOND, 1);
-
-                    int currentdiamond = mysqlManager.getItemAmount(playerUUID, "diamond");
-                    mysqlManager.updateItemAmount(playerUUID, diamond.getType().toString(), currentdiamond + diamond.getAmount());
-
-                    player.sendMessage(ConfigManager.getConfigMessage("message.additem", "%item%", diamond.getType().toString()));
-                }
-            } else if (event.getEntityType() == EntityType.FROG) {
-                double random = Math.random();
-                if (random < 0.05) {
+                if (random < 0.10) {
                     ItemStack copperingot = new ItemStack(Material.COPPER_INGOT, 1);
 
                     int currentcopperingot = mysqlManager.getItemAmount(playerUUID, "copper_ingot");
@@ -72,34 +62,41 @@ public class CustomDropListener implements Listener {
 
                     player.sendMessage(ConfigManager.getConfigMessage("message.additem", "%item%", rawcopper.getType().toString()));
                 } else if (random < 0.4) {
-
-                    double giveMoney = Math.round((random * 9.99 + 1) * 100.0) / 100.0;
-                    double newMoney;
-                    String currentMoney = mysqlManager.getBalance(player.getUniqueId().toString());
-                    currentMoney = currentMoney.replace(",", "");
-                    double money = Double.parseDouble(currentMoney);
-                    newMoney = money + giveMoney;
-                    String formattedMoney = String.format(Locale.ENGLISH, "%,.2f", newMoney);
-                    mysqlManager.updateBalance(String.valueOf(player.getUniqueId()), formattedMoney);
-                    scoreboardBuilder.updateMoney(player);
-
-                    player.sendMessage(ConfigManager.getConfigMessage("message.addmobkilledmoney", "%money%", String.valueOf(giveMoney)));
-                } else if (random < 0.65) {
-                    ItemStack coal = new ItemStack(Material.COAL, 1);
-
-                    int currentcoal = mysqlManager.getItemAmount(playerUUID, "coal");
-                    mysqlManager.updateItemAmount(playerUUID, coal.getType().toString(), currentcoal + coal.getAmount());
-
-                    ItemMeta coalmeta = coal.getItemMeta();
-                    coalmeta.setDisplayName("§bAnzahl ➝ §6" + mysqlManager.getItemAmount(player.getUniqueId().toString(), "coal"));
-                    coalmeta.addEnchant(Enchantment.KNOCKBACK, 1, true);
-                    coalmeta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
-                    coal.setItemMeta(coalmeta);
-                    player.getInventory().setItem(22, coal);
-
-                    player.sendMessage(ConfigManager.getConfigMessage("message.additem", "%item%", coal.getType().toString()));
+                 giveMoney(player, 1.0, 10.0);
+                } else if (random < 0.60) {
+                    giveItem(player, Material.COAL, 22, "coal");
                 }
             }
         }
     }
+    private void giveItem(Player player, Material material, Integer slot, String item) {
+        ItemStack items = new ItemStack(material, 1);
+        String playerUUID = player.getUniqueId().toString();
+        int currentitem = mysqlManager.getItemAmount(playerUUID, item);
+        mysqlManager.updateItemAmount(playerUUID, items.getType().toString(), currentitem + items.getAmount());
+
+        ItemMeta itemsmeta = items.getItemMeta();
+        itemsmeta.setDisplayName("§bAnzahl ➝ §6" + mysqlManager.getItemAmount(player.getUniqueId().toString(), item));
+        itemsmeta.addEnchant(Enchantment.KNOCKBACK, 1, true);
+        itemsmeta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
+        items.setItemMeta(itemsmeta);
+        player.getInventory().setItem(slot, items);
+        player.sendMessage(ConfigManager.getConfigMessage("message.additem", "%item%", items.getType().toString()));
+    }
+    private void giveMoney(Player player, double minAmount, double maxAmount){
+        double random = Math.random();
+        double range = maxAmount - minAmount;
+        double giveMoney = Math.round((random * range + minAmount) * 100.0) / 100.0;
+        double newMoney;
+        String currentMoney = mysqlManager.getBalance(player.getUniqueId().toString());
+        currentMoney = currentMoney.replace(",", "");
+        double money = Double.parseDouble(currentMoney);
+        newMoney = money + giveMoney;
+        String formattedMoney = String.format(Locale.ENGLISH, "%,.2f", newMoney);
+        mysqlManager.updateBalance(String.valueOf(player.getUniqueId()), formattedMoney);
+        scoreboardBuilder.updateMoney(player);
+
+        player.sendMessage(ConfigManager.getConfigMessage("message.addmobkilledmoney", "%money%", String.valueOf(giveMoney)));
+    }
+
 }

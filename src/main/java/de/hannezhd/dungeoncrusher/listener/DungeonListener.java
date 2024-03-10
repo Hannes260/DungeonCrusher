@@ -96,7 +96,7 @@ public class DungeonListener implements Listener {
         Material blockType = checkLocation.getBlock().getType();
 
         // Überprüfen, ob der Block an der Spawn-Position ein Grasblock ist
-        return blockType.equals(Material.GRASS_BLOCK) ||
+        return blockType.equals(Material.GRASS_BLOCK) || blockType.equals(Material.SAND) ||
                 blockType.equals(Material.COARSE_DIRT);
     }
 

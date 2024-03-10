@@ -74,6 +74,7 @@ public class MYSQLManager {
         config.addDataSourceProperty("autoclose", false);
         config.setPoolName("DungeonCrusher");
         dataSource = new HikariDataSource(config);
+        createTables();
     }
 
     public void disconnect() {
@@ -101,11 +102,12 @@ public class MYSQLManager {
                     + "deaths INT DEFAULT 0 NOT NULL,"
                     + "kills INT DEFAULT 0 NOT NULL,"
                     + "dungeon INT DEFAULT 0 NOT NULL,"
-                    + "sword_lvl INT DEFAULT 0 NOT NULL,"
-                    + "helm_lvl INT DEFAULT 0 NOT NULL,"
-                    + "chestplate_lvl INT DEFAULT 0 NOT NULL,"
-                    + "leggings_lvl INT DEFAULT 0 NOT NULL,"
-                    + "boots_lvl INT DEFAULT 0 NOT NULL"
+                    + "sword_lvl INT DEFAULT 1 NOT NULL,"
+                    + "helm_lvl INT DEFAULT 1 NOT NULL,"
+                    + "chestplate_lvl INT DEFAULT 1 NOT NULL,"
+                    + "leggings_lvl INT DEFAULT 1 NOT NULL,"
+                    + "boots_lvl INT DEFAULT 1 NOT NULL,"
+                    + "armor_lvl INT DEFAULT 1 NOT NULL"
                     + ")";
             statement.execute(createStatsTableQuery);
             String createItemsTableQuery = "CREATE TABLE IF NOT EXISTS player_items ("
@@ -452,7 +454,7 @@ public class MYSQLManager {
                         String insertQuery = "INSERT INTO player_stats (uuid, helm_lvl) VALUES (?, ?)";
                         try (PreparedStatement insertStatement = connection.prepareStatement(insertQuery)) {
                             insertStatement.setString(1, uuid);
-                            insertStatement.setInt(2, newHelmLevel);
+                            insertStatement.setInt(1, newHelmLevel);
                             insertStatement.executeUpdate();
                             insertStatement.close();
                             resultSet.close();
@@ -630,6 +632,66 @@ public class MYSQLManager {
                         try (PreparedStatement insertStatement = connection.prepareStatement(insertQuery)) {
                             insertStatement.setString(1, uuid);
                             insertStatement.setInt(2, newBootsLevel);
+                            insertStatement.executeUpdate();
+                            insertStatement.close();
+                            resultSet.close();
+                        }
+                    }
+                }
+            }
+
+            if (!connection.getAutoCommit()) {
+                connection.commit();
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public int getArmorLvl(String uuid) {
+        int armorLevel = 0;
+
+        try (Connection connection = dataSource.getConnection()){
+            String query = "SELECT armor_lvl FROM player_stats WHERE uuid = ?";
+            try (PreparedStatement statement = connection.prepareStatement(query)) {
+                statement.setString(1, uuid);
+
+                try (ResultSet resultSet = statement.executeQuery()) {
+                    if (resultSet.next()) {
+                        armorLevel = resultSet.getInt("armor_lvl");
+                        statement.close();
+                        resultSet.close();
+                    }
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return armorLevel;
+    }
+    public void updateArmorLvl(String uuid, int newArmorLevel) {
+        try (Connection connection = dataSource.getConnection()){
+            // Überprüfen, ob der Spieler bereits in der Tabelle vorhanden ist
+            String checkQuery = "SELECT uuid FROM player_stats WHERE uuid = ?";
+            try (PreparedStatement checkStatement = connection.prepareStatement(checkQuery)) {
+                checkStatement.setString(1, uuid);
+                try (ResultSet resultSet = checkStatement.executeQuery()) {
+                    if (resultSet.next()) {
+                        // Spieler existiert, also aktualisiere den Bootslevel
+                        String updateQuery = "UPDATE player_stats SET armor_lvl = ? WHERE uuid = ?";
+                        try (PreparedStatement updateStatement = connection.prepareStatement(updateQuery)) {
+                            updateStatement.setInt(1, newArmorLevel);
+                            updateStatement.setString(2, uuid);
+                            updateStatement.executeUpdate();
+                            updateStatement.close();
+                            resultSet.close();
+                        }
+                    } else {
+                        // Spieler existiert nicht, füge neuen Datensatz ein
+                        String insertQuery = "INSERT INTO player_stats (uuid, armor_lvl) VALUES (?, ?)";
+                        try (PreparedStatement insertStatement = connection.prepareStatement(insertQuery)) {
+                            insertStatement.setString(1, uuid);
+                            insertStatement.setInt(2, newArmorLevel);
                             insertStatement.executeUpdate();
                             insertStatement.close();
                             resultSet.close();
