@@ -82,7 +82,7 @@ public class ArmorUpgradeClickListener implements Listener {
                 switch (event.getCurrentItem().getItemMeta().getLocalizedName()) {
                     case "helmetupgrade":
                         Inventory upgrade = Bukkit.createInventory(null, 9 * 6, "§9§lUpgrades");
-                            if (currentLevelhelmet >= 10) {
+                            if (currentLevelhelmet >= 10)
                             player.sendMessage(ConfigManager.getPrefix() + ConfigManager.getConfigMessage("message.upgradefirstchestplate","",""));
                             upgrade.setItem(13, new ItemBuilder(Material.BARRIER).setDisplayname("§7➢ Helm Upgrade").setLocalizedName("helmetupgrade").setLore("§cMax Level erreicht!").addItemFlags(ItemFlag.HIDE_ATTRIBUTES).build());
                                 upgrade.setItem(31, new ItemBuilder(Material.DIAMOND_LEGGINGS).setDisplayname("§7➢ Hosen Upgrade").addItemFlags(ItemFlag.HIDE_ATTRIBUTES).build());
