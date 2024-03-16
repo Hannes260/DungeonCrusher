@@ -85,8 +85,8 @@ public class ArmorUpgradeClickListener implements Listener {
                             if (currentLevelhelmet >= 10) {
                             player.sendMessage(ConfigManager.getPrefix() + ConfigManager.getConfigMessage("message.upgradefirstchestplate","",""));
                             upgrade.setItem(13, new ItemBuilder(Material.BARRIER).setDisplayname("§7➢ Helm Upgrade").setLocalizedName("helmetupgrade").setLore("§cMax Level erreicht!").addItemFlags(ItemFlag.HIDE_ATTRIBUTES).build());
-                                upgrade.setItem(31, new ItemBuilder(Material.DIAMOND_LEGGINGS).setDisplayname("§7➢ Hosen Upgrade").addItemFlags(ItemFlag.HIDE_ATTRIBUTES).build());
-                                upgrade.setItem(40, new ItemBuilder(Material.DIAMOND_BOOTS).setDisplayname("§7➢ Schuh Upgrade").addItemFlags(ItemFlag.HIDE_ATTRIBUTES).build());
+                                upgrade.setItem(31, new ItemBuilder(Material.BARRIER).setDisplayname("§7➢ Hosen Upgrade").addItemFlags(ItemFlag.HIDE_ATTRIBUTES).build());
+                                upgrade.setItem(40, new ItemBuilder(Material.BARRIER).setDisplayname("§7➢ Schuh Upgrade").addItemFlags(ItemFlag.HIDE_ATTRIBUTES).build());
                                 upgrade.setItem(22, new ItemBuilder(Material.DIAMOND_CHESTPLATE).setDisplayname("§7➢ Chestplate Upgrade").setLocalizedName("chestplateupgrade").setLore("§7Level: §6" + nextLevel,
                                         "§7Geld: §6" + currentmoney + "§7/§6" + requiredMoney, "§7Rohkupfer: §6" + currentRawCopper + "§7/§6" + requiredRawCopper, "§7Kupferbarren: §6" + currentCopperIngots + "§7/§6" + requiredCopperIngots,
                                         "§7Bruchstein: §6" + currentCobblestone + "§7/§6" + requiredCobblestone,
@@ -125,9 +125,9 @@ public class ArmorUpgradeClickListener implements Listener {
                                         "§7GoldBarren: §6" + currentGold + "§7/§6" + requiredGold, "§7DiamantErz: §6" + currentDiamondOre + "§7/§6" + requiredDiamondOre,
                                         "§7Diamanten: §6" + currentDiamond + "§7/§6" + requiredDiamond, "§7Netheriteplatten: §6" + currentNetheriteScrap + "§7/§6" + requiredNetheriteScrap,
                                         "§7NetheriteBarren: §6" + currentNetherite + "§6/§6" + requiredNetherite).addItemFlags(ItemFlag.HIDE_ATTRIBUTES).build());
-                                upgrade.setItem(22, new ItemBuilder(Material.DIAMOND_CHESTPLATE).setDisplayname("§7➢ Chestplate Upgrade").addItemFlags(ItemFlag.HIDE_ATTRIBUTES).build());
-                                upgrade.setItem(31, new ItemBuilder(Material.DIAMOND_LEGGINGS).setDisplayname("§7➢ Hosen Upgrade").setLocalizedName("leggingsupgrade").addItemFlags(ItemFlag.HIDE_ATTRIBUTES).build());
-                                upgrade.setItem(40, new ItemBuilder(Material.DIAMOND_BOOTS).setDisplayname("§7➢ Schuh Upgrade").setLocalizedName("bootsupgrade").addItemFlags(ItemFlag.HIDE_ATTRIBUTES).build());
+                                upgrade.setItem(22, new ItemBuilder(Material.BARRIER).setDisplayname("§7➢ Chestplate Upgrade").addItemFlags(ItemFlag.HIDE_ATTRIBUTES).build());
+                                upgrade.setItem(31, new ItemBuilder(Material.BARRIER).setDisplayname("§7➢ Hosen Upgrade").addItemFlags(ItemFlag.HIDE_ATTRIBUTES).build());
+                                upgrade.setItem(40, new ItemBuilder(Material.BARRIER).setDisplayname("§7➢ Schuh Upgrade").addItemFlags(ItemFlag.HIDE_ATTRIBUTES).build());
                                 if (currentLevelSword >= 280) {
                                     ItemStack maxLevelSword = new ItemBuilder(Material.DIAMOND_SWORD)
                                             .setDisplayname("§7➢ Schwert Upgrade")
@@ -153,10 +153,10 @@ public class ArmorUpgradeClickListener implements Listener {
                         upgrade = Bukkit.createInventory(null, 9 * 6, "§9§lUpgrades");
                         if (currentLevel >= 20) {
                             player.sendMessage(ConfigManager.getConfigMessage("message.upgradefirstleggings","",""));
-                            upgrade.setItem(22, new ItemBuilder(Material.BARRIER).setDisplayname("§7➢ Chestplate Upgrade").setLocalizedName("chestplateupgrade").setLore("§cMax Level erreicht!").addItemFlags(ItemFlag.HIDE_ATTRIBUTES).build());
-                            upgrade.setItem(13, new ItemBuilder(Material.BARRIER).setDisplayname("§7➢ Helm Upgrade").setLocalizedName("helmetupgrade").setLore("§cMax Level erreicht!").addItemFlags(ItemFlag.HIDE_ATTRIBUTES).build());
+                            upgrade.setItem(22, new ItemBuilder(Material.BARRIER).setDisplayname("§7➢ Chestplate Upgrade").setLore("§cMax Level erreicht!").addItemFlags(ItemFlag.HIDE_ATTRIBUTES).build());
+                            upgrade.setItem(13, new ItemBuilder(Material.BARRIER).setDisplayname("§7➢ Helm Upgrade").setLore("§cMax Level erreicht!").addItemFlags(ItemFlag.HIDE_ATTRIBUTES).build());
+                            upgrade.setItem(40, new ItemBuilder(Material.BARRIER).setDisplayname("§7➢ Schuh Upgrade").addItemFlags(ItemFlag.HIDE_ATTRIBUTES).build());
                             upgrade.setItem(31, new ItemBuilder(Material.DIAMOND_LEGGINGS).setDisplayname("§7➢ Hosen Upgrade").setLocalizedName("leggingsupgrade").addItemFlags(ItemFlag.HIDE_ATTRIBUTES).build());
-                            upgrade.setItem(40, new ItemBuilder(Material.DIAMOND_BOOTS).setDisplayname("§7➢ Schuh Upgrade").setLocalizedName("bootsupgrade").addItemFlags(ItemFlag.HIDE_ATTRIBUTES).build());
                             if (currentLevelSword >= 280) {
                                 ItemStack maxLevelSword = new ItemBuilder(Material.DIAMOND_SWORD)
                                         .setDisplayname("§7➢ Schwert Upgrade")
@@ -179,8 +179,8 @@ public class ArmorUpgradeClickListener implements Listener {
                             return;
                         }else {
                             upgrade.setItem(13, new ItemBuilder(Material.BARRIER).setDisplayname("§7➢ Helm Upgrade").setLocalizedName("helmetupgrade").setLore("§cMax Level erreicht!").addItemFlags(ItemFlag.HIDE_ATTRIBUTES).build());
-                            upgrade.setItem(31, new ItemBuilder(Material.DIAMOND_LEGGINGS).setDisplayname("§7➢ Hosen Upgrade").setLocalizedName("leggingsupgrade").addItemFlags(ItemFlag.HIDE_ATTRIBUTES).build());
-                            upgrade.setItem(40, new ItemBuilder(Material.DIAMOND_BOOTS).setDisplayname("§7➢ Schuh Upgrade").setLocalizedName("bootsupgrade").addItemFlags(ItemFlag.HIDE_ATTRIBUTES).build());
+                            upgrade.setItem(31, new ItemBuilder(Material.BARRIER).setDisplayname("§7➢ Hosen Upgrade").addItemFlags(ItemFlag.HIDE_ATTRIBUTES).build());
+                            upgrade.setItem(40, new ItemBuilder(Material.BARRIER).setDisplayname("§7➢ Schuh Upgrade").addItemFlags(ItemFlag.HIDE_ATTRIBUTES).build());
                             upgrade.setItem(22, new ItemBuilder(Material.DIAMOND_CHESTPLATE).setDisplayname("§7➢ Chestplate Upgrade").setLocalizedName("chestplateupgrade").setLore("§7Level: §6" + nextLevelChestplate,
                                     "§7Geld: §6" + currentmoney + "§7/§6" + requiredMoney, "§7Rohkupfer: §6" + currentRawCopper + "§7/§6" + requiredRawCopper, "§7Kupferbarren: §6" + currentCopperIngots + "§7/§6" + requiredCopperIngots,
                                     "§7Bruchstein: §6" + currentCobblestone + "§7/§6" + requiredCobblestone,
@@ -215,9 +215,9 @@ public class ArmorUpgradeClickListener implements Listener {
                         upgrade = Bukkit.createInventory(null, 9 * 6, "§9§lUpgrades");
                         if (currentLevel >= 30) {
                             player.sendMessage(ConfigManager.getConfigMessage("message.upgradefirstleggings","",""));
-                            upgrade.setItem(22, new ItemBuilder(Material.BARRIER).setDisplayname("§7➢ Chestplate Upgrade").setLocalizedName("chestplateupgrade").setLore("§cMax Level erreicht!").addItemFlags(ItemFlag.HIDE_ATTRIBUTES).build());
-                            upgrade.setItem(13, new ItemBuilder(Material.BARRIER).setDisplayname("§7➢ Helm Upgrade").setLocalizedName("helmetupgrade").setLore("§cMax Level erreicht!").addItemFlags(ItemFlag.HIDE_ATTRIBUTES).build());
-                            upgrade.setItem(31, new ItemBuilder(Material.BARRIER).setDisplayname("§7➢ Hosen Upgrade").setLocalizedName("leggingsupgrade").addItemFlags(ItemFlag.HIDE_ATTRIBUTES).build());
+                            upgrade.setItem(22, new ItemBuilder(Material.BARRIER).setDisplayname("§7➢ Chestplate Upgrade").setLore("§cMax Level erreicht!").addItemFlags(ItemFlag.HIDE_ATTRIBUTES).build());
+                            upgrade.setItem(13, new ItemBuilder(Material.BARRIER).setDisplayname("§7➢ Helm Upgrade").setLore("§cMax Level erreicht!").addItemFlags(ItemFlag.HIDE_ATTRIBUTES).build());
+                            upgrade.setItem(31, new ItemBuilder(Material.BARRIER).setDisplayname("§7➢ Hosen Upgrade").setLore("§cMax Level Erreicht").addItemFlags(ItemFlag.HIDE_ATTRIBUTES).build());
                             upgrade.setItem(40, new ItemBuilder(Material.DIAMOND_BOOTS).setDisplayname("§7➢ Schuh Upgrade").setLocalizedName("bootsupgrade").addItemFlags(ItemFlag.HIDE_ATTRIBUTES).build());
                             if (currentLevelSword >= 280) {
                                 ItemStack maxLevelSword = new ItemBuilder(Material.DIAMOND_SWORD)
@@ -240,9 +240,9 @@ public class ArmorUpgradeClickListener implements Listener {
                             player.openInventory(upgrade);
                             return;
                         }else {
-                            upgrade.setItem(13, new ItemBuilder(Material.BARRIER).setDisplayname("§7➢ Helm Upgrade").setLocalizedName("helmetupgrade").setLore("§cMax Level erreicht!").addItemFlags(ItemFlag.HIDE_ATTRIBUTES).build());
-                            upgrade.setItem(22, new ItemBuilder(Material.BARRIER).setDisplayname("§7➢ Chestplate Upgrade").setLocalizedName("chestplateupgrade").setLore("§cMax Level erreicht!").addItemFlags(ItemFlag.HIDE_ATTRIBUTES).build());
-                            upgrade.setItem(40, new ItemBuilder(Material.DIAMOND_BOOTS).setDisplayname("§7➢ Schuh Upgrade").setLocalizedName("bootsupgrade").addItemFlags(ItemFlag.HIDE_ATTRIBUTES).build());
+                            upgrade.setItem(13, new ItemBuilder(Material.BARRIER).setDisplayname("§7➢ Helm Upgrade").setLore("§cMax Level erreicht!").addItemFlags(ItemFlag.HIDE_ATTRIBUTES).build());
+                            upgrade.setItem(22, new ItemBuilder(Material.BARRIER).setDisplayname("§7➢ Chestplate Upgrade").setLore("§cMax Level erreicht!").addItemFlags(ItemFlag.HIDE_ATTRIBUTES).build());
+                            upgrade.setItem(40, new ItemBuilder(Material.BARRIER).setDisplayname("§7➢ Schuh Upgrade").setLore("§cMax Level Erreicht").addItemFlags(ItemFlag.HIDE_ATTRIBUTES).build());
                             upgrade.setItem(31, new ItemBuilder(Material.DIAMOND_LEGGINGS).setDisplayname("§7➢ Hosen Upgrade").setLocalizedName("leggingsupgrade").setLore("§7Level: §6" + nextLevelLeggings,
                                     "§7Geld: §6" + currentmoney + "§7/§6" + requiredMoney, "§7Rohkupfer: §6" + currentRawCopper + "§7/§6" + requiredRawCopper, "§7Kupferbarren: §6" + currentCopperIngots + "§7/§6" + requiredCopperIngots,
                                     "§7Bruchstein: §6" + currentCobblestone + "§7/§6" + requiredCobblestone,
@@ -277,7 +277,9 @@ public class ArmorUpgradeClickListener implements Listener {
                         upgrade = Bukkit.createInventory(null, 9 * 6, "§9§lUpgrades");
                         if (currentLevel >= 45) {
                             player.sendMessage(ConfigManager.getConfigMessage("message.upgradefirsthelmet","",""));
-                            upgrade.setItem(22, new ItemBuilder(Material.BARRIER).setDisplayname("§7➢ Chestplate Upgrade").setLocalizedName("chestplateupgrade").setLore("§cMax Level erreicht!").addItemFlags(ItemFlag.HIDE_ATTRIBUTES).build());
+                            upgrade.setItem(22, new ItemBuilder(Material.BARRIER).setDisplayname("§7➢ Chestplate Upgrade").setLore("§cMax Level Erreicht").addItemFlags(ItemFlag.HIDE_ATTRIBUTES).build());
+                            upgrade.setItem(31, new ItemBuilder(Material.BARRIER).setDisplayname("§7➢ Hosen Upgrade").setLore("§cMax Level Erreicht").addItemFlags(ItemFlag.HIDE_ATTRIBUTES).build());
+                            upgrade.setItem(40, new ItemBuilder(Material.BARRIER).setDisplayname("§7➢ Schuh Upgrade").setLore("§cMax Level Erreicht").addItemFlags(ItemFlag.HIDE_ATTRIBUTES).build());
                             upgrade.setItem(13, new ItemBuilder(Material.DIAMOND_HELMET).setDisplayname("§7➢ Helm Upgrade").setLocalizedName("helmetupgrade").setLore("§7Level: §6" + nextLevelHelmet,
                                     "§7Geld: §6" + currentmoney + "§7/§6" + requiredMoney, "§7Rohkupfer: §6" + currentRawCopper + "§7/§6" + requiredRawCopper, "§7Kupferbarren: §6" + currentCopperIngots + "§7/§6" + requiredCopperIngots,
                                     "§7Bruchstein: §6" + currentCobblestone + "§7/§6" + requiredCobblestone,
@@ -286,8 +288,7 @@ public class ArmorUpgradeClickListener implements Listener {
                                     "§7GoldBarren: §6" + currentGold + "§7/§6" + requiredGold, "§7DiamantErz: §6" + currentDiamondOre + "§7/§6" + requiredDiamondOre,
                                     "§7Diamanten: §6" + currentDiamond + "§7/§6" + requiredDiamond, "§7Netheriteplatten: §6" + currentNetheriteScrap + "§7/§6" + requiredNetheriteScrap,
                                     "§7NetheriteBarren: §6" + currentNetherite + "§6/§6" + requiredNetherite).addItemFlags(ItemFlag.HIDE_ATTRIBUTES).build());
-                            upgrade.setItem(31, new ItemBuilder(Material.BARRIER).setDisplayname("§7➢ Hosen Upgrade").setLocalizedName("leggingsupgrade").addItemFlags(ItemFlag.HIDE_ATTRIBUTES).build());
-                            upgrade.setItem(40, new ItemBuilder(Material.BARRIER).setDisplayname("§7➢ Schuh Upgrade").setLocalizedName("bootsupgrade").addItemFlags(ItemFlag.HIDE_ATTRIBUTES).build());
+
                             if (currentLevelSword >= 280) {
                                 ItemStack maxLevelSword = new ItemBuilder(Material.DIAMOND_SWORD)
                                         .setDisplayname("§7➢ Schwert Upgrade")
@@ -309,7 +310,10 @@ public class ArmorUpgradeClickListener implements Listener {
                             player.openInventory(upgrade);
                             return;
                         }else {
-                            upgrade.setItem(13, new ItemBuilder(Material.DIAMOND_HELMET).setDisplayname("§7➢ Schuh Upgrade").setLocalizedName("bootsupgrade").setLore("§7Level: §6" + nextLevelboots,
+                            upgrade.setItem(13, new ItemBuilder(Material.BARRIER).setDisplayname("§7➢ Helm Upgrade").setLore("§cMax Level erreicht!").addItemFlags(ItemFlag.HIDE_ATTRIBUTES).build());
+                            upgrade.setItem(22, new ItemBuilder(Material.BARRIER).setDisplayname("§7➢ Chestplate Upgrade").setLore("§cMax Level erreicht!").addItemFlags(ItemFlag.HIDE_ATTRIBUTES).build());
+                            upgrade.setItem(31, new ItemBuilder(Material.BARRIER).setDisplayname("§7➢ Hosen Upgrade").setLore("§cMax Level Erreicht").addItemFlags(ItemFlag.HIDE_ATTRIBUTES).build());
+                            upgrade.setItem(40, new ItemBuilder(Material.DIAMOND_BOOTS).setDisplayname("§7➢ Schuh Upgrade").setLocalizedName("bootsupgrade").setLore("§7Level: §6" + nextLevelboots,
                                     "§7Geld: §6" + currentmoney + "§7/§6" + requiredMoney, "§7Rohkupfer: §6" + currentRawCopper + "§7/§6" + requiredRawCopper, "§7Kupferbarren: §6" + currentCopperIngots + "§7/§6" + requiredCopperIngots,
                                     "§7Bruchstein: §6" + currentCobblestone + "§7/§6" + requiredCobblestone,
                                     "§7Stein: §6" + currentStone + "§7/§6" + requiredStone, "§7RohEisen: §6" + currentRawIron + "§7/§6" + requiredRawIron,
@@ -317,8 +321,26 @@ public class ArmorUpgradeClickListener implements Listener {
                                     "§7GoldBarren: §6" + currentGold + "§7/§6" + requiredGold, "§7DiamantErz: §6" + currentDiamondOre + "§7/§6" + requiredDiamondOre,
                                     "§7Diamanten: §6" + currentDiamond + "§7/§6" + requiredDiamond, "§7Netheriteplatten: §6" + currentNetheriteScrap + "§7/§6" + requiredNetheriteScrap,
                                     "§7NetheriteBarren: §6" + currentNetherite + "§6/§6" + requiredNetherite).addItemFlags(ItemFlag.HIDE_ATTRIBUTES).build());
-                            handlebootsUpgrade(player);
-                            player.openInventory(upgrade);
+                            if (currentLevelSword >= 280) {
+                                ItemStack maxLevelSword = new ItemBuilder(Material.DIAMOND_SWORD)
+                                        .setDisplayname("§7➢ Schwert Upgrade")
+                                        .setLocalizedName("swordupgrade")
+                                        .setLore("§7Level: §6§lMaximales Level erreicht!")
+                                        .addItemFlags(ItemFlag.HIDE_ATTRIBUTES)
+                                        .build();
+                                upgrade.setItem(20, maxLevelSword);
+                            } else {
+                                upgrade.setItem(20, new ItemBuilder(Material.DIAMOND_SWORD).setDisplayname("§7➢ Schwert Upgrade").setLocalizedName("swordupgrade").setLore("§7Level: §6" + nextLevelSword,
+                                        "§7Geld: §6" + currentmoney + "§7/§6" + requiredMoney, "§7Rohkupfer: §6" + currentRawCopper + "§7/§6" + requiredRawCopper, "§7Kupferbarren: §6" + currentCopperIngots + "§7/§6" + requiredCopperIngots,
+                                        "§7Bruchstein: §6" + currentCobblestone + "§7/§6" + requiredCobblestone,
+                                        "§7Stein: §6" + currentStone + "§7/§6" + requiredStone, "§7RohEisen: §6" + currentRawIron + "§7/§6" + requiredRawIron,
+                                        "§7Eisenbarren: §6" + currentIron + "§7/§6" + requiredIron, "§7RohGold: §6" + currentRawGold + "§7/§6" + requiredRawGold,
+                                        "§7GoldBarren: §6" + currentGold + "§7/§6" + requiredGold, "§7DiamantErz: §6" + currentDiamondOre + "§7/§6" + requiredDiamondOre,
+                                        "§7Diamanten: §6" + currentDiamond + "§7/§6" + requiredDiamond, "§7Netheriteplatten: §6" + currentNetheriteScrap + "§7/§6" + requiredNetheriteScrap,
+                                        "§7NetheriteBarren: §6" + currentNetherite + "§6/§6" + requiredNetherite).addItemFlags(ItemFlag.HIDE_ATTRIBUTES).build());
+                                handlebootsUpgrade(player);
+                                player.openInventory(upgrade);
+                            }
                         }
                         break;
                     case "schließen":
