@@ -49,18 +49,6 @@ public class Joinlistener implements Listener {
             swordmeta.setUnbreakable(true);
             sword.setItemMeta(swordmeta);
             player.getInventory().setItem(0, sword);
-            ItemStack helmet = new ItemStack(Material.LEATHER_HELMET);
-            player.getInventory().setHelmet(helmet);
-            mysqlManager.updateHelmLevel(String.valueOf(player.getUniqueId()),1);
-            ItemStack chestplate = new ItemStack(Material.LEATHER_CHESTPLATE);
-            player.getInventory().setChestplate(chestplate);
-            mysqlManager.updateChestplateLevel(String.valueOf(player.getUniqueId()),1);
-            ItemStack leggings = new ItemStack(Material.LEATHER_LEGGINGS);
-            player.getInventory().setLeggings(leggings);
-            mysqlManager.updateLeggingsLevel(String.valueOf(player.getUniqueId()),1);
-            ItemStack boots = new ItemStack(Material.LEATHER_BOOTS);
-            player.getInventory().setBoots(boots);
-            mysqlManager.updateBootsLevel(String.valueOf(player.getUniqueId()), 1);
         }
             ItemStack rawcopper = new ItemStack(Material.RAW_COPPER);
             ItemMeta rawcoppermeta = rawcopper.getItemMeta();

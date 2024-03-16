@@ -79,8 +79,9 @@ public class ConfigManager {
             setDefaultIfNotSet("message.notenoughtitemsupgrade","&cDu hast nicht genügend Ressourcen für das Upgrade!");
             setDefaultIfNotSet("message.maxlevel", "&6Du hast das Maximale Level erreicht!");
             setDefaultIfNotSet("message.upgradefirstchestplate", "&6Level als nächstes deine Brustplatte.");
+            setDefaultIfNotSet("message.upgradefirstleggings", "&6Level als nächstes deine Hose");
+            setDefaultIfNotSet("message.upgradefirsthelmet", "&6Level als nächstes deinen Helm");
             setDefaultIfNotSet("message.scoreboardprefix", "&x&f&b&1&b&b&6D&x&f&b&1&e&a&du&x&f&b&2&1&a&4n&x&f&b&2&4&9&bg&x&f&c&2&7&9&2e&x&f&c&2&a&8&9o&x&f&c&2&d&8&0n&x&f&c&2&f&7&7C&x&f&c&3&2&6&er&x&f&c&3&5&6&5u&x&f&d&3&8&5&cs&x&f&d&3&b&5&3h&x&f&d&3&e&4&ae&x&f&d&4&1&4&1r");
-            createExampleMobIfNotExists();
             config.options().copyDefaults(true);
             this.plugin.saveConfig();
         }
@@ -140,41 +141,6 @@ public class ConfigManager {
         } else {
             // Handle den Fall, wenn die Nachricht null ist
             return "Keine Nachricht gefunden";
-        }
-    }
-    public ConfigurationSection getCustomDropsConfig() {
-        FileConfiguration config = plugin.getConfig();
-        if (config != null) {
-            if (config.isConfigurationSection("customDrops.mobs")) {
-                return config.getConfigurationSection("customDrops.mobs");
-            } else {
-                System.out.println("Abschnitt 'customDrops.mobs' in der Konfigurationsdatei nicht gefunden.");
-            }
-        } else {
-            System.out.println("Konfigurationsdatei nicht geladen.");
-        }
-        return null;
-    }
-    public void createExampleMobIfNotExists() {
-        FileConfiguration config = plugin.getConfig();
-        if (config != null) {
-            String mobName = "Frog"; // Name des Beispiel-Mobs
-            String path = "customDrops.mobs." + mobName;
-
-            // Überprüfen, ob der Mob bereits in der Konfiguration existiert
-            if (!config.isSet(path)) {
-                // Mob-Daten erstellen und in der Konfiguration speichern
-                config.set(path + ".money.minAmount", 1.0);
-                config.set(path + ".money.maxAmount", 10.0);
-                config.set(path + ".money.chance", 0.4);
-
-                config.set(path + ".drops.drop1.material", "COAL");
-                config.set(path + ".drops.drop1.amount", 22);
-                config.set(path + ".drops.drop1.chance", 0.6);
-
-                // Speichern der Konfigurationsänderungen
-                plugin.saveConfig();
-            }
         }
     }
 }

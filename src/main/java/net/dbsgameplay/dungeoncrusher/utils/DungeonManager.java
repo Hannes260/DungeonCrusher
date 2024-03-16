@@ -43,23 +43,4 @@ public class DungeonManager {
 
         return false;
     }
-    public void spawnRandomMob(String dungeonName, Location location) {
-        List<String> mobTypes = locationConfigManager.getConfiguration().getStringList(dungeonName + ".mobTypes");
-        double spawnChance = locationConfigManager.getConfiguration().getDouble(dungeonName + ".spawnChance");
-
-        // Überprüfe, ob Mob-Typen und Spawn-Chance konfiguriert wurden
-        if (mobTypes.isEmpty() || spawnChance <= 0.0) {
-            return;
-        }
-
-        // Zufällig entscheiden, ob ein Mob spawnen soll
-        if (random.nextDouble() <= spawnChance) {
-            // Wähle einen zufälligen Mob-Typ aus
-            String randomMobType = mobTypes.get(random.nextInt(mobTypes.size()));
-
-            // Erzeuge den Mob an der angegebenen Position
-            World world = location.getWorld();
-            LivingEntity mob = (LivingEntity) world.spawnEntity(location, EntityType.valueOf(randomMobType.toUpperCase()));
-        }
-    }
 }

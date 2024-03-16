@@ -1,6 +1,9 @@
 package net.dbsgameplay.dungeoncrusher.Commands;
 
+import net.dbsgameplay.dungeoncrusher.DungeonCrusher;
 import net.dbsgameplay.dungeoncrusher.utils.ConfigManager;
+import net.dbsgameplay.dungeoncrusher.utils.DropsConfigManager;
+import net.dbsgameplay.dungeoncrusher.utils.LocationConfigManager;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;

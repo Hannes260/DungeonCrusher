@@ -40,9 +40,12 @@ public class UpgradeCommand implements CommandExecutor {
                 upgrade.setItem(53, (new PlayerHead(player.getName(), "§9Dein Geld: §a" + currentmoney + "§9€", new String[0])).getItemStack());
                 this.fillEmptySlots(upgrade, Material.LIGHT_GRAY_STAINED_GLASS_PANE, 1);
                 player.openInventory(upgrade);
-
+                int currentLevelLeggings = mysqlManager.getLeggingsLevel(player.getUniqueId().toString());
+                int currentLevelChestplate = mysqlManager.getChestplateLevel(player.getUniqueId().toString());
                 int currentLevel = mysqlManager.getSwordLevel(player.getUniqueId().toString());
                 int currentLevelHelmet = mysqlManager.getHelmetLevel(player.getUniqueId().toString());
+                String nextLevelChestplate = String.valueOf(currentLevelChestplate + 1);
+                String nextLevelLeggings = String.valueOf(currentLevelLeggings + 1);
                 int[] upgradeData = UpgradeData.getUpgradeData(currentLevel);
                 int [] upgradeDataHelmet = UpgradeData.getUpgradeData(currentLevelHelmet);
 
@@ -120,10 +123,30 @@ public class UpgradeCommand implements CommandExecutor {
                                 }
                                 break;
                             case 2:
-                                upgrade.setItem(22, new ItemBuilder(Material.DIAMOND_CHESTPLATE).setDisplayname("§7➢ Chestplate Upgrade").setLocalizedName("chestplateupgrade").addItemFlags(ItemFlag.HIDE_ATTRIBUTES).build());
+                                if (currentLevelChestplate >= 280) {
+                                    upgrade.setItem(22, new ItemBuilder(Material.DIAMOND_CHESTPLATE).setDisplayname("§7➢ Chestplate Upgrade").setLocalizedName("chestplateupgrade").addItemFlags(ItemFlag.HIDE_ATTRIBUTES).build());
+                                }else if (currentLevelChestplate >= 20) {
+                                    upgrade.setItem(22, new ItemBuilder(Material.BARRIER).setDisplayname("§7➢ Chestplate Upgrade").setLocalizedName("chestplateupgrade").setLore("§cMax Level erreicht!").addItemFlags(ItemFlag.HIDE_ATTRIBUTES).build());
+                                }else {
+                                    upgrade.setItem(22, new ItemBuilder(Material.DIAMOND_CHESTPLATE).setDisplayname("§7➢ Chestplate Upgrade").setLocalizedName("chestplateupgrade").setLore("§7Level: §6" + nextLevel,
+                                            "§7Geld: §6" + currentmoney + "§7/§6" + requiredMoney, "§7Rohkupfer: §6" + currentRawCopper + "§7/§6" + requiredRawCopper, "§7Kupferbarren: §6" + currentCopperIngots + "§7/§6" + requiredCopperIngots,
+                                            "§7Bruchstein: §6" + currentCobblestone + "§7/§6" + requiredCobblestone,
+                                            "§7Stein: §6" + currentStone + "§7/§6" + requiredStone, "§7RohEisen: §6" + currentRawIron + "§7/§6" + requiredRawIron,
+                                            "§7Eisenbarren: §6" + currentIron + "§7/§6" + requiredIron, "§7RohGold: §6" + currentRawGold + "§7/§6" + requiredRawGold,
+                                            "§7GoldBarren: §6" + currentGold + "§7/§6" + requiredGold, "§7DiamantErz: §6" + currentDiamondOre + "§7/§6" + requiredDiamondOre,
+                                            "§7Diamanten: §6" + currentDiamond + "§7/§6" + requiredDiamond, "§7Netheriteplatten: §6" + currentNetheriteScrap + "§7/§6" + requiredNetheriteScrap,
+                                            "§7NetheriteBarren: §6" + currentNetherite + "§6/§6" + requiredNetherite).addItemFlags(ItemFlag.HIDE_ATTRIBUTES).build());
+                                }
                                 break;
                             case 3:
-                                upgrade.setItem(31, new ItemBuilder(Material.DIAMOND_LEGGINGS).setDisplayname("§7➢ Hosen Upgrade").setLocalizedName("leggingsupgrade").addItemFlags(ItemFlag.HIDE_ATTRIBUTES).build());
+                                upgrade.setItem(31, new ItemBuilder(Material.DIAMOND_LEGGINGS).setDisplayname("§7➢ Hosen Upgrade").setLocalizedName("leggingsupgrade").setLore("§7Level: §6" + nextLevelLeggings,
+                                        "§7Geld: §6" + currentmoney + "§7/§6" + requiredMoney, "§7Rohkupfer: §6" + currentRawCopper + "§7/§6" + requiredRawCopper, "§7Kupferbarren: §6" + currentCopperIngots + "§7/§6" + requiredCopperIngots,
+                                        "§7Bruchstein: §6" + currentCobblestone + "§7/§6" + requiredCobblestone,
+                                        "§7Stein: §6" + currentStone + "§7/§6" + requiredStone, "§7RohEisen: §6" + currentRawIron + "§7/§6" + requiredRawIron,
+                                        "§7Eisenbarren: §6" + currentIron + "§7/§6" + requiredIron, "§7RohGold: §6" + currentRawGold + "§7/§6" + requiredRawGold,
+                                        "§7GoldBarren: §6" + currentGold + "§7/§6" + requiredGold, "§7DiamantErz: §6" + currentDiamondOre + "§7/§6" + requiredDiamondOre,
+                                        "§7Diamanten: §6" + currentDiamond + "§7/§6" + requiredDiamond, "§7Netheriteplatten: §6" + currentNetheriteScrap + "§7/§6" + requiredNetheriteScrap,
+                                        "§7NetheriteBarren: §6" + currentNetherite + "§6/§6" + requiredNetherite).addItemFlags(ItemFlag.HIDE_ATTRIBUTES).build());
                                 break;
                             case 4:
                                 upgrade.setItem(40, new ItemBuilder(Material.DIAMOND_BOOTS).setDisplayname("§7➢ Schuh Upgrade").setLocalizedName("bootsupgrade").addItemFlags(ItemFlag.HIDE_ATTRIBUTES).build());

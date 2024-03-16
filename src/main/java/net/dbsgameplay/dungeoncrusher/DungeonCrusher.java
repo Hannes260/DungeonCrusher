@@ -3,7 +3,7 @@ package net.dbsgameplay.dungeoncrusher;
 import net.dbsgameplay.dungeoncrusher.Commands.*;
 import net.dbsgameplay.dungeoncrusher.Commands.Economy.CoinsCommand;
 import net.dbsgameplay.dungeoncrusher.Commands.Economy.PayCommand;
-import net.dbsgameplay.dungeoncrusher.Commands.LevelSystem.HelmUpgradeClickListener;
+import net.dbsgameplay.dungeoncrusher.Commands.LevelSystem.ArmorUpgradeClickListener;
 import net.dbsgameplay.dungeoncrusher.Commands.LevelSystem.SwordUpgradeClickListener;
 import net.dbsgameplay.dungeoncrusher.Commands.LevelSystem.UpgradeCommand;
 import net.dbsgameplay.dungeoncrusher.Commands.Shops.ShopClickListener;
@@ -26,6 +26,7 @@ public final class DungeonCrusher extends JavaPlugin {
     private static DungeonCrusher instance;
     private ConfigManager configManager;
     private LocationConfigManager locationconfigManager;
+    private DropsConfigManager dropsConfigManager;
     private MarkierungsManager markierungsManager;
     MobHealthBuilder healthBuilder = new MobHealthBuilder();
     MobDamageListener damageListener = new MobDamageListener(healthBuilder);
@@ -34,6 +35,7 @@ public final class DungeonCrusher extends JavaPlugin {
     public void onEnable() {
         instance = this;
         this.configManager = new ConfigManager(this);
+        dropsConfigManager = new DropsConfigManager(this);
         mysqlManager = MYSQLManager.getInstance(getDataFolder());
         locationconfigManager = new LocationConfigManager(this);
         MarkierungsManager markierungsManager = new MarkierungsManager(locationconfigManager);
@@ -81,12 +83,12 @@ public final class DungeonCrusher extends JavaPlugin {
         pluginManager.registerEvents(new DungeonProtectionListener(),this);
         pluginManager.registerEvents(new SavezoneListener(savezoneManager), this);
         pluginManager.registerEvents(new MobDamageListener(healthBuilder), this);
-        pluginManager.registerEvents(new CustomDropListener(this,mysqlManager,configManager), this);
+        pluginManager.registerEvents(new CustomDropListener(this,mysqlManager,dropsConfigManager), this);
         pluginManager.registerEvents(new DungeonListener(locationconfigManager),this);
         pluginManager.registerEvents(new MobkillListener(), this);
         pluginManager.registerEvents(new ShopClickListener(this, mysqlManager),this);
         pluginManager.registerEvents(new SwordUpgradeClickListener(this, mysqlManager),this);
-        pluginManager.registerEvents(new HelmUpgradeClickListener(this, mysqlManager),this);
+        pluginManager.registerEvents(new ArmorUpgradeClickListener(this, mysqlManager),this);
     }
     public List<String> onTabComplete(CommandSender sender, Command cmd, String alias, String[] args) {
         if (cmd.getName().equalsIgnoreCase("config")) {
@@ -137,5 +139,11 @@ public final class DungeonCrusher extends JavaPlugin {
     }
     public static ConfigManager getConfigManager() {
         return plugin.configManager;
+    }
+    public static DropsConfigManager getDropsManager() {
+        return plugin.dropsConfigManager;
+    }
+    public static LocationConfigManager locationConfigManager() {
+        return plugin.locationconfigManager;
     }
 }
