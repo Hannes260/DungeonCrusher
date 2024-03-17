@@ -43,7 +43,7 @@ public class ArmorUpgradeClickListener implements Listener {
             int currentLevelBoots = mysqlManager.getBootsLevel(player.getUniqueId().toString());
             int currentLevel = mysqlManager.getArmorLvl(player.getUniqueId().toString());
             int currentLevelSword = mysqlManager.getSwordLevel(player.getUniqueId().toString());
-            String nextLevelHelmet = String.valueOf(currentLevelhelmet +1);
+            String nextLevelHelmet = String.valueOf(currentLevelhelmet + 1);
             String nextLevelSword = String.valueOf(currentLevelSword + 1);
             String nextLevelChestplate = String.valueOf(currentLevelChestplate + 1);
             String nextLevelLeggings = String.valueOf(currentLevelLeggings + 1);
@@ -61,7 +61,6 @@ public class ArmorUpgradeClickListener implements Listener {
             int currentDiamond = mysqlManager.getItemAmount(player.getUniqueId().toString(), "diamond");
             int currentNetheriteScrap = mysqlManager.getItemAmount(player.getUniqueId().toString(), "netherite_scrap");
             int currentNetherite = mysqlManager.getItemAmount(player.getUniqueId().toString(), "netherite_ingot");
-
             int [] upgradeData = UpgradeData.getUpgradeData(currentLevel);
             String nextLevel = String.valueOf(currentLevel + 1);
             int requiredRawCopper = upgradeData[0];
@@ -77,6 +76,23 @@ public class ArmorUpgradeClickListener implements Listener {
             int requiredDiamond = upgradeData[10];
             int requiredNetheriteScrap = upgradeData[11];
             int requiredNetherite = upgradeData[12];
+
+            int [] upgradeDataSword = UpgradeData.getUpgradeData(currentLevelSword);
+            int requiredRawCopperSword = upgradeDataSword[0];
+            int requiredCopperIngotsSword = upgradeDataSword[1];
+            double requiredMoneySword = upgradeDataSword[2];
+            int requiredCobblestoneSword = upgradeDataSword[3];
+            int requiredStoneSword = upgradeDataSword[4];
+            int requiredRawIronSword = upgradeDataSword[5];
+            int requiredIronSword = upgradeDataSword[6];
+            int requiredRawGoldSword = upgradeDataSword[7];
+            int requiredGoldSword = upgradeDataSword[8];
+            int requiredDiamondOreSword = upgradeDataSword[9];
+            int requiredDiamondSword= upgradeDataSword[10];
+            int requiredNetheriteScrapSword = upgradeDataSword[11];
+            int requiredNetheriteSword = upgradeDataSword[12];
+
+
             event.setCancelled(true);
             if (event.getCurrentItem().getItemMeta().hasLocalizedName()) {
                 switch (event.getCurrentItem().getItemMeta().getLocalizedName()) {
@@ -87,7 +103,7 @@ public class ArmorUpgradeClickListener implements Listener {
                             upgrade.setItem(13, new ItemBuilder(Material.BARRIER).setDisplayname("§7➢ Helm Upgrade").setLocalizedName("helmetupgrade").setLore("§cMax Level erreicht!").addItemFlags(ItemFlag.HIDE_ATTRIBUTES).build());
                                 upgrade.setItem(31, new ItemBuilder(Material.BARRIER).setDisplayname("§7➢ Hosen Upgrade").addItemFlags(ItemFlag.HIDE_ATTRIBUTES).build());
                                 upgrade.setItem(40, new ItemBuilder(Material.BARRIER).setDisplayname("§7➢ Schuh Upgrade").addItemFlags(ItemFlag.HIDE_ATTRIBUTES).build());
-                                upgrade.setItem(22, new ItemBuilder(Material.DIAMOND_CHESTPLATE).setDisplayname("§7➢ Chestplate Upgrade").setLocalizedName("chestplateupgrade").setLore("§7Level: §6" + nextLevel,
+                                upgrade.setItem(22, new ItemBuilder(Material.DIAMOND_CHESTPLATE).setDisplayname("§7➢ Chestplate Upgrade").setLocalizedName("chestplateupgrade").setLore("§7Level: §6" + nextLevelChestplate,
                                         "§7Geld: §6" + currentmoney + "§7/§6" + requiredMoney, "§7Rohkupfer: §6" + currentRawCopper + "§7/§6" + requiredRawCopper, "§7Kupferbarren: §6" + currentCopperIngots + "§7/§6" + requiredCopperIngots,
                                         "§7Bruchstein: §6" + currentCobblestone + "§7/§6" + requiredCobblestone,
                                         "§7Stein: §6" + currentStone + "§7/§6" + requiredStone, "§7RohEisen: §6" + currentRawIron + "§7/§6" + requiredRawIron,
@@ -105,13 +121,13 @@ public class ArmorUpgradeClickListener implements Listener {
                                     upgrade.setItem(20, maxLevelSword);
                                 }else {
                                     upgrade.setItem(20, new ItemBuilder(Material.DIAMOND_SWORD).setDisplayname("§7➢ Schwert Upgrade").setLocalizedName("swordupgrade").setLore("§7Level: §6" + nextLevelSword,
-                                            "§7Geld: §6" + currentmoney +"§7/§6" + requiredMoney,"§7Rohkupfer: §6" + currentRawCopper + "§7/§6" + requiredRawCopper, "§7Kupferbarren: §6" +currentCopperIngots  + "§7/§6" + requiredCopperIngots,
-                                            "§7Bruchstein: §6" + currentCobblestone + "§7/§6" +requiredCobblestone ,
-                                            "§7Stein: §6" + currentStone + "§7/§6" + requiredStone, "§7RohEisen: §6" + currentRawIron + "§7/§6" + requiredRawIron,
-                                            "§7Eisenbarren: §6" + currentIron + "§7/§6" + requiredIron, "§7RohGold: §6" + currentRawGold + "§7/§6" + requiredRawGold,
-                                            "§7GoldBarren: §6" + currentGold + "§7/§6" + requiredGold, "§7DiamantErz: §6" + currentDiamondOre + "§7/§6" + requiredDiamondOre,
-                                            "§7Diamanten: §6" + currentDiamond + "§7/§6" + requiredDiamond, "§7Netheriteplatten: §6" + currentNetheriteScrap + "§7/§6" + requiredNetheriteScrap,
-                                            "§7NetheriteBarren: §6" + currentNetherite + "§6/§6" + requiredNetherite).addItemFlags(ItemFlag.HIDE_ATTRIBUTES).build());
+                                            "§7Geld: §6" + currentmoney +"§7/§6" + requiredMoneySword,"§7Rohkupfer: §6" + currentRawCopper + "§7/§6" + requiredRawCopperSword, "§7Kupferbarren: §6" +currentCopperIngots  + "§7/§6" + requiredCopperIngotsSword,
+                                            "§7Bruchstein: §6" + currentCobblestone + "§7/§6" +requiredCobblestoneSword ,
+                                            "§7Stein: §6" + currentStone + "§7/§6" + requiredStoneSword, "§7RohEisen: §6" + currentRawIron + "§7/§6" + requiredRawIronSword,
+                                            "§7Eisenbarren: §6" + currentIron + "§7/§6" + requiredIronSword, "§7RohGold: §6" + currentRawGold + "§7/§6" + requiredRawGoldSword,
+                                            "§7GoldBarren: §6" + currentGold + "§7/§6" + requiredGoldSword, "§7DiamantErz: §6" + currentDiamondOre + "§7/§6" + requiredDiamondOreSword,
+                                            "§7Diamanten: §6" + currentDiamond + "§7/§6" + requiredDiamondSword, "§7Netheriteplatten: §6" + currentNetheriteScrap + "§7/§6" + requiredNetheriteScrapSword,
+                                            "§7NetheriteBarren: §6" + currentNetherite + "§6/§6" + requiredNetheriteSword).addItemFlags(ItemFlag.HIDE_ATTRIBUTES).build());
                                 }
                             player.openInventory(upgrade);
                             return;
@@ -138,13 +154,13 @@ public class ArmorUpgradeClickListener implements Listener {
                                     upgrade.setItem(20, maxLevelSword);
                                 }else {
                                     upgrade.setItem(20, new ItemBuilder(Material.DIAMOND_SWORD).setDisplayname("§7➢ Schwert Upgrade").setLocalizedName("swordupgrade").setLore("§7Level: §6" + nextLevelSword,
-                                            "§7Geld: §6" + currentmoney +"§7/§6" + requiredMoney,"§7Rohkupfer: §6" + currentRawCopper + "§7/§6" + requiredRawCopper, "§7Kupferbarren: §6" +currentCopperIngots  + "§7/§6" + requiredCopperIngots,
-                                            "§7Bruchstein: §6" + currentCobblestone + "§7/§6" +requiredCobblestone ,
-                                            "§7Stein: §6" + currentStone + "§7/§6" + requiredStone, "§7RohEisen: §6" + currentRawIron + "§7/§6" + requiredRawIron,
-                                            "§7Eisenbarren: §6" + currentIron + "§7/§6" + requiredIron, "§7RohGold: §6" + currentRawGold + "§7/§6" + requiredRawGold,
-                                            "§7GoldBarren: §6" + currentGold + "§7/§6" + requiredGold, "§7DiamantErz: §6" + currentDiamondOre + "§7/§6" + requiredDiamondOre,
-                                            "§7Diamanten: §6" + currentDiamond + "§7/§6" + requiredDiamond, "§7Netheriteplatten: §6" + currentNetheriteScrap + "§7/§6" + requiredNetheriteScrap,
-                                            "§7NetheriteBarren: §6" + currentNetherite + "§6/§6" + requiredNetherite).addItemFlags(ItemFlag.HIDE_ATTRIBUTES).build());
+                                            "§7Geld: §6" + currentmoney +"§7/§6" + requiredMoneySword,"§7Rohkupfer: §6" + currentRawCopper + "§7/§6" + requiredRawCopperSword, "§7Kupferbarren: §6" +currentCopperIngots  + "§7/§6" + requiredCopperIngotsSword,
+                                            "§7Bruchstein: §6" + currentCobblestone + "§7/§6" +requiredCobblestoneSword ,
+                                            "§7Stein: §6" + currentStone + "§7/§6" + requiredStoneSword, "§7RohEisen: §6" + currentRawIron + "§7/§6" + requiredRawIronSword,
+                                            "§7Eisenbarren: §6" + currentIron + "§7/§6" + requiredIronSword, "§7RohGold: §6" + currentRawGold + "§7/§6" + requiredRawGoldSword,
+                                            "§7GoldBarren: §6" + currentGold + "§7/§6" + requiredGoldSword, "§7DiamantErz: §6" + currentDiamondOre + "§7/§6" + requiredDiamondOreSword,
+                                            "§7Diamanten: §6" + currentDiamond + "§7/§6" + requiredDiamondSword, "§7Netheriteplatten: §6" + currentNetheriteScrap + "§7/§6" + requiredNetheriteScrapSword,
+                                            "§7NetheriteBarren: §6" + currentNetherite + "§6/§6" + requiredNetheriteSword).addItemFlags(ItemFlag.HIDE_ATTRIBUTES).build());
                                 }
                                 player.openInventory(upgrade);
                         }
@@ -167,13 +183,13 @@ public class ArmorUpgradeClickListener implements Listener {
                                 upgrade.setItem(20, maxLevelSword);
                             }else {
                                 upgrade.setItem(20, new ItemBuilder(Material.DIAMOND_SWORD).setDisplayname("§7➢ Schwert Upgrade").setLocalizedName("swordupgrade").setLore("§7Level: §6" + nextLevelSword,
-                                        "§7Geld: §6" + currentmoney +"§7/§6" + requiredMoney,"§7Rohkupfer: §6" + currentRawCopper + "§7/§6" + requiredRawCopper, "§7Kupferbarren: §6" +currentCopperIngots  + "§7/§6" + requiredCopperIngots,
-                                        "§7Bruchstein: §6" + currentCobblestone + "§7/§6" +requiredCobblestone ,
-                                        "§7Stein: §6" + currentStone + "§7/§6" + requiredStone, "§7RohEisen: §6" + currentRawIron + "§7/§6" + requiredRawIron,
-                                        "§7Eisenbarren: §6" + currentIron + "§7/§6" + requiredIron, "§7RohGold: §6" + currentRawGold + "§7/§6" + requiredRawGold,
-                                        "§7GoldBarren: §6" + currentGold + "§7/§6" + requiredGold, "§7DiamantErz: §6" + currentDiamondOre + "§7/§6" + requiredDiamondOre,
-                                        "§7Diamanten: §6" + currentDiamond + "§7/§6" + requiredDiamond, "§7Netheriteplatten: §6" + currentNetheriteScrap + "§7/§6" + requiredNetheriteScrap,
-                                        "§7NetheriteBarren: §6" + currentNetherite + "§6/§6" + requiredNetherite).addItemFlags(ItemFlag.HIDE_ATTRIBUTES).build());
+                                        "§7Geld: §6" + currentmoney +"§7/§6" + requiredMoneySword,"§7Rohkupfer: §6" + currentRawCopper + "§7/§6" + requiredRawCopperSword, "§7Kupferbarren: §6" +currentCopperIngots  + "§7/§6" + requiredCopperIngotsSword,
+                                        "§7Bruchstein: §6" + currentCobblestone + "§7/§6" +requiredCobblestoneSword ,
+                                        "§7Stein: §6" + currentStone + "§7/§6" + requiredStoneSword, "§7RohEisen: §6" + currentRawIron + "§7/§6" + requiredRawIronSword,
+                                        "§7Eisenbarren: §6" + currentIron + "§7/§6" + requiredIronSword, "§7RohGold: §6" + currentRawGold + "§7/§6" + requiredRawGoldSword,
+                                        "§7GoldBarren: §6" + currentGold + "§7/§6" + requiredGoldSword, "§7DiamantErz: §6" + currentDiamondOre + "§7/§6" + requiredDiamondOreSword,
+                                        "§7Diamanten: §6" + currentDiamond + "§7/§6" + requiredDiamondSword, "§7Netheriteplatten: §6" + currentNetheriteScrap + "§7/§6" + requiredNetheriteScrapSword,
+                                        "§7NetheriteBarren: §6" + currentNetherite + "§6/§6" + requiredNetheriteSword).addItemFlags(ItemFlag.HIDE_ATTRIBUTES).build());
                             }
                             player.openInventory(upgrade);
                             return;
@@ -199,13 +215,13 @@ public class ArmorUpgradeClickListener implements Listener {
                                 upgrade.setItem(20, maxLevelSword);
                             }else {
                                 upgrade.setItem(20, new ItemBuilder(Material.DIAMOND_SWORD).setDisplayname("§7➢ Schwert Upgrade").setLocalizedName("swordupgrade").setLore("§7Level: §6" + nextLevelSword,
-                                        "§7Geld: §6" + currentmoney +"§7/§6" + requiredMoney,"§7Rohkupfer: §6" + currentRawCopper + "§7/§6" + requiredRawCopper, "§7Kupferbarren: §6" +currentCopperIngots  + "§7/§6" + requiredCopperIngots,
-                                        "§7Bruchstein: §6" + currentCobblestone + "§7/§6" +requiredCobblestone ,
-                                        "§7Stein: §6" + currentStone + "§7/§6" + requiredStone, "§7RohEisen: §6" + currentRawIron + "§7/§6" + requiredRawIron,
-                                        "§7Eisenbarren: §6" + currentIron + "§7/§6" + requiredIron, "§7RohGold: §6" + currentRawGold + "§7/§6" + requiredRawGold,
-                                        "§7GoldBarren: §6" + currentGold + "§7/§6" + requiredGold, "§7DiamantErz: §6" + currentDiamondOre + "§7/§6" + requiredDiamondOre,
-                                        "§7Diamanten: §6" + currentDiamond + "§7/§6" + requiredDiamond, "§7Netheriteplatten: §6" + currentNetheriteScrap + "§7/§6" + requiredNetheriteScrap,
-                                        "§7NetheriteBarren: §6" + currentNetherite + "§6/§6" + requiredNetherite).addItemFlags(ItemFlag.HIDE_ATTRIBUTES).build());
+                                        "§7Geld: §6" + currentmoney +"§7/§6" + requiredMoneySword,"§7Rohkupfer: §6" + currentRawCopper + "§7/§6" + requiredRawCopperSword, "§7Kupferbarren: §6" +currentCopperIngots  + "§7/§6" + requiredCopperIngotsSword,
+                                        "§7Bruchstein: §6" + currentCobblestone + "§7/§6" +requiredCobblestoneSword ,
+                                        "§7Stein: §6" + currentStone + "§7/§6" + requiredStoneSword, "§7RohEisen: §6" + currentRawIron + "§7/§6" + requiredRawIronSword,
+                                        "§7Eisenbarren: §6" + currentIron + "§7/§6" + requiredIronSword, "§7RohGold: §6" + currentRawGold + "§7/§6" + requiredRawGoldSword,
+                                        "§7GoldBarren: §6" + currentGold + "§7/§6" + requiredGoldSword, "§7DiamantErz: §6" + currentDiamondOre + "§7/§6" + requiredDiamondOreSword,
+                                        "§7Diamanten: §6" + currentDiamond + "§7/§6" + requiredDiamondSword, "§7Netheriteplatten: §6" + currentNetheriteScrap + "§7/§6" + requiredNetheriteScrapSword,
+                                        "§7NetheriteBarren: §6" + currentNetherite + "§6/§6" + requiredNetheriteSword).addItemFlags(ItemFlag.HIDE_ATTRIBUTES).build());
                             }
                             handlechestplateUpgrade(player);
                             player.openInventory(upgrade);
@@ -229,13 +245,13 @@ public class ArmorUpgradeClickListener implements Listener {
                                 upgrade.setItem(20, maxLevelSword);
                             }else {
                                 upgrade.setItem(20, new ItemBuilder(Material.DIAMOND_SWORD).setDisplayname("§7➢ Schwert Upgrade").setLocalizedName("swordupgrade").setLore("§7Level: §6" + nextLevelSword,
-                                        "§7Geld: §6" + currentmoney +"§7/§6" + requiredMoney,"§7Rohkupfer: §6" + currentRawCopper + "§7/§6" + requiredRawCopper, "§7Kupferbarren: §6" +currentCopperIngots  + "§7/§6" + requiredCopperIngots,
-                                        "§7Bruchstein: §6" + currentCobblestone + "§7/§6" +requiredCobblestone ,
-                                        "§7Stein: §6" + currentStone + "§7/§6" + requiredStone, "§7RohEisen: §6" + currentRawIron + "§7/§6" + requiredRawIron,
-                                        "§7Eisenbarren: §6" + currentIron + "§7/§6" + requiredIron, "§7RohGold: §6" + currentRawGold + "§7/§6" + requiredRawGold,
-                                        "§7GoldBarren: §6" + currentGold + "§7/§6" + requiredGold, "§7DiamantErz: §6" + currentDiamondOre + "§7/§6" + requiredDiamondOre,
-                                        "§7Diamanten: §6" + currentDiamond + "§7/§6" + requiredDiamond, "§7Netheriteplatten: §6" + currentNetheriteScrap + "§7/§6" + requiredNetheriteScrap,
-                                        "§7NetheriteBarren: §6" + currentNetherite + "§6/§6" + requiredNetherite).addItemFlags(ItemFlag.HIDE_ATTRIBUTES).build());
+                                        "§7Geld: §6" + currentmoney +"§7/§6" + requiredMoneySword,"§7Rohkupfer: §6" + currentRawCopper + "§7/§6" + requiredRawCopperSword, "§7Kupferbarren: §6" +currentCopperIngots  + "§7/§6" + requiredCopperIngotsSword,
+                                        "§7Bruchstein: §6" + currentCobblestone + "§7/§6" +requiredCobblestoneSword ,
+                                        "§7Stein: §6" + currentStone + "§7/§6" + requiredStoneSword, "§7RohEisen: §6" + currentRawIron + "§7/§6" + requiredRawIronSword,
+                                        "§7Eisenbarren: §6" + currentIron + "§7/§6" + requiredIronSword, "§7RohGold: §6" + currentRawGold + "§7/§6" + requiredRawGoldSword,
+                                        "§7GoldBarren: §6" + currentGold + "§7/§6" + requiredGoldSword, "§7DiamantErz: §6" + currentDiamondOre + "§7/§6" + requiredDiamondOreSword,
+                                        "§7Diamanten: §6" + currentDiamond + "§7/§6" + requiredDiamondSword, "§7Netheriteplatten: §6" + currentNetheriteScrap + "§7/§6" + requiredNetheriteScrapSword,
+                                        "§7NetheriteBarren: §6" + currentNetherite + "§6/§6" + requiredNetheriteSword).addItemFlags(ItemFlag.HIDE_ATTRIBUTES).build());
                             }
                             player.openInventory(upgrade);
                             return;
@@ -261,13 +277,13 @@ public class ArmorUpgradeClickListener implements Listener {
                                 upgrade.setItem(20, maxLevelSword);
                             } else {
                                 upgrade.setItem(20, new ItemBuilder(Material.DIAMOND_SWORD).setDisplayname("§7➢ Schwert Upgrade").setLocalizedName("swordupgrade").setLore("§7Level: §6" + nextLevelSword,
-                                        "§7Geld: §6" + currentmoney + "§7/§6" + requiredMoney, "§7Rohkupfer: §6" + currentRawCopper + "§7/§6" + requiredRawCopper, "§7Kupferbarren: §6" + currentCopperIngots + "§7/§6" + requiredCopperIngots,
-                                        "§7Bruchstein: §6" + currentCobblestone + "§7/§6" + requiredCobblestone,
-                                        "§7Stein: §6" + currentStone + "§7/§6" + requiredStone, "§7RohEisen: §6" + currentRawIron + "§7/§6" + requiredRawIron,
-                                        "§7Eisenbarren: §6" + currentIron + "§7/§6" + requiredIron, "§7RohGold: §6" + currentRawGold + "§7/§6" + requiredRawGold,
-                                        "§7GoldBarren: §6" + currentGold + "§7/§6" + requiredGold, "§7DiamantErz: §6" + currentDiamondOre + "§7/§6" + requiredDiamondOre,
-                                        "§7Diamanten: §6" + currentDiamond + "§7/§6" + requiredDiamond, "§7Netheriteplatten: §6" + currentNetheriteScrap + "§7/§6" + requiredNetheriteScrap,
-                                        "§7NetheriteBarren: §6" + currentNetherite + "§6/§6" + requiredNetherite).addItemFlags(ItemFlag.HIDE_ATTRIBUTES).build());
+                                        "§7Geld: §6" + currentmoney +"§7/§6" + requiredMoneySword,"§7Rohkupfer: §6" + currentRawCopper + "§7/§6" + requiredRawCopperSword, "§7Kupferbarren: §6" +currentCopperIngots  + "§7/§6" + requiredCopperIngotsSword,
+                                        "§7Bruchstein: §6" + currentCobblestone + "§7/§6" +requiredCobblestoneSword ,
+                                        "§7Stein: §6" + currentStone + "§7/§6" + requiredStoneSword, "§7RohEisen: §6" + currentRawIron + "§7/§6" + requiredRawIronSword,
+                                        "§7Eisenbarren: §6" + currentIron + "§7/§6" + requiredIronSword, "§7RohGold: §6" + currentRawGold + "§7/§6" + requiredRawGoldSword,
+                                        "§7GoldBarren: §6" + currentGold + "§7/§6" + requiredGoldSword, "§7DiamantErz: §6" + currentDiamondOre + "§7/§6" + requiredDiamondOreSword,
+                                        "§7Diamanten: §6" + currentDiamond + "§7/§6" + requiredDiamondSword, "§7Netheriteplatten: §6" + currentNetheriteScrap + "§7/§6" + requiredNetheriteScrapSword,
+                                        "§7NetheriteBarren: §6" + currentNetherite + "§6/§6" + requiredNetheriteSword).addItemFlags(ItemFlag.HIDE_ATTRIBUTES).build());
                                 handleleggingsUpgrade(player);
                                 player.openInventory(upgrade);
                             }
@@ -299,13 +315,13 @@ public class ArmorUpgradeClickListener implements Listener {
                                 upgrade.setItem(20, maxLevelSword);
                             }else {
                                 upgrade.setItem(20, new ItemBuilder(Material.DIAMOND_SWORD).setDisplayname("§7➢ Schwert Upgrade").setLocalizedName("swordupgrade").setLore("§7Level: §6" + nextLevelSword,
-                                        "§7Geld: §6" + currentmoney +"§7/§6" + requiredMoney,"§7Rohkupfer: §6" + currentRawCopper + "§7/§6" + requiredRawCopper, "§7Kupferbarren: §6" +currentCopperIngots  + "§7/§6" + requiredCopperIngots,
-                                        "§7Bruchstein: §6" + currentCobblestone + "§7/§6" +requiredCobblestone ,
-                                        "§7Stein: §6" + currentStone + "§7/§6" + requiredStone, "§7RohEisen: §6" + currentRawIron + "§7/§6" + requiredRawIron,
-                                        "§7Eisenbarren: §6" + currentIron + "§7/§6" + requiredIron, "§7RohGold: §6" + currentRawGold + "§7/§6" + requiredRawGold,
-                                        "§7GoldBarren: §6" + currentGold + "§7/§6" + requiredGold, "§7DiamantErz: §6" + currentDiamondOre + "§7/§6" + requiredDiamondOre,
-                                        "§7Diamanten: §6" + currentDiamond + "§7/§6" + requiredDiamond, "§7Netheriteplatten: §6" + currentNetheriteScrap + "§7/§6" + requiredNetheriteScrap,
-                                        "§7NetheriteBarren: §6" + currentNetherite + "§6/§6" + requiredNetherite).addItemFlags(ItemFlag.HIDE_ATTRIBUTES).build());
+                                        "§7Geld: §6" + currentmoney +"§7/§6" + requiredMoneySword,"§7Rohkupfer: §6" + currentRawCopper + "§7/§6" + requiredRawCopperSword, "§7Kupferbarren: §6" +currentCopperIngots  + "§7/§6" + requiredCopperIngotsSword,
+                                        "§7Bruchstein: §6" + currentCobblestone + "§7/§6" +requiredCobblestoneSword ,
+                                        "§7Stein: §6" + currentStone + "§7/§6" + requiredStoneSword, "§7RohEisen: §6" + currentRawIron + "§7/§6" + requiredRawIronSword,
+                                        "§7Eisenbarren: §6" + currentIron + "§7/§6" + requiredIronSword, "§7RohGold: §6" + currentRawGold + "§7/§6" + requiredRawGoldSword,
+                                        "§7GoldBarren: §6" + currentGold + "§7/§6" + requiredGoldSword, "§7DiamantErz: §6" + currentDiamondOre + "§7/§6" + requiredDiamondOreSword,
+                                        "§7Diamanten: §6" + currentDiamond + "§7/§6" + requiredDiamondSword, "§7Netheriteplatten: §6" + currentNetheriteScrap + "§7/§6" + requiredNetheriteScrapSword,
+                                        "§7NetheriteBarren: §6" + currentNetherite + "§6/§6" + requiredNetheriteSword).addItemFlags(ItemFlag.HIDE_ATTRIBUTES).build());
                             }
                             player.openInventory(upgrade);
                             return;
@@ -331,13 +347,13 @@ public class ArmorUpgradeClickListener implements Listener {
                                 upgrade.setItem(20, maxLevelSword);
                             } else {
                                 upgrade.setItem(20, new ItemBuilder(Material.DIAMOND_SWORD).setDisplayname("§7➢ Schwert Upgrade").setLocalizedName("swordupgrade").setLore("§7Level: §6" + nextLevelSword,
-                                        "§7Geld: §6" + currentmoney + "§7/§6" + requiredMoney, "§7Rohkupfer: §6" + currentRawCopper + "§7/§6" + requiredRawCopper, "§7Kupferbarren: §6" + currentCopperIngots + "§7/§6" + requiredCopperIngots,
-                                        "§7Bruchstein: §6" + currentCobblestone + "§7/§6" + requiredCobblestone,
-                                        "§7Stein: §6" + currentStone + "§7/§6" + requiredStone, "§7RohEisen: §6" + currentRawIron + "§7/§6" + requiredRawIron,
-                                        "§7Eisenbarren: §6" + currentIron + "§7/§6" + requiredIron, "§7RohGold: §6" + currentRawGold + "§7/§6" + requiredRawGold,
-                                        "§7GoldBarren: §6" + currentGold + "§7/§6" + requiredGold, "§7DiamantErz: §6" + currentDiamondOre + "§7/§6" + requiredDiamondOre,
-                                        "§7Diamanten: §6" + currentDiamond + "§7/§6" + requiredDiamond, "§7Netheriteplatten: §6" + currentNetheriteScrap + "§7/§6" + requiredNetheriteScrap,
-                                        "§7NetheriteBarren: §6" + currentNetherite + "§6/§6" + requiredNetherite).addItemFlags(ItemFlag.HIDE_ATTRIBUTES).build());
+                                        "§7Geld: §6" + currentmoney +"§7/§6" + requiredMoneySword,"§7Rohkupfer: §6" + currentRawCopper + "§7/§6" + requiredRawCopperSword, "§7Kupferbarren: §6" +currentCopperIngots  + "§7/§6" + requiredCopperIngotsSword,
+                                        "§7Bruchstein: §6" + currentCobblestone + "§7/§6" +requiredCobblestoneSword ,
+                                        "§7Stein: §6" + currentStone + "§7/§6" + requiredStoneSword, "§7RohEisen: §6" + currentRawIron + "§7/§6" + requiredRawIronSword,
+                                        "§7Eisenbarren: §6" + currentIron + "§7/§6" + requiredIronSword, "§7RohGold: §6" + currentRawGold + "§7/§6" + requiredRawGoldSword,
+                                        "§7GoldBarren: §6" + currentGold + "§7/§6" + requiredGoldSword, "§7DiamantErz: §6" + currentDiamondOre + "§7/§6" + requiredDiamondOreSword,
+                                        "§7Diamanten: §6" + currentDiamond + "§7/§6" + requiredDiamondSword, "§7Netheriteplatten: §6" + currentNetheriteScrap + "§7/§6" + requiredNetheriteScrapSword,
+                                        "§7NetheriteBarren: §6" + currentNetherite + "§6/§6" + requiredNetheriteSword).addItemFlags(ItemFlag.HIDE_ATTRIBUTES).build());
                                 handlebootsUpgrade(player);
                                 player.openInventory(upgrade);
                             }
@@ -424,7 +440,7 @@ public class ArmorUpgradeClickListener implements Listener {
         }
     private void handlechestplateUpgrade(Player player) {
         int currentLevel = mysqlManager.getArmorLvl(player.getUniqueId().toString());
-        int currentLevelChestplate = mysqlManager.getLeggingsLevel(player.getUniqueId().toString());
+        int currentLevelChestplate = mysqlManager.getChestplateLevel(player.getUniqueId().toString());
         if (currentLevel >= 60) {
             player.sendMessage(ConfigManager.getPrefix() + ConfigManager.getConfigMessage("message.maxlevel","",""));
             return;
@@ -861,49 +877,49 @@ public class ArmorUpgradeClickListener implements Listener {
     private void giveBootsToPlayer(Player player, int level) {
         switch (level) {
             case 31:
-                updatelederboots(player, 1, 31, 1);
+                updatelederboots(player, 1, 1, 1);
                 break;
             case 32:
-                updatelederboots(player, 2, 32, 0);
+                updatelederboots(player, 2, 2, 0);
                 break;
             case 33:
-                updatelederboots(player, 2, 33, 1);
+                updatelederboots(player, 2, 3, 1);
                 break;
             case 34:
-                updatelederboots(player, 3, 34, 0);
+                updatelederboots(player, 3, 4, 0);
                 break;
             case 35:
-                updatelederboots(player, 3, 35, 1);
+                updatelederboots(player, 3, 5, 1);
                 break;
             case 36:
-                updatelederboots(player, 4, 36, 0);
+                updatelederboots(player, 4, 6, 0);
                 break;
             case 37:
-                updatelederboots(player, 4, 37, 1);
+                updatelederboots(player, 4, 7, 1);
                 break;
             case 38:
-                updatelederboots(player, 5, 38, 0);
+                updatelederboots(player, 5, 8, 0);
                 break;
             case 39:
-                updatelederboots(player, 5, 39, 1);
+                updatelederboots(player, 5, 9, 1);
                 break;
             case 40:
-                updatelederboots(player, 6, 40, 0);
+                updatelederboots(player, 6, 10, 0);
                 break;
             case 41:
-                updatelederboots(player, 6, 41, 1);
+                updatelederboots(player, 6, 11, 1);
                 break;
             case 42:
-                updatelederboots(player, 7, 42, 0);
+                updatelederboots(player, 7, 12, 0);
                 break;
             case 43:
-                updatelederboots(player, 7, 43, 1);
+                updatelederboots(player, 7, 13, 1);
                 break;
             case 44:
-                updatelederboots(player, 8, 44, 0);
+                updatelederboots(player, 8, 14, 0);
                 break;
             case 45:
-                updatelederboots(player, 8, 45, 1);
+                updatelederboots(player, 8, 15, 1);
                 break;
             default:
                 player.sendMessage(ConfigManager.getPrefix() + ConfigManager.getConfigMessage("message.upgradeswordfailure","",""));

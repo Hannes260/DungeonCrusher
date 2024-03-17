@@ -4,18 +4,21 @@ import net.dbsgameplay.dungeoncrusher.DungeonCrusher;
 import net.dbsgameplay.dungeoncrusher.sql.MYSQLManager;
 import net.dbsgameplay.dungeoncrusher.utils.ConfigManager;
 import net.dbsgameplay.dungeoncrusher.utils.DropsConfigManager;
+import net.dbsgameplay.dungeoncrusher.utils.HologramManager;
 import net.dbsgameplay.dungeoncrusher.utils.ScoreboardBuilder;
-import org.bukkit.Material;
+import org.bukkit.*;
 import org.bukkit.enchantments.Enchantment;
+import org.bukkit.entity.ArmorStand;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
+import org.bukkit.event.Event;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
-
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
@@ -23,12 +26,14 @@ import java.util.Map;
 public class CustomDropListener implements Listener {
     MYSQLManager mysqlManager;
     ScoreboardBuilder scoreboardBuilder;
+    DungeonCrusher dungeonCrusher;
     private final DropsConfigManager dropsConfigManager;
 
     public CustomDropListener(DungeonCrusher dungeonCrusher, MYSQLManager mysqlManager,DropsConfigManager dropsConfigManager) {
         this.mysqlManager = mysqlManager;
         this.scoreboardBuilder = new ScoreboardBuilder(dungeonCrusher);
         this.dropsConfigManager = dropsConfigManager;
+        this.dungeonCrusher = dungeonCrusher;
     }
 
     @EventHandler
@@ -45,31 +50,28 @@ public class CustomDropListener implements Listener {
         // Laden der Drops aus dem DropsConfigManager
         Map<String, Double> mobDrops = dropsConfigManager.loadMobDrops(mobName);
 
-        // Verarbeiten der geladenen Drops
         for (Map.Entry<String, Double> entry : mobDrops.entrySet()) {
             String materialName = entry.getKey();
             double dropChance = entry.getValue();
             double random = Math.random();
-            System.out.println(mobDrops);
             if (random < dropChance) {
-                if (materialName.equalsIgnoreCase("money")) {
-                    // Geld-Drop
-                    double[] moneyDropRange = dropsConfigManager.loadMoneyDropRange(mobName);
-                    double minAmount = moneyDropRange[0];
-                    double maxAmount = moneyDropRange[1];
-                    double moneyDropChance = dropsConfigManager.loadMoneyDropChance(mobName);
-                    if (minAmount > 0 && maxAmount > 0 && random < moneyDropChance) {
-                        giveMoney(player, minAmount, maxAmount);
+                    if (materialName.equalsIgnoreCase("money")) {
+                        // Geld-Drop
+                        double[] moneyDropRange = dropsConfigManager.loadMoneyDropRange(mobName);
+                        double minAmount = moneyDropRange[0];
+                        double maxAmount = moneyDropRange[1];
+                        double moneyDropChance = dropsConfigManager.loadMoneyDropChance(mobName);
+                        if (minAmount > 0 && maxAmount > 0 && random < moneyDropChance) {
+                            giveMoney(player, minAmount, maxAmount, event);
+                        }
+                    } else {
+                        // Item drop
+                        giveItem(player, Material.valueOf(materialName), getItemSlot(Material.valueOf(materialName)), materialName, event);
                     }
-                } else {
-                    // Item drop
-                    giveItem(player, Material.valueOf(materialName), getItemSlot(Material.valueOf(materialName)), materialName);
                 }
             }
         }
-    }
-
-    private void giveItem(Player player, Material material, Integer slot, String item) {
+    private void giveItem(Player player, Material material, Integer slot, String item, EntityDeathEvent event) {
         ItemStack items = new ItemStack(material, 1);
         String playerUUID = player.getUniqueId().toString();
         int currentitem = mysqlManager.getItemAmount(playerUUID, item);
@@ -82,9 +84,11 @@ public class CustomDropListener implements Listener {
         items.setItemMeta(itemsmeta);
         player.getInventory().setItem(slot, items);
         player.sendMessage(ConfigManager.getConfigMessage("message.additem", "%item%", items.getType().toString()));
+        Location hologramLocation = event.getEntity().getLocation(); // Position des getöteten Mobs
+        HologramManager.spawnItemHologram(hologramLocation, items.getType().toString());
     }
 
-    private void giveMoney(Player player, double minAmount, double maxAmount) {
+    private void giveMoney(Player player, double minAmount, double maxAmount, EntityDeathEvent event) {
         double random = Math.random();
         double range = maxAmount - minAmount;
         double giveMoney = Math.round((random * range + minAmount) * 100.0) / 100.0;
@@ -98,37 +102,8 @@ public class CustomDropListener implements Listener {
         scoreboardBuilder.updateMoney(player);
 
         player.sendMessage(ConfigManager.getConfigMessage("message.addmobkilledmoney", "%money%", String.valueOf(giveMoney)));
-    }
-    private String getitemname(Material material) {
-        switch (material) {
-            case COBBLESTONE:
-                 return "cobblestone";
-            case STONE:
-                return "stone";
-            case RAW_COPPER:
-                return "raw_copper";
-            case COPPER_INGOT:
-                return "copper_ingot";
-            case RAW_IRON:
-                return "raw_iron";
-            case IRON_INGOT:
-                return "iron_ingot";
-            case RAW_GOLD:
-                return "raw_gold";
-            case GOLD_INGOT:
-                return "gold_ingot";
-            case DIAMOND:
-                return "diamond";
-            case DIAMOND_ORE:
-                return "diamond_ore";
-            case NETHERITE_SCRAP:
-                return "netherite_scrap";
-            case NETHERITE_INGOT:
-                return "netherite_ingot";
-            case COAL:
-                return "coal";
-        }
-        return null;
+        Location hologramLocation = event.getEntity().getLocation(); // Position des getöteten Mobs
+        HologramManager.spawnItemHologram(hologramLocation, String.valueOf(giveMoney) + " €");
     }
     private int getItemSlot(Material material) {
         switch (material) {

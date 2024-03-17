@@ -49,6 +49,10 @@ public class Joinlistener implements Listener {
             swordmeta.setUnbreakable(true);
             sword.setItemMeta(swordmeta);
             player.getInventory().setItem(0, sword);
+
+            ItemStack food = new ItemStack(Material.COOKED_BEEF);
+            food.setAmount(64);
+            player.getInventory().setItem(1, food);
         }
             ItemStack rawcopper = new ItemStack(Material.RAW_COPPER);
             ItemMeta rawcoppermeta = rawcopper.getItemMeta();

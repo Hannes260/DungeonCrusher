@@ -2,6 +2,9 @@ package net.dbsgameplay.dungeoncrusher.listener;
 
 import net.dbsgameplay.dungeoncrusher.utils.MobHealthBuilder;
 import org.bukkit.attribute.Attribute;
+import org.bukkit.entity.ArmorStand;
+import org.bukkit.entity.Entity;
+import org.bukkit.entity.ItemFrame;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -22,25 +25,27 @@ public class MobDamageListener implements Listener {
 
     @EventHandler
     public void onEntitySpawn(EntitySpawnEvent event) {
-        if (event.getEntity() instanceof LivingEntity) {
-            LivingEntity entity = (LivingEntity) event.getEntity();
-            healthBuilder.applyAdjustments(entity);
+        Entity entity = event.getEntity();
+        if (entity instanceof LivingEntity && isAllowedEntity(entity)) {
+            LivingEntity livingEntity = (LivingEntity) entity;
+            healthBuilder.applyAdjustments(livingEntity);
 
-            String mobName = entity.getType().name();
-            mobNames.put(entity, mobName);
+            String mobName = livingEntity.getType().name();
+            mobNames.put(livingEntity, mobName);
 
             // Hier können Sie andere Anpassungen vornehmen, z.B. die Healthbar anwenden
-            updateHealthBar(entity, mobName);
+            updateHealthBar(livingEntity, mobName);
         }
     }
 
     @EventHandler
     public void onEntityDamage(EntityDamageEvent event) {
-        if (event.getEntity() instanceof LivingEntity) {
-            LivingEntity entity = (LivingEntity) event.getEntity();
-            String mobName = mobNames.get(entity);
+        Entity entity = event.getEntity();
+        if (entity instanceof LivingEntity) {
+            LivingEntity livingEntity = (LivingEntity) entity;
+            String mobName = mobNames.get(livingEntity);
             if (mobName != null) {
-                updateHealthBar(entity, mobName);
+                updateHealthBar(livingEntity, mobName);
             }
         }
     }
@@ -53,5 +58,13 @@ public class MobDamageListener implements Listener {
         String healthDisplay = String.format("§a%s §8|||||§c%d/%d§8|||||", mobName, hearts, (int) maxHealth);
         entity.setCustomName(healthDisplay);
         entity.setCustomNameVisible(true);
+    }
+
+    private boolean isAllowedEntity(Entity entity) {
+        if (entity instanceof ArmorStand || entity instanceof ItemFrame) {
+            return false; // Armorstand nicht erlauben
+        }
+
+        return true;
     }
 }
