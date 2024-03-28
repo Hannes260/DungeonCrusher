@@ -35,7 +35,7 @@ public class ArmorUpgradeClickListener implements Listener {
     @EventHandler
     public void onInvClick(InventoryClickEvent event) {
         if (event.getCurrentItem() == null) return;
-        if (event.getView().getTitle() == "§9§lUpgrades") {
+        if (event.getView().getTitle().equals("§9§lUpgrades")) {
             Player player = (Player) event.getWhoClicked();
             int currentLevelhelmet = mysqlManager.getHelmetLevel(player.getUniqueId().toString());
             int currentLevelChestplate = mysqlManager.getChestplateLevel(player.getUniqueId().toString());
