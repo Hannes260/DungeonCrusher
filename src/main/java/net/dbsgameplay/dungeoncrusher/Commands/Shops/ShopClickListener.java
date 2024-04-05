@@ -305,7 +305,6 @@ public class ShopClickListener implements Listener {
         String currentMoneyString = mysqlManager.getBalance(playerName);
         currentMoneyString = currentMoneyString.replace(",", "");
         currentMoney = Double.parseDouble(currentMoneyString);
-
         double newMoney = currentMoney + amount;
         String formattedMoney = String.format(Locale.ENGLISH, "%,.2f", newMoney);
         mysqlManager.updateBalance(playerName, formattedMoney);

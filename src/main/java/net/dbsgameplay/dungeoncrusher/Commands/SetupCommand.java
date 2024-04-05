@@ -58,12 +58,19 @@ public class SetupCommand implements CommandExecutor {
                         }else
                             player.sendMessage(ConfigManager.getPrefix() + ConfigManager.getConfigMessage("message.setupremovesavezoneusage","",""));
                     }else if (args[0].equalsIgnoreCase("setmobtypes") && args.length > 2) {
-                        setMobTypes(player, name, Arrays.copyOfRange(args, 2, args.length));
+                        locationConfigManager.setMobTypes(name, Arrays.copyOfRange(args, 2, args.length));
+                        player.sendMessage(ConfigManager.getPrefix() + ConfigManager.getConfigMessage("message.setmobtypes", "",""));
                         return true;
                     } else if (args[0].equalsIgnoreCase("setspawnchance") && args.length > 2) {
                         setSpawnChance(player, name, args[2]);
                         return true;
-                    }
+                    }else if (args[0].equalsIgnoreCase("setspawn")) {
+                            if (name != null) {
+                                locationConfigManager.saveSpawnpoint(name, player.getLocation());
+                                return true;
+                            }else
+                                player.sendMessage(ConfigManager.getPrefix() + ConfigManager.getConfigMessage("message.setspawnusage", "",""));
+                        }
                 } else {
                     player.sendMessage(ConfigManager.getPrefix() + ConfigManager.nopermission());
                 }
@@ -73,12 +80,7 @@ public class SetupCommand implements CommandExecutor {
             sender.sendMessage(ConfigManager.getPrefix() + ConfigManager.getConfigMessage("message.noplayer","",""));
         return false;
     }
-    private void setMobTypes(Player player, String dungeonName, String[] mobTypes) {
-        List<String> mobTypesList = Arrays.asList(mobTypes);
-        locationConfigManager.getConfiguration().set(dungeonName + ".mobTypes", mobTypesList);
-        player.sendMessage(ConfigManager.getPrefix() + "Mob types set for dungeon: " + dungeonName);
-        locationConfigManager.saveConfig();
-    }
+
 
     private void setSpawnChance(Player player, String dungeonName, String spawnChance) {
         try {

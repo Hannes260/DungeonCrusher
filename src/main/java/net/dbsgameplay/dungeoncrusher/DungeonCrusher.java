@@ -17,9 +17,9 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+
+import java.util.*;
+import java.util.stream.Collectors;
 
 public final class DungeonCrusher extends JavaPlugin {
     public static DungeonCrusher plugin;
@@ -89,6 +89,7 @@ public final class DungeonCrusher extends JavaPlugin {
         pluginManager.registerEvents(new ShopClickListener(this, mysqlManager),this);
         pluginManager.registerEvents(new SwordUpgradeClickListener(this, mysqlManager),this);
         pluginManager.registerEvents(new ArmorUpgradeClickListener(this, mysqlManager),this);
+        pluginManager.registerEvents(new NavigatorListener(locationconfigManager), this);
     }
     public List<String> onTabComplete(CommandSender sender, Command cmd, String alias, String[] args) {
         if (cmd.getName().equalsIgnoreCase("config")) {
@@ -115,7 +116,22 @@ public final class DungeonCrusher extends JavaPlugin {
             }
         } else if (cmd.getName().equalsIgnoreCase("setup")) {
             if (args.length == 1) {
-                return Arrays.asList("setdungeon","setsavezone","removedungeon","removesavezone");
+                return Arrays.asList("setdungeon","setsavezone","removedungeon","removesavezone","setspawn");
+            } else if (args.length == 2) {
+                if (args[0].equalsIgnoreCase("setspawn")) {
+                    List<String> dungeonNames = new ArrayList<>();
+                    Map<String, List<String>> dungeonsAndSavezones = locationconfigManager.getDungeonsAndSavezones();
+                    List<String> sortedDungeonNames = dungeonsAndSavezones.keySet().stream()
+                            .filter(name -> name.startsWith("dungeon")) // Filtere Dungeon-Namen heraus
+                            .sorted(Comparator.comparingInt(this::extractDungeonNumber))
+                            .collect(Collectors.toList());
+                    for (String dungeonName : sortedDungeonNames) {
+                        dungeonNames.add(dungeonName);
+                    }
+                    return dungeonNames;
+                } else {
+                    return Arrays.asList("name");
+                }
             }else if (args.length == 2) {
                 return Arrays.asList("name");
             }else if (args.length == 3) {
@@ -145,5 +161,12 @@ public final class DungeonCrusher extends JavaPlugin {
     }
     public static LocationConfigManager locationConfigManager() {
         return plugin.locationconfigManager;
+    }
+    private int extractDungeonNumber(String dungeonName) {
+        try {
+            return Integer.parseInt(dungeonName.replace("dungeon", ""));
+        } catch (NumberFormatException e) {
+            return Integer.MAX_VALUE;
+        }
     }
 }

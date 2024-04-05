@@ -35,7 +35,6 @@ public class ShopCommand implements CommandExecutor {
                 Inventory inventory = Bukkit.createInventory((InventoryHolder) null, 9 * 6, "§9§lShop");
                 inventory.setItem(45, new ItemBuilder(Material.BARRIER).setDisplayname("§7➢ §bSchließen").setLocalizedName("schließen").build());
 
-
                 String currentmoney = mysqlManager.getBalance(player.getUniqueId().toString());
 
                 inventory.setItem(53, (new PlayerHead(player.getName(), "§9Dein Geld: §a" + currentmoney + "§9€", new String[0])).getItemStack());

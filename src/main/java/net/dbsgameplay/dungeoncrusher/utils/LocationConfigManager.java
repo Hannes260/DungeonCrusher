@@ -1,9 +1,11 @@
 package net.dbsgameplay.dungeoncrusher.utils;
 
 import org.bukkit.Location;
+import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
+import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.File;
@@ -100,6 +102,7 @@ public class LocationConfigManager {
         double y = config.getDouble(locationName + ".y");
         double z = config.getDouble(locationName + ".z");
         String world = config.getString(locationName + ".world");
+
         return null;
     }
 
@@ -113,22 +116,26 @@ public class LocationConfigManager {
         saveConfig();
     }
     public Location getSpawnpoint(String dungeonName) {
-        double x = config.getDouble(dungeonName + "." + "spawnpoint.x");
-        double y = config.getDouble(dungeonName + "." + "spawnpoint.y");
-        double z = config.getDouble(dungeonName + "." + "spawnpoint.z");
-        float yaw = (float) config.getDouble(dungeonName + "." + "spawnpoint.yaw");
-        float pitch = (float) config.getDouble(dungeonName + "." + "spawnpoint.pitch");
-        String worldName = config.getString(dungeonName + "." + "spawnpoint.world");
-        return new Location(plugin.getServer().getWorld(worldName), x, y, z,yaw,pitch);
+        if (isLocationSet(dungeonName + "." + "spawnpoint")) {
+            double x = config.getDouble(dungeonName + "." + "spawnpoint" + ".x");
+            double y = config.getDouble(dungeonName + "." + "spawnpoint" + ".y");
+            double z = config.getDouble(dungeonName + "." + "spawnpoint" + ".z");
+            float yaw = (float) config.getDouble(dungeonName + "." + "spawnpoint" + ".yaw");
+            float pitch = (float) config.getDouble(dungeonName + "." + "spawnpoint" + ".pitch");
+            String worldName = config.getString(dungeonName + "." + "spawnpoint" + ".world");
+            return new Location(plugin.getServer().getWorld(worldName), x, y, z,yaw,pitch);
+        }
+        return null;
     }
     public void saveSpawnpoint(String dungeonName, Location location) {
-        config.set(dungeonName + "." + "spawnpoint" + ".x", location.getX());
-        config.set(dungeonName + "." + "spawnpoint" + ".y", location.getY());
-        config.set(dungeonName + "." + "spawnpoint" + ".z", location.getZ());
-        config.set(dungeonName + "." + "spawnpoint" + ".yaw", (float) location.getYaw());
-        config.set(dungeonName + "." + "spawnpoint" + ".pitch", (float) location.getPitch());
-        config.set(dungeonName + "." + "spawnpoint" + ".world", location.getWorld().getName());
-        saveConfig();
+            config.set(dungeonName + "." + "spawnpoint" + ".x", location.getX());
+            config.set(dungeonName + "." + "spawnpoint" + ".y", location.getY());
+            config.set(dungeonName + "." + "spawnpoint" + ".z", location.getZ());
+            config.set(dungeonName + "." + "spawnpoint" + ".yaw", (float) location.getYaw());
+            config.set(dungeonName + "." + "spawnpoint" + ".pitch", (float) location.getPitch());
+            config.set(dungeonName + "." + "spawnpoint" + ".world", location.getWorld().getName());
+            saveConfig();
+
     }
 
     public void saveSavezone(String dungeonName, String savezoneName, Location location, int i) {
@@ -186,6 +193,14 @@ public class LocationConfigManager {
             return new Location(plugin.getServer().getWorld(worldName), x, y, z);
         }
         return null;
+    }
+    public void setMobTypes(String dungeonName, String[] mobTypes) {
+        List<String> mobTypesList = Arrays.asList(mobTypes);
+        config.set(dungeonName + ".mobTypes", mobTypesList);
+        saveConfig();
+    }
+    private List<String> getMobTypesForDungeon(String dungeonName) {
+        return config.getStringList(dungeonName + ".mobTypes");
     }
     public void saveConfig() {
         try {

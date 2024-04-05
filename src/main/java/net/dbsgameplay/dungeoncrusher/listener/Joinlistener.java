@@ -54,6 +54,13 @@ public class Joinlistener implements Listener {
             food.setAmount(64);
             player.getInventory().setItem(1, food);
         }
+
+        ItemStack navigator = new ItemStack(Material.ENDER_EYE);
+        ItemMeta navigatormeta = navigator.getItemMeta();
+        navigatormeta.setDisplayName("§8➡ §9Teleporter §8✖ §7Rechtsklick");
+        navigator.setItemMeta(navigatormeta);
+        player.getInventory().setItem(8, navigator);
+
             ItemStack rawcopper = new ItemStack(Material.RAW_COPPER);
             ItemMeta rawcoppermeta = rawcopper.getItemMeta();
                 rawcoppermeta.setDisplayName("§bAnzahl ➝ §6" + mysqlManager.getItemAmount(player.getUniqueId().toString(), "raw_copper"));
