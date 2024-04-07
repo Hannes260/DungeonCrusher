@@ -244,12 +244,9 @@ public class MYSQLManager {
             String query = "SELECT deaths FROM player_stats WHERE uuid = ?";
             try (PreparedStatement statement = connection.prepareStatement(query)) {
                 statement.setString(1, uuid);
-
                 try (ResultSet resultSet = statement.executeQuery()) {
-                    while (resultSet.next()) {
+                    if (resultSet.next()) {
                         totalDeaths += resultSet.getInt("deaths");
-                        statement.close();
-                        resultSet.close();
                     }
                 }
             }

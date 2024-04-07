@@ -1,15 +1,20 @@
 package net.dbsgameplay.dungeoncrusher.listener;
 
+import org.bukkit.Bukkit;
+import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Projectile;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
+import org.bukkit.event.block.BlockFadeEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
+import org.bukkit.event.entity.EntityInteractEvent;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.player.PlayerDropItemEvent;
+import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.event.player.PlayerPickupItemEvent;
 
 import java.util.HashSet;
@@ -31,7 +36,31 @@ public class DungeonProtectionListener implements Listener {
     public boolean isBuildModeEnabled(Player player) {
         return buildModePlayers.contains(player.getUniqueId());
     }
+    @EventHandler
+    public final void onEntityFarmBreak(EntityInteractEvent e) {
+            if (e.getBlock().getType() == Material.FARMLAND) {
+                e.getBlock().setType(Material.DIRT);
 
+        } else {
+            if (e.getBlock().getType() == Material.FARMLAND) {
+                e.setCancelled(true);
+            }
+
+        }
+    }
+    @EventHandler
+    public final void onFarmlandChange(BlockFadeEvent e) {
+            if (e.getBlock().getType() == Material.FARMLAND) {
+                for (Player player : Bukkit.getOnlinePlayers()) {
+                    if (player.getLocation().distanceSquared(e.getBlock().getLocation()) <= 25) {
+                        if (!isBuildModeEnabled(player)) {
+                            e.setCancelled(true);
+                            break;
+                        }
+                    }
+                }
+            }
+    }
     @EventHandler
     public void onBlockBreak(BlockBreakEvent event) {
         Player player = event.getPlayer();

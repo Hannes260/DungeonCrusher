@@ -111,5 +111,69 @@ public class ShopCommand implements CommandExecutor {
             }
         }
     }
+    public void getShopInventory(Player player) {
+        Inventory inventory = Bukkit.createInventory((InventoryHolder) null, 9 * 6, "§9§lShop");
+        inventory.setItem(45, new ItemBuilder(Material.BARRIER).setDisplayname("§7➢ §bSchließen").setLocalizedName("schließen").build());
 
+        String currentmoney = mysqlManager.getBalance(player.getUniqueId().toString());
+
+        inventory.setItem(53, (new PlayerHead(player.getName(), "§9Dein Geld: §a" + currentmoney + "§9€", new String[0])).getItemStack());
+        this.fillEmptySlots(inventory, Material.LIGHT_GRAY_STAINED_GLASS_PANE, 1);
+        player.openInventory(inventory);
+
+        // Animation
+        BukkitRunnable task = new BukkitRunnable() {
+            int tick = 0;
+
+            @Override
+            public void run() {
+                tick++;
+                switch (tick) {
+                    case 1:
+                        PlayerProfile profile = TexturedHeads.getProfile("https://textures.minecraft.net/texture/1591b61529d25a7ecd6bec00948e6fe155e3007f2d7fe559f3a83c6f808e434d");
+                        ItemStack food = new ItemStack(Material.PLAYER_HEAD);
+                        SkullMeta meta = (SkullMeta) food.getItemMeta();
+                        meta.setOwnerProfile(profile);
+                        meta.setDisplayName("§7➢ Essen");
+                        meta.setLocalizedName("essen");
+                        food.setItemMeta(meta);
+                        inventory.setItem(20, food);
+                        break;
+                    case 2:
+                        PlayerProfile upgradeprofile = TexturedHeads.getProfile("https://textures.minecraft.net/texture/77334cddfab45d75ad28e1a47bf8cf5017d2f0982f6737da22d4972952510661");
+                        ItemStack upgrade = new ItemStack(Material.PLAYER_HEAD);
+                        SkullMeta upgrademeta = (SkullMeta) upgrade.getItemMeta();
+                        upgrademeta.setOwnerProfile(upgradeprofile);
+                        upgrademeta.setDisplayName("§7➢ Upgrades");
+                        upgrademeta.setLocalizedName("upgrades");
+                        upgrade.setItemMeta(upgrademeta);
+                        inventory.setItem(22, upgrade);
+                        break;
+                    case 3:
+                        PlayerProfile potionprofile = TexturedHeads.getProfile("https://textures.minecraft.net/texture/dcedb2f4c97016cae7b89e4c6d6978d22ac3476c815c5a09a6792450dd918b6c");
+                        ItemStack potions = new ItemStack(Material.PLAYER_HEAD);
+                        SkullMeta potionmeta = (SkullMeta) potions.getItemMeta();
+                        potionmeta.setOwnerProfile(potionprofile);
+                        potionmeta.setDisplayName("§7➢ Tränke");
+                        potionmeta.setLocalizedName("potions");
+                        potions.setItemMeta(potionmeta);
+                        inventory.setItem(24, potions);
+                        break;
+                    case 13:
+                        try {
+                            Thread.sleep(50000000 / 1000000);
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+                        player.playSound(player.getLocation(), Sound.UI_BUTTON_CLICK, 1.0f, 1.0f);
+                        break;
+                    case 14:
+                        player.playSound(player.getLocation(), Sound.ENTITY_PLAYER_LEVELUP, 1.0f, 1.0f);
+                        this.cancel();
+                        break;
+                }
+            }
+        };
+        task.runTaskTimer(this.dungeonCrusher, 0, 1); //
+    }
 }

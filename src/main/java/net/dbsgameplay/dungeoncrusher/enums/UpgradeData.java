@@ -3,7 +3,6 @@ package net.dbsgameplay.dungeoncrusher.enums;
 public class UpgradeData {
     public static int[] getUpgradeData(int level) {
         int[][] upgradeData = {
-                {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
                 {10, 6, 365, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
                 {15, 11, 730, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
                 {20, 16, 1095, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},

@@ -70,7 +70,13 @@ public class SetupCommand implements CommandExecutor {
                                 return true;
                             }else
                                 player.sendMessage(ConfigManager.getPrefix() + ConfigManager.getConfigMessage("message.setspawnusage", "",""));
-                        }
+                        } else if (args[0].equalsIgnoreCase("setkills")) {
+                        if (args.length > 2) {
+                            locationConfigManager.saveKills(name, Integer.valueOf(args[2]));
+                            player.sendMessage(ConfigManager.getPrefix() + ConfigManager.getConfigMessage("message.savekills","%kills%",args[2]));
+                        }else
+                            player.sendMessage(ConfigManager.getPrefix() + ConfigManager.getConfigMessage("message.savekillsusage", "",""));
+                    }
                 } else {
                     player.sendMessage(ConfigManager.getPrefix() + ConfigManager.nopermission());
                 }

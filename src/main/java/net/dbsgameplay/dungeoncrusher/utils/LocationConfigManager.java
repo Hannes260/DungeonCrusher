@@ -1,11 +1,9 @@
 package net.dbsgameplay.dungeoncrusher.utils;
 
 import org.bukkit.Location;
-import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
-import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.File;
@@ -136,6 +134,15 @@ public class LocationConfigManager {
             config.set(dungeonName + "." + "spawnpoint" + ".world", location.getWorld().getName());
             saveConfig();
 
+    }
+    public Integer saveKills(String dungeonName, Integer Kills) {
+        config.set(dungeonName + "." + "kills", Kills);
+        saveConfig();
+        return Kills;
+    }
+    public Integer getKills(String dungeonName) {
+        Integer kills = (Integer) config.get(dungeonName + "." + "kills");
+        return kills;
     }
 
     public void saveSavezone(String dungeonName, String savezoneName, Location location, int i) {

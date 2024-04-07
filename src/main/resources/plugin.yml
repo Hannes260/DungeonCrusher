@@ -3,6 +3,7 @@ version: '${project.version}'
 main: net.dbsgameplay.dungeoncrusher.DungeonCrusher
 api-version: '1.20'
 author: HanneZHD
+softdepend: [PlaceholderAPI]
 commands:
   config:
     tab-completer: true

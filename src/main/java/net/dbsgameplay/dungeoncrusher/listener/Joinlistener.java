@@ -1,6 +1,7 @@
 package net.dbsgameplay.dungeoncrusher.listener;
 
 
+import net.dbsgameplay.dungeoncrusher.Commands.LevelSystem.SwordUpgradeClickListener;
 import net.dbsgameplay.dungeoncrusher.DungeonCrusher;
 import net.dbsgameplay.dungeoncrusher.sql.MYSQLManager;
 import net.dbsgameplay.dungeoncrusher.utils.ConfigManager;
@@ -40,10 +41,11 @@ public class Joinlistener implements Listener {
         if(!player.hasPlayedBefore()) {
             Bukkit.broadcastMessage(ConfigManager.getConfigMessage("message.firstjoin", "%player%", player.getName()));
             double startmoney;
-            startmoney = 2500;
+            startmoney = 1000;
             String formattedMoney = String.format(Locale.ENGLISH , "%,.2f", startmoney);
             mysqlManager.updateBalance(String.valueOf(player.getUniqueId()), formattedMoney);
             mysqlManager.updateSwordLevel(String.valueOf(player.getUniqueId()), 1);
+
             ItemStack sword = new ItemStack(Material.WOODEN_SWORD);
             ItemMeta swordmeta = sword.getItemMeta();
             swordmeta.setUnbreakable(true);
@@ -54,6 +56,10 @@ public class Joinlistener implements Listener {
             food.setAmount(64);
             player.getInventory().setItem(1, food);
         }
+
+        SwordUpgradeClickListener swordUpgradeClickListener = new SwordUpgradeClickListener(dungeonCrusher, mysqlManager);
+        int currentlevel = mysqlManager.getSwordLevel(player.getUniqueId().toString());
+        swordUpgradeClickListener.giveSwordToPlayer(player, currentlevel);
 
         ItemStack navigator = new ItemStack(Material.ENDER_EYE);
         ItemMeta navigatormeta = navigator.getItemMeta();

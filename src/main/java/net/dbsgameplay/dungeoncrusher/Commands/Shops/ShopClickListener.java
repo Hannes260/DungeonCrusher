@@ -49,9 +49,9 @@ public class ShopClickListener implements Listener {
                     case"essen":
                         Inventory foodinv = Bukkit.createInventory(null , 9*6,"§9§lShop");
                         foodinv.setItem(4, new ItemBuilder(Material.GOLDEN_APPLE).setDisplayname("§7➢ GoldApfel").setLocalizedName("goldenapple").setLore("§7Anzahl: §61", "§7Preis: §6450€").build());
-                        foodinv.setItem(20, new ItemBuilder(Material.COOKIE).setDisplayname("§7➢ Cookie").setLocalizedName("cookie").setLore("§7Anzahl: §61", "§7Preis: §615€").build());
+                        foodinv.setItem(20, new ItemBuilder(Material.COOKIE).setDisplayname("§7➢ Cookie").setLocalizedName("cookie").setLore("§7Anzahl: §61", "§7Preis: §61€").build());
                         foodinv.setItem(22, new ItemBuilder(Material.ENCHANTED_GOLDEN_APPLE).setDisplayname("§7➢ Verzauberter Goldenerapfel").setLocalizedName("enchantedgoldenapple").setLore("§7Anzahl: §61", "§7Preis: §61000€").build());
-                        foodinv.setItem(24, new ItemBuilder(Material.BREAD).setDisplayname("§7➢ Brot").setLocalizedName("bread").setLore("§7Anzahl: §61", "§7Preis: §675€").build());
+                        foodinv.setItem(24, new ItemBuilder(Material.BREAD).setDisplayname("§7➢ Brot").setLocalizedName("bread").setLore("§7Anzahl: §61", "§7Preis: §610€").build());
                         foodinv.setItem(49, new ItemBuilder(Material.GRAY_DYE).setLocalizedName("64switchfood").setDisplayname("§bEssen x1").setLore("§7Anzahl: §61", "§7Anzahl: §764").build());
                         backheadinventory(player, foodinv,45,"main");
                         player.openInventory(foodinv);
@@ -59,9 +59,9 @@ public class ShopClickListener implements Listener {
                         case"64switchfood":
                             Inventory foodinv64 = Bukkit.createInventory(null , 9*6,"§9§lShop");
                             foodinv64.setItem(4, new ItemBuilder(Material.GOLDEN_APPLE).setDisplayname("§7➢ GoldApfel").setLocalizedName("goldenapple64").setLore("§7Anzahl: §664", "§7Preis: §628800€").build());
-                            foodinv64.setItem(20, new ItemBuilder(Material.COOKIE).setDisplayname("§7➢ Cookie").setLocalizedName("cookie64").setLore("§7Anzahl: §664", "§7Preis: §6960€").build());
+                            foodinv64.setItem(20, new ItemBuilder(Material.COOKIE).setDisplayname("§7➢ Cookie").setLocalizedName("cookie64").setLore("§7Anzahl: §664", "§7Preis: §664€").build());
                             foodinv64.setItem(22, new ItemBuilder(Material.ENCHANTED_GOLDEN_APPLE).setDisplayname("§7➢ Verzauberter Goldenerapfel").setLocalizedName("enchantedgoldenapple64").setLore("§7Anzahl: §664", "§7Preis: §664000€").build());
-                            foodinv64.setItem(24, new ItemBuilder(Material.BREAD).setDisplayname("§7➢ Brot").setLocalizedName("bread64").setLore("§7Anzahl: §664", "§7Preis: §64800€").build());
+                            foodinv64.setItem(24, new ItemBuilder(Material.BREAD).setDisplayname("§7➢ Brot").setLocalizedName("bread64").setLore("§7Anzahl: §664", "§7Preis: §6640€").build());
                             foodinv64.setItem(49, new ItemBuilder(Material.LIME_DYE).setLocalizedName("essen").setDisplayname("§bEssen x64").setLore("§7Anzahl: §71", "§7Anzahl: §664").build());
                             backheadinventory(player, foodinv64,45,"main");
                             player.openInventory(foodinv64);
@@ -240,25 +240,25 @@ public class ShopClickListener implements Listener {
                         buyItem(player, Material.GOLDEN_APPLE,1,450);
                         break;
                     case"cookie":
-                        buyItem(player, Material.COOKIE,1,15);
+                        buyItem(player, Material.COOKIE,1,1);
                         break;
                     case"enchantedgoldenapple":
                         buyItem(player, Material.ENCHANTED_GOLDEN_APPLE,1,1000);
                         break;
                     case"bread":
-                        buyItem(player, Material.BREAD,1,75);
+                        buyItem(player, Material.BREAD,1,10);
                         break;
                     case"goldenapple64":
                         buyItem(player, Material.GOLDEN_APPLE,64,28800);
                         break;
                     case"cookie64":
-                        buyItem(player, Material.COOKIE,64,960);
+                        buyItem(player, Material.COOKIE,64,64);
                         break;
                     case"enchantedgoldenapple64":
                         buyItem(player, Material.ENCHANTED_GOLDEN_APPLE,64,64000);
                         break;
                     case"bread64":
-                        buyItem(player, Material.BREAD,64,4800);
+                        buyItem(player, Material.BREAD,64,640);
                         break;
                 }
             }

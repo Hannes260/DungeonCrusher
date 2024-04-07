@@ -1,9 +1,11 @@
 package net.dbsgameplay.dungeoncrusher.listener;
 
 import net.dbsgameplay.dungeoncrusher.utils.SavezoneManager;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
 
 
@@ -16,8 +18,20 @@ public class SavezoneListener implements Listener {
     }
     @EventHandler
     public void onEntityDamage(EntityDamageEvent event) {
-        if (event.getEntity() instanceof Player) {
-            Player player = (Player) event.getEntity();
+        Entity entity = event.getEntity();
+        if (entity instanceof Player) {
+            Player player = (Player) entity;
+            if (savezoneManager.isInAnySavezone(player)) {
+                event.setCancelled(true);
+            }
+        }
+    }
+
+    @EventHandler
+    public void onEntityDamageByEntity(EntityDamageByEntityEvent event) {
+        Entity damager = event.getDamager();
+        if (damager instanceof Player) {
+            Player player = (Player) damager;
             if (savezoneManager.isInAnySavezone(player)) {
                 event.setCancelled(true);
             }

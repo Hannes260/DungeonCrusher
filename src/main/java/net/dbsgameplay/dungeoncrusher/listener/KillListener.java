@@ -24,6 +24,7 @@ public class KillListener implements Listener {
             int currentKills = Integer.parseInt(mysqlManager.getKills(player));
             mysqlManager.updateKills(player, String.valueOf(currentKills + 1));
             scoreboardBuilder.updateKills(event.getEntity().getKiller().getPlayer());
+            scoreboardBuilder.updateDungeonKills(event.getEntity().getKiller().getPlayer());
 
         }
     }

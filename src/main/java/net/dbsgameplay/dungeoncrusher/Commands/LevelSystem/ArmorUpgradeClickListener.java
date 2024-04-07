@@ -928,13 +928,13 @@ public class ArmorUpgradeClickListener implements Listener {
     }
     private void updatelederhelmet(Player player, double rüstung, int level, double health) {
         ItemStack woodenhelm = new ItemStack(Material.LEATHER_HELMET);
-        AttributeModifier modifier = new AttributeModifier(UUID.randomUUID(), "generic.armor_toughness", rüstung, AttributeModifier.Operation.ADD_NUMBER);
+        AttributeModifier modifier = new AttributeModifier(UUID.randomUUID(), "generic.armor", rüstung, AttributeModifier.Operation.ADD_NUMBER);
         player.getAttribute(Attribute.GENERIC_MAX_HEALTH).setBaseValue(player.getHealth() + health);
         ItemMeta woodenmeta = woodenhelm.getItemMeta();
         woodenmeta.setDisplayName("§7<< §6LederHelm §7- §aLv."+ level + "§7>>");
         woodenmeta.setLore(Collections.singletonList("§9+"+ rüstung + " Rüstung"));
         woodenmeta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
-        woodenmeta.addAttributeModifier(Attribute.GENERIC_ARMOR_TOUGHNESS, modifier);
+        woodenmeta.addAttributeModifier(Attribute.GENERIC_ARMOR, modifier);
         woodenmeta.setUnbreakable(true);
         woodenhelm.setItemMeta(woodenmeta);
         player.getInventory().setHelmet(woodenhelm);

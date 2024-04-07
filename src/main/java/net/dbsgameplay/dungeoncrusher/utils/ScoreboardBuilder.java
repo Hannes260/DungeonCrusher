@@ -1,5 +1,6 @@
 package net.dbsgameplay.dungeoncrusher.utils;
 
+import me.clip.placeholderapi.PlaceholderAPI;
 import net.dbsgameplay.dungeoncrusher.DungeonCrusher;
 import net.dbsgameplay.dungeoncrusher.sql.MYSQLManager;
 import org.bukkit.Bukkit;
@@ -13,6 +14,10 @@ import org.bukkit.scoreboard.DisplaySlot;
 import org.bukkit.scoreboard.Objective;
 import org.bukkit.scoreboard.Scoreboard;
 import org.bukkit.scoreboard.Team;
+
+import java.util.List;
+import java.util.UUID;
+import java.util.stream.Collectors;
 
 public class ScoreboardBuilder implements Listener {
 
@@ -34,16 +39,29 @@ public class ScoreboardBuilder implements Listener {
 
         Scoreboard scoreboard = Bukkit.getScoreboardManager().getNewScoreboard();
         Objective obj = scoreboard.registerNewObjective("abcd", "abcd");
-        obj.setDisplayName(ConfigManager.getConfigMessage("message.scoreboardprefix"));
+
+        String Geld = "%img_geld%";
+        Geld = PlaceholderAPI.setPlaceholders(player, Geld);
+
+        String Online = "%img_online%";
+        Online = PlaceholderAPI.setPlaceholders(player, Online);
+
+        String Dungeon = "%img_dungeon%";
+        Dungeon = PlaceholderAPI.setPlaceholders(player, Dungeon);
+
+        String displayname = "%img_dc%";
+        displayname = PlaceholderAPI.setPlaceholders(player, displayname);
+        obj.setDisplayName(displayname);
         obj.setDisplaySlot(DisplaySlot.SIDEBAR);
-        obj.getScore("§4").setScore(10);
-        obj.getScore("§3» Geld").setScore(9);
-        obj.getScore("§d").setScore(8);
-        obj.getScore("§b").setScore(7);
-        obj.getScore("§3» Dungeon").setScore(6);
-        obj.getScore("§3").setScore(5);
+        obj.getScore("§4").setScore(11);
+        obj.getScore(Geld).setScore(10);
+        obj.getScore("§d").setScore(9);
+        obj.getScore("§b").setScore(8);
+        obj.getScore(Dungeon).setScore(7);
+        obj.getScore("§3").setScore(6);
+        obj.getScore("§6").setScore(5);
         obj.getScore("§5").setScore(4);
-        obj.getScore("§3» Online").setScore(3);
+        obj.getScore(Online).setScore(3);
         obj.getScore(ChatColor.BLACK + "" + ChatColor.WHITE).setScore(2);
         obj.getScore("§1").setScore(1);
 
@@ -66,6 +84,10 @@ public class ScoreboardBuilder implements Listener {
         Team kills = scoreboard.registerNewTeam("kills");
         kills.addEntry("§3");
         updateKills(player);
+        //Dungeons
+        Team dungeonkills = scoreboard.registerNewTeam("dungeonkills");
+        dungeonkills.addEntry("§6");
+        updateDungeonKills(player);
         //Items
     }
     @EventHandler
@@ -112,9 +134,66 @@ public class ScoreboardBuilder implements Listener {
         if (killsTeam == null) {
             killsTeam = scoreboard.registerNewTeam("kills");
         }
-
-        String newPrefix = "§3Kills: " + ChatColor.WHITE + kills;
+        String Kills = "%img_kills%";
+        Kills = PlaceholderAPI.setPlaceholders(player, Kills);
+        String newPrefix = Kills + " §f"+ kills;
         killsTeam.setPrefix(newPrefix);
+    }
+    public void updateDungeonKills(Player player) {
+        Scoreboard scoreboard = player.getScoreboard();
+        String playerUUID = player.getUniqueId().toString();
+        LocationConfigManager locationConfigManager = new LocationConfigManager(DungeonCrusher.getPlugin());
+        // Finde den nächsten nicht freigeschalteten Dungeon
+        String nextUnlockedDungeon = getNextUnlockedDungeon(player.getUniqueId().toString());
+
+        if (nextUnlockedDungeon != null) {
+            Integer requiredKills = locationConfigManager.getKills(nextUnlockedDungeon);
+            System.out.println(nextUnlockedDungeon);
+            if (requiredKills != null) {
+                String currentKillsString = mysqlManager.getKills(playerUUID);
+                int currentKills = currentKillsString != null ? Integer.parseInt(currentKillsString) : 0;
+                int killsNeeded = Math.max(requiredKills - currentKills, 0); // Berechne benötigte Kills für den nächsten Dungeon
+
+                Team dungeonKillsTeam = scoreboard.getTeam("dungeonkills");
+                if (dungeonKillsTeam == null) {
+                    dungeonKillsTeam = scoreboard.registerNewTeam("dungeonkills");
+                }
+                String nextDungeon = "%img_next_dungeon%";
+                nextDungeon = PlaceholderAPI.setPlaceholders(player, nextDungeon);
+                String newPrefix = nextDungeon  + " §f" + killsNeeded + "💀";
+                dungeonKillsTeam.setPrefix(newPrefix);
+            }
+        }
+    }
+    // LocationConfigManager locationConfigManager = new LocationConfigManager(DungeonCrusher.getPlugin());
+    private String getNextUnlockedDungeon(String playerUUID) {
+        // Alle Dungeons aus der Konfigurationsdatei abrufen
+        LocationConfigManager locationConfigManager = new LocationConfigManager(DungeonCrusher.getPlugin());
+        List<String> allDungeons = locationConfigManager.getDungeonsAndSavezones().keySet().stream()
+                .filter(name -> name.startsWith("dungeon"))
+                .collect(Collectors.toList());
+
+        // Aktuelle Anzahl der Kills des Spielers abrufen
+        String currentKillsString = mysqlManager.getKills(playerUUID);
+        int currentKills = currentKillsString != null ? Integer.parseInt(currentKillsString) : 0;
+
+        // Variablen initialisieren, um den nächsten nicht freigeschalteten Dungeon zu verfolgen
+        String nextDungeon = null;
+        int minDifference = Integer.MAX_VALUE;
+
+        // Den nächsten nicht freigeschalteten Dungeon finden
+        for (String dungeon : allDungeons) {
+            Integer requiredKills = locationConfigManager.getKills(dungeon);
+            if (requiredKills != null && currentKills < requiredKills) {
+                int difference = requiredKills - currentKills;
+                if (difference < minDifference) {
+                    minDifference = difference;
+                    nextDungeon = dungeon;
+                }
+            }
+        }
+
+        return nextDungeon;
     }
 
     public String getPlayerBalanceFromDB(Player player) {
@@ -137,5 +216,16 @@ public class ScoreboardBuilder implements Listener {
         String newPrefix = "§f" + currentMoneyFormatted + "§f€";
         moneyTeam.setPrefix(newPrefix);
     }
+    private boolean hasRequiredKills(Player player, String dungeonName) {
+        LocationConfigManager locationConfigManager = new LocationConfigManager(DungeonCrusher.getPlugin());
+        Integer kills = Integer.parseInt(mysqlManager.getKills(String.valueOf(player.getUniqueId())));
+        Integer requiredKills = locationConfigManager.getKills(dungeonName);
 
+        // Wenn requiredKills null ist, setze den Wert auf 0
+        if (requiredKills == null) {
+            requiredKills = 0;
+        }
+
+        return kills >= requiredKills;
+    }
 }

@@ -203,7 +203,7 @@ public class SwordUpgradeClickListener implements Listener {
             player.sendMessage(ConfigManager.getPrefix() + ConfigManager.getConfigMessage("message.notenoughtitemsupgrade", "", ""));
         }
     }
-    private void giveSwordToPlayer(Player player, int level) {
+    public void giveSwordToPlayer(Player player, int level) {
 
         switch (level) {
             case 2:

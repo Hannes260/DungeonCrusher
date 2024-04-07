@@ -77,7 +77,7 @@ public final class DungeonCrusher extends JavaPlugin {
         PluginManager pluginManager = Bukkit.getPluginManager();
         pluginManager.registerEvents(new ScoreboardBuilder(this), this);
         pluginManager.registerEvents(new Joinlistener(this, mysqlManager, locationconfigManager), this);
-        pluginManager.registerEvents(new DeathListener(this, mysqlManager),this);
+        pluginManager.registerEvents(new DeathListener(this, mysqlManager, locationconfigManager),this);
         pluginManager.registerEvents(new KillListener(this, mysqlManager), this);
         pluginManager.registerEvents(new BlockListener(markierungsManager),this);
         pluginManager.registerEvents(new DungeonProtectionListener(),this);
@@ -89,9 +89,15 @@ public final class DungeonCrusher extends JavaPlugin {
         pluginManager.registerEvents(new ShopClickListener(this, mysqlManager),this);
         pluginManager.registerEvents(new SwordUpgradeClickListener(this, mysqlManager),this);
         pluginManager.registerEvents(new ArmorUpgradeClickListener(this, mysqlManager),this);
-        pluginManager.registerEvents(new NavigatorListener(locationconfigManager), this);
+        pluginManager.registerEvents(new NavigatorListener(this,locationconfigManager, mysqlManager), this);
     }
     public List<String> onTabComplete(CommandSender sender, Command cmd, String alias, String[] args) {
+        List<String> dungeonNames = new ArrayList<>();
+        Map<String, List<String>> dungeonsAndSavezones = locationconfigManager.getDungeonsAndSavezones();
+        List<String> sortedDungeonNames = dungeonsAndSavezones.keySet().stream()
+                .filter(name -> name.startsWith("dungeon")) // Filtere Dungeon-Namen heraus
+                .sorted(Comparator.comparingInt(this::extractDungeonNumber))
+                .collect(Collectors.toList());
         if (cmd.getName().equalsIgnoreCase("config")) {
             Player player = (Player) sender;
             if (args.length == 1) {
@@ -116,20 +122,19 @@ public final class DungeonCrusher extends JavaPlugin {
             }
         } else if (cmd.getName().equalsIgnoreCase("setup")) {
             if (args.length == 1) {
-                return Arrays.asList("setdungeon","setsavezone","removedungeon","removesavezone","setspawn");
+                return Arrays.asList("setdungeon","setsavezone","removedungeon","removesavezone","setspawn","setkills");
             } else if (args.length == 2) {
                 if (args[0].equalsIgnoreCase("setspawn")) {
-                    List<String> dungeonNames = new ArrayList<>();
-                    Map<String, List<String>> dungeonsAndSavezones = locationconfigManager.getDungeonsAndSavezones();
-                    List<String> sortedDungeonNames = dungeonsAndSavezones.keySet().stream()
-                            .filter(name -> name.startsWith("dungeon")) // Filtere Dungeon-Namen heraus
-                            .sorted(Comparator.comparingInt(this::extractDungeonNumber))
-                            .collect(Collectors.toList());
                     for (String dungeonName : sortedDungeonNames) {
                         dungeonNames.add(dungeonName);
                     }
                     return dungeonNames;
-                } else {
+                } else if (args[0].equalsIgnoreCase("setkills")) {
+                    for (String dungeonName : sortedDungeonNames) {
+                        dungeonNames.add(dungeonName);
+                    }
+                    return dungeonNames;
+            }else {
                     return Arrays.asList("name");
                 }
             }else if (args.length == 2) {
