@@ -1,30 +1,30 @@
 package net.dbsgameplay.dungeoncrusher.Commands;
 
+import dev.lone.itemsadder.api.FontImages.FontImageWrapper;
+import dev.lone.itemsadder.api.FontImages.TexturedInventoryWrapper;
 import net.dbsgameplay.dungeoncrusher.DungeonCrusher;
 import net.dbsgameplay.dungeoncrusher.sql.MYSQLManager;
-import org.bukkit.attribute.Attribute;
+import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-import java.time.LocalDate;
-import java.time.LocalTime;
-
 public class TestComand implements CommandExecutor {
-    private MYSQLManager mysqlManager;
-    public final DungeonCrusher dungeonCrusher;
-
-    public TestComand(DungeonCrusher dungeonCrusher, MYSQLManager mysqlManager) {
-        this.dungeonCrusher = dungeonCrusher;
-        this.mysqlManager = mysqlManager;
-    }
     @Override
-    public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
-        if (sender instanceof Player) {
-            Player player = (Player) sender;
-            player.sendMessage(String.valueOf(LocalDate.now()), String.valueOf(LocalTime.now()));
-        }
-        return false;
+    public boolean onCommand(CommandSender commandSender, Command command, String s, String[] args)
+    {
+        if(!(commandSender instanceof Player))
+            return true;
+
+        Player player = (Player) commandSender;
+
+        TexturedInventoryWrapper inventory = new TexturedInventoryWrapper(null,
+                54,
+                ChatColor.BLACK + "Test",
+                new FontImageWrapper("_iainternal:blank_menu")
+        );
+        inventory.showInventory(player);
+        return true;
     }
 }

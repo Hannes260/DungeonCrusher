@@ -27,9 +27,7 @@ public final class DungeonCrusher extends JavaPlugin {
     private ConfigManager configManager;
     private LocationConfigManager locationconfigManager;
     private DropsConfigManager dropsConfigManager;
-    private MarkierungsManager markierungsManager;
     MobHealthBuilder healthBuilder = new MobHealthBuilder();
-    MobDamageListener damageListener = new MobDamageListener(healthBuilder);
     MYSQLManager mysqlManager;
     @Override
     public void onEnable() {
@@ -64,7 +62,7 @@ public final class DungeonCrusher extends JavaPlugin {
         this.getCommand("spawn").setExecutor(new SpawnCommand(locationconfigManager,savezoneManager));
         this.getCommand("shop").setExecutor(new ShopCommand(this,mysqlManager));
         this.getCommand("upgrades").setExecutor(new UpgradeCommand(this, mysqlManager));
-        this.getCommand("test").setExecutor(new TestComand(this,mysqlManager));
+        this.getCommand("test").setExecutor(new TestComand());
         this.getCommand("flyspeed").setExecutor(new FlySpeedCommand());
 
         //Tab
