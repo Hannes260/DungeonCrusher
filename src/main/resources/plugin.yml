@@ -11,17 +11,20 @@ commands:
   pay:
     tab-completer: true
     description: Überweise anderen Spieler geld
+    aliases: [überweisen]
   money:
     tab-completer: true
     description: Geld Managment
     aliases: eco
   stats:
     description: Sehe deine Stats
+    aliases: [statistik, statistiken]
   setup:
     tab-completer: true
     description: Setup Befehl
   build:
     description: Gehe in den Baumodus
+    aliases: [bauen]
   setspawn:
     description: Setzte den Spawn
   spawn:
@@ -32,5 +35,5 @@ commands:
   upgrades:
     description: Upgrade deine Items
     aliases: [upgrade, levelup]
-  customgui:
   flyspeed:
+    description: Setzte deine Fluggeschwindigkeit nach oben
