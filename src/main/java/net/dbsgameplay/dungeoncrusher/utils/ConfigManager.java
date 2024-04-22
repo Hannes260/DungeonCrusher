@@ -69,6 +69,7 @@ public class ConfigManager {
             setDefaultIfNotSet("message.inventoryfull", "&cDein Inventar ist voll!");
             setDefaultIfNotSet("message.shopusage","&cBenutze: /shop");
             setDefaultIfNotSet("message.buyshop","&aDu hast &6%amount% %material% &aerfolgreich gekauft!");
+            setDefaultIfNotSet("message.buypotionshop", "&aDu hast &6%amount% %potion% &aerfolgreich gekauft!");
             setDefaultIfNotSet("message.notenoughmoney", "&cDu hast nicht genug Geld für diesen Kauf. Preis: %price%");
             setDefaultIfNotSet("message.additem", "&7[&a+&7] &6%item%");
             setDefaultIfNotSet("message.addmobkilledmoney","&7[&a+&7] &6%money%€");

@@ -88,6 +88,7 @@ public final class DungeonCrusher extends JavaPlugin {
         pluginManager.registerEvents(new SwordUpgradeClickListener(this, mysqlManager),this);
         pluginManager.registerEvents(new ArmorUpgradeClickListener(this, mysqlManager),this);
         pluginManager.registerEvents(new NavigatorListener(this,locationconfigManager, mysqlManager), this);
+        pluginManager.registerEvents(new PotionListener(),this);
     }
     public List<String> onTabComplete(CommandSender sender, Command cmd, String alias, String[] args) {
         List<String> dungeonNames = new ArrayList<>();

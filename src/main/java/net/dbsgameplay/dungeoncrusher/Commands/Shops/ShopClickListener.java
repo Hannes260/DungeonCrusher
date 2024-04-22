@@ -1,5 +1,6 @@
 package net.dbsgameplay.dungeoncrusher.Commands.Shops;
 
+import com.google.common.collect.ImmutableList;
 import net.dbsgameplay.dungeoncrusher.DungeonCrusher;
 import net.dbsgameplay.dungeoncrusher.enums.UpgradeData;
 import net.dbsgameplay.dungeoncrusher.objects.PlayerHead;
@@ -20,12 +21,16 @@ import org.bukkit.inventory.InventoryHolder;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.inventory.meta.PotionMeta;
 import org.bukkit.inventory.meta.SkullMeta;
+import org.bukkit.potion.PotionData;
+import org.bukkit.potion.PotionEffect;
+import org.bukkit.potion.PotionEffectType;
+import org.bukkit.potion.PotionType;
 import org.bukkit.profile.PlayerProfile;
 import org.bukkit.scheduler.BukkitRunnable;
 
-import java.util.HashMap;
-import java.util.Locale;
+import java.util.*;
 
 public class ShopClickListener implements Listener {
     private MYSQLManager mysqlManager;
@@ -52,7 +57,7 @@ public class ShopClickListener implements Listener {
                         foodinv.setItem(20, new ItemBuilder(Material.COOKIE).setDisplayname("§7➢ Cookie").setLocalizedName("cookie").setLore("§7Anzahl: §61", "§7Preis: §61€").build());
                         foodinv.setItem(22, new ItemBuilder(Material.ENCHANTED_GOLDEN_APPLE).setDisplayname("§7➢ Verzauberter Goldenerapfel").setLocalizedName("enchantedgoldenapple").setLore("§7Anzahl: §61", "§7Preis: §61000€").build());
                         foodinv.setItem(24, new ItemBuilder(Material.BREAD).setDisplayname("§7➢ Brot").setLocalizedName("bread").setLore("§7Anzahl: §61", "§7Preis: §610€").build());
-                        foodinv.setItem(49, new ItemBuilder(Material.GRAY_DYE).setLocalizedName("64switchfood").setDisplayname("§bEssen x1").setLore("§7Anzahl: §61", "§7Anzahl: §764").build());
+                        foodinv.setItem(49, new ItemBuilder(Material.GRAY_DYE).setLocalizedName("64switchfood").setDisplayname("§bEssen x1").setLore("§7Anzahl: §61", "§7Preis: §764").build());
                         backheadinventory(player, foodinv,45,"main");
                         player.openInventory(foodinv);
                         break;
@@ -62,15 +67,45 @@ public class ShopClickListener implements Listener {
                             foodinv64.setItem(20, new ItemBuilder(Material.COOKIE).setDisplayname("§7➢ Cookie").setLocalizedName("cookie64").setLore("§7Anzahl: §664", "§7Preis: §664€").build());
                             foodinv64.setItem(22, new ItemBuilder(Material.ENCHANTED_GOLDEN_APPLE).setDisplayname("§7➢ Verzauberter Goldenerapfel").setLocalizedName("enchantedgoldenapple64").setLore("§7Anzahl: §664", "§7Preis: §664000€").build());
                             foodinv64.setItem(24, new ItemBuilder(Material.BREAD).setDisplayname("§7➢ Brot").setLocalizedName("bread64").setLore("§7Anzahl: §664", "§7Preis: §6640€").build());
-                            foodinv64.setItem(49, new ItemBuilder(Material.LIME_DYE).setLocalizedName("essen").setDisplayname("§bEssen x64").setLore("§7Anzahl: §71", "§7Anzahl: §664").build());
+                            foodinv64.setItem(49, new ItemBuilder(Material.LIME_DYE).setLocalizedName("essen").setDisplayname("§bEssen x64").setLore("§7Anzahl: §71", "§7Preis: §664").build());
                             backheadinventory(player, foodinv64,45,"main");
                             player.openInventory(foodinv64);
                             break;
+                    case"potions":
+                        Inventory potionsinventory = Bukkit.createInventory(null, 9*6, "§9§lShop");
+                        ItemStack regpotion = new ItemStack(Material.POTION);
+                        PotionMeta potionsmeta = (PotionMeta) regpotion.getItemMeta();
+                        potionsmeta.setDisplayName("§7➢ Regeneration");
+                        potionsmeta.setLore(ImmutableList.of("§7Anzahl: §61", "§7Preis: §6100"));
+                        potionsmeta.setLocalizedName("regpotion");
+                        potionsmeta.addCustomEffect(new PotionEffect(PotionEffectType.REGENERATION, 45 * 20, 0, true, false), true);
+                        regpotion.setItemMeta(potionsmeta);
+                        potionsinventory.setItem(2, regpotion);
+
+                        ItemStack regpotiona = new ItemStack(Material.POTION);
+                        PotionMeta potionMetaa = (PotionMeta) regpotiona.getItemMeta();
+                        potionMetaa.setDisplayName("§7➢ Regeneration");
+                        potionMetaa.setLore(ImmutableList.of("§7Anzahl: §61", "§7Preis: §6150"));
+                        potionMetaa.setLocalizedName("regpotiona");
+                        potionMetaa.addCustomEffect(new PotionEffect(PotionEffectType.REGENERATION, 90*20, 0, true, false), true);
+                        regpotiona.setItemMeta(potionMetaa);
+                        potionsinventory.setItem(4, regpotiona);
+
+                        ItemStack regpotion2 = new ItemStack(Material.POTION);
+                        PotionMeta PotionMetaa2 = (PotionMeta) regpotion2.getItemMeta();
+                        PotionMetaa2.setDisplayName("§7➢ Regeneration 2");
+                        PotionMetaa2.setLore(ImmutableList.of("§7Anzahl: §61", "§7Preis: §6200"));
+                        PotionMetaa2.setLocalizedName("regpotion2");
+                        PotionMetaa2.addCustomEffect(new PotionEffect(PotionEffectType.REGENERATION, 22*20, 1, true, false), true);
+                        regpotion2.setItemMeta(PotionMetaa2);
+                        potionsinventory.setItem(6, regpotion2);
+
+                        backheadinventory(player, potionsinventory, 45, "main");
+                        player.openInventory(potionsinventory);
+                        break;
                     case"main":
                         Inventory inventory = Bukkit.createInventory((InventoryHolder)null, 9*6, "§9§lShop");
                         inventory.setItem(45, new ItemBuilder(Material.BARRIER).setDisplayname("§7➢ §bSchließen").setLocalizedName("schließen").build());
-
-
                         inventory.setItem(53, (new PlayerHead(player.getName(), "§9Dein Geld: §a" + currentmoney + "§9€", new String[0])).getItemStack());
                         this.fillEmptySlots(inventory, Material.LIGHT_GRAY_STAINED_GLASS_PANE, 1);
 
@@ -260,12 +295,40 @@ public class ShopClickListener implements Listener {
                     case"bread64":
                         buyItem(player, Material.BREAD,64,640);
                         break;
+                    case"regpotion":
+                        buyPotion(player, PotionEffectType.REGENERATION, 45*20, 0, 1, 100);
+                        break;
+                    case"regpotiona":
+                        buyPotion(player, PotionEffectType.REGENERATION, 90*20, 0, 1, 150);
+                        break;
+                    case"regpotion2":
+                        buyPotion(player, PotionEffectType.REGENERATION, 22*20, 1, 1, 200);
+                        break;
                 }
             }
         }else if (event.getView().getTitle().equals("§9§lAdminShop")) {
             event.setCancelled(true);
         }
     }
+    private void buyPotion(Player p, PotionEffectType potionType,int duration,int amplifier, int amount, double price) {
+        if (removeMoney(p, price)) {
+            ItemStack potion = new ItemStack(Material.POTION);
+            PotionMeta potionmeta = (PotionMeta) potion.getItemMeta();
+            potionmeta.addCustomEffect(new PotionEffect(potionType, duration, amplifier,  true, false), true);
+            potion.setItemMeta(potionmeta);
+            Inventory playerInventory = p.getInventory();
+            HashMap<Integer, ItemStack> leftOverItems = playerInventory.addItem(potion);
+            if (leftOverItems.isEmpty()) {
+                p.sendMessage(ConfigManager.getPrefix() + ConfigManager.getConfigMessage("message.buypotionshop","%amount%", String.valueOf(amount),"%potion%", potionType.toString()));
+            } else {
+                p.sendMessage(ConfigManager.getPrefix() + ConfigManager.getConfigMessage("message.inventoryfull","",""));
+                addMoney(p, price); // Gib dem Spieler das Geld zurück, da der Kauf nicht abgeschlossen wurde
+            }
+        } else {
+            p.sendMessage(ConfigManager.getPrefix() + ConfigManager.getConfigMessage("message.notenoughmoney","%price%", String.valueOf(price)));
+        }
+    }
+
     private void buyItem(Player p, Material material, int amount, double price) {
         if (removeMoney(p, price)) {
             ItemStack item = new ItemStack(material, amount);
