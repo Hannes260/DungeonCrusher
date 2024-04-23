@@ -100,6 +100,78 @@ public class ShopClickListener implements Listener {
                         regpotion2.setItemMeta(PotionMetaa2);
                         potionsinventory.setItem(6, regpotion2);
 
+                        ItemStack strength1 = new ItemStack(Material.POTION);
+                        PotionMeta strength1meta = (PotionMeta) strength1.getItemMeta();
+                        strength1meta.setDisplayName("§7➢ Stärke");
+                        strength1meta.setLore(ImmutableList.of("§7Anzahl: §61", "§7Preis: §6200"));
+                        strength1meta.setLocalizedName("strengthpotion1");
+                        strength1meta.addCustomEffect(new PotionEffect(PotionEffectType.INCREASE_DAMAGE, 180*20, 0, true, false), true);
+                        strength1.setItemMeta(strength1meta);
+                        potionsinventory.setItem(10, strength1);
+
+                        ItemStack strength2 = new ItemStack(Material.POTION);
+                        PotionMeta strength2meta = (PotionMeta) strength2.getItemMeta();
+                        strength2meta.setDisplayName("§7➢ Stärke");
+                        strength2meta.setLore(ImmutableList.of("§7Anzahl: §61", "§7Preis: §6250"));
+                        strength2meta.setLocalizedName("strengthpotion2");
+                        strength2meta.addCustomEffect(new PotionEffect(PotionEffectType.INCREASE_DAMAGE, 480*20, 0, true, false), true);
+                        strength2.setItemMeta(strength2meta);
+                        potionsinventory.setItem(19, strength2);
+
+                        ItemStack strength3 = new ItemStack(Material.POTION);
+                        PotionMeta strength3meta = (PotionMeta) strength3.getItemMeta();
+                        strength3meta.setDisplayName("§7➢ Stärke");
+                        strength3meta.setLore(ImmutableList.of("§7Anzahl: §61", "§7Preis: §6500"));
+                        strength3meta.setLocalizedName("strengthpotion3");
+                        strength3meta.addCustomEffect(new PotionEffect(PotionEffectType.INCREASE_DAMAGE, 90*20, 1, true, false), true);
+                        strength3.setItemMeta(strength3meta);
+                        potionsinventory.setItem(29, strength3);
+
+                        ItemStack speed1 = new ItemStack(Material.POTION);
+                        PotionMeta speed1meta = (PotionMeta) speed1.getItemMeta();
+                        speed1meta.setDisplayName("§7➢ Geschwindigkeit");
+                        speed1meta.setLore(ImmutableList.of("§7Anzahl: §61", "§7Preis: §650"));
+                        speed1meta.setLocalizedName("speedpotion1");
+                        speed1meta.addCustomEffect(new PotionEffect(PotionEffectType.SPEED, 180*20, 0, true, false), true);
+                        speed1.setItemMeta(speed1meta);
+                        potionsinventory.setItem(16, speed1);
+
+                        ItemStack speed2 = new ItemStack(Material.POTION);
+                        PotionMeta speed2meta = (PotionMeta) speed2.getItemMeta();
+                        speed2meta.setDisplayName("§7➢ Geschwindigkeit");
+                        speed2meta.setLore(ImmutableList.of("§7Anzahl: §61", "§7Preis: §6150"));
+                        speed2meta.setLocalizedName("speedpotion2");
+                        speed2meta.addCustomEffect(new PotionEffect(PotionEffectType.SPEED, 480*20, 0, true, false), true);
+                        speed2.setItemMeta(speed2meta);
+                        potionsinventory.setItem(25, speed2);
+
+                        ItemStack speed3 = new ItemStack(Material.POTION);
+                        PotionMeta speed3meta = (PotionMeta) speed3.getItemMeta();
+                        speed3meta.setDisplayName("§7➢ Geschwindigkeit");
+                        speed3meta.setLore(ImmutableList.of("§7Anzahl: §61", "§7Preis: §6300"));
+                        speed3meta.setLocalizedName("speedpotion3");
+                        speed3meta.addCustomEffect(new PotionEffect(PotionEffectType.SPEED, 90*20, 1, true, false), true);
+                        speed3.setItemMeta(speed3meta);
+                        potionsinventory.setItem(33, speed3);
+
+                        ItemStack health1 = new ItemStack(Material.POTION);
+                        PotionMeta health1meta = (PotionMeta) health1.getItemMeta();
+                        health1meta.setDisplayName("§7➢ Wundertrank");
+                        health1meta.setLore(ImmutableList.of("§7Anzahl: §61", "§7Preis: §6100"));
+                        health1meta.setLocalizedName("healthpotion1");
+                        health1meta.addCustomEffect(new PotionEffect(PotionEffectType.HEAL, 1, 0, true, false), true);
+                        health1.setItemMeta(health1meta);
+                        potionsinventory.setItem(39, health1);
+
+                        ItemStack health2 = new ItemStack(Material.POTION);
+                        PotionMeta health2meta = (PotionMeta) health2.getItemMeta();
+                        health2meta.setDisplayName("§7➢ Wundertrank");
+                        health2meta.setLore(ImmutableList.of("§7Anzahl: §61", "§7Preis: §6250"));
+                        health2meta.setLocalizedName("healthpotion2");
+                        health2meta.addCustomEffect(new PotionEffect(PotionEffectType.HEAL, 1, 1, true, false), true);
+                        health2.setItemMeta(health2meta);
+                        potionsinventory.setItem(41, health2);
+
                         backheadinventory(player, potionsinventory, 45, "main");
                         player.openInventory(potionsinventory);
                         break;
@@ -133,7 +205,6 @@ public class ShopClickListener implements Listener {
                         potionmeta.setLocalizedName("potions");
                         potions.setItemMeta(potionmeta);
                         inventory.setItem(24, potions);
-                        player.closeInventory();
                         player.openInventory(inventory);
                         break;
                     case"upgrades":
@@ -304,6 +375,30 @@ public class ShopClickListener implements Listener {
                     case"regpotion2":
                         buyPotion(player, PotionEffectType.REGENERATION, 22*20, 1, 1, 200);
                         break;
+                    case"strengthpotion1":
+                        buyPotion(player, PotionEffectType.INCREASE_DAMAGE, 180*20, 0, 1, 200);
+                        break;
+                    case"strengthpotion2":
+                        buyPotion(player, PotionEffectType.INCREASE_DAMAGE, 480*20, 0, 1, 250);
+                        break;
+                    case"strengthpotion3":
+                        buyPotion(player, PotionEffectType.INCREASE_DAMAGE, 90*20, 1, 1, 500);
+                        break;
+                    case"speedpotion1":
+                        buyPotion(player, PotionEffectType.SPEED, 180*20, 0,1,50);
+                        break;
+                    case"speedpotion2":
+                        buyPotion(player, PotionEffectType.SPEED, 480*20, 0,1,150);
+                        break;
+                    case"speedpotion3":
+                        buyPotion(player, PotionEffectType.SPEED, 90*20, 1,1,300);
+                        break;
+                    case"healthpotion1":
+                        buyPotion(player, PotionEffectType.HEAL, 1, 0,1,100);
+                        break;
+                    case"healthpotion2":
+                        buyPotion(player, PotionEffectType.HEAL, 1, 1,1,250);
+                        break;
                 }
             }
         }else if (event.getView().getTitle().equals("§9§lAdminShop")) {
@@ -315,11 +410,12 @@ public class ShopClickListener implements Listener {
             ItemStack potion = new ItemStack(Material.POTION);
             PotionMeta potionmeta = (PotionMeta) potion.getItemMeta();
             potionmeta.addCustomEffect(new PotionEffect(potionType, duration, amplifier,  true, false), true);
+            potionmeta.setDisplayName("§7Mystisches  Getränk");
             potion.setItemMeta(potionmeta);
             Inventory playerInventory = p.getInventory();
             HashMap<Integer, ItemStack> leftOverItems = playerInventory.addItem(potion);
             if (leftOverItems.isEmpty()) {
-                p.sendMessage(ConfigManager.getPrefix() + ConfigManager.getConfigMessage("message.buypotionshop","%amount%", String.valueOf(amount),"%potion%", potionType.toString()));
+                p.sendMessage(ConfigManager.getPrefix() + ConfigManager.getConfigMessage("message.buypotionshop","%amount%", String.valueOf(amount),"%potion%", potionmeta.getDisplayName()));
             } else {
                 p.sendMessage(ConfigManager.getPrefix() + ConfigManager.getConfigMessage("message.inventoryfull","",""));
                 addMoney(p, price); // Gib dem Spieler das Geld zurück, da der Kauf nicht abgeschlossen wurde
@@ -381,7 +477,6 @@ public class ShopClickListener implements Listener {
         skullMeta.setOwningPlayer(Bukkit.getOfflinePlayer("MHF_ArrowLeft"));
         kopf.setItemMeta(skullMeta);
         inventar.setItem(slot, kopf);
-        p.closeInventory();
         p.openInventory(inventar);
         this.fillEmptySlots(inventar, Material.LIGHT_GRAY_STAINED_GLASS_PANE, 1);
     }

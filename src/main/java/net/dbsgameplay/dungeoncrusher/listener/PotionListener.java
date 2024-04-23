@@ -1,5 +1,7 @@
 package net.dbsgameplay.dungeoncrusher.listener;
 
+import net.dbsgameplay.dungeoncrusher.DungeonCrusher;
+import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -9,13 +11,15 @@ import org.bukkit.inventory.ItemStack;
 
 public class PotionListener implements Listener {
     @EventHandler
-    public void onPlayerDrink(PlayerItemConsumeEvent event) {
-        Player player = event.getPlayer();
-        ItemStack item = event.getItem();
+    public void onConsume(PlayerItemConsumeEvent e) {
+        final Player player = e.getPlayer();
 
-        if (item.getType() == Material.GLASS_BOTTLE) {
-            player.getInventory().removeItem(item);
+        if (e.getItem().getType() == Material.POTION) {
+            Bukkit.getServer().getScheduler().runTaskLaterAsynchronously(DungeonCrusher.getPlugin(), new Runnable() {
+                public void run() {
+                    player.setItemInHand(new ItemStack(Material.AIR));
+                }
+            }, 1L);
         }
     }
-
 }

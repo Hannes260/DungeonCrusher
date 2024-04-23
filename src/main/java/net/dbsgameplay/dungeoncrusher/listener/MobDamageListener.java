@@ -1,15 +1,15 @@
 package net.dbsgameplay.dungeoncrusher.listener;
 
+import net.dbsgameplay.dungeoncrusher.DungeonCrusher;
 import net.dbsgameplay.dungeoncrusher.utils.MobHealthBuilder;
 import org.bukkit.attribute.Attribute;
-import org.bukkit.entity.ArmorStand;
-import org.bukkit.entity.Entity;
-import org.bukkit.entity.ItemFrame;
-import org.bukkit.entity.LivingEntity;
+import org.bukkit.entity.*;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.EntitySpawnEvent;
+import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -32,20 +32,31 @@ public class MobDamageListener implements Listener {
 
             String mobName = livingEntity.getType().name();
             mobNames.put(livingEntity, mobName);
-
-            // Hier können Sie andere Anpassungen vornehmen, z.B. die Healthbar anwenden
             updateHealthBar(livingEntity, mobName);
         }
     }
 
     @EventHandler
-    public void onEntityDamage(EntityDamageEvent event) {
+    public void onEntityDamage(EntityDamageByEntityEvent event) {
         Entity entity = event.getEntity();
-        if (entity instanceof LivingEntity) {
-            LivingEntity livingEntity = (LivingEntity) entity;
+        if (entity instanceof LivingEntity && event.getDamager() instanceof Player) {
+            final LivingEntity livingEntity = (LivingEntity) entity;
             String mobName = mobNames.get(livingEntity);
             if (mobName != null) {
                 updateHealthBar(livingEntity, mobName);
+                new BukkitRunnable() {
+                    int count = 0;
+
+                    @Override
+                    public void run() {
+                        count++;
+                        if (count >= 2) {
+                            cancel();
+                            return;
+                        }
+                        updateHealthBar(livingEntity, mobName);
+                    }
+                }.runTaskTimer(DungeonCrusher.getPlugin(), 5L, 10L);
             }
         }
     }
@@ -61,10 +72,6 @@ public class MobDamageListener implements Listener {
     }
 
     private boolean isAllowedEntity(Entity entity) {
-        if (entity instanceof ArmorStand || entity instanceof ItemFrame) {
-            return false; // Armorstand nicht erlauben
-        }
-
-        return true;
+        return !(entity instanceof ArmorStand || entity instanceof ItemFrame);
     }
 }

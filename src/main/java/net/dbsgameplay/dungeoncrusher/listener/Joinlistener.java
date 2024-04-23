@@ -6,6 +6,7 @@ import net.dbsgameplay.dungeoncrusher.DungeonCrusher;
 import net.dbsgameplay.dungeoncrusher.sql.MYSQLManager;
 import net.dbsgameplay.dungeoncrusher.utils.ConfigManager;
 import net.dbsgameplay.dungeoncrusher.utils.LocationConfigManager;
+import net.dbsgameplay.dungeoncrusher.utils.ScoreboardBuilder;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -28,11 +29,13 @@ import java.util.UUID;
 public class Joinlistener implements Listener {
     private MYSQLManager mysqlManager;
     private LocationConfigManager locationConfigManager;
+    private final ScoreboardBuilder scoreboardBuilder;
     public final DungeonCrusher dungeonCrusher;
 
     public Joinlistener(DungeonCrusher dungeonCrusher, MYSQLManager mysqlManager, LocationConfigManager locationConfigManager) {
         this.dungeonCrusher = dungeonCrusher;
         this.mysqlManager = mysqlManager;
+        this.scoreboardBuilder = new ScoreboardBuilder(dungeonCrusher);
         this.locationConfigManager = locationConfigManager;
     }
     @EventHandler
@@ -49,6 +52,7 @@ public class Joinlistener implements Listener {
             String formattedMoney = String.format(Locale.ENGLISH , "%,.2f", startmoney);
             mysqlManager.updateBalance(String.valueOf(player.getUniqueId()), formattedMoney);
             mysqlManager.updateSwordLevel(String.valueOf(player.getUniqueId()), 1);
+            scoreboardBuilder.updateMoney(player);
 
             ItemStack woodensword = new ItemStack(Material.WOODEN_SWORD);
             double damage = 4.0;
@@ -72,7 +76,7 @@ public class Joinlistener implements Listener {
         int currentlevel = mysqlManager.getSwordLevel(player.getUniqueId().toString());
         swordUpgradeClickListener.giveSwordToPlayer(player, currentlevel);
 
-        ItemStack glass = new ItemStack(Material.GRAY_STAINED_GLASS_PANE);
+        ItemStack glass = new ItemStack(Material.LIGHT_GRAY_STAINED_GLASS_PANE);
         ItemMeta glassmeta = glass.getItemMeta();
         glassmeta.setDisplayName(" ");
         glass.setItemMeta(glassmeta);

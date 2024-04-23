@@ -37,3 +37,4 @@ commands:
     aliases: [upgrade, levelup]
   flyspeed:
     description: Setzte deine Fluggeschwindigkeit nach oben
+  help:

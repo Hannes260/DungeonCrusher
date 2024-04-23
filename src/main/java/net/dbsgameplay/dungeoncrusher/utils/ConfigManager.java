@@ -91,6 +91,8 @@ public class ConfigManager {
             setDefaultIfNotSet("message.requiredkillsforupgrade","&cNicht genügend Kills du benötigst: &6%required_kills%.");
             setDefaultIfNotSet("message.notenoughkills", "&cNicht genügend Kills.");
             setDefaultIfNotSet("message.navigatorheadlore","&aMob: &6%mob_type%");
+            setDefaultIfNotSet("message.blockedcommand", "&cDieser Command ist gesperrt");
+            setDefaultIfNotSet("message.helpusage", "&cBenutze: /help");
             setDefaultIfNotSet("message.scoreboardprefix", "&x&f&b&1&b&b&6D&x&f&b&1&e&a&du&x&f&b&2&1&a&4n&x&f&b&2&4&9&bg&x&f&c&2&7&9&2e&x&f&c&2&a&8&9o&x&f&c&2&d&8&0n&x&f&c&2&f&7&7C&x&f&c&3&2&6&er&x&f&c&3&5&6&5u&x&f&d&3&8&5&cs&x&f&d&3&b&5&3h&x&f&d&3&e&4&ae&x&f&d&4&1&4&1r");
             config.options().copyDefaults(true);
             this.plugin.saveConfig();
