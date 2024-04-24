@@ -57,7 +57,7 @@ public class ShopClickListener implements Listener {
                         foodinv.setItem(20, new ItemBuilder(Material.COOKIE).setDisplayname("§7➢ Cookie").setLocalizedName("cookie").setLore("§7Anzahl: §61", "§7Preis: §61€").build());
                         foodinv.setItem(22, new ItemBuilder(Material.ENCHANTED_GOLDEN_APPLE).setDisplayname("§7➢ Verzauberter Goldenerapfel").setLocalizedName("enchantedgoldenapple").setLore("§7Anzahl: §61", "§7Preis: §61000€").build());
                         foodinv.setItem(24, new ItemBuilder(Material.BREAD).setDisplayname("§7➢ Brot").setLocalizedName("bread").setLore("§7Anzahl: §61", "§7Preis: §610€").build());
-                        foodinv.setItem(49, new ItemBuilder(Material.GRAY_DYE).setLocalizedName("64switchfood").setDisplayname("§bEssen x1").setLore("§7Anzahl: §61", "§7Preis: §764").build());
+                        foodinv.setItem(49, new ItemBuilder(Material.GRAY_DYE).setLocalizedName("64switchfood").setDisplayname("§bEssen x1").setLore("§7Anzahl: §61", "§7Anzahl: §764").build());
                         backheadinventory(player, foodinv,45,"main");
                         player.openInventory(foodinv);
                         break;
@@ -67,7 +67,7 @@ public class ShopClickListener implements Listener {
                             foodinv64.setItem(20, new ItemBuilder(Material.COOKIE).setDisplayname("§7➢ Cookie").setLocalizedName("cookie64").setLore("§7Anzahl: §664", "§7Preis: §664€").build());
                             foodinv64.setItem(22, new ItemBuilder(Material.ENCHANTED_GOLDEN_APPLE).setDisplayname("§7➢ Verzauberter Goldenerapfel").setLocalizedName("enchantedgoldenapple64").setLore("§7Anzahl: §664", "§7Preis: §664000€").build());
                             foodinv64.setItem(24, new ItemBuilder(Material.BREAD).setDisplayname("§7➢ Brot").setLocalizedName("bread64").setLore("§7Anzahl: §664", "§7Preis: §6640€").build());
-                            foodinv64.setItem(49, new ItemBuilder(Material.LIME_DYE).setLocalizedName("essen").setDisplayname("§bEssen x64").setLore("§7Anzahl: §71", "§7Preis: §664").build());
+                            foodinv64.setItem(49, new ItemBuilder(Material.LIME_DYE).setLocalizedName("essen").setDisplayname("§bEssen x64").setLore("§7Anzahl: §71", "§7Anzahl: §664").build());
                             backheadinventory(player, foodinv64,45,"main");
                             player.openInventory(foodinv64);
                             break;
