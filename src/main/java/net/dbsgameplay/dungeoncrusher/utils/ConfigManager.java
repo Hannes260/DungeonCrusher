@@ -71,7 +71,7 @@ public class ConfigManager {
             setDefaultIfNotSet("message.buyshop","&aDu hast &6%amount% %material% &aerfolgreich gekauft!");
             setDefaultIfNotSet("message.buypotionshop", "&aDu hast &6%amount% %potion% &aerfolgreich gekauft!");
             setDefaultIfNotSet("message.notenoughmoney", "&cDu hast nicht genug Geld für diesen Kauf. Preis: %price%");
-            setDefaultIfNotSet("message.additem", "&7[&a+&7] &6%item%");
+            setDefaultIfNotSet("message.additem", "&7[&a+&7] &6%item% &7[&a%amount%x&7]");
             setDefaultIfNotSet("message.addmobkilledmoney","&7[&a+&7] &6%money%€");
             setDefaultIfNotSet("message.upgradeswordfailure", "&cUpgrade für dieses Level nicht verfügbar.");
             setDefaultIfNotSet("message.upgradesword", "&aSchwert erfolgreich aufgerüstet");

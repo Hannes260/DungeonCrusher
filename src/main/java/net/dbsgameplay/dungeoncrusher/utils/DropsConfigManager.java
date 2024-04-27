@@ -1,6 +1,5 @@
 package net.dbsgameplay.dungeoncrusher.utils;
 
-import net.dbsgameplay.dungeoncrusher.DungeonCrusher;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -43,7 +42,26 @@ public class DropsConfigManager {
         }
         return mobDrops;
     }
-
+    public Map<String, Double> loadMobItemDrops(String mobName) {
+        Map<String, Double> itemDrops = new HashMap<>();
+        if (config.contains("mobs." + mobName + ".items")) {
+            ConfigurationSection itemSection = config.getConfigurationSection("mobs." + mobName + ".items");
+            for (String key : itemSection.getKeys(false)) {
+                double chance = itemSection.getDouble(key + ".chance");
+                itemDrops.put(key, chance);
+            }
+        }
+        return itemDrops;
+    }
+    public int[] loadItemDropRange(String mobName, String itemName) {
+        ConfigurationSection itemSection = config.getConfigurationSection("mobs." + mobName + ".items." + itemName);
+        if (itemSection != null) {
+            int minAmount = itemSection.getInt("minAmount", 0);
+            int maxAmount = itemSection.getInt("maxAmount", 0);
+            return new int[]{minAmount, maxAmount};
+        }
+        return new int[]{0, 0}; // Standardbereich, wenn nicht konfiguriert
+    }
     public double[] loadMoneyDropRange(String mobName) {
         ConfigurationSection mobSection = config.getConfigurationSection("mobs." + mobName + ".money");
         if (mobSection != null) {

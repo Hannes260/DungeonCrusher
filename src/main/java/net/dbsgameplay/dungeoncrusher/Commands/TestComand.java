@@ -22,7 +22,7 @@ public class TestComand implements CommandExecutor {
         TexturedInventoryWrapper inventory = new TexturedInventoryWrapper(null,
                 54,
                 ChatColor.BLACK + "Test",
-                new FontImageWrapper("_iainternal:blank_menu")
+                new FontImageWrapper("_iainternal:gui")
         );
         inventory.showInventory(player);
         return true;

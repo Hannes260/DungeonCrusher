@@ -8,11 +8,8 @@ import net.dbsgameplay.dungeoncrusher.utils.HologramManager;
 import net.dbsgameplay.dungeoncrusher.utils.ScoreboardBuilder;
 import org.bukkit.*;
 import org.bukkit.enchantments.Enchantment;
-import org.bukkit.entity.ArmorStand;
-import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
-import org.bukkit.event.Event;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDeathEvent;
@@ -47,43 +44,49 @@ public class CustomDropListener implements Listener {
         EntityType entityType = event.getEntityType();
         String mobName = entityType.name();
 
-        // Laden der Drops aus dem DropsConfigManager
-        Map<String, Double> mobDrops = dropsConfigManager.loadMobDrops(mobName);
-
-        for (Map.Entry<String, Double> entry : mobDrops.entrySet()) {
-            String materialName = entry.getKey();
-            double dropChance = entry.getValue();
-            double random = Math.random();
-            if (random < dropChance) {
-                    if (materialName.equalsIgnoreCase("money")) {
-                        // Geld-Drop
-                        double[] moneyDropRange = dropsConfigManager.loadMoneyDropRange(mobName);
-                        double minAmount = moneyDropRange[0];
-                        double maxAmount = moneyDropRange[1];
-                        double moneyDropChance = dropsConfigManager.loadMoneyDropChance(mobName);
-                        if (minAmount > 0 && maxAmount > 0 && random < moneyDropChance) {
-                            giveMoney(player, minAmount, maxAmount, event);
-                        }
-                    } else {
-                        // Item drop
-                        giveItem(player, Material.valueOf(materialName), getItemSlot(Material.valueOf(materialName)), materialName, event);
-                    }
-                }
+        // Laden der Geld-Drops
+        double moneyDropChance = dropsConfigManager.loadMoneyDropChance(mobName);
+        double random = Math.random();
+        if (random < moneyDropChance) {
+            double[] moneyDropRange = dropsConfigManager.loadMoneyDropRange(mobName);
+            double minMoneyAmount = moneyDropRange[0];
+            double maxMoneyAmount = moneyDropRange[1];
+            if (minMoneyAmount > 0 && maxMoneyAmount > 0) {
+                giveMoney(player, minMoneyAmount, maxMoneyAmount, event);
             }
         }
+
+        // Laden der Gegenstands-Drops
+        Map<String, Double> itemDrops = dropsConfigManager.loadMobItemDrops(mobName);
+        for (Map.Entry<String, Double> entry : itemDrops.entrySet()) {
+            String itemName = entry.getKey();
+            double dropChance = entry.getValue();
+            random = Math.random();
+            if (random < dropChance) {
+                giveItem(player, Material.valueOf(itemName), getItemSlot(Material.valueOf(itemName)), itemName, event);
+            }
+        }
+    }
     private void giveItem(Player player, Material material, Integer slot, String item, EntityDeathEvent event) {
+        int[] itemDropRange = dropsConfigManager.loadItemDropRange(event.getEntityType().name(), material.name());
+        int minAmount = itemDropRange[0];
+        int maxAmount = itemDropRange[1];
+
+        int amountToDrop = (int) (Math.random() * (maxAmount - minAmount + 1)) + minAmount;
+        if (amountToDrop <= 0) return; // Wenn die Menge <= 0 ist, wird kein Gegenstand fallen gelassen
+
         ItemStack items = new ItemStack(material, 1);
         String playerUUID = player.getUniqueId().toString();
-        int currentitem = mysqlManager.getItemAmount(playerUUID, item);
-        mysqlManager.updateItemAmount(playerUUID, items.getType().toString(), currentitem + items.getAmount());
+        int currentItem = mysqlManager.getItemAmount(playerUUID, item);
+        mysqlManager.updateItemAmount(playerUUID, items.getType().toString(), currentItem + amountToDrop); // Anzahl gemäß der zufälligen Menge aktualisieren
 
-        ItemMeta itemsmeta = items.getItemMeta();
-        itemsmeta.setDisplayName("§bAnzahl ➝ §6" + mysqlManager.getItemAmount(player.getUniqueId().toString(), item));
-        itemsmeta.addEnchant(Enchantment.KNOCKBACK, 1, true);
-        itemsmeta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
-        items.setItemMeta(itemsmeta);
+        ItemMeta itemMeta = items.getItemMeta();
+        itemMeta.setDisplayName("§bAnzahl ➝ §6" + mysqlManager.getItemAmount(player.getUniqueId().toString(), item));
+        itemMeta.addEnchant(Enchantment.KNOCKBACK, 1, true);
+        itemMeta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
+        items.setItemMeta(itemMeta);
         player.getInventory().setItem(slot, items);
-        player.sendMessage(ConfigManager.getConfigMessage("message.additem", "%item%", items.getType().toString()));
+        player.sendMessage(ConfigManager.getConfigMessage("message.additem", "%item%", items.getType().toString(), "%amount%", String.valueOf(amountToDrop)));
         Location hologramLocation = event.getEntity().getLocation(); // Position des getöteten Mobs
         HologramManager.spawnItemHologram(hologramLocation, items.getType().toString());
     }
