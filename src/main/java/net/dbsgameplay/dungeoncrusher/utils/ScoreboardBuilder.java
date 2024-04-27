@@ -148,7 +148,6 @@ public class ScoreboardBuilder implements Listener {
 
         if (nextUnlockedDungeon != null) {
             Integer requiredKills = locationConfigManager.getKills(nextUnlockedDungeon);
-            System.out.println(nextUnlockedDungeon);
             if (requiredKills != null) {
                 String currentKillsString = mysqlManager.getKills(playerUUID);
                 int currentKills = currentKillsString != null ? Integer.parseInt(currentKillsString) : 0;

@@ -86,11 +86,43 @@ public class CustomDropListener implements Listener {
         itemMeta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
         items.setItemMeta(itemMeta);
         player.getInventory().setItem(slot, items);
-        player.sendMessage(ConfigManager.getConfigMessage("message.additem", "%item%", items.getType().toString(), "%amount%", String.valueOf(amountToDrop)));
+        String itemName = translateMaterialName(material);
+        player.sendMessage(ConfigManager.getConfigMessage("message.additem", "%item%", itemName, "%amount%", String.valueOf(amountToDrop)));
         Location hologramLocation = event.getEntity().getLocation(); // Position des getöteten Mobs
         HologramManager.spawnItemHologram(hologramLocation, items.getType().toString());
     }
-
+    private String translateMaterialName(Material material) {
+        switch (material) {
+            case COBBLESTONE:
+                return "Bruchstein";
+            case STONE:
+                return "Stein";
+            case RAW_COPPER:
+                return "RohKupfer";
+            case COPPER_INGOT:
+                return "Kupferbarren";
+            case RAW_IRON:
+                return "Roheisen";
+            case IRON_INGOT:
+                return "Eisenbarren";
+            case RAW_GOLD:
+                return "RohGold";
+            case GOLD_INGOT:
+                return "Goldbarren";
+            case DIAMOND:
+                return "Diamant";
+            case DIAMOND_ORE:
+                return "Diamanterz";
+            case NETHERITE_SCRAP:
+                return "Netherite-Schrott";
+            case NETHERITE_INGOT:
+                return "Netheritebarren";
+            case COAL:
+                return "Kohle";
+            default:
+                return material.name();
+        }
+    }
     private void giveMoney(Player player, double minAmount, double maxAmount, EntityDeathEvent event) {
         double random = Math.random();
         double range = maxAmount - minAmount;
