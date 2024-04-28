@@ -103,28 +103,38 @@ public class UpgradeCommand implements CommandExecutor {
                         tick++;
                         switch (tick) {
                             case 1:
-                                if (currentLevelHelmet >= 280) {
-                                    ItemStack maxLevelSword = new ItemBuilder(Material.DIAMOND_HELMET)
-                                            .setDisplayname("§7➢ Helm Upgrade")
-                                            .setLocalizedName("helmetupgrade")
-                                            .setLore("§7Level: §6§lMaximales Level erreicht!")
-                                            .addItemFlags(ItemFlag.HIDE_ATTRIBUTES)
-                                            .build();
-                                    upgrade.setItem(13, maxLevelSword);
-                                }else if (currentLevelHelmet >= 10) {
+                                if (currentLevelHelmet >= 10) {
+                                    player.sendMessage(ConfigManager.getPrefix() + ConfigManager.getConfigMessage("message.upgradefirstchestplate", "", ""));
                                     upgrade.setItem(13, new ItemBuilder(Material.BARRIER).setDisplayname("§7➢ Helm Upgrade").setLocalizedName("helmetupgrade").setLore("§cMax Level erreicht!").addItemFlags(ItemFlag.HIDE_ATTRIBUTES).build());
-                                    return;
-                                }else {
-                                    upgrade.setItem(13, new ItemBuilder(Material.DIAMOND_HELMET).setDisplayname("§7➢ Helm Upgrade").setLocalizedName("helmetupgrade").setLore("§7Level: §6" + nextLevelHelmet,
-                                            "§7Geld: §6" + currentmoney + "§7/§6" + requiredMoneyHelmet, "§7Rohkupfer: §6" + currentRawCopper + "§7/§6" + requiredRawCopperHelmet, "§7Kupferbarren: §6" + currentCopperIngots + "§7/§6" + requiredCopperIngotsHelmet,
-                                            "§7Bruchstein: §6" + currentCobblestone + "§7/§6" + requiredCobblestoneHelmet,
-                                            "§7Stein: §6" + currentStone + "§7/§6" + requiredStoneHelmet, "§7RohEisen: §6" + currentRawIron + "§7/§6" + requiredRawIronHelmet,
-                                            "§7Eisenbarren: §6" + currentIron + "§7/§6" + requiredIronHelmet, "§7RohGold: §6" + currentRawGold + "§7/§6" + requiredRawGoldHelmet,
-                                            "§7GoldBarren: §6" + currentGold + "§7/§6" + requiredGoldHelmet, "§7DiamantErz: §6" + currentDiamondOre + "§7/§6" + requiredDiamondOreHelmet,
-                                            "§7Diamanten: §6" + currentDiamond + "§7/§6" + requiredDiamondHelmet, "§7Netheriteplatten: §6" + currentNetheriteScrap + "§7/§6" + requiredNetheriteScrapHelmet,
-                                            "§7NetheriteBarren: §6" + currentNetherite + "§6/§6" + requiredNetheriteHelmet).addItemFlags(ItemFlag.HIDE_ATTRIBUTES).build());
+                                    upgrade.setItem(31, new ItemBuilder(Material.BARRIER).setDisplayname("§7➢ Hosen Upgrade").addItemFlags(ItemFlag.HIDE_ATTRIBUTES).build());
+                                    upgrade.setItem(40, new ItemBuilder(Material.BARRIER).setDisplayname("§7➢ Schuh Upgrade").addItemFlags(ItemFlag.HIDE_ATTRIBUTES).build());
+                                    upgrade.setItem(22, new ItemBuilder(Material.DIAMOND_CHESTPLATE).setDisplayname("§7➢ Chestplate Upgrade").setLocalizedName("chestplateupgrade").setLore("§7Level: §6" + nextLevelChestplate,
+                                            "§7Geld: §6" + currentmoney + "§7/§6" + requiredMoney, "§7Rohkupfer: §6" + currentRawCopper + "§7/§6" + requiredRawCopper, "§7Kupferbarren: §6" + currentCopperIngots + "§7/§6" + requiredCopperIngots,
+                                            "§7Bruchstein: §6" + currentCobblestone + "§7/§6" + requiredCobblestone,
+                                            "§7Stein: §6" + currentStone + "§7/§6" + requiredStone, "§7RohEisen: §6" + currentRawIron + "§7/§6" + requiredRawIron,
+                                            "§7Eisenbarren: §6" + currentIron + "§7/§6" + requiredIron, "§7RohGold: §6" + currentRawGold + "§7/§6" + requiredRawGold,
+                                            "§7GoldBarren: §6" + currentGold + "§7/§6" + requiredGold, "§7DiamantErz: §6" + currentDiamondOre + "§7/§6" + requiredDiamondOre,
+                                            "§7Diamanten: §6" + currentDiamond + "§7/§6" + requiredDiamond, "§7Netheriteplatten: §6" + currentNetheriteScrap + "§7/§6" + requiredNetheriteScrap,
+                                            "§7NetheriteBarren: §6" + currentNetherite + "§6/§6" + requiredNetherite).addItemFlags(ItemFlag.HIDE_ATTRIBUTES).build());
+                                    if (currentLevel >= 280) {
+                                        ItemStack maxLevelSword = new ItemBuilder(Material.DIAMOND_SWORD)
+                                                .setDisplayname("§7➢ Schwert Upgrade")
+                                                .setLocalizedName("swordupgrade")
+                                                .setLore("§7Level: §6§lMaximales Level erreicht!")
+                                                .addItemFlags(ItemFlag.HIDE_ATTRIBUTES)
+                                                .build();
+                                        upgrade.setItem(20, maxLevelSword);
+                                    } else {
+                                        upgrade.setItem(20, new ItemBuilder(Material.DIAMOND_SWORD).setDisplayname("§7➢ Schwert Upgrade").setLocalizedName("swordupgrade").setLore("§7Level: §6" + nextLevel,
+                                                "§7Geld: §6" + currentmoney + "§7/§6" + requiredMoney, "§7Rohkupfer: §6" + currentRawCopper + "§7/§6" + requiredRawCopper, "§7Kupferbarren: §6" + currentCopperIngots + "§7/§6" + requiredCopperIngots,
+                                                "§7Bruchstein: §6" + currentCobblestone + "§7/§6" + requiredCobblestone,
+                                                "§7Stein: §6" + currentStone + "§7/§6" + requiredStone, "§7RohEisen: §6" + currentRawIron + "§7/§6" + requiredRawIron,
+                                                "§7Eisenbarren: §6" + currentIron + "§7/§6" + requiredIron, "§7RohGold: §6" + currentRawGold + "§7/§6" + requiredRawGold,
+                                                "§7GoldBarren: §6" + currentGold + "§7/§6" + requiredGold, "§7DiamantErz: §6" + currentDiamondOre + "§7/§6" + requiredDiamondOre,
+                                                "§7Diamanten: §6" + currentDiamond + "§7/§6" + requiredDiamond, "§7Netheriteplatten: §6" + currentNetheriteScrap + "§7/§6" + requiredNetheriteScrap,
+                                                "§7NetheriteBarren: §6" + currentNetherite + "§6/§6" + requiredNetherite).addItemFlags(ItemFlag.HIDE_ATTRIBUTES).build());
+                                    }
                                 }
-                                break;
                             case 2:
                                 if (currentLevelChestplate >= 280) {
                                     upgrade.setItem(22, new ItemBuilder(Material.DIAMOND_CHESTPLATE).setDisplayname("§7➢ Chestplate Upgrade").addItemFlags(ItemFlag.HIDE_ATTRIBUTES).build());

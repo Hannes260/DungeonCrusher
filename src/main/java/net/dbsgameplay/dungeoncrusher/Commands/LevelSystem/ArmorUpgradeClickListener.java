@@ -771,31 +771,34 @@ public class ArmorUpgradeClickListener implements Listener {
 
         switch (level) {
             case 1:
-                updatelederhelmet(player, 2, 2, 0);
+                updatelederhelmet(player, 1, 1, 0);
                 break;
             case 2:
-                updatelederhelmet(player, 2, 3, 1);
+                updatelederhelmet(player, 2, 2, 0);
                 break;
             case 3:
-                updatelederhelmet(player, 3, 4, 0);
+                updatelederhelmet(player, 2, 3, 1);
                 break;
             case 4:
-                updatelederhelmet(player, 3, 5, 1);
+                updatelederhelmet(player, 3, 5, 0);
                 break;
             case 5:
-                updatelederhelmet(player, 4, 6, 0);
+                updatelederhelmet(player, 3, 6, 1);
                 break;
             case 6:
-                updatelederhelmet(player, 4, 7, 1);
+                updatelederhelmet(player, 4, 7, 0);
                 break;
             case 7:
-                updatelederhelmet(player, 5, 8, 0);
+                updatelederhelmet(player, 4, 8, 1);
                 break;
             case 8:
-                updatelederhelmet(player, 5, 9, 1);
+                updatelederhelmet(player, 5, 9, 0);
                 break;
             case 9:
-                updatelederhelmet(player, 6,10,0);
+                updatelederhelmet(player, 5,10,1);
+                break;
+            case 10:
+                updatelederhelmet(player, 6,11, 0);
                 break;
         }
     }
