@@ -24,11 +24,10 @@ public class SetupCommand implements CommandExecutor {
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         if (sender instanceof Player) {
             Player player = (Player) sender;
-
+            if (player.hasPermission("dc.command.setup")) {
             if (args.length > 1) {
                 String name = args[1];
 
-                if (player.hasPermission("dc.setup")) {
                     if (args[0].equalsIgnoreCase("setdungeon")) {
                         if (!locationConfigManager.getDungeonsAndSavezones().containsKey(name)) {
                             markierungsManager.toggleMarkierungsModus(player, name, "dungeon", "");
@@ -78,10 +77,10 @@ public class SetupCommand implements CommandExecutor {
                             player.sendMessage(ConfigManager.getPrefix() + ConfigManager.getConfigMessage("message.savekillsusage", "",""));
                     }
                 } else {
-                    player.sendMessage(ConfigManager.getPrefix() + ConfigManager.nopermission());
+                player.sendMessage(ConfigManager.getPrefix() + ConfigManager.getConfigMessage("message.setupusage","",""));
                 }
             }else
-                player.sendMessage(ConfigManager.getPrefix() + ConfigManager.getConfigMessage("message.setupusage","",""));
+            player.sendMessage(ConfigManager.getPrefix() + ConfigManager.nopermission());
         }else
             sender.sendMessage(ConfigManager.getPrefix() + ConfigManager.getConfigMessage("message.noplayer","",""));
         return false;

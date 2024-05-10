@@ -39,3 +39,6 @@ commands:
     description: Setzte deine Fluggeschwindigkeit nach oben
   help:
   daily:
+  cc:
+    description: Lösche den Chat
+    aliases: [clearchat]

@@ -15,14 +15,19 @@ public class SetSpawnCommand implements CommandExecutor {
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         if (sender instanceof Player) {
             Player player = (Player) sender;
-            if (args.length == 0) {
-                locationConfigManager.setSpawn(player.getLocation());
-                player.sendMessage(ConfigManager.getPrefix() + ConfigManager.getConfigMessage("message.setspawn", "",""));
+            if (player.hasPermission("dc.command.setspawn")) {
+                if (args.length == 0) {
+                    locationConfigManager.setSpawn(player.getLocation());
+                    player.sendMessage(ConfigManager.getPrefix() + ConfigManager.getConfigMessage("message.setspawn", "", ""));
+                } else {
+                    player.sendMessage(ConfigManager.getPrefix() + ConfigManager.getConfigMessage("message.setspawnusage", "", ""));
+                }
             }else {
-                player.sendMessage(ConfigManager.getPrefix() + ConfigManager.getConfigMessage("message.setspawnusage", "",""));
+                player.sendMessage(ConfigManager.nopermission());
             }
-        } sender.sendMessage(ConfigManager.getConfigMessage("message.noplayer", "",""));
-        ConfigManager.getConfigMessage("message.noplayer", "","");
+        }else {
+            sender.sendMessage(ConfigManager.getConfigMessage("message.noplayer", "", ""));
+        }
         return false;
     }
 }
