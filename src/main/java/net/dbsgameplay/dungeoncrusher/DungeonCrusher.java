@@ -31,6 +31,7 @@ public final class DungeonCrusher extends JavaPlugin {
     private RewardConfigManager rewardConfigManager;
     MobHealthBuilder healthBuilder = new MobHealthBuilder();
     MYSQLManager mysqlManager;
+
     @Override
     public void onEnable() {
         instance = this;
@@ -68,7 +69,7 @@ public final class DungeonCrusher extends JavaPlugin {
         this.getCommand("test").setExecutor(new TestComand());
         this.getCommand("flyspeed").setExecutor(new FlySpeedCommand());
         this.getCommand("help").setExecutor(new HelpCommand());
-        this.getCommand("daily").setExecutor(new Dailyreward(this, mysqlManager, rewardConfigManager));
+        this.getCommand("daily").setExecutor(new Dailyreward(this, mysqlManager, rewardConfigManager, locationconfigManager));
         this.getCommand("cc").setExecutor(new ClearChatCommand());
         //Tab
         this.getCommand("config").setTabCompleter(this);

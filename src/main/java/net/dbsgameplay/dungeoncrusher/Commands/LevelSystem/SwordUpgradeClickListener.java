@@ -1174,7 +1174,7 @@ public class SwordUpgradeClickListener implements Listener {
         ItemStack woodensword = new ItemStack(Material.WOODEN_SWORD);
         AttributeModifier modifier = new AttributeModifier(UUID.randomUUID(), "generic.attackDamage", damage, AttributeModifier.Operation.ADD_NUMBER);
         ItemMeta woodenmeta = woodensword.getItemMeta();
-        woodenmeta.setDisplayName("§7<< §6Holzschwert §7- §aLv."+ level + "§7>>");
+        woodenmeta.setDisplayName("§7<<§6Holzschwert §7- §aLv."+ level + "§7>>");
         woodenmeta.setLore(Collections.singletonList("§9"+ damage + " Angrifsschaden"));
         woodenmeta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
         woodenmeta.addAttributeModifier(Attribute.GENERIC_ATTACK_DAMAGE, modifier);

@@ -1,6 +1,7 @@
 package net.dbsgameplay.dungeoncrusher.Commands;
 
 import net.dbsgameplay.dungeoncrusher.DungeonCrusher;
+import net.dbsgameplay.dungeoncrusher.listener.Joinlistener;
 import net.dbsgameplay.dungeoncrusher.sql.MYSQLManager;
 import net.dbsgameplay.dungeoncrusher.utils.*;
 import org.bukkit.Material;
@@ -23,12 +24,13 @@ public class Dailyreward implements CommandExecutor {
     private DungeonCrusher dungeonCrusher;
     RewardConfigManager rewardConfigManager;
     ScoreboardBuilder scoreboardBuilder;
-    public Dailyreward(DungeonCrusher dungeonCrusher, MYSQLManager mysqlManager, RewardConfigManager rewardConfigManager) {
+    LocationConfigManager locationConfigManager;
+    public Dailyreward(DungeonCrusher dungeonCrusher, MYSQLManager mysqlManager, RewardConfigManager rewardConfigManager, LocationConfigManager locationConfigManager) {
         this.dungeonCrusher = dungeonCrusher;
         this.mysqlManager = mysqlManager;
         this.rewardConfigManager = rewardConfigManager;
         this.scoreboardBuilder = new ScoreboardBuilder(dungeonCrusher);
-
+        this.locationConfigManager = locationConfigManager;
     }
 
     @Override
@@ -50,14 +52,10 @@ public class Dailyreward implements CommandExecutor {
         return false;
     }
     public void giveRandomReward(Player player) {
-        // Lade Belohnungen und ihre Informationen
         Map<String, Map<String, Object>> rewardData = rewardConfigManager.loadRewards();
-
         // Zufällig einen Belohnungsschlüssel auswählen
         List<String> rewardKeys = new ArrayList<>(rewardData.keySet());
         String selectedRewardKey = rewardKeys.get((int) (Math.random() * rewardKeys.size()));
-
-        // Belohnung an den Spieler geben
         giveReward(player, rewardData.get(selectedRewardKey));
     }
     private void giveReward(Player player, Map<String, Object> rewardInfo) {
@@ -76,14 +74,9 @@ public class Dailyreward implements CommandExecutor {
                     int currentItem = mysqlManager.getItemAmount(playerUUID, ItemType);
                     mysqlManager.updateItemAmount(playerUUID, ItemType, currentItem + amountToDrop);
                     // Nachricht an Spieler senden
-                    ItemStack items = new ItemStack(material, 1);
                     String itemName = translateMaterialName(material);
-                    ItemMeta itemMeta = items.getItemMeta();
-                    itemMeta.setDisplayName("§bAnzahl ➝ §6" + mysqlManager.getItemAmount(player.getUniqueId().toString(), itemName));
-                    itemMeta.addEnchant(Enchantment.KNOCKBACK, 1, true);
-                    itemMeta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
-                    items.setItemMeta(itemMeta);
-                    player.getInventory().setItem(getItemSlot(Material.valueOf(materialName)), items);
+                    Joinlistener joinlistener = new Joinlistener(dungeonCrusher, mysqlManager, locationConfigManager);
+                    joinlistener.setPlayerInventoryItems(player);
                     player.sendMessage(ConfigManager.getConfigMessage("message.additem", "%item%", itemName, "%amount%", String.valueOf(amountToDrop)));
                 }
             }
@@ -142,36 +135,5 @@ public class Dailyreward implements CommandExecutor {
         scoreboardBuilder.updateMoney(player);
 
         player.sendMessage(ConfigManager.getConfigMessage("message.addmobkilledmoney", "%money%", String.valueOf(giveMoney)));
-    }
-    private int getItemSlot(Material material) {
-        switch (material) {
-            case COBBLESTONE:
-                return 17;
-            case STONE:
-                return 16;
-            case RAW_COPPER:
-                return 9;
-            case COPPER_INGOT:
-                return 10;
-            case RAW_IRON:
-                return 27;
-            case IRON_INGOT:
-                return 28;
-            case RAW_GOLD:
-                return 18;
-            case GOLD_INGOT:
-                return 19;
-            case DIAMOND:
-                return 25;
-            case DIAMOND_ORE:
-                return 26;
-            case NETHERITE_SCRAP:
-                return 35;
-            case NETHERITE_INGOT:
-                return 34;
-            case COAL:
-                return  22;
-        }
-        return 0;
     }
 }

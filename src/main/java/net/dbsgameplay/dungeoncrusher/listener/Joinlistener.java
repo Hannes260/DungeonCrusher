@@ -60,7 +60,7 @@ public class Joinlistener implements Listener {
             int level = 1;
             AttributeModifier modifier = new AttributeModifier(UUID.randomUUID(), "generic.attackDamage", damage, AttributeModifier.Operation.ADD_NUMBER);
             ItemMeta woodenmeta = woodensword.getItemMeta();
-            woodenmeta.setDisplayName("§7<< §6Holzschwert §7- §aLv."+ level + "§7>>");
+            woodenmeta.setDisplayName("§7<<§6Holzschwert §7- §aLv."+ level + "§7>>");
             woodenmeta.setLore(Collections.singletonList("§9"+ damage + " Angrifsschaden"));
             woodenmeta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
             woodenmeta.addAttributeModifier(Attribute.GENERIC_ATTACK_DAMAGE, modifier);
@@ -108,121 +108,54 @@ public class Joinlistener implements Listener {
         navigatormeta.setDisplayName("§8➡ §9Teleporter §8✖ §7Rechtsklick");
         navigator.setItemMeta(navigatormeta);
         player.getInventory().setItem(8, navigator);
-
-            ItemStack rawcopper = new ItemStack(Material.RAW_COPPER);
-            ItemMeta rawcoppermeta = rawcopper.getItemMeta();
-                rawcoppermeta.setDisplayName("§bAnzahl ➝ §6" + mysqlManager.getItemAmount(player.getUniqueId().toString(), "raw_copper"));
+        ItemStack rawcopper = new ItemStack(Material.RAW_COPPER);
+        ItemMeta rawcoppermeta = rawcopper.getItemMeta();
+        rawcoppermeta.setDisplayName("§bAnzahl ➝ §6" + mysqlManager.getItemAmount(player.getUniqueId().toString(), "raw_copper"));
         rawcoppermeta.addEnchant(Enchantment.KNOCKBACK,1,true);
         rawcoppermeta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
-                rawcopper.setItemMeta(rawcoppermeta);
-            player.getInventory().setItem(9, rawcopper);
+        rawcopper.setItemMeta(rawcoppermeta);
+        player.getInventory().setItem(9, rawcopper);
 
-            ItemStack copperingot = new ItemStack(Material.COPPER_INGOT);
-            ItemMeta copperingotmeta = copperingot.getItemMeta();
-            copperingotmeta.setDisplayName("§bAnzahl ➝ §6" + mysqlManager.getItemAmount(player.getUniqueId().toString(), "copper_ingot"));
-        copperingotmeta.addEnchant(Enchantment.KNOCKBACK,1,true);
-        copperingotmeta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
-            copperingot.setItemMeta(copperingotmeta);
-            player.getInventory().setItem(10, copperingot);
+        setPlayerInventoryItems(player);
+    }
+    public void setPlayerInventoryItems(Player player) {
+        // Define items
+        ItemStack[] items = new ItemStack[12];
+        String[] materialNames = {
+                "RAW_COPPER", "COPPER_INGOT", "RAW_GOLD", "GOLD_INGOT",
+                "RAW_IRON", "IRON_INGOT", "COAL", "COBBLESTONE",
+                "STONE", "DIAMOND_ORE", "DIAMOND", "NETHERITE_INGOT",
+                "NETHERITE_SCRAP"
+        };
+        Material[] materials = {
+                Material.RAW_COPPER, Material.COPPER_INGOT, Material.RAW_GOLD, Material.GOLD_INGOT,
+                Material.RAW_IRON, Material.IRON_INGOT, Material.COAL, Material.COBBLESTONE,
+                Material.STONE, Material.DIAMOND_ORE, Material.DIAMOND, Material.NETHERITE_INGOT,
+                Material.NETHERITE_SCRAP
+        };
 
-            ItemStack rawgold = new ItemStack(Material.RAW_GOLD);
-            ItemMeta rawgoldmeta = rawgold.getItemMeta();
-            rawgoldmeta.setDisplayName("§bAnzahl ➝ §6" + mysqlManager.getItemAmount(player.getUniqueId().toString(), "raw_gold"));
-             rawgoldmeta.addEnchant(Enchantment.KNOCKBACK,1,true);
-            rawgoldmeta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
-            rawgold.setItemMeta(rawgoldmeta);
-            player.getInventory().setItem(18, rawgold);
+        // Set items
+        for (int i = 0; i < items.length; i++) {
+            items[i] = new ItemStack(materials[i]);
+            ItemMeta itemMeta = items[i].getItemMeta();
+            String itemName = materialNames[i].toLowerCase();
+            itemMeta.setDisplayName("§bAnzahl ➝ §6" + mysqlManager.getItemAmount(player.getUniqueId().toString(), itemName));
+            itemMeta.addEnchant(Enchantment.KNOCKBACK, 1, true);
+            itemMeta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
+            items[i].setItemMeta(itemMeta);
+        }
 
-            ItemStack goldingot = new ItemStack(Material.GOLD_INGOT);
-            ItemMeta goldingotmeta = goldingot.getItemMeta();
-            goldingotmeta.setDisplayName("§bAnzahl ➝ §6" + mysqlManager.getItemAmount(player.getUniqueId().toString(), "gold_ingot"));
-        goldingotmeta.addEnchant(Enchantment.KNOCKBACK,1,true);
-        goldingotmeta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
-            goldingot.setItemMeta(goldingotmeta);
-            player.getInventory().setItem(19, goldingot);
-
-            ItemStack rawiron = new ItemStack(Material.RAW_IRON);
-            ItemMeta rawironmeta = rawiron.getItemMeta();
-            rawironmeta.setDisplayName("§bAnzahl ➝ §6" + mysqlManager.getItemAmount(player.getUniqueId().toString(), "raw_iron"));
-        rawironmeta.addEnchant(Enchantment.KNOCKBACK,1,true);
-        rawironmeta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
-            rawiron.setItemMeta(rawironmeta);
-            player.getInventory().setItem(27, rawiron);
-
-            ItemStack ironingot = new ItemStack(Material.IRON_INGOT);
-            ItemMeta ironingotmeta = ironingot.getItemMeta();
-            ironingotmeta.setDisplayName("§bAnzahl ➝ §6" + mysqlManager.getItemAmount(player.getUniqueId().toString(), "iron_ingot"));
-        ironingotmeta.addEnchant(Enchantment.KNOCKBACK,1,true);
-        ironingotmeta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
-            ironingot.setItemMeta(ironingotmeta);
-            player.getInventory().setItem(28, ironingot);
-
-            ItemStack coal = new ItemStack(Material.COAL);
-            ItemMeta coalmeta = coal.getItemMeta();
-            coalmeta.setDisplayName("§bAnzahl ➝ §6" + mysqlManager.getItemAmount(player.getUniqueId().toString(), "coal"));
-            coalmeta.addEnchant(Enchantment.KNOCKBACK,1,true);
-            coalmeta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
-            coal.setItemMeta(coalmeta);
-            player.getInventory().setItem(22, coal);
-
-            ItemStack cobblestone = new ItemStack(Material.COBBLESTONE);
-            ItemMeta cobblestonemeta = cobblestone.getItemMeta();
-            cobblestonemeta.setDisplayName("§bAnzahl ➝ §6" + mysqlManager.getItemAmount(player.getUniqueId().toString(), "cobblestone"));
-            cobblestonemeta.addEnchant(Enchantment.KNOCKBACK,1,true);
-            cobblestonemeta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
-            cobblestone.setItemMeta(cobblestonemeta);
-            player.getInventory().setItem(17, cobblestone);
-
-            ItemStack stone = new ItemStack(Material.STONE);
-            ItemMeta stonemeta = stone.getItemMeta();
-            stonemeta.setDisplayName("§bAnzahl ➝ §6" + mysqlManager.getItemAmount(player.getUniqueId().toString(), "stone"));
-            stonemeta.addEnchant(Enchantment.KNOCKBACK,1,true);
-            stonemeta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
-            stone.setItemMeta(stonemeta);
-            player.getInventory().setItem(16, stone);
-
-            ItemStack diamondore = new ItemStack(Material.DIAMOND_ORE);
-            ItemMeta diamondoremeta = diamondore.getItemMeta();
-            diamondoremeta.setDisplayName("§bAnzahl ➝ §6" + mysqlManager.getItemAmount(player.getUniqueId().toString(), "diamond_ore"));
-        diamondoremeta.addEnchant(Enchantment.KNOCKBACK,1,true);
-        diamondoremeta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
-            diamondore.setItemMeta(diamondoremeta);
-            player.getInventory().setItem(26, diamondore);
-
-            ItemStack diamond = new ItemStack(Material.DIAMOND);
-            ItemMeta diamondmeta = diamond.getItemMeta();
-            diamondmeta.setDisplayName("§bAnzahl ➝ §6" + mysqlManager.getItemAmount(player.getUniqueId().toString(), "diamond"));
-        diamondmeta.addEnchant(Enchantment.KNOCKBACK,1,true);
-        diamondmeta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
-            diamond.setItemMeta(diamondmeta);
-            player.getInventory().setItem(25, diamond);
-
-            ItemStack netherite = new ItemStack(Material.NETHERITE_INGOT);
-            ItemMeta netheritemeta = netherite.getItemMeta();
-            netheritemeta.setDisplayName("§bAnzahl ➝ §6" + mysqlManager.getItemAmount(player.getUniqueId().toString(), "netherite_ingot"));
-        netheritemeta.addEnchant(Enchantment.KNOCKBACK,1,true);
-        netheritemeta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
-            netherite.setItemMeta(netheritemeta);
-            player.getInventory().setItem(34, netherite);
-
-            ItemStack netheritescrap = new ItemStack(Material.NETHERITE_SCRAP);
-            ItemMeta netheritescrapmeta = netheritescrap.getItemMeta();
-            netheritescrapmeta.setDisplayName("§bAnzahl ➝ §6" + mysqlManager.getItemAmount(player.getUniqueId().toString(), "netherite_scrap"));
-        netheritescrapmeta.addEnchant(Enchantment.KNOCKBACK,1,true);
-        netheritescrapmeta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
-            netheritescrap.setItemMeta(netheritescrapmeta);
-            player.getInventory().setItem(35, netheritescrap);
-
-
-
-
+        // Set inventory slots
+        int[] slots = {9, 10, 18, 19, 27, 28, 22, 17, 16, 26, 25, 34, 35};
+        for (int i = 0; i < items.length; i++) {
+            player.getInventory().setItem(slots[i], items[i]);
+        }
     }
     @EventHandler
     public void onQuit(PlayerQuitEvent event){
         Player player = event.getPlayer();
 
         event.setQuitMessage(ChatColor.RED + "[-]"+ " "+ ChatColor.GRAY + player.getDisplayName());
-
 
     }
 }
