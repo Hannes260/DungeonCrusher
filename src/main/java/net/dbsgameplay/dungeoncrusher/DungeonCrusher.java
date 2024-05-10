@@ -18,6 +18,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import java.io.File;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -27,6 +28,7 @@ public final class DungeonCrusher extends JavaPlugin {
     private ConfigManager configManager;
     private LocationConfigManager locationconfigManager;
     private DropsConfigManager dropsConfigManager;
+    private RewardConfigManager rewardConfigManager;
     MobHealthBuilder healthBuilder = new MobHealthBuilder();
     MYSQLManager mysqlManager;
     @Override
@@ -34,6 +36,7 @@ public final class DungeonCrusher extends JavaPlugin {
         instance = this;
         this.configManager = new ConfigManager(this);
         dropsConfigManager = new DropsConfigManager(this);
+        rewardConfigManager = new RewardConfigManager(this);
         mysqlManager = MYSQLManager.getInstance(getDataFolder());
         locationconfigManager = new LocationConfigManager(this);
         MarkierungsManager markierungsManager = new MarkierungsManager(locationconfigManager);
@@ -65,7 +68,7 @@ public final class DungeonCrusher extends JavaPlugin {
         this.getCommand("test").setExecutor(new TestComand());
         this.getCommand("flyspeed").setExecutor(new FlySpeedCommand());
         this.getCommand("help").setExecutor(new HelpCommand());
-
+        this.getCommand("daily").setExecutor(new Dailyreward(this, mysqlManager, rewardConfigManager));
         //Tab
         this.getCommand("config").setTabCompleter(this);
         this.getCommand("money").setTabCompleter(this);

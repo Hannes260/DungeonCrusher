@@ -38,3 +38,4 @@ commands:
   flyspeed:
     description: Setzte deine Fluggeschwindigkeit nach oben
   help:
+  daily:

@@ -10,6 +10,7 @@ import net.dbsgameplay.dungeoncrusher.utils.ScoreboardBuilder;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
+import org.bukkit.Sound;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.attribute.AttributeModifier;
 import org.bukkit.enchantments.Enchantment;
@@ -96,6 +97,11 @@ public class Joinlistener implements Listener {
         player.getInventory().setItem(33, glass);
         player.getInventory().setItem(34, glass);
         player.getInventory().setItem(35, glass);
+
+        if (mysqlManager.canClaimDailyReward(player.getUniqueId().toString())) {
+            player.sendMessage(ConfigManager.getPrefix() + ConfigManager.getConfigMessage("message.canclaimdailyreward"));
+            player.playSound(player.getLocation(), Sound.ENTITY_PLAYER_LEVELUP, 1.0f, 1.0f);
+        }
 
         ItemStack navigator = new ItemStack(Material.ENDER_EYE);
         ItemMeta navigatormeta = navigator.getItemMeta();

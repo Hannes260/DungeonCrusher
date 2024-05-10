@@ -91,7 +91,7 @@ public class CustomDropListener implements Listener {
         Location hologramLocation = event.getEntity().getLocation(); // Position des getöteten Mobs
         HologramManager.spawnItemHologram(hologramLocation, items.getType().toString());
     }
-    private String translateMaterialName(Material material) {
+    public static String translateMaterialName(Material material) {
         switch (material) {
             case COBBLESTONE:
                 return "Bruchstein";

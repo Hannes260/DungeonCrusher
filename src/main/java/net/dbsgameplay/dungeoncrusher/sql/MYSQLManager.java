@@ -7,6 +7,9 @@ import java.io.IOException;
 import java.sql.*;
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
+
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -127,12 +130,55 @@ public class MYSQLManager {
                     + "coal INT DEFAULT 0 NOT NULL"
                     + ")";
             statement.execute(createItemsTableQuery);
+            String createDailyRewardTableQuery = "CREATE TABLE IF NOT EXISTS player_daily_reward ("
+                    + "uuid VARCHAR(255) PRIMARY KEY,"
+                    + "last_daily_reward TIMESTAMP"
+                    + ")";
+            statement.execute(createDailyRewardTableQuery);
             statement.close();
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
+    public boolean canClaimDailyReward(String playerUUID) {
+        try (Connection connection = dataSource.getConnection()) {
+            String query = "SELECT last_daily_reward FROM player_daily_reward WHERE uuid = ?";
+            try (PreparedStatement statement = connection.prepareStatement(query)) {
+                statement.setString(1, playerUUID);
+                ResultSet resultSet = statement.executeQuery();
+                if (resultSet.next()) {
+                    Timestamp lastRewardTime = resultSet.getTimestamp("last_daily_reward");
+                    if (lastRewardTime == null) {
+                        return true; // No previous reward claimed
+                    } else {
+                        LocalDateTime lastClaimDateTime = lastRewardTime.toLocalDateTime();
+                        LocalDate lastClaimDate = lastClaimDateTime.toLocalDate();
+                        LocalDate currentDate = LocalDate.now();
+                        return !currentDate.isEqual(lastClaimDate);
+                    }
+                } else {
+                    return true; // Player not found in the table, can claim reward
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
 
+    public void grantDailyReward(String playerUUID) {
+        try (Connection connection = dataSource.getConnection()) {
+            Timestamp currentTimestamp = new Timestamp(System.currentTimeMillis());
+            String updateQuery = "REPLACE INTO player_daily_reward (uuid, last_daily_reward) VALUES (?, ?)";
+            try (PreparedStatement statement = connection.prepareStatement(updateQuery)) {
+                statement.setString(1, playerUUID);
+                statement.setTimestamp(2, currentTimestamp);
+                statement.executeUpdate();
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
     public void updateBalance(String uuid, String balance) {
         try (Connection connection = dataSource.getConnection()) {
             String checkQuery = "SELECT uuid FROM player_accounts WHERE uuid = ?";
