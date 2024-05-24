@@ -94,7 +94,7 @@ public class ConfigManager {
             setDefaultIfNotSet("message.blockedcommand", "&cDieser Command ist gesperrt");
             setDefaultIfNotSet("message.helpusage", "&cBenutze: /help");
             setDefaultIfNotSet("message.already_claimed_reward","&cDu hast schon deine Tägliche Belohnung abgeholt");
-            setDefaultIfNotSet("message.claimed_daily_reward", "&aDu hast deine Tägliche belohnung abgeholt");
+            setDefaultIfNotSet("message.claimed_daily_reward", "&aDu hast deine Tägliche Belohnung abgeholt");
             setDefaultIfNotSet("message.canclaimdailyreward", "&aDu kannst deine Tägliche Belohnung abholen &7[&6/daily&7]");
             setDefaultIfNotSet("message.clearchatbypass", "&aDer Chat wurde gelöscht von &6%player% &aaber du hast einen Bypass!");
             setDefaultIfNotSet("message.clearchat","&aDer Chat wurde gelöscht von &6%player%");
