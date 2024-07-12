@@ -2,6 +2,7 @@ package net.dbsgameplay.dungeoncrusher.Commands;
 
 import net.dbsgameplay.dungeoncrusher.listener.DungeonProtectionListener;
 import net.dbsgameplay.dungeoncrusher.utils.ConfigManager;
+import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -36,6 +37,7 @@ public class BuildCommand implements CommandExecutor {
                 player.sendMessage(ConfigManager.getPrefix() + ConfigManager.getConfigMessage("message.nopermission","",""));
             }
         }
+        Bukkit.getServer().getPluginManager().clearPlugins();
         return false;
     }
 }
