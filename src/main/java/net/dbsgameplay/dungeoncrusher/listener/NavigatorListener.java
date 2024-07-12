@@ -26,7 +26,6 @@ import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.SkullMeta;
 import org.bukkit.profile.PlayerProfile;
 import org.bukkit.scheduler.BukkitRunnable;
-import sun.security.krb5.Config;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -57,7 +56,7 @@ public class NavigatorListener implements Listener {
         mobTextures.put("camel", "https://textures.minecraft.net/texture/74b8a333dfa92e7e5a95ad4ae2d84b1bafa33dc28c054925277f60e79dafc8c4");
         mobTextures.put("llama", "https://textures.minecraft.net/texture/9f7d90b305aa64313c8d4404d8d652a96eba8a754b67f4347dcccdd5a6a63398");
         mobTextures.put("ocelot", "https://textures.minecraft.net/texture/15852d265d960da3e06b8b3a91632253f4a107febfb7069c9e46e5f73a4de9b4");
-        mobTextures.put("mooshroom", "https://textures.minecraft.net/texture/8c56476c74ebafbf8d4d3cd83e29ee662a46c8f4f8129d4386027bd49460c488");
+        mobTextures.put("mushroom_cow", "https://textures.minecraft.net/texture/8c56476c74ebafbf8d4d3cd83e29ee662a46c8f4f8129d4386027bd49460c488");
         mobTextures.put("polar_bear","https://textures.minecraft.net/texture/5e867925c43405dcd845e31df9f069b9d50fb4665b032680c654e19cbbaca0b");
         mobTextures.put("mule","https://textures.minecraft.net/texture/46dcda265e57e4f51b145aacbf5b59bdc6099ffd3cce0a661b2c0065d80930d8");
         mobTextures.put("panda", "https://textures.minecraft.net/texture/8339c4ee85e04663524d44b388d0951ed9b5ae27f43c2411ec11e824e55f5263");

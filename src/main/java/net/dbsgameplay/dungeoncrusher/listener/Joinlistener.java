@@ -95,8 +95,6 @@ public class Joinlistener implements Listener {
         player.getInventory().setItem(31, glass);
         player.getInventory().setItem(32, glass);
         player.getInventory().setItem(33, glass);
-        player.getInventory().setItem(34, glass);
-        player.getInventory().setItem(35, glass);
 
         if (mysqlManager.canClaimDailyReward(player.getUniqueId().toString())) {
             player.sendMessage(ConfigManager.getPrefix() + ConfigManager.getConfigMessage("message.canclaimdailyreward"));

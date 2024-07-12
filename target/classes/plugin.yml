@@ -1,0 +1,44 @@
+name: DungeonCrusher
+version: '1.0-SNAPSHOT'
+main: net.dbsgameplay.dungeoncrusher.DungeonCrusher
+api-version: '1.20'
+author: HanneZHD
+softdepend: [PlaceholderAPI]
+commands:
+  config:
+    tab-completer: true
+    description: config funktionen
+  pay:
+    tab-completer: true
+    description: Überweise anderen Spieler geld
+    aliases: [überweisen]
+  money:
+    tab-completer: true
+    description: Geld Managment
+    aliases: eco
+  stats:
+    description: Sehe deine Stats
+    aliases: [statistik, statistiken]
+  setup:
+    tab-completer: true
+    description: Setup Befehl
+  build:
+    description: Gehe in den Baumodus
+    aliases: [bauen]
+  setspawn:
+    description: Setzte den Spawn
+  spawn:
+    description: Teleportiere dich zum Spawn
+  test:
+  shop:
+    description: Öffne den Shop
+  upgrades:
+    description: Upgrade deine Items
+    aliases: [upgrade, levelup]
+  flyspeed:
+    description: Setzte deine Fluggeschwindigkeit nach oben
+  help:
+  daily:
+  cc:
+    description: Lösche den Chat
+    aliases: [clearchat]

@@ -14,6 +14,8 @@ import net.dbsgameplay.dungeoncrusher.utils.*;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
+import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -29,11 +31,13 @@ public final class DungeonCrusher extends JavaPlugin {
     private LocationConfigManager locationconfigManager;
     private DropsConfigManager dropsConfigManager;
     private RewardConfigManager rewardConfigManager;
-    MobHealthBuilder healthBuilder = new MobHealthBuilder();
+    MobHealthBuilder mobHealthBuilder = new MobHealthBuilder();
+    private FileConfiguration mobHealthConfig;
     MYSQLManager mysqlManager;
 
     @Override
     public void onEnable() {
+        this.saveDefaultConfig();
         instance = this;
         this.configManager = new ConfigManager(this);
         dropsConfigManager = new DropsConfigManager(this);
@@ -43,7 +47,7 @@ public final class DungeonCrusher extends JavaPlugin {
         MarkierungsManager markierungsManager = new MarkierungsManager(locationconfigManager);
         DungeonProtectionListener dungeonProtectionListener = new DungeonProtectionListener();
         SavezoneManager savezoneManager = new SavezoneManager(locationconfigManager);
-
+        MobHealthBuilder mobHealthBuilder = new MobHealthBuilder();
         getLogger().info(" ");
         getLogger().info("________                                                    _________                         .__                     \n");
         getLogger().info("\\______ \\   __ __   ____     ____    ____    ____    ____   \\_   ___ \\ _______  __ __   ______|  |__    ____  _______ \n");
@@ -52,7 +56,7 @@ public final class DungeonCrusher extends JavaPlugin {
         getLogger().info("/_______  /|____/ |___|  / \\___  /  \\___  > \\____/ |___|  /  \\______  / |__|   |____/ /____  >|___|  / \\___  > |__|   \n");
         getLogger().info("        \\/             \\/ /_____/       \\/              \\/          \\/                     \\/      \\/      \\/         ");
         getLogger().info(" ");
-        getLogger().info("Authors: HanneZHD,DBsGameplay");
+        getLogger().info("Authors: HanneZHD,Ditomax");
         getLogger().info("Version: 1.0");
         getLogger().info(" ");
 
@@ -86,7 +90,7 @@ public final class DungeonCrusher extends JavaPlugin {
         pluginManager.registerEvents(new BlockListener(markierungsManager),this);
         pluginManager.registerEvents(new DungeonProtectionListener(),this);
         pluginManager.registerEvents(new SavezoneListener(savezoneManager), this);
-        pluginManager.registerEvents(new MobDamageListener(healthBuilder), this);
+        pluginManager.registerEvents(new MobDamageListener(mobHealthBuilder), this);
         pluginManager.registerEvents(new CustomDropListener(this,mysqlManager,dropsConfigManager), this);
         pluginManager.registerEvents(new DungeonListener(locationconfigManager),this);
         pluginManager.registerEvents(new MobkillListener(), this);
@@ -179,4 +183,5 @@ public final class DungeonCrusher extends JavaPlugin {
             return Integer.MAX_VALUE;
         }
     }
+
 }

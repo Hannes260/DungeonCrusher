@@ -60,44 +60,56 @@ public class DungeonListener implements Listener {
     private double getMobSpawnChance(String dungeonName) {
         return locationConfigManager.getConfiguration().getDouble(dungeonName + ".spawnChance", 0.0);
     }
+
     private void spawnRandomMob(String dungeonName, Location playerLocation) {
         List<String> mobTypes = locationConfigManager.getConfiguration().getStringList(dungeonName + ".mobTypes");
 
         if (!mobTypes.isEmpty()) {
-            Location dungeonPos1 = locationConfigManager.getDungeonPos1(dungeonName);
-            Location dungeonPos2 = locationConfigManager.getDungeonPos2(dungeonName);
             double radius = 20.0;
-            double angle = random.nextDouble() * 2 * Math.PI;
-            double x = playerLocation.getX() + radius * Math.cos(angle);
-            double z = playerLocation.getZ() + radius * Math.sin(angle);
-            double y = playerLocation.getWorld().getHighestBlockYAt((int) x, (int) z);
             int maxAttempts = 50;
 
+            int entitiesInDungeon = countEntitiesInDungeon(playerLocation.getWorld(), locationConfigManager.getDungeonPos1(dungeonName), locationConfigManager.getDungeonPos2(dungeonName));
+
+            if (entitiesInDungeon >= 50) {
+                // Wenn bereits 50 Mobs in diesem Dungeon sind, breche den Vorgang ab
+                return;
+            }
+
             for (int attempt = 0; attempt < maxAttempts; attempt++) {
-                if (isSafeSpawnLocation(playerLocation.getWorld(), x, y, z) &&
-                        countEntitiesInDungeon(playerLocation.getWorld(), dungeonPos1, dungeonPos2) < 50) {
-                    if (!isSafeSpawnLocation(playerLocation.getWorld(), x, y - 1, z)) {
-                        y = playerLocation.getWorld().getHighestBlockYAt((int) x, (int) z) + 1;
-                    }
+                double angle = random.nextDouble() * 2 * Math.PI; // Zufälliger Winkel
+                double distance = radius * Math.sqrt(random.nextDouble()); // Zufällige Distanz (um Verteilung zu berücksichtigen)
+                double x = playerLocation.getX() + distance * Math.cos(angle);
+                double z = playerLocation.getZ() + distance * Math.sin(angle);
+                Location spawnLocation = new Location(playerLocation.getWorld(), x, playerLocation.getWorld().getHighestBlockYAt((int) x, (int) z) + 1, z);
 
-                    Location spawnLocation = new Location(playerLocation.getWorld(), x, y, z);
+                // Überprüfen, ob die Spawn-Position sicher ist
+                if (isSafeSpawnLocation(spawnLocation)) {
                     String randomMobType = mobTypes.get(random.nextInt(mobTypes.size()));
-
                     LivingEntity mob = (LivingEntity) playerLocation.getWorld().spawnEntity(spawnLocation, EntityType.valueOf(randomMobType.toUpperCase()));
-                    break;
+
+                    // Erhöhe den Zähler für Mobs im Dungeon
+                    entitiesInDungeon++;
+                    if (entitiesInDungeon >= 50) {
+                        // Wenn die maximale Anzahl erreicht ist, breche die Schleife ab
+                        break;
+                    }
                 }
             }
         }
     }
 
+    private boolean isSafeSpawnLocation(Location location) {
+        World world = location.getWorld();
+        double x = location.getX();
+        double y = location.getY();
+        double z = location.getZ();
 
-    private boolean isSafeSpawnLocation(World world, double x, double y, double z) {
-        Location checkLocation = new Location(world, x, y, z);
-        Material blockType = checkLocation.getBlock().getType();
+        Material blockType = new Location(world, x, y - 1, z).getBlock().getType();
+        Material blockAboveType = new Location(world, x, y, z).getBlock().getType();
+        Material blockTwoAboveType = new Location(world, x, y + 1, z).getBlock().getType();
 
-        // Überprüfen, ob der Block an der Spawn-Position ein Grasblock ist
-        return blockType.equals(Material.GRASS_BLOCK) || blockType.equals(Material.SAND) || blockType.equals(Material.MYCELIUM)||blockType.equals(Material.ICE) ||
-                blockType.equals(Material.COARSE_DIRT);
+        // Überprüfen, ob der Block an der Spawn-Position begehbar ist und der Bereich darüber frei ist
+        return (blockType.isSolid() && blockAboveType == Material.AIR && blockTwoAboveType == Material.AIR);
     }
 
     private int countEntitiesInDungeon(World world, Location dungeonPos1, Location dungeonPos2) {
@@ -132,3 +144,4 @@ public class DungeonListener implements Listener {
         return locationConfigManager.getDungeonsAndSavezones();
     }
 }
+

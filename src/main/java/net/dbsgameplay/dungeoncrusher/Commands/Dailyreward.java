@@ -38,7 +38,6 @@ public class Dailyreward implements CommandExecutor {
         if (sender instanceof Player) {
             Player player = (Player) sender;
             String PlayerUUID = player.getUniqueId().toString();
-            System.out.println(rewardConfigManager.loadRewards());
             if (mysqlManager.canClaimDailyReward(PlayerUUID)) {
                 mysqlManager.grantDailyReward(PlayerUUID);
                 player.sendMessage(ConfigManager.getPrefix() + ConfigManager.getConfigMessage("message.claimed_daily_reward", "",""));
