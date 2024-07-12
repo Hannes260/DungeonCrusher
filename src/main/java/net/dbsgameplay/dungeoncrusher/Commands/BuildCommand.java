@@ -37,7 +37,6 @@ public class BuildCommand implements CommandExecutor {
                 player.sendMessage(ConfigManager.getPrefix() + ConfigManager.getConfigMessage("message.nopermission","",""));
             }
         }
-        Bukkit.getServer().getPluginManager().clearPlugins();
         return false;
     }
 }
