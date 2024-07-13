@@ -1,4 +1,4 @@
-package net.dbsgameplay.dungeoncrusher.listener;
+package net.dbsgameplay.dungeoncrusher.listener.Navigator;
 
 import me.clip.placeholderapi.PlaceholderAPI;
 import net.dbsgameplay.dungeoncrusher.Commands.Shops.ShopCommand;
@@ -6,9 +6,9 @@ import net.dbsgameplay.dungeoncrusher.DungeonCrusher;
 import net.dbsgameplay.dungeoncrusher.enums.UpgradeData;
 import net.dbsgameplay.dungeoncrusher.objects.PlayerHead;
 import net.dbsgameplay.dungeoncrusher.sql.MYSQLManager;
-import net.dbsgameplay.dungeoncrusher.utils.ConfigManager;
+import net.dbsgameplay.dungeoncrusher.utils.Configs.ConfigManager;
 import net.dbsgameplay.dungeoncrusher.utils.ItemBuilder;
-import net.dbsgameplay.dungeoncrusher.utils.LocationConfigManager;
+import net.dbsgameplay.dungeoncrusher.utils.Configs.LocationConfigManager;
 import net.dbsgameplay.dungeoncrusher.utils.TexturedHeads;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
@@ -133,8 +133,6 @@ public class NavigatorListener implements Listener {
             } else if (clickedItem.getType().equals(Material.LIGHT_GRAY_STAINED_GLASS_PANE)) {
                     return;
                 } else if (itemName.equals("§7➢ §bShop")) {
-                    ShopCommand shopCommand = new ShopCommand(dungeonCrusher, mysqlManager);
-                    shopCommand.getShopInventory(player);
                 } else if (itemName.equals("§7➢ §bSchließen")) {
                     player.closeInventory();
                 } else if (itemName.equals("§eDeine Stats: ")) {
@@ -213,7 +211,6 @@ public class NavigatorListener implements Listener {
         SkullMeta upgrademeta = (SkullMeta) upgrade.getItemMeta();
         upgrademeta.setOwnerProfile(upgradeprofile);
         upgrademeta.setDisplayName("§7➢ §bUpgrades");
-        upgrademeta.setLocalizedName("upgrades");
         upgrade.setItemMeta(upgrademeta);
         navigatorInventory.setItem(51, upgrade);
 
@@ -222,7 +219,6 @@ public class NavigatorListener implements Listener {
         SkullMeta shopmeta = (SkullMeta) upgrade.getItemMeta();
         shopmeta.setOwnerProfile(shopprofile);
         shopmeta.setDisplayName("§7➢ §bShop");
-        shopmeta.setLocalizedName("shop");
         shop.setItemMeta(shopmeta);
         navigatorInventory.setItem(47, shop);
 

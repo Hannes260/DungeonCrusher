@@ -1,4 +1,4 @@
-package net.dbsgameplay.dungeoncrusher.listener;
+package net.dbsgameplay.dungeoncrusher.listener.Damage;
 
 import net.dbsgameplay.dungeoncrusher.DungeonCrusher;
 import net.dbsgameplay.dungeoncrusher.utils.MobHealthBuilder;
@@ -7,7 +7,6 @@ import org.bukkit.entity.*;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
-import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.EntitySpawnEvent;
 import org.bukkit.scheduler.BukkitRunnable;
 
@@ -56,7 +55,7 @@ public class MobDamageListener implements Listener {
                         }
                         updateHealthBar(livingEntity, mobName);
                     }
-                }.runTaskTimer(DungeonCrusher.getPlugin(), 5L, 10L);
+                }.runTaskTimer(DungeonCrusher.getInstance(), 5L, 10L);
             }
         }
     }

@@ -1,4 +1,4 @@
-package net.dbsgameplay.dungeoncrusher.listener;
+package net.dbsgameplay.dungeoncrusher.listener; // Korrekter Paketname entsprechend dem Verzeichnis der Klasse
 
 import net.dbsgameplay.dungeoncrusher.DungeonCrusher;
 import net.dbsgameplay.dungeoncrusher.sql.MYSQLManager;
@@ -17,15 +17,15 @@ public class KillListener implements Listener {
         this.scoreboardBuilder = new ScoreboardBuilder(dungeonCrusher);
         this.mysqlManager = mysqlManager;
     }
+
     @EventHandler
-    public void onentitydeath(EntityDeathEvent event) {
+    public void onEntityDeath(EntityDeathEvent event) {
         if (event.getEntity().getKiller() != null) {
             String player = String.valueOf(event.getEntity().getKiller().getPlayer().getUniqueId());
             int currentKills = Integer.parseInt(mysqlManager.getKills(player));
             mysqlManager.updateKills(player, String.valueOf(currentKills + 1));
             scoreboardBuilder.updateKills(event.getEntity().getKiller().getPlayer());
             scoreboardBuilder.updateDungeonKills(event.getEntity().getKiller().getPlayer());
-
         }
     }
 }

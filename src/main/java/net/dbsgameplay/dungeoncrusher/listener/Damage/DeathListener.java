@@ -1,8 +1,8 @@
-package net.dbsgameplay.dungeoncrusher.listener;
+package net.dbsgameplay.dungeoncrusher.listener.Damage;
 
 import net.dbsgameplay.dungeoncrusher.DungeonCrusher;
 import net.dbsgameplay.dungeoncrusher.sql.MYSQLManager;
-import net.dbsgameplay.dungeoncrusher.utils.LocationConfigManager;
+import net.dbsgameplay.dungeoncrusher.utils.Configs.LocationConfigManager;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;

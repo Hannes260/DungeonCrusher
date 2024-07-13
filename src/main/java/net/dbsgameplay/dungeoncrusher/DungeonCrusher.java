@@ -6,176 +6,183 @@ import net.dbsgameplay.dungeoncrusher.Commands.Economy.PayCommand;
 import net.dbsgameplay.dungeoncrusher.Commands.LevelSystem.ArmorUpgradeClickListener;
 import net.dbsgameplay.dungeoncrusher.Commands.LevelSystem.SwordUpgradeClickListener;
 import net.dbsgameplay.dungeoncrusher.Commands.LevelSystem.UpgradeCommand;
-import net.dbsgameplay.dungeoncrusher.Commands.Shops.ShopClickListener;
 import net.dbsgameplay.dungeoncrusher.Commands.Shops.ShopCommand;
 import net.dbsgameplay.dungeoncrusher.listener.*;
+import net.dbsgameplay.dungeoncrusher.listener.Damage.*;
+import net.dbsgameplay.dungeoncrusher.listener.Navigator.NavigatorListener;
+import net.dbsgameplay.dungeoncrusher.listener.protections.DungeonProtectionListener;
+import net.dbsgameplay.dungeoncrusher.listener.shops.ShopListener;
 import net.dbsgameplay.dungeoncrusher.sql.MYSQLManager;
-import net.dbsgameplay.dungeoncrusher.utils.*;
+import net.dbsgameplay.dungeoncrusher.utils.Configs.ConfigManager;
+import net.dbsgameplay.dungeoncrusher.utils.Configs.DropsConfigManager;
+import net.dbsgameplay.dungeoncrusher.utils.Configs.LocationConfigManager;
+import net.dbsgameplay.dungeoncrusher.utils.Configs.RewardConfigManager;
+import net.dbsgameplay.dungeoncrusher.utils.MarkierungsManager;
+import net.dbsgameplay.dungeoncrusher.utils.MobHealthBuilder;
+import net.dbsgameplay.dungeoncrusher.utils.SavezoneManager;
+import net.dbsgameplay.dungeoncrusher.utils.ScoreboardBuilder;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.FileConfiguration;
-import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import java.io.File;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Comparator;
+import java.util.List;
 import java.util.stream.Collectors;
 
 public final class DungeonCrusher extends JavaPlugin {
-    public static DungeonCrusher plugin;
+
     private static DungeonCrusher instance;
     private ConfigManager configManager;
-    private LocationConfigManager locationconfigManager;
+    private LocationConfigManager locationConfigManager;
     private DropsConfigManager dropsConfigManager;
     private RewardConfigManager rewardConfigManager;
-    MobHealthBuilder mobHealthBuilder = new MobHealthBuilder();
-    private FileConfiguration mobHealthConfig;
-    MYSQLManager mysqlManager;
+    private MYSQLManager mysqlManager;
 
     @Override
     public void onEnable() {
-        this.saveDefaultConfig();
         instance = this;
-        this.configManager = new ConfigManager(this);
+
+        // Laden der Konfigurationen und Datenbankverbindung
+        saveDefaultConfig();
+        configManager = new ConfigManager(this);
+        locationConfigManager = new LocationConfigManager(this);
         dropsConfigManager = new DropsConfigManager(this);
         rewardConfigManager = new RewardConfigManager(this);
         mysqlManager = MYSQLManager.getInstance(getDataFolder());
-        locationconfigManager = new LocationConfigManager(this);
-        MarkierungsManager markierungsManager = new MarkierungsManager(locationconfigManager);
-        DungeonProtectionListener dungeonProtectionListener = new DungeonProtectionListener();
-        SavezoneManager savezoneManager = new SavezoneManager(locationconfigManager);
-        MobHealthBuilder mobHealthBuilder = new MobHealthBuilder();
+
+        // Plugin-Informationen in der Konsole ausgeben
         getLogger().info(" ");
-        getLogger().info("________                                                    _________                         .__                     \n");
-        getLogger().info("\\______ \\   __ __   ____     ____    ____    ____    ____   \\_   ___ \\ _______  __ __   ______|  |__    ____  _______ \n");
-        getLogger().info(" |    |  \\ |  |  \\ /    \\   / ___\\ _/ __ \\  /  _ \\  /    \\  /    \\  \\/ \\_  __ \\|  |  \\ /  ___/|  |  \\ _/ __ \\ \\_  __ \\\n");
-        getLogger().info(" |    `   \\|  |  /|   |  \\ / /_/  >\\  ___/ (  <_> )|   |  \\ \\     \\____ |  | \\/|  |  / \\___ \\ |   Y  \\\\  ___/  |  | \\/\n");
-        getLogger().info("/_______  /|____/ |___|  / \\___  /  \\___  > \\____/ |___|  /  \\______  / |__|   |____/ /____  >|___|  / \\___  > |__|   \n");
+        getLogger().info("________                                                    _________                         .__                     ");
+        getLogger().info("\\______ \\   __ __   ____     ____    ____    ____    ____   \\_   ___ \\ _______  __ __   ______|  |__    ____  _______ ");
+        getLogger().info(" |    |  \\ |  |  \\ /    \\   / ___\\ _/ __ \\  /  _ \\  /    \\  /    \\  \\/ \\_  __ \\|  |  \\ /  ___/|  |  \\ _/ __ \\ \\_  __ \\");
+        getLogger().info(" |    `   \\|  |  /|   |  \\ / /_/  >\\  ___/ (  <_> )|   |  \\ \\     \\____ |  | \\/|  |  / \\___ \\ |   Y  \\\\  ___/  |  | \\/");
+        getLogger().info("/_______  /|____/ |___|  / \\___  /  \\___  > \\____/ |___|  /  \\______  / |__|   |____/ /____  >|___|  / \\___  > |__|   ");
         getLogger().info("        \\/             \\/ /_____/       \\/              \\/          \\/                     \\/      \\/      \\/         ");
         getLogger().info(" ");
-        getLogger().info("Authors: HanneZHD,Ditomax");
+        getLogger().info("Authors: HanneZHD, Ditomax");
         getLogger().info("Version: 1.0");
         getLogger().info(" ");
 
-        this.getCommand("config").setExecutor(new ConfigCommand());
-        this.getCommand("pay").setExecutor(new PayCommand(this, mysqlManager));
-        this.getCommand("money").setExecutor(new CoinsCommand(this, mysqlManager));
-        this.getCommand("stats").setExecutor(new StatsCommand(this,mysqlManager));
-        this.getCommand("setup").setExecutor(new SetupCommand(markierungsManager,locationconfigManager));
-        this.getCommand("build").setExecutor(new BuildCommand(dungeonProtectionListener));
-        this.getCommand("setspawn").setExecutor(new SetSpawnCommand(locationconfigManager));
-        this.getCommand("spawn").setExecutor(new SpawnCommand(locationconfigManager,savezoneManager));
-        this.getCommand("shop").setExecutor(new ShopCommand(this,mysqlManager));
-        this.getCommand("upgrades").setExecutor(new UpgradeCommand(this, mysqlManager));
-        this.getCommand("test").setExecutor(new TestComand());
-        this.getCommand("flyspeed").setExecutor(new FlySpeedCommand());
-        this.getCommand("help").setExecutor(new HelpCommand());
-        this.getCommand("daily").setExecutor(new Dailyreward(this, mysqlManager, rewardConfigManager, locationconfigManager));
-        this.getCommand("cc").setExecutor(new ClearChatCommand());
-        //Tab
-        this.getCommand("config").setTabCompleter(this);
-        this.getCommand("money").setTabCompleter(this);
-        this.getCommand("pay").setTabCompleter(this);
-        this.getCommand("setup").setTabCompleter(this);
+        // Register Commands
+        registerCommands();
 
-        //Listener
-        PluginManager pluginManager = Bukkit.getPluginManager();
-        pluginManager.registerEvents(new ScoreboardBuilder(this), this);
-        pluginManager.registerEvents(new Joinlistener(this, mysqlManager, locationconfigManager), this);
-        pluginManager.registerEvents(new DeathListener(this, mysqlManager, locationconfigManager),this);
-        pluginManager.registerEvents(new KillListener(this, mysqlManager), this);
-        pluginManager.registerEvents(new BlockListener(markierungsManager),this);
-        pluginManager.registerEvents(new DungeonProtectionListener(),this);
-        pluginManager.registerEvents(new SavezoneListener(savezoneManager), this);
-        pluginManager.registerEvents(new MobDamageListener(mobHealthBuilder), this);
-        pluginManager.registerEvents(new CustomDropListener(this,mysqlManager,dropsConfigManager), this);
-        pluginManager.registerEvents(new DungeonListener(locationconfigManager),this);
-        pluginManager.registerEvents(new MobkillListener(), this);
-        pluginManager.registerEvents(new ShopClickListener(this, mysqlManager),this);
-        pluginManager.registerEvents(new SwordUpgradeClickListener(this, mysqlManager),this);
-        pluginManager.registerEvents(new ArmorUpgradeClickListener(this, mysqlManager),this);
-        pluginManager.registerEvents(new NavigatorListener(this,locationconfigManager, mysqlManager), this);
-        pluginManager.registerEvents(new PotionListener(),this);
+        // Register Listeners
+        registerListeners();
     }
-    public List<String> onTabComplete(CommandSender sender, Command cmd, String alias, String[] args) {
-        List<String> dungeonNames = new ArrayList<>();
-        Map<String, List<String>> dungeonsAndSavezones = locationconfigManager.getDungeonsAndSavezones();
-        List<String> sortedDungeonNames = dungeonsAndSavezones.keySet().stream()
-                .filter(name -> name.startsWith("dungeon")) // Filtere Dungeon-Namen heraus
-                .sorted(Comparator.comparingInt(this::extractDungeonNumber))
-                .collect(Collectors.toList());
-        if (cmd.getName().equalsIgnoreCase("config")) {
-            Player player = (Player) sender;
-            if (args.length == 1) {
-                return Arrays.asList("reload");
-            }
-        } else if (cmd.getName().equalsIgnoreCase("money")) {
-            if (args.length == 1) {
-                return Arrays.asList("add", "set", "remove", "see");
-            } else if (args.length == 2) {
-                List<String> playerNames = new ArrayList<>();
-                for (Player player : Bukkit.getOnlinePlayers()) {
-                    playerNames.add(player.getName());
-                    playerNames.add("*");
-                }
-                return playerNames;
-            } else if (args.length == 3) {
-                return Arrays.asList("1", "10", "100", "1000");
-            }
-        } else if (cmd.getName().equalsIgnoreCase("pay")) {
-            if (args.length == 2) {
-                return Arrays.asList("1", "10", "100", "1000");
-            }
-        } else if (cmd.getName().equalsIgnoreCase("setup")) {
-            if (args.length == 1) {
-                return Arrays.asList("setdungeon","setsavezone","removedungeon","removesavezone","setspawn","setkills");
-            } else if (args.length == 2) {
-                if (args[0].equalsIgnoreCase("setspawn")) {
-                    for (String dungeonName : sortedDungeonNames) {
-                        dungeonNames.add(dungeonName);
-                    }
-                    return dungeonNames;
-                } else if (args[0].equalsIgnoreCase("setkills")) {
-                    for (String dungeonName : sortedDungeonNames) {
-                        dungeonNames.add(dungeonName);
-                    }
-                    return dungeonNames;
-            }else {
-                    return Arrays.asList("name");
-                }
-            }else if (args.length == 2) {
-                return Arrays.asList("name");
-            }else if (args.length == 3) {
-                return Arrays.asList("name");
-            }
-        }
-        return null;
-    }
-    public static DungeonCrusher getPlugin() {
-        return instance;
-    }
+
     @Override
     public void onDisable() {
-            ConfigManager.saveConfig();
+        ConfigManager.saveConfig();
         if (mysqlManager != null) {
             mysqlManager.disconnect();
         }
     }
+
+    @Override
+    public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
+        // Implement your command handling if needed
+        return false;
+    }
+
+    @Override
+    public List<String> onTabComplete(CommandSender sender, Command cmd, String alias, String[] args) {
+        List<String> completions = new ArrayList<>();
+
+        if (cmd.getName().equalsIgnoreCase("config")) {
+            if (args.length == 1) {
+                completions.addAll(Arrays.asList("reload"));
+            }
+        } else if (cmd.getName().equalsIgnoreCase("money")) {
+            if (args.length == 1) {
+                completions.addAll(Arrays.asList("add", "set", "remove", "see"));
+            } else if (args.length == 2) {
+                completions.addAll(Bukkit.getOnlinePlayers().stream().map(Player::getName).collect(Collectors.toList()));
+            } else if (args.length == 3) {
+                completions.addAll(Arrays.asList("1", "10", "100", "1000"));
+            }
+        } else if (cmd.getName().equalsIgnoreCase("pay") && args.length == 2) {
+            completions.addAll(Arrays.asList("1", "10", "100", "1000"));
+        } else if (cmd.getName().equalsIgnoreCase("setup")) {
+            if (args.length == 1) {
+                completions.addAll(Arrays.asList("setdungeon", "setsavezone", "removedungeon", "removesavezone", "setspawn", "setkills"));
+            } else if (args.length == 2) {
+                if (args[0].equalsIgnoreCase("setspawn") || args[0].equalsIgnoreCase("setkills")) {
+                    completions.addAll(locationConfigManager.getDungeonsAndSavezones().keySet().stream()
+                            .filter(name -> name.startsWith("dungeon"))
+                            .sorted(Comparator.comparingInt(this::extractDungeonNumber))
+                            .collect(Collectors.toList()));
+                }
+            }
+        }
+
+        return completions;
+    }
+
+    private void registerCommands() {
+        getCommand("config").setExecutor(new ConfigCommand());
+        getCommand("pay").setExecutor(new PayCommand(this, mysqlManager));
+        getCommand("money").setExecutor(new CoinsCommand(this, mysqlManager));
+        getCommand("stats").setExecutor(new StatsCommand(this, mysqlManager));
+        getCommand("setup").setExecutor(new SetupCommand(new MarkierungsManager(locationConfigManager), locationConfigManager));
+        getCommand("build").setExecutor(new BuildCommand(new DungeonProtectionListener()));
+        getCommand("setspawn").setExecutor(new SetSpawnCommand(locationConfigManager));
+        getCommand("spawn").setExecutor(new SpawnCommand(locationConfigManager, new SavezoneManager(locationConfigManager)));
+        getCommand("shop").setExecutor(new ShopCommand(this, mysqlManager));
+        getCommand("upgrades").setExecutor(new UpgradeCommand(this, mysqlManager));
+        getCommand("flyspeed").setExecutor(new FlySpeedCommand());
+        getCommand("help").setExecutor(new HelpCommand());
+        getCommand("daily").setExecutor(new Dailyreward(this, mysqlManager, rewardConfigManager, locationConfigManager));
+        getCommand("cc").setExecutor(new ClearChatCommand());
+
+        // Tab Completers
+        getCommand("config").setTabCompleter(this);
+        getCommand("money").setTabCompleter(this);
+        getCommand("pay").setTabCompleter(this);
+        getCommand("setup").setTabCompleter(this);
+    }
+
+    private void registerListeners() {
+        PluginManager pluginManager = Bukkit.getPluginManager();
+        pluginManager.registerEvents(new ScoreboardBuilder(this), this);
+        pluginManager.registerEvents(new Joinlistener(this, mysqlManager, locationConfigManager), this);
+        pluginManager.registerEvents(new DeathListener(this, mysqlManager, locationConfigManager), this);
+        pluginManager.registerEvents(new KillListener(this, mysqlManager), this);
+        pluginManager.registerEvents(new BlockListener(new MarkierungsManager(locationConfigManager)), this);
+        pluginManager.registerEvents(new DungeonProtectionListener(), this);
+        pluginManager.registerEvents(new SavezoneListener(new SavezoneManager(locationConfigManager)), this);
+        pluginManager.registerEvents(new MobDamageListener(new MobHealthBuilder()), this);
+        pluginManager.registerEvents(new CustomDropListener(this, mysqlManager, dropsConfigManager), this);
+        pluginManager.registerEvents(new DungeonListener(locationConfigManager), this);
+        pluginManager.registerEvents(new MobkillListener(), this);
+        pluginManager.registerEvents(new ShopListener(), this);
+        pluginManager.registerEvents(new SwordUpgradeClickListener(this, mysqlManager), this);
+        pluginManager.registerEvents(new ArmorUpgradeClickListener(this, mysqlManager), this);
+        pluginManager.registerEvents(new NavigatorListener(this, locationConfigManager, mysqlManager), this);
+        pluginManager.registerEvents(new PotionListener(), this);
+    }
+
     public static DungeonCrusher getInstance() {
         return instance;
     }
+
     public static ConfigManager getConfigManager() {
-        return plugin.configManager;
+        return instance.configManager;
     }
+
     public static DropsConfigManager getDropsManager() {
-        return plugin.dropsConfigManager;
+        return instance.dropsConfigManager;
     }
-    public static LocationConfigManager locationConfigManager() {
-        return plugin.locationconfigManager;
+
+    public static LocationConfigManager getLocationConfigManager() {
+        return instance.locationConfigManager;
     }
+
     private int extractDungeonNumber(String dungeonName) {
         try {
             return Integer.parseInt(dungeonName.replace("dungeon", ""));
@@ -183,5 +190,4 @@ public final class DungeonCrusher extends JavaPlugin {
             return Integer.MAX_VALUE;
         }
     }
-
 }

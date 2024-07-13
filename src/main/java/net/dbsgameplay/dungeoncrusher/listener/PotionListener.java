@@ -15,7 +15,7 @@ public class PotionListener implements Listener {
         final Player player = e.getPlayer();
 
         if (e.getItem().getType() == Material.POTION) {
-            Bukkit.getServer().getScheduler().runTaskLaterAsynchronously(DungeonCrusher.getPlugin(), new Runnable() {
+            Bukkit.getServer().getScheduler().runTaskLaterAsynchronously(DungeonCrusher.getInstance(), new Runnable() {
                 public void run() {
                     player.setItemInHand(new ItemStack(Material.AIR));
                 }

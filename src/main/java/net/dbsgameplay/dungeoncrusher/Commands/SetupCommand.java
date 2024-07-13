@@ -1,7 +1,7 @@
 package net.dbsgameplay.dungeoncrusher.Commands;
 
-import net.dbsgameplay.dungeoncrusher.utils.ConfigManager;
-import net.dbsgameplay.dungeoncrusher.utils.LocationConfigManager;
+import net.dbsgameplay.dungeoncrusher.utils.Configs.ConfigManager;
+import net.dbsgameplay.dungeoncrusher.utils.Configs.LocationConfigManager;
 import net.dbsgameplay.dungeoncrusher.utils.MarkierungsManager;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -9,7 +9,6 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import java.util.Arrays;
-import java.util.List;
 
 public class SetupCommand implements CommandExecutor {
     private final MarkierungsManager markierungsManager;

@@ -1,6 +1,6 @@
-package net.dbsgameplay.dungeoncrusher.listener;
+package net.dbsgameplay.dungeoncrusher.listener.Damage;
 
-import net.dbsgameplay.dungeoncrusher.utils.ConfigManager;
+import net.dbsgameplay.dungeoncrusher.utils.Configs.ConfigManager;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;

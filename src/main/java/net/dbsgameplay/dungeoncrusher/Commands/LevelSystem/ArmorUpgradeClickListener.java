@@ -3,7 +3,7 @@ package net.dbsgameplay.dungeoncrusher.Commands.LevelSystem;
 import net.dbsgameplay.dungeoncrusher.DungeonCrusher;
 import net.dbsgameplay.dungeoncrusher.enums.UpgradeData;
 import net.dbsgameplay.dungeoncrusher.sql.MYSQLManager;
-import net.dbsgameplay.dungeoncrusher.utils.ConfigManager;
+import net.dbsgameplay.dungeoncrusher.utils.Configs.ConfigManager;
 import net.dbsgameplay.dungeoncrusher.utils.ItemBuilder;
 import net.dbsgameplay.dungeoncrusher.utils.ScoreboardBuilder;
 import org.bukkit.Bukkit;

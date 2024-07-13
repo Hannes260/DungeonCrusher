@@ -1,4 +1,4 @@
-package net.dbsgameplay.dungeoncrusher.utils;
+package net.dbsgameplay.dungeoncrusher.utils.Configs;
 
 import org.bukkit.Location;
 import org.bukkit.configuration.ConfigurationSection;

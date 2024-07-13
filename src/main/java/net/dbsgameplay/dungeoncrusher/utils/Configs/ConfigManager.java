@@ -1,13 +1,9 @@
-package net.dbsgameplay.dungeoncrusher.utils;
+package net.dbsgameplay.dungeoncrusher.utils.Configs;
 
 
 import net.dbsgameplay.dungeoncrusher.DungeonCrusher;
 import org.bukkit.ChatColor;
-import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
-
-import java.util.HashMap;
-import java.util.Map;
 
 public class ConfigManager {
 
@@ -104,7 +100,14 @@ public class ConfigManager {
         }
     }
     public static void saveConfig() {
-        DungeonCrusher.getInstance().saveConfig();
+        DungeonCrusher instance = DungeonCrusher.getInstance();
+        if (instance != null) {
+            instance.saveConfig();
+        } else {
+            // Hier behandeln, wenn DungeonCrusher.getInstance() null ist
+            // Zum Beispiel durch Logging oder Fehlermeldung
+            System.out.println("DungeonCrusher.getInstance() ist null!");
+        }
     }
     public static void reloadConfig() {
         DungeonCrusher.getInstance().reloadConfig();
@@ -120,7 +123,7 @@ public class ConfigManager {
         config.options().copyDefaults(true);
     }
     public static String getPrefix() {
-        DungeonCrusher pluginInstance = DungeonCrusher.getPlugin();
+        DungeonCrusher pluginInstance = DungeonCrusher.getInstance();
         if (pluginInstance != null && pluginInstance.getConfig() != null) {
             String prefix = pluginInstance.getConfig().getString("prefix");
             prefix = ChatColor.translateAlternateColorCodes('&', prefix);
@@ -131,7 +134,7 @@ public class ConfigManager {
         }
     }
     public static String nopermission() { //"§cDazu hast du keine Rechte"
-        DungeonCrusher pluginInstance = DungeonCrusher.getPlugin();
+        DungeonCrusher pluginInstance = DungeonCrusher.getInstance();
         if (pluginInstance != null && pluginInstance.getConfig() != null) {
         String nopermission = pluginInstance.getConfig().getString("message.nopermission");
         nopermission = ChatColor.translateAlternateColorCodes('&', nopermission);
@@ -145,7 +148,7 @@ public class ConfigManager {
             throw new IllegalArgumentException("Anzahl der Platzhalter und Ersetzungen stimmen nicht überein.");
         }
 
-        String message = DungeonCrusher.getPlugin().getConfig().getString(path);
+        String message = DungeonCrusher.getInstance().getConfig().getString(path);
 
         if (message != null) {
             message = ChatColor.translateAlternateColorCodes('&', message);

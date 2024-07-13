@@ -1,8 +1,7 @@
 package net.dbsgameplay.dungeoncrusher.Commands;
 
-import net.dbsgameplay.dungeoncrusher.listener.DungeonProtectionListener;
-import net.dbsgameplay.dungeoncrusher.utils.ConfigManager;
-import org.bukkit.Bukkit;
+import net.dbsgameplay.dungeoncrusher.listener.protections.DungeonProtectionListener;
+import net.dbsgameplay.dungeoncrusher.utils.Configs.ConfigManager;
 import org.bukkit.GameMode;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;

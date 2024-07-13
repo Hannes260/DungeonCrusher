@@ -1,5 +1,7 @@
 package net.dbsgameplay.dungeoncrusher.utils;
 
+import net.dbsgameplay.dungeoncrusher.utils.Configs.ConfigManager;
+import net.dbsgameplay.dungeoncrusher.utils.Configs.LocationConfigManager;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 

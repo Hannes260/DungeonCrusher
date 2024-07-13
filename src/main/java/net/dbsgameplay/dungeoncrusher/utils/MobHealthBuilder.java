@@ -23,7 +23,7 @@ public class MobHealthBuilder {
         this.initialHealthMap.put(EntityType.VILLAGER, 114.0);
         this.initialHealthMap.put(EntityType.GOAT, 129.0);
         this.initialHealthMap.put(EntityType.LLAMA, 144.0);
-        this.initialHealthMap.put(EntityType.MUSHROOM_COW, 159.0);
+        this.initialHealthMap.put(EntityType.MOOSHROOM, 159.0);
         this.initialHealthMap.put(EntityType.MULE, 174.0);
         this.initialHealthMap.put(EntityType.SNIFFER, 189.0);
         this.initialHealthMap.put(EntityType.PANDA, 204.0);
@@ -41,7 +41,7 @@ public class MobHealthBuilder {
         this.initialHealthMap.put(EntityType.ZOMBIE_HORSE, 384.0);
         this.initialHealthMap.put(EntityType.WOLF, 399.0);
         this.initialHealthMap.put(EntityType.ZOMBIE_VILLAGER, 414.0);
-        this.initialHealthMap.put(EntityType.SNOWMAN, 429.0);
+        this.initialHealthMap.put(EntityType.SNOW_GOLEM, 429.0);
         this.initialHealthMap.put(EntityType.SKELETON, 444.0);
         this.initialHealthMap.put(EntityType.DROWNED, 459.0);
         this.initialHealthMap.put(EntityType.HUSK, 474.0);

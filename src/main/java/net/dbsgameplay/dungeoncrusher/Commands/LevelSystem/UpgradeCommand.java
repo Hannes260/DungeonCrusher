@@ -4,7 +4,7 @@ import net.dbsgameplay.dungeoncrusher.DungeonCrusher;
 import net.dbsgameplay.dungeoncrusher.enums.UpgradeData;
 import net.dbsgameplay.dungeoncrusher.objects.PlayerHead;
 import net.dbsgameplay.dungeoncrusher.sql.MYSQLManager;
-import net.dbsgameplay.dungeoncrusher.utils.ConfigManager;
+import net.dbsgameplay.dungeoncrusher.utils.Configs.ConfigManager;
 import net.dbsgameplay.dungeoncrusher.utils.ItemBuilder;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;

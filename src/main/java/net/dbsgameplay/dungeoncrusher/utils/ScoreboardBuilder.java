@@ -3,6 +3,7 @@ package net.dbsgameplay.dungeoncrusher.utils;
 import me.clip.placeholderapi.PlaceholderAPI;
 import net.dbsgameplay.dungeoncrusher.DungeonCrusher;
 import net.dbsgameplay.dungeoncrusher.sql.MYSQLManager;
+import net.dbsgameplay.dungeoncrusher.utils.Configs.LocationConfigManager;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
@@ -16,7 +17,6 @@ import org.bukkit.scoreboard.Scoreboard;
 import org.bukkit.scoreboard.Team;
 
 import java.util.List;
-import java.util.UUID;
 import java.util.stream.Collectors;
 
 public class ScoreboardBuilder implements Listener {
@@ -142,7 +142,7 @@ public class ScoreboardBuilder implements Listener {
     public void updateDungeonKills(Player player) {
         Scoreboard scoreboard = player.getScoreboard();
         String playerUUID = player.getUniqueId().toString();
-        LocationConfigManager locationConfigManager = new LocationConfigManager(DungeonCrusher.getPlugin());
+        LocationConfigManager locationConfigManager = new LocationConfigManager(DungeonCrusher.getInstance());
         // Finde den nächsten nicht freigeschalteten Dungeon
         String nextUnlockedDungeon = getNextUnlockedDungeon(player.getUniqueId().toString());
 
@@ -167,7 +167,7 @@ public class ScoreboardBuilder implements Listener {
     // LocationConfigManager locationConfigManager = new LocationConfigManager(DungeonCrusher.getPlugin());
     private String getNextUnlockedDungeon(String playerUUID) {
         // Alle Dungeons aus der Konfigurationsdatei abrufen
-        LocationConfigManager locationConfigManager = new LocationConfigManager(DungeonCrusher.getPlugin());
+        LocationConfigManager locationConfigManager = new LocationConfigManager(DungeonCrusher.getInstance());
         List<String> allDungeons = locationConfigManager.getDungeonsAndSavezones().keySet().stream()
                 .filter(name -> name.startsWith("dungeon"))
                 .collect(Collectors.toList());
@@ -216,7 +216,7 @@ public class ScoreboardBuilder implements Listener {
         moneyTeam.setPrefix(newPrefix);
     }
     private boolean hasRequiredKills(Player player, String dungeonName) {
-        LocationConfigManager locationConfigManager = new LocationConfigManager(DungeonCrusher.getPlugin());
+        LocationConfigManager locationConfigManager = new LocationConfigManager(DungeonCrusher.getInstance());
         Integer kills = Integer.parseInt(mysqlManager.getKills(String.valueOf(player.getUniqueId())));
         Integer requiredKills = locationConfigManager.getKills(dungeonName);
 
