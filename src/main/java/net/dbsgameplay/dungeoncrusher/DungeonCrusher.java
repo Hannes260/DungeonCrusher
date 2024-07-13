@@ -43,7 +43,9 @@ public final class DungeonCrusher extends JavaPlugin {
     private DropsConfigManager dropsConfigManager;
     private RewardConfigManager rewardConfigManager;
     private MYSQLManager mysqlManager;
-
+    public static final String ANSI_BLUE = "\u001B[34m";
+    public static final String ANSI_GREEN = "\u001B[32m";
+    public static final String ANSI_WHITE = "\u001B[37m";
     @Override
     public void onEnable() {
         instance = this;
@@ -56,18 +58,16 @@ public final class DungeonCrusher extends JavaPlugin {
         rewardConfigManager = new RewardConfigManager(this);
         mysqlManager = MYSQLManager.getInstance(getDataFolder());
 
-        // Plugin-Informationen in der Konsole ausgeben
-        getLogger().info(" ");
-        getLogger().info("________                                                    _________                         .__                     ");
-        getLogger().info("\\______ \\   __ __   ____     ____    ____    ____    ____   \\_   ___ \\ _______  __ __   ______|  |__    ____  _______ ");
-        getLogger().info(" |    |  \\ |  |  \\ /    \\   / ___\\ _/ __ \\  /  _ \\  /    \\  /    \\  \\/ \\_  __ \\|  |  \\ /  ___/|  |  \\ _/ __ \\ \\_  __ \\");
-        getLogger().info(" |    `   \\|  |  /|   |  \\ / /_/  >\\  ___/ (  <_> )|   |  \\ \\     \\____ |  | \\/|  |  / \\___ \\ |   Y  \\\\  ___/  |  | \\/");
-        getLogger().info("/_______  /|____/ |___|  / \\___  /  \\___  > \\____/ |___|  /  \\______  / |__|   |____/ /____  >|___|  / \\___  > |__|   ");
-        getLogger().info("        \\/             \\/ /_____/       \\/              \\/          \\/                     \\/      \\/      \\/         ");
-        getLogger().info(" ");
-        getLogger().info("Authors: HanneZHD, Ditomax");
-        getLogger().info("Version: 1.0");
-        getLogger().info(" ");
+
+        getLogger().info(ANSI_BLUE +" ");
+        getLogger().info(ANSI_BLUE +"  ____   ____ ");
+        getLogger().info(ANSI_BLUE +" |  _ \\ / ___|");
+        getLogger().info(ANSI_BLUE +" | | | | |        " + ANSI_GREEN + "DungeonCrusher v1.0");
+        getLogger().info(ANSI_BLUE +" | |_| | |___     "+ ANSI_WHITE + "Running on Bukkit - Paper");
+        getLogger().info(ANSI_BLUE +" |____/ \\____|");
+        getLogger().info(ANSI_BLUE +" ");
+        getLogger().info(ANSI_WHITE +"Authors: HanneZHD, Ditomax");
+        getLogger().info(ANSI_GREEN +" ");
 
         // Register Commands
         registerCommands();
