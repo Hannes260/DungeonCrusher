@@ -66,7 +66,7 @@ public final class DungeonCrusher extends JavaPlugin {
         getLogger().info("        \\/             \\/ /_____/       \\/              \\/          \\/                     \\/      \\/      \\/         ");
         getLogger().info(" ");
         getLogger().info("Authors: HanneZHD, Ditomax");
-        getLogger().info("Version: 1.0");
+        getLogger().info("Version: 1.");
         getLogger().info(" ");
 
         // Register Commands
