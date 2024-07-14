@@ -1,6 +1,7 @@
 package net.dbsgameplay.dungeoncrusher.utils.shops;
 
 import net.dbsgameplay.dungeoncrusher.Commands.interfaces.ShopCategory;
+import net.dbsgameplay.dungeoncrusher.enums.ExchangeCategory;
 import net.dbsgameplay.dungeoncrusher.enums.FoodCategory;
 import net.dbsgameplay.dungeoncrusher.objects.PlayerHead;
 import net.dbsgameplay.dungeoncrusher.sql.MYSQLManager;
@@ -28,6 +29,7 @@ public class ShopManager {
     private static Map<String, ShopCategory> categories = new HashMap<>();
     private void initializeCategories(MYSQLManager mysqlManager) {
         categories.put("§7➢ essen", new FoodCategory(mysqlManager));
+        categories.put("§7➢ eintausch", new ExchangeCategory(mysqlManager));
     }
 
     public static void openMainShopMenu(Player player, MYSQLManager mysqlManager){
@@ -45,9 +47,14 @@ public class ShopManager {
         potionmeta.setOwnerProfile(potionprofile);
         potionmeta.setDisplayName("§7➢ Tränke");
         potionhead.setItemMeta(potionmeta);
+        ItemStack exchangeItem = new ItemStack(Material.EMERALD);
+        ItemMeta exchangeMeta = exchangeItem.getItemMeta();
+        exchangeMeta.setDisplayName("§7➢ Eintausch");
+        exchangeItem.setItemMeta(exchangeMeta);
 
         addCloseButton(player, inv);
         inv.setItem(24, potionhead);
+        inv.setItem(22, exchangeItem);
         inv.setItem(20, foodhead);
         showBottomRightItem(player, inv, mysqlManager);
         player.openInventory(inv);

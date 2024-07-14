@@ -2,6 +2,7 @@ package net.dbsgameplay.dungeoncrusher.listener.shops;
 
 import net.dbsgameplay.dungeoncrusher.Commands.interfaces.ShopCategory;
 import net.dbsgameplay.dungeoncrusher.utils.shops.ShopManager;
+import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -9,6 +10,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
 
 public class ShopListener implements Listener {
 
@@ -39,11 +41,40 @@ public class ShopListener implements Listener {
             if (category != null) {
                 event.setCancelled(true);
                 if (event.getClick().isShiftClick() && event.getClick().isLeftClick()) {
-                    category.handleShiftClick(player, clickedItem); // Shift + Linksklick
+                    category.handleShiftClick(player, clickedItem); // Shift + Left Click
                 } else {
-                    category.handleItemClick(player, clickedItem); // Normaler Linksklick
+                    category.handleItemClick(player, clickedItem); // Normal Left Click
                 }
+            } else {
+                handleExchangeClick(player, clickedItem); // Handle exchange items
             }
+        }
+    }
+
+    private void handleExchangeClick(Player player, ItemStack clickedItem) {
+        ItemMeta meta = clickedItem.getItemMeta();
+        if (meta == null) return;
+
+        String displayName = meta.getDisplayName();
+        switch (displayName) {
+            case "20x Kupferbarren":
+                exchangeItems(player, Material.COPPER_INGOT, 20, Material.RAW_COPPER, 100);
+                break;
+            case "200x Kupferbarren":
+                exchangeItems(player, Material.COPPER_INGOT, 200, Material.RAW_COPPER, 1000);
+                break;
+            // Add more cases for other materials based on your list
+        }
+    }
+
+    private void exchangeItems(Player player, Material from, int fromAmount, Material to, int toAmount) {
+        Inventory playerInventory = player.getInventory();
+        if (playerInventory.containsAtLeast(new ItemStack(from), fromAmount)) {
+            playerInventory.removeItem(new ItemStack(from, fromAmount));
+            playerInventory.addItem(new ItemStack(to, toAmount));
+            player.sendMessage("Exchanged " + fromAmount + " " + from + " for " + toAmount + " " + to + ".");
+        } else {
+            player.sendMessage("You do not have enough " + from + " to exchange.");
         }
     }
 }

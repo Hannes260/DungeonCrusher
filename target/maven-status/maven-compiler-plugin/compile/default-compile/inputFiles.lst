@@ -1,7 +1,7 @@
-C:\Users\kathr\Desktop\coding\DungeonCrusher\src\main\java\net\dbsgameplay\dungeoncrusher\utils\MarkierungsManager.java
 C:\Users\kathr\Desktop\coding\DungeonCrusher\src\main\java\net\dbsgameplay\dungeoncrusher\listener\protections\DungeonProtectionListener.java
 C:\Users\kathr\Desktop\coding\DungeonCrusher\src\main\java\net\dbsgameplay\dungeoncrusher\utils\SavezoneManager.java
 C:\Users\kathr\Desktop\coding\DungeonCrusher\src\main\java\net\dbsgameplay\dungeoncrusher\Commands\Quests\QuestCommand.java
+C:\Users\kathr\Desktop\coding\DungeonCrusher\src\main\java\net\dbsgameplay\dungeoncrusher\utils\MarkingsManager.java
 C:\Users\kathr\Desktop\coding\DungeonCrusher\src\main\java\net\dbsgameplay\dungeoncrusher\listener\BlockListener.java
 C:\Users\kathr\Desktop\coding\DungeonCrusher\src\main\java\net\dbsgameplay\dungeoncrusher\Commands\LevelSystem\UpgradeCommand.java
 C:\Users\kathr\Desktop\coding\DungeonCrusher\src\main\java\net\dbsgameplay\dungeoncrusher\utils\Configs\DropsConfigManager.java
@@ -29,6 +29,7 @@ C:\Users\kathr\Desktop\coding\DungeonCrusher\src\main\java\net\dbsgameplay\dunge
 C:\Users\kathr\Desktop\coding\DungeonCrusher\src\main\java\net\dbsgameplay\dungeoncrusher\Commands\interfaces\ShopCategory.java
 C:\Users\kathr\Desktop\coding\DungeonCrusher\src\main\java\net\dbsgameplay\dungeoncrusher\Commands\StatsCommand.java
 C:\Users\kathr\Desktop\coding\DungeonCrusher\src\main\java\net\dbsgameplay\dungeoncrusher\utils\TexturedHeads.java
+C:\Users\kathr\Desktop\coding\DungeonCrusher\src\main\java\net\dbsgameplay\dungeoncrusher\enums\ExchangeCategory.java
 C:\Users\kathr\Desktop\coding\DungeonCrusher\src\main\java\net\dbsgameplay\dungeoncrusher\Commands\TestComand.java
 C:\Users\kathr\Desktop\coding\DungeonCrusher\src\main\java\net\dbsgameplay\dungeoncrusher\listener\Navigator\NavigatorListener.java
 C:\Users\kathr\Desktop\coding\DungeonCrusher\src\main\java\net\dbsgameplay\dungeoncrusher\Commands\SetSpawnCommand.java
