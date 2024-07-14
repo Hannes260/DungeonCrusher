@@ -59,7 +59,7 @@ public class ExchangeCategory implements ShopCategory {
         items.put(52, new ExchangeCategory.ShopItem("1000x Netheritplatten", Material.NETHERITE_SCRAP, 1000, Arrays.asList("§7Benötigt: §6200x Netheritbarren", "§7Gibt: §61000x Netheritplatten")));
 
         items.put(22, new ExchangeCategory.ShopItem("100x Kohle", Material.COAL, 100, Arrays.asList("§7Benötigt: §6100€", "§7Gibt: §6100x Kohle")));
-        items.put(31, new ExchangeCategory.ShopItem("100€", Material.COAL, 100, Arrays.asList("§7Benötigt: §6100x Kohle", "§7Gibt: §6100€")));
+        items.put(31, new ExchangeCategory.ShopItem("100€", Material.PAPER, 100, Arrays.asList("§7Benötigt: §6100x Kohle", "§7Gibt: §6100€")));
     }
 
 @Override
@@ -246,35 +246,48 @@ public void handleShiftClick(Player player, ItemStack clickedItem) {
 
     private void handleCoalExchange(Player player) {
         String playerUUID = player.getUniqueId().toString();
-        double requiredMoney = 100; // The price in money that player needs to pay
+        double requiredMoney = 100;
 
         // Check if player has enough coal to sell
         int currentAmountCoal = mysqlManager.getItemAmount(playerUUID, "coal");
-        if (currentAmountCoal >= 100) {
             // Check if player has enough money to buy coal
             if (removeMoney(player, requiredMoney)) {
                 // Add 100 units of coal to player's inventory
                 mysqlManager.updateItemAmount(playerUUID, "coal", currentAmountCoal + 100);
-                player.sendMessage(ConfigManager.getPrefix() + ConfigManager.getConfigMessage("message.changedmoneytocoal", "",""));
+                player.sendMessage(ConfigManager.getPrefix() + ConfigManager.getConfigMessage("message.changedmoneytocoal", "", ""));
             } else {
-                player.sendMessage(ConfigManager.getPrefix() + ConfigManager.getConfigMessage("message.notenoughmoneyforchangecoal","",""));
+                player.sendMessage(ConfigManager.getPrefix() + ConfigManager.getConfigMessage("message.notenoughmoneyforchangecoal", "", ""));
             }
-        } else {
-            player.sendMessage(ConfigManager.getPrefix() + ConfigManager.getConfigMessage("message.notenoughcoaltochange","",""));
-        }
     }
 
     private void handleEuroExchange(Player player) {
         String playerUUID = player.getUniqueId().toString();
         double requiredCoal = 100;
+        double givenMoney = 100;
+
+        // Check if player has enough coal to exchange
         int currentAmountCoal = mysqlManager.getItemAmount(playerUUID, "coal");
         if (currentAmountCoal >= 100) {
-                addMoney(player, 100);
-                mysqlManager.updateItemAmount(playerUUID, "coal", currentAmountCoal - 100);
-                player.sendMessage(ConfigManager.getPrefix() + ConfigManager.getConfigMessage("message.changedcoal","",""));
+            // Exchange coal for money
+            if (removeItem(playerUUID, "coal", requiredCoal)) {
+                addMoney(player, givenMoney);
+                player.sendMessage(ConfigManager.getPrefix() + ConfigManager.getConfigMessage("message.changedcoal", "", ""));
+            } else {
+                player.sendMessage(ConfigManager.getPrefix() + ConfigManager.getConfigMessage("message.notenoughcoaltochange", "", ""));
+            }
         } else {
-            player.sendMessage(ConfigManager.getPrefix() + ConfigManager.getConfigMessage("message.notenoughcoaltochange","",""));
+            player.sendMessage(ConfigManager.getPrefix() + ConfigManager.getConfigMessage("message.notenoughcoaltochange", "", ""));
         }
+    }
+
+    // Method to remove items from player's inventory
+    private boolean removeItem(String playerUUID, String item, double amount) {
+        int currentAmount = mysqlManager.getItemAmount(playerUUID, item);
+        if (currentAmount >= amount) {
+            mysqlManager.updateItemAmount(playerUUID, item, currentAmount - (int) amount);
+            return true;
+        }
+        return false;
     }
 
     private boolean removeMoney(Player p, double amount) {
