@@ -2,7 +2,7 @@ package net.dbsgameplay.dungeoncrusher.Commands;
 
 import net.dbsgameplay.dungeoncrusher.utils.Configs.ConfigManager;
 import net.dbsgameplay.dungeoncrusher.utils.Configs.LocationConfigManager;
-import net.dbsgameplay.dungeoncrusher.utils.MarkierungsManager;
+import net.dbsgameplay.dungeoncrusher.utils.MarkingsManager;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -11,10 +11,10 @@ import org.bukkit.entity.Player;
 import java.util.Arrays;
 
 public class SetupCommand implements CommandExecutor {
-    private final MarkierungsManager markierungsManager;
+    private final MarkingsManager markierungsManager;
     private LocationConfigManager locationConfigManager;
 
-    public SetupCommand(MarkierungsManager markierungsManager, LocationConfigManager locationConfigManager) {
+    public SetupCommand(MarkingsManager markierungsManager, LocationConfigManager locationConfigManager) {
         this.markierungsManager = markierungsManager;
         this.locationConfigManager = locationConfigManager;
     }
@@ -74,6 +74,13 @@ public class SetupCommand implements CommandExecutor {
                             player.sendMessage(ConfigManager.getPrefix() + ConfigManager.getConfigMessage("message.savekills","%kills%",args[2]));
                         }else
                             player.sendMessage(ConfigManager.getPrefix() + ConfigManager.getConfigMessage("message.savekillsusage", "",""));
+                    }else if (args[0].equalsIgnoreCase("setmobcount")) {
+                        if (args.length > 2) {
+                            locationConfigManager.setmobcount(name, Integer.valueOf(args[2]));
+                            player.sendMessage("gesetzt");
+                        }else{
+                            player.sendMessage(ConfigManager.getPrefix() + ConfigManager.getConfigMessage("message.setmobcountusage","",""));
+                        }
                     }
                 } else {
                 player.sendMessage(ConfigManager.getPrefix() + ConfigManager.getConfigMessage("message.setupusage","",""));

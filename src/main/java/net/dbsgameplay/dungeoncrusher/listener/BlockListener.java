@@ -1,6 +1,6 @@
 package net.dbsgameplay.dungeoncrusher.listener;
 
-import net.dbsgameplay.dungeoncrusher.utils.MarkierungsManager;
+import net.dbsgameplay.dungeoncrusher.utils.MarkingsManager;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -10,9 +10,9 @@ import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.block.BlockBreakEvent;
 
 public class BlockListener implements Listener {
-    private final MarkierungsManager markierungsManager;
+    private final MarkingsManager markierungsManager;
 
-    public BlockListener(MarkierungsManager markierungsManager) {
+    public BlockListener(MarkingsManager markierungsManager) {
         this.markierungsManager = markierungsManager;
     }
 

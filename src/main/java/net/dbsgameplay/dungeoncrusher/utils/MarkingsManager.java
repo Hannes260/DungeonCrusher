@@ -8,12 +8,12 @@ import org.bukkit.entity.Player;
 import java.util.HashMap;
 import java.util.Map;
 
-public class MarkierungsManager {
+public class MarkingsManager {
 
     private final LocationConfigManager locationConfigManager;
     private final Map<Player, Markierungsschritt> markierungen = new HashMap<>();
 
-    public MarkierungsManager(LocationConfigManager locationConfigManager) {
+    public MarkingsManager(LocationConfigManager locationConfigManager) {
         this.locationConfigManager = locationConfigManager;
     }
 

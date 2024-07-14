@@ -17,14 +17,14 @@ import net.dbsgameplay.dungeoncrusher.utils.Configs.ConfigManager;
 import net.dbsgameplay.dungeoncrusher.utils.Configs.DropsConfigManager;
 import net.dbsgameplay.dungeoncrusher.utils.Configs.LocationConfigManager;
 import net.dbsgameplay.dungeoncrusher.utils.Configs.RewardConfigManager;
-import net.dbsgameplay.dungeoncrusher.utils.MarkierungsManager;
+import net.dbsgameplay.dungeoncrusher.utils.MarkingsManager;
 import net.dbsgameplay.dungeoncrusher.utils.MobHealthBuilder;
 import net.dbsgameplay.dungeoncrusher.utils.SavezoneManager;
 import net.dbsgameplay.dungeoncrusher.utils.ScoreboardBuilder;
+import net.dbsgameplay.dungeoncrusher.utils.shops.ShopManager;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
-import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -43,6 +43,7 @@ public final class DungeonCrusher extends JavaPlugin {
     private DropsConfigManager dropsConfigManager;
     private RewardConfigManager rewardConfigManager;
     private MYSQLManager mysqlManager;
+    private MarkingsManager markierungsManager;
     public static final String ANSI_BLUE = "\u001B[34m";
     public static final String ANSI_GREEN = "\u001B[32m";
     public static final String ANSI_WHITE = "\u001B[37m";
@@ -57,6 +58,7 @@ public final class DungeonCrusher extends JavaPlugin {
         dropsConfigManager = new DropsConfigManager(this);
         rewardConfigManager = new RewardConfigManager(this);
         mysqlManager = MYSQLManager.getInstance(getDataFolder());
+        markierungsManager = new MarkingsManager(locationConfigManager);
 
 
         getLogger().info(ANSI_BLUE +" ");
@@ -74,6 +76,8 @@ public final class DungeonCrusher extends JavaPlugin {
 
         // Register Listeners
         registerListeners();
+
+        ShopManager shopManager = new ShopManager(mysqlManager);
     }
 
     @Override
@@ -129,11 +133,11 @@ public final class DungeonCrusher extends JavaPlugin {
         getCommand("pay").setExecutor(new PayCommand(this, mysqlManager));
         getCommand("money").setExecutor(new CoinsCommand(this, mysqlManager));
         getCommand("stats").setExecutor(new StatsCommand(this, mysqlManager));
-        getCommand("setup").setExecutor(new SetupCommand(new MarkierungsManager(locationConfigManager), locationConfigManager));
+        getCommand("setup").setExecutor(new SetupCommand(markierungsManager, locationConfigManager));
         getCommand("build").setExecutor(new BuildCommand(new DungeonProtectionListener()));
         getCommand("setspawn").setExecutor(new SetSpawnCommand(locationConfigManager));
         getCommand("spawn").setExecutor(new SpawnCommand(locationConfigManager, new SavezoneManager(locationConfigManager)));
-        getCommand("shop").setExecutor(new ShopCommand(this, mysqlManager));
+        getCommand("shop").setExecutor(new ShopCommand(mysqlManager));
         getCommand("upgrades").setExecutor(new UpgradeCommand(this, mysqlManager));
         getCommand("flyspeed").setExecutor(new FlySpeedCommand());
         getCommand("help").setExecutor(new HelpCommand());
@@ -153,7 +157,7 @@ public final class DungeonCrusher extends JavaPlugin {
         pluginManager.registerEvents(new Joinlistener(this, mysqlManager, locationConfigManager), this);
         pluginManager.registerEvents(new DeathListener(this, mysqlManager, locationConfigManager), this);
         pluginManager.registerEvents(new KillListener(this, mysqlManager), this);
-        pluginManager.registerEvents(new BlockListener(new MarkierungsManager(locationConfigManager)), this);
+        pluginManager.registerEvents(new BlockListener(markierungsManager), this); // Use the singleton instance
         pluginManager.registerEvents(new DungeonProtectionListener(), this);
         pluginManager.registerEvents(new SavezoneListener(new SavezoneManager(locationConfigManager)), this);
         pluginManager.registerEvents(new MobDamageListener(new MobHealthBuilder()), this);

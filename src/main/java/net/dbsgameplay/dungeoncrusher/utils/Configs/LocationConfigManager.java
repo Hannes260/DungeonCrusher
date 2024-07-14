@@ -206,8 +206,16 @@ public class LocationConfigManager {
         config.set(dungeonName + ".mobTypes", mobTypesList);
         saveConfig();
     }
-    private List<String> getMobTypesForDungeon(String dungeonName) {
+    public List<String> getMobTypesForDungeon(String dungeonName) {
         return config.getStringList(dungeonName + ".mobTypes");
+    }
+    public int setmobcount(String dungeonName, int mobcount) {
+        config.set(dungeonName + ".mobCount", mobcount);
+        saveConfig();
+        return mobcount;
+    }
+    public int getmobcount(String dungeonname) {
+        return config.getInt(dungeonname + ".mobcount");
     }
     public void saveConfig() {
         try {

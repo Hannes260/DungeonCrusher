@@ -1,6 +1,7 @@
 package net.dbsgameplay.dungeoncrusher.listener;
 
 import net.dbsgameplay.dungeoncrusher.utils.Configs.LocationConfigManager;
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.World;
@@ -63,34 +64,35 @@ public class DungeonListener implements Listener {
 
     private void spawnRandomMob(String dungeonName, Location playerLocation) {
         List<String> mobTypes = locationConfigManager.getConfiguration().getStringList(dungeonName + ".mobTypes");
+        int maxMobCount = locationConfigManager.getConfiguration().getInt(dungeonName + ".mobCount", 0);
 
         if (!mobTypes.isEmpty()) {
-            double radius = 20.0;
             int maxAttempts = 50;
 
-            int entitiesInDungeon = countEntitiesInDungeon(playerLocation.getWorld(), locationConfigManager.getDungeonPos1(dungeonName), locationConfigManager.getDungeonPos2(dungeonName));
+            Location pos1 = locationConfigManager.getDungeonPos1(dungeonName);
+            Location pos2 = locationConfigManager.getDungeonPos2(dungeonName);
 
-            if (entitiesInDungeon >= 50) {
-                // Wenn bereits 50 Mobs in diesem Dungeon sind, breche den Vorgang ab
+            int entitiesInDungeon = countEntitiesInDungeon(playerLocation.getWorld(), pos1, pos2, mobTypes);
+
+            if (entitiesInDungeon >= maxMobCount) {
                 return;
             }
 
+
             for (int attempt = 0; attempt < maxAttempts; attempt++) {
-                double angle = random.nextDouble() * 2 * Math.PI; // Zufälliger Winkel
-                double distance = radius * Math.sqrt(random.nextDouble()); // Zufällige Distanz (um Verteilung zu berücksichtigen)
-                double x = playerLocation.getX() + distance * Math.cos(angle);
-                double z = playerLocation.getZ() + distance * Math.sin(angle);
-                Location spawnLocation = new Location(playerLocation.getWorld(), x, playerLocation.getWorld().getHighestBlockYAt((int) x, (int) z) + 1, z);
+                double x = randomDoubleInRange(Math.min(pos1.getX(), pos2.getX()), Math.max(pos1.getX(), pos2.getX()));
+                double z = randomDoubleInRange(Math.min(pos1.getZ(), pos2.getZ()), Math.max(pos1.getZ(), pos2.getZ()));
+                double y = randomDoubleInRange(Math.min(pos1.getY(), pos2.getY()), Math.max(pos1.getY(), pos2.getY()));
+                Location spawnLocation = new Location(playerLocation.getWorld(), x, y, z);
 
                 // Überprüfen, ob die Spawn-Position sicher ist
                 if (isSafeSpawnLocation(spawnLocation)) {
                     String randomMobType = mobTypes.get(random.nextInt(mobTypes.size()));
                     LivingEntity mob = (LivingEntity) playerLocation.getWorld().spawnEntity(spawnLocation, EntityType.valueOf(randomMobType.toUpperCase()));
+                    Bukkit.getLogger().info("Spawned " + randomMobType + " at " + spawnLocation);
 
-                    // Erhöhe den Zähler für Mobs im Dungeon
                     entitiesInDungeon++;
-                    if (entitiesInDungeon >= 50) {
-                        // Wenn die maximale Anzahl erreicht ist, breche die Schleife ab
+                    if (entitiesInDungeon >= maxMobCount) {
                         break;
                     }
                 }
@@ -109,16 +111,17 @@ public class DungeonListener implements Listener {
         Material blockTwoAboveType = new Location(world, x, y + 1, z).getBlock().getType();
 
         // Überprüfen, ob der Block an der Spawn-Position begehbar ist und der Bereich darüber frei ist
-        return (blockType.isSolid() && blockAboveType == Material.AIR && blockTwoAboveType == Material.AIR);
+        boolean isSafe = (blockType == Material.GRASS_BLOCK || blockType == Material.DIRT || blockType == Material.MOSS_BLOCK ||blockType == Material.STONE);
+        return isSafe && blockAboveType == Material.AIR && blockTwoAboveType == Material.AIR;
     }
 
-    private int countEntitiesInDungeon(World world, Location dungeonPos1, Location dungeonPos2) {
+    private int countEntitiesInDungeon(World world, Location dungeonPos1, Location dungeonPos2, List<String> mobTypes) {
         int count = 0;
 
         for (LivingEntity entity : world.getLivingEntities()) {
             Location entityLocation = entity.getLocation();
 
-            if (isInDungeon(entityLocation, dungeonPos1, dungeonPos2)) {
+            if (isInDungeon(entityLocation, dungeonPos1, dungeonPos2) && mobTypes.contains(entity.getType().name().toLowerCase())) {
                 count++;
             }
         }
@@ -143,5 +146,7 @@ public class DungeonListener implements Listener {
     private Map<String, List<String>> getDungeonsAndSavezones() {
         return locationConfigManager.getDungeonsAndSavezones();
     }
+    private double randomDoubleInRange(double min, double max) {
+        return min + (max - min) * random.nextDouble();
+    }
 }
-

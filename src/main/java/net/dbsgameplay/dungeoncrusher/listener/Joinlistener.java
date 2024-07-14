@@ -28,10 +28,10 @@ import java.util.Locale;
 import java.util.UUID;
 
 public class Joinlistener implements Listener {
-    private MYSQLManager mysqlManager;
-    private LocationConfigManager locationConfigManager;
+    private final MYSQLManager mysqlManager;
+    private final LocationConfigManager locationConfigManager;
     private final ScoreboardBuilder scoreboardBuilder;
-    public final DungeonCrusher dungeonCrusher;
+    private final DungeonCrusher dungeonCrusher;
 
     public Joinlistener(DungeonCrusher dungeonCrusher, MYSQLManager mysqlManager, LocationConfigManager locationConfigManager) {
         this.dungeonCrusher = dungeonCrusher;
@@ -39,86 +39,80 @@ public class Joinlistener implements Listener {
         this.scoreboardBuilder = new ScoreboardBuilder(dungeonCrusher);
         this.locationConfigManager = locationConfigManager;
     }
+
     @EventHandler
-    public void onJoin(PlayerJoinEvent event){
+    public void onJoin(PlayerJoinEvent event) {
         Player player = event.getPlayer();
 
-        event.setJoinMessage(ChatColor.GREEN + "[+]"+ " "+ ChatColor.GRAY + player.getDisplayName());
+        event.setJoinMessage(ChatColor.GREEN + "[+]" + " " + ChatColor.GRAY + player.getDisplayName());
         player.teleport(locationConfigManager.getSpawn());
 
-        if(!player.hasPlayedBefore()) {
+        if (!player.hasPlayedBefore()) {
             Bukkit.broadcastMessage(ConfigManager.getConfigMessage("message.firstjoin", "%player%", player.getName()));
-            double startmoney;
-            startmoney = 1000;
-            String formattedMoney = String.format(Locale.ENGLISH , "%,.2f", startmoney);
-            mysqlManager.updateBalance(String.valueOf(player.getUniqueId()), formattedMoney);
-            mysqlManager.updateSwordLevel(String.valueOf(player.getUniqueId()), 1);
+            double startmoney = 1000;
+            String formattedMoney = String.format(Locale.ENGLISH, "%,.2f", startmoney);
+            mysqlManager.updateBalance(player.getUniqueId().toString(), formattedMoney);
+            mysqlManager.updateSwordLevel(player.getUniqueId().toString(), 1);
             scoreboardBuilder.updateMoney(player);
 
+            // Initialisiere das Holzschwert
             ItemStack woodensword = new ItemStack(Material.WOODEN_SWORD);
-            double damage = 4.0;
-            int level = 1;
-            AttributeModifier modifier = new AttributeModifier(UUID.randomUUID(), "generic.attackDamage", damage, AttributeModifier.Operation.ADD_NUMBER);
             ItemMeta woodenmeta = woodensword.getItemMeta();
-            woodenmeta.setDisplayName("§7<<§6Holzschwert §7- §aLv."+ level + "§7>>");
-            woodenmeta.setLore(Collections.singletonList("§9"+ damage + " Angrifsschaden"));
+            woodenmeta.setDisplayName("§7<<§6Holzschwert §7- §aLv.1§7>>");
+            woodenmeta.setLore(Collections.singletonList("§94.0 Angriffsschaden"));
             woodenmeta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES);
-            woodenmeta.addAttributeModifier(Attribute.GENERIC_ATTACK_DAMAGE, modifier);
             woodenmeta.setUnbreakable(true);
             woodensword.setItemMeta(woodenmeta);
             player.getInventory().setItem(0, woodensword);
 
-            ItemStack food = new ItemStack(Material.COOKED_BEEF);
-            food.setAmount(64);
+            // Füge 64 gekochtes Rindfleisch hinzu
+            ItemStack food = new ItemStack(Material.COOKED_BEEF, 64);
             player.getInventory().setItem(1, food);
         }
 
+        // Initialisiere den Schwert-Upgrade-ClickListener
         SwordUpgradeClickListener swordUpgradeClickListener = new SwordUpgradeClickListener(dungeonCrusher, mysqlManager);
         int currentlevel = mysqlManager.getSwordLevel(player.getUniqueId().toString());
         swordUpgradeClickListener.giveSwordToPlayer(player, currentlevel);
 
+        // Setze Glaspaneele in das Inventar
         ItemStack glass = new ItemStack(Material.LIGHT_GRAY_STAINED_GLASS_PANE);
         ItemMeta glassmeta = glass.getItemMeta();
         glassmeta.setDisplayName(" ");
         glass.setItemMeta(glassmeta);
-        player.getInventory().setItem(11, glass);
-        player.getInventory().setItem(12, glass);
-        player.getInventory().setItem(13, glass);
-        player.getInventory().setItem(14, glass);
-        player.getInventory().setItem(15, glass);
-        player.getInventory().setItem(20, glass);
-        player.getInventory().setItem(21, glass);
-        player.getInventory().setItem(23, glass);
-        player.getInventory().setItem(24, glass);
-        player.getInventory().setItem(29, glass);
-        player.getInventory().setItem(30, glass);
-        player.getInventory().setItem(31, glass);
-        player.getInventory().setItem(32, glass);
-        player.getInventory().setItem(33, glass);
+        for (int slot : new int[]{11, 12, 13, 14, 15, 20, 21, 23, 24, 29, 30, 31, 32, 33}) {
+            player.getInventory().setItem(slot, glass);
+        }
 
+        // Zeige eine Nachricht, wenn der Spieler seine tägliche Belohnung beanspruchen kann
         if (mysqlManager.canClaimDailyReward(player.getUniqueId().toString())) {
             player.sendMessage(ConfigManager.getPrefix() + ConfigManager.getConfigMessage("message.canclaimdailyreward"));
             player.playSound(player.getLocation(), Sound.ENTITY_PLAYER_LEVELUP, 1.0f, 1.0f);
         }
 
+        // Füge den Navigator und das Rohkupfer zum Inventar hinzu
         ItemStack navigator = new ItemStack(Material.ENDER_EYE);
         ItemMeta navigatormeta = navigator.getItemMeta();
         navigatormeta.setDisplayName("§8➡ §9Teleporter §8✖ §7Rechtsklick");
         navigator.setItemMeta(navigatormeta);
         player.getInventory().setItem(8, navigator);
+
         ItemStack rawcopper = new ItemStack(Material.RAW_COPPER);
         ItemMeta rawcoppermeta = rawcopper.getItemMeta();
         rawcoppermeta.setDisplayName("§bAnzahl ➝ §6" + mysqlManager.getItemAmount(player.getUniqueId().toString(), "raw_copper"));
-        rawcoppermeta.addEnchant(Enchantment.KNOCKBACK,1,true);
+        rawcoppermeta.addEnchant(Enchantment.KNOCKBACK, 1, true);
         rawcoppermeta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
         rawcopper.setItemMeta(rawcoppermeta);
         player.getInventory().setItem(9, rawcopper);
 
+        // Setze die restlichen Inventargegenstände
         setPlayerInventoryItems(player);
     }
+
+    // Methode zum Setzen der restlichen Inventargegenstände
     public void setPlayerInventoryItems(Player player) {
         // Define items
-        ItemStack[] items = new ItemStack[12];
+        ItemStack[] items = new ItemStack[13];
         String[] materialNames = {
                 "RAW_COPPER", "COPPER_INGOT", "RAW_GOLD", "GOLD_INGOT",
                 "RAW_IRON", "IRON_INGOT", "COAL", "COBBLESTONE",
@@ -149,11 +143,11 @@ public class Joinlistener implements Listener {
             player.getInventory().setItem(slots[i], items[i]);
         }
     }
+
     @EventHandler
-    public void onQuit(PlayerQuitEvent event){
+    public void onQuit(PlayerQuitEvent event) {
         Player player = event.getPlayer();
-
-        event.setQuitMessage(ChatColor.RED + "[-]"+ " "+ ChatColor.GRAY + player.getDisplayName());
-
+        event.setQuitMessage(ChatColor.RED + "[-]" + " " + ChatColor.GRAY + player.getDisplayName());
     }
 }
+
