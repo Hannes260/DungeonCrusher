@@ -47,8 +47,9 @@ public class ErfolgeListener implements Listener {
     public void InventoryClickEvent(InventoryClickEvent e) {
         Player p = (Player) e.getWhoClicked();
 
-        if (!e.getClickedInventory().equals(ErfolgeBuilders.inv)) return;
-        if (e.getCurrentItem() == null) return;
+        if  (e.getClickedInventory() == null) return;
+        if  (!e.getClickedInventory().equals(ErfolgeBuilders.inv)) return;
+        if  (e.getCurrentItem() == null) return;
 
         if (e.getCurrentItem().equals(ErfolgeBuilders.createCustomMobHead("3ed1aba73f639f4bc42bd48196c715197be2712c3b962c97ebf9e9ed8efa025", "§cSchließen"))) {
             p.closeInventory();
