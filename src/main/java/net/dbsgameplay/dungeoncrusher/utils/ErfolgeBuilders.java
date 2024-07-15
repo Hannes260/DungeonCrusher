@@ -1,6 +1,8 @@
 package net.dbsgameplay.dungeoncrusher.utils;
 
 import net.dbsgameplay.dungeoncrusher.DungeonCrusher;
+import net.dbsgameplay.dungeoncrusher.listener.DungeonListener;
+import net.dbsgameplay.dungeoncrusher.sql.MYSQLManager;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -17,11 +19,18 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.UUID;
 
+@SuppressWarnings("ALL")
 public class ErfolgeBuilders {
-
+    public final DungeonCrusher dungeonCrusher;
+    private static MYSQLManager mysqlManager;
     private static final UUID RANDOM_UUID = UUID.fromString("92864445-51c5-4c3b-9039-517c9927d1b4");
     public static Inventory inv;
     public static HashMap<String, String> titlesHashmap = new HashMap<String, String>();
+
+    public ErfolgeBuilders(DungeonCrusher dungeonCrusher) {
+        this.dungeonCrusher = dungeonCrusher;
+        this.mysqlManager = mysqlManager;
+    }
 //    public static int ebene;
 
     public static PlayerProfile getProfile(String url) {
@@ -57,6 +66,7 @@ public class ErfolgeBuilders {
             default:
                 return null;
             case 1:
+                //noinspection deprecation
                 inv = Bukkit.createInventory(null, 54, "§fErfolge - Ebene §3" + ebene);
                 fillInv(p, "Schaf");
                 setOperators(inv);
@@ -353,24 +363,7 @@ public class ErfolgeBuilders {
         inv.clear();
         setOperators(inv);
 
-        //SQL Datenbank Table = dungeonCrusher_kills; Player = playeruuid; Mobkills = mobname (aus der Tabelle) + Kills
-//        try (Connection connection = SQL.getHikariDataSource().getConnection()) {
-//            String sql = "SELECT * FROM dungeonCrusher_kills WHERE playeruuid = ?";
-//
-//            PreparedStatement preparedStatement = connection.prepareStatement(sql);
-//            preparedStatement.setString(1, p.getUniqueId().toString());
-//
-//            ResultSet resultSet = preparedStatement.executeQuery();
-//
-//            if (resultSet.next()) {
-//                kills = resultSet.getInt(mob + "Kills");
-//            }
-//
-//        }catch (SQLException exception) {
-//            exception.printStackTrace();
-//        }
-
-        kills = 700000000;
+        kills = mysqlManager.getPlayerMobKills(p.getUniqueId().toString(), mob);
 
         for (int i = 1; i != 21; i++) {
             int neededKillsForComplete = 500*i;
@@ -402,23 +395,12 @@ public class ErfolgeBuilders {
     }
 
     public static int getEbene(Player p) {
-        int ebene = 1;
-        //SQL Datenbank Table = dungeonCrusher_ebene; Player = playeruuid
-//        try (Connection connection = SQL.getHikariDataSource().getConnection()) {
-//            String sql = "SELECT * FROM dungeonCrusher_kills WHERE playeruuid = ?";
-//
-//            PreparedStatement preparedStatement = connection.prepareStatement(sql);
-//            preparedStatement.setString(1, p.getUniqueId().toString());
-//
-//            ResultSet resultSet = preparedStatement.executeQuery();
-//
-//            if (resultSet.next()) {
-//                ebene = resultSet.getInt("Ebene");
-//            }
-//
-//        }catch (SQLException exception) {
-//            exception.printStackTrace();
-//        }
-        return ebene;
+        String ebeneS = "dungeon";
+
+        ebeneS = DungeonListener.getCurrentDungeon(p.getLocation());
+
+        int ebeneI = Integer.valueOf(ebeneS.replace("dungeon", ""));
+
+        return ebeneI;
     }
 }

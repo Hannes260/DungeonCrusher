@@ -1140,7 +1140,7 @@ public class ErfolgeMapBuilder {
         }
         Object[] keys = hashMap.keySet().toArray();
         Object[] values = hashMap.values().toArray();
-        //Setzen
+        //Setten
         for (int i = 0; i != hashMap.size(); i++) {
             DungeonCrusher.getInstance().getConfig().set("erfolge." + keys[i], values[i]);
             DungeonCrusher.getInstance().saveConfig();

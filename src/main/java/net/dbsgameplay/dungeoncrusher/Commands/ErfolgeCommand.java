@@ -1,6 +1,7 @@
 package net.dbsgameplay.dungeoncrusher.Commands;
 
 import net.dbsgameplay.dungeoncrusher.listener.ErfolgeListener;
+import net.dbsgameplay.dungeoncrusher.utils.Configs.ConfigManager;
 import net.dbsgameplay.dungeoncrusher.utils.ErfolgeBuilders;
 import org.bukkit.Sound;
 import org.bukkit.command.Command;
@@ -20,7 +21,7 @@ public class ErfolgeCommand implements CommandExecutor {
             p.playSound(p.getLocation(), Sound.ENTITY_PLAYER_LEVELUP, 10, 1);
             p.openInventory(ErfolgeBuilders.getInventory(ErfolgeBuilders.getEbene(p), p));
         }else {
-            p.sendMessage("§cUsage§7: /erfolge");
+            p.sendMessage(ConfigManager.getPrefix() + ConfigManager.getConfigMessage("message.erfolgeusage"),"","");
         }
 
         return false;

@@ -135,6 +135,66 @@ public class MYSQLManager {
                     + "last_daily_reward TIMESTAMP"
                     + ")";
             statement.execute(createDailyRewardTableQuery);
+            String createmobkillsTableQuery = "CREATE TABLE IF NOT EXISTS player_mob_kills("
+                    + "uuid VARCHAR(255) PRIMARY KEY,"
+                    + "Schaf INT DEFAULT 0,"
+                    + "Schwein INT DEFAULT 0,"
+                    + "Kuh INT DEFAULT 0,"
+                    + "Pferd INT DEFAULT 0,"
+                    + "Esel INT DEFAULT 0,"
+                    + "Kamel INT DEFAULT 0,"
+                    + "Dorfbewohner INT DEFAULT 0,"
+                    + "Ziege INT DEFAULT 0,"
+                    + "Lama INT DEFAULT 0,"
+                    + "Mooshroom INT DEFAULT 0,"
+                    + "Maultier INT DEFAULT 0,"
+                    + "Schnüffler INT DEFAULT 0,"
+                    + "Panda INT DEFAULT 0,"
+                    + "Schildkröte INT DEFAULT 0,"
+                    + "Ozelot INT DEFAULT 0,"
+                    + "Axolotl INT DEFAULT 0,"
+                    + "Fuchs INT DEFAULT 0,"
+                    + "Katzen INT DEFAULT 0,"
+                    + "Huhn INT DEFAULT 0,"
+                    + "Frosch INT DEFAULT 0,"
+                    + "Kaninchen INT DEFAULT 0,"
+                    + "Silberfisch INT DEFAULT 0,"
+                    + "Diener INT DEFAULT 0,"
+                    + "Eisbär INT DEFAULT 0,"
+                    + "Zombiepferd INT DEFAULT 0,"
+                    + "Wolf INT DEFAULT 0,"
+                    + "Zombiedorfbewohner INT DEFAULT 0,"
+                    + "Schneegolem INT DEFAULT 0,"
+                    + "Skelett INT DEFAULT 0,"
+                    + "Ertrunkener INT DEFAULT 0,"
+                    + "Wüstenzombie INT DEFAULT 0,"
+                    + "Spinne INT DEFAULT 0,"
+                    + "Zombie INT DEFAULT 0,"
+                    + "Eiswanderer INT DEFAULT 0,"
+                    + "Creeper INT DEFAULT 0,"
+                    + "Höhlenspinne INT DEFAULT 0,"
+                    + "Endermite INT DEFAULT 0,"
+                    + "Schreiter INT DEFAULT 0,"
+                    + "Lohen INT DEFAULT 0,"
+                    + "Skelettpferd INT DEFAULT 0,"
+                    + "Hexe INT DEFAULT 0,"
+                    + "Schleim INT DEFAULT 0,"
+                    + "Magmawürfel INT DEFAULT 0,"
+                    + "Enderman INT DEFAULT 0,"
+                    + "Piglin INT DEFAULT 0,"
+                    + "Zombiefizierter_Piglin INT DEFAULT 0,"
+                    + "Piglin_Barbar INT DEFAULT 0,"
+                    + "Plünderer INT DEFAULT 0,"
+                    + "Hoglin INT DEFAULT 0,"
+                    + "Magier INT DEFAULT 0,"
+                    + "Ghast INT DEFAULT 0,"
+                    + "Wither_Skelett INT DEFAULT 0,"
+                    + "Zoglin INT DEFAULT 0,"
+                    + "Verwüster INT DEFAULT 0,"
+                    + "Eisengolem INT DEFAULT 0,"
+                    + "Wärter INT DEFAULT 0"
+                    + ");";
+            statement.execute(createmobkillsTableQuery);
             statement.close();
         } catch (Exception e) {
             e.printStackTrace();
@@ -748,6 +808,47 @@ public class MYSQLManager {
             }
         } catch (SQLException e) {
             e.printStackTrace();
+        }
+    }
+    public int getPlayerMobKills(String uuid, String mobType) {
+        int mobKills = 0;
+        try (Connection connection = dataSource.getConnection()) {
+            String query = "SELECT " + mobType + " FROM player_mob_kills WHERE uuid = ?";
+            try (PreparedStatement statement = connection.prepareStatement(query)) {
+                statement.setString(1, uuid);
+                try (ResultSet resultSet = statement.executeQuery()) {
+                    if (resultSet.next()) {
+                        mobKills = resultSet.getInt(mobType);
+                    }
+                }
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return mobKills;
+    }
+    public void updateMobKillsForPlayer(String uuid, String mobType, int kills) {
+        try (Connection connection = dataSource.getConnection()) {
+            // Check if the player record exists; if not, create it
+            ensurePlayerExists(connection, uuid);
+
+            String query = "UPDATE player_mob_kills SET " + mobType + " = " + mobType + " + ? WHERE uuid = ?";
+            try (PreparedStatement statement = connection.prepareStatement(query)) {
+                statement.setInt(1, kills);
+                statement.setString(2, uuid);
+
+                statement.executeUpdate();
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void ensurePlayerExists(Connection connection, String uuid) throws SQLException {
+        String query = "INSERT IGNORE INTO player_mob_kills (uuid) VALUES (?)";
+        try (PreparedStatement statement = connection.prepareStatement(query)) {
+            statement.setString(1, uuid);
+            statement.executeUpdate();
         }
     }
     public int getDungeonCountForPlayer(String uuid) {

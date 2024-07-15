@@ -42,3 +42,4 @@ commands:
   cc:
     description: Lösche den Chat
     aliases: [clearchat]
+  erfolge:
