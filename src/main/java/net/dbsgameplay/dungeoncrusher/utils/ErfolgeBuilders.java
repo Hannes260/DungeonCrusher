@@ -21,16 +21,14 @@ import java.util.UUID;
 
 @SuppressWarnings("ALL")
 public class ErfolgeBuilders {
-    public final DungeonCrusher dungeonCrusher;
-    private static MYSQLManager mysqlManager;
     private static final UUID RANDOM_UUID = UUID.fromString("92864445-51c5-4c3b-9039-517c9927d1b4");
     public static Inventory inv;
     public static HashMap<String, String> titlesHashmap = new HashMap<String, String>();
+        private static MYSQLManager mysqlManager;
 
-    public ErfolgeBuilders(DungeonCrusher dungeonCrusher) {
-        this.dungeonCrusher = dungeonCrusher;
-        this.mysqlManager = mysqlManager;
-    }
+        public ErfolgeBuilders(MYSQLManager mysqlManager) {
+            this.mysqlManager = mysqlManager;
+        }
 //    public static int ebene;
 
     public static PlayerProfile getProfile(String url) {
@@ -103,7 +101,7 @@ public class ErfolgeBuilders {
                 break;
             case 8:
                 inv = Bukkit.createInventory(null, 54, "§fErfolge - Ebene §3" + ebene);
-                fillInv(p, "Ziege");
+                fillInv(p, "Ziegen");
                 setOperators(inv);
                 break;
             case 9:
@@ -263,7 +261,7 @@ public class ErfolgeBuilders {
                 break;
             case 40:
                 inv = Bukkit.createInventory(null, 54, "§fErfolge - Ebene §3" + ebene);
-                fillInv(p, "Skelletpferde");
+                fillInv(p, "Skelettpferde");
                 setOperators(inv);
                 break;
             case 41:
@@ -293,12 +291,12 @@ public class ErfolgeBuilders {
                 break;
             case 46:
                 inv = Bukkit.createInventory(null, 54, "§fErfolge - Ebene §3" + ebene);
-                fillInv(p, "Zombiefizierter Piglin");
+                fillInv(p, "Zombiefizierter_Piglin");
                 setOperators(inv);
                 break;
             case 47:
                 inv = Bukkit.createInventory(null, 54, "§fErfolge - Ebene §3" + ebene);
-                fillInv(p, "Piglin Barbaren");
+                fillInv(p, "Piglin_Barbaren");
                 setOperators(inv);
                 break;
             case 48:
@@ -323,7 +321,7 @@ public class ErfolgeBuilders {
                 break;
             case 52:
                 inv = Bukkit.createInventory(null, 54, "§fErfolge - Ebene §3" + ebene);
-                fillInv(p, "Whiter Skellet");
+                fillInv(p, "Wither_Skelett");
                 setOperators(inv);
                 break;
             case 53:
@@ -394,13 +392,4 @@ public class ErfolgeBuilders {
 
     }
 
-    public static int getEbene(Player p) {
-        String ebeneS = "dungeon";
-
-        ebeneS = DungeonListener.getCurrentDungeon(p.getLocation());
-
-        int ebeneI = Integer.valueOf(ebeneS.replace("dungeon", ""));
-
-        return ebeneI;
-    }
 }

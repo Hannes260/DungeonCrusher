@@ -1,6 +1,7 @@
 package net.dbsgameplay.dungeoncrusher.listener;
 
 import net.dbsgameplay.dungeoncrusher.DungeonCrusher;
+import net.dbsgameplay.dungeoncrusher.utils.Configs.LocationConfigManager;
 import net.dbsgameplay.dungeoncrusher.utils.ErfolgeBuilders;
 import net.luckperms.api.node.types.SuffixNode;
 import org.bukkit.Material;
@@ -18,6 +19,13 @@ import java.util.HashMap;
 import java.util.UUID;
 
 public class ErfolgeListener implements Listener {
+    private LocationConfigManager locationConfigManager;
+    private DungeonCrusher dungeonCrusher;
+
+    public ErfolgeListener(DungeonCrusher dungeonCrusher, LocationConfigManager locationConfigManager) {
+        this.dungeonCrusher = dungeonCrusher;
+        this.locationConfigManager = locationConfigManager;
+    }
 
     public static HashMap<UUID, Integer> ebeneHashMap = new HashMap<UUID, Integer>();
 
@@ -25,7 +33,7 @@ public class ErfolgeListener implements Listener {
     public void PlayerJoinEvent(PlayerJoinEvent e) {
         Player p = e.getPlayer();
 
-        ebeneHashMap.put(p.getUniqueId(), ErfolgeBuilders.getEbene(p));
+        ebeneHashMap.put(p.getUniqueId(), locationConfigManager.getEbene(p));
     }
 
     @EventHandler

@@ -1,9 +1,11 @@
 package net.dbsgameplay.dungeoncrusher.utils.Configs;
 
+import net.dbsgameplay.dungeoncrusher.listener.DungeonListener;
 import org.bukkit.Location;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
+import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.File;
@@ -25,6 +27,26 @@ public class LocationConfigManager {
 
         this.config = YamlConfiguration.loadConfiguration(configFile);
     }
+
+    public int getEbene(Player p) {
+        String currentDungeonName = DungeonListener.getCurrentDungeon(p.getLocation());
+
+        if (currentDungeonName == null) {
+            return 0;
+        }
+        if (config.contains(currentDungeonName)) {
+            String numberPart = currentDungeonName.replace("dungeon", "");
+            try {
+                int ebeneI = Integer.parseInt(numberPart);
+                return ebeneI;
+            } catch (NumberFormatException e) {
+                return 0;
+            }
+        } else {
+            return 0;
+        }
+    }
+
     public Map<String, List<String>> getDungeonsAndSavezones() {
         Map<String, List<String>> dungeonsAndSavezones = new HashMap<>();
 

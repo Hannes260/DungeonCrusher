@@ -60,7 +60,7 @@ public final class DungeonCrusher extends JavaPlugin {
         rewardConfigManager = new RewardConfigManager(this);
         mysqlManager = MYSQLManager.getInstance(getDataFolder());
         markierungsManager = new MarkingsManager(locationConfigManager);
-
+        ErfolgeBuilders erfolgeBuilders = new ErfolgeBuilders(mysqlManager);
 
         getLogger().info(ANSI_BLUE +" ");
         getLogger().info(ANSI_BLUE +"  ____   ____ ");
@@ -146,7 +146,7 @@ public final class DungeonCrusher extends JavaPlugin {
         getCommand("help").setExecutor(new HelpCommand());
         getCommand("daily").setExecutor(new Dailyreward(this, mysqlManager, rewardConfigManager, locationConfigManager));
         getCommand("cc").setExecutor(new ClearChatCommand());
-        getCommand("erfolge").setExecutor(new ErfolgeCommand());
+        getCommand("erfolge").setExecutor(new ErfolgeCommand(this, locationConfigManager));
 
 
         // Tab Completers
@@ -174,7 +174,7 @@ public final class DungeonCrusher extends JavaPlugin {
         pluginManager.registerEvents(new ArmorUpgradeClickListener(this, mysqlManager), this);
         pluginManager.registerEvents(new NavigatorListener(this, locationConfigManager, mysqlManager), this);
         pluginManager.registerEvents(new PotionListener(), this);
-        pluginManager.registerEvents(new ErfolgeListener(), this);
+        pluginManager.registerEvents(new ErfolgeListener(this,locationConfigManager), this);
     }
 
     public static DungeonCrusher getInstance() {
@@ -191,6 +191,9 @@ public final class DungeonCrusher extends JavaPlugin {
 
     public static LocationConfigManager getLocationConfigManager() {
         return instance.locationConfigManager;
+    }
+    public static MYSQLManager getMysqlManager() {
+        return instance.mysqlManager;
     }
 
     private int extractDungeonNumber(String dungeonName) {
