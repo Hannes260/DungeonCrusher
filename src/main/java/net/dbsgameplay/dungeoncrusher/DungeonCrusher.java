@@ -13,15 +13,14 @@ import net.dbsgameplay.dungeoncrusher.listener.Navigator.NavigatorListener;
 import net.dbsgameplay.dungeoncrusher.listener.protections.DungeonProtectionListener;
 import net.dbsgameplay.dungeoncrusher.listener.shops.ShopListener;
 import net.dbsgameplay.dungeoncrusher.sql.MYSQLManager;
+import net.dbsgameplay.dungeoncrusher.utils.*;
 import net.dbsgameplay.dungeoncrusher.utils.Configs.ConfigManager;
 import net.dbsgameplay.dungeoncrusher.utils.Configs.DropsConfigManager;
 import net.dbsgameplay.dungeoncrusher.utils.Configs.LocationConfigManager;
 import net.dbsgameplay.dungeoncrusher.utils.Configs.RewardConfigManager;
-import net.dbsgameplay.dungeoncrusher.utils.MarkingsManager;
-import net.dbsgameplay.dungeoncrusher.utils.MobHealthBuilder;
-import net.dbsgameplay.dungeoncrusher.utils.SavezoneManager;
-import net.dbsgameplay.dungeoncrusher.utils.ScoreboardBuilder;
 import net.dbsgameplay.dungeoncrusher.utils.shops.ShopManager;
+import net.luckperms.api.LuckPerms;
+import net.luckperms.api.LuckPermsProvider;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -47,9 +46,11 @@ public final class DungeonCrusher extends JavaPlugin {
     public static final String ANSI_BLUE = "\u001B[34m";
     public static final String ANSI_GREEN = "\u001B[32m";
     public static final String ANSI_WHITE = "\u001B[37m";
+    public static LuckPerms api;
     @Override
     public void onEnable() {
         instance = this;
+        api = LuckPermsProvider.get();
 
         // Laden der Konfigurationen und Datenbankverbindung
         saveDefaultConfig();
@@ -78,6 +79,8 @@ public final class DungeonCrusher extends JavaPlugin {
         registerListeners();
 
         ShopManager shopManager = new ShopManager(mysqlManager);
+
+        ErfolgeMapBuilder.buildErfolgeMap();
     }
 
     @Override
@@ -143,6 +146,8 @@ public final class DungeonCrusher extends JavaPlugin {
         getCommand("help").setExecutor(new HelpCommand());
         getCommand("daily").setExecutor(new Dailyreward(this, mysqlManager, rewardConfigManager, locationConfigManager));
         getCommand("cc").setExecutor(new ClearChatCommand());
+        getCommand("erfolge").setExecutor(new ErfolgeCommand());
+
 
         // Tab Completers
         getCommand("config").setTabCompleter(this);
@@ -169,6 +174,7 @@ public final class DungeonCrusher extends JavaPlugin {
         pluginManager.registerEvents(new ArmorUpgradeClickListener(this, mysqlManager), this);
         pluginManager.registerEvents(new NavigatorListener(this, locationConfigManager, mysqlManager), this);
         pluginManager.registerEvents(new PotionListener(), this);
+        pluginManager.registerEvents(new ErfolgeListener(), this);
     }
 
     public static DungeonCrusher getInstance() {
