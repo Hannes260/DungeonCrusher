@@ -369,7 +369,11 @@ public class ErfolgeBuilders {
             ItemStack itemStack = new ItemStack(Material.NAME_TAG);
             ItemMeta itemMeta = itemStack.getItemMeta();
             ArrayList<String> arrayList = new ArrayList<String>();
-            arrayList.add("§bKill §d" + neededKillsForComplete + " §b" + mob + "e.");
+            if (mob.endsWith("e")) {
+                arrayList.add("§bKill §d" + neededKillsForComplete + " §b" + mob + ".");
+            }else {
+                arrayList.add("§bKill §d" + neededKillsForComplete + " §b" + mob + "e.");
+            }
             if (kills >= neededKillsForComplete) {
                 itemMeta.setDisplayName("§aErfolg " + i + " ✅");
             }else {
