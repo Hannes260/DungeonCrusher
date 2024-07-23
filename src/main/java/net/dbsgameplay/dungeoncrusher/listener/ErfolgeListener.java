@@ -10,8 +10,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
-import org.bukkit.event.player.PlayerJoinEvent;
-import org.bukkit.event.player.PlayerQuitEvent;
+import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
@@ -30,17 +29,12 @@ public class ErfolgeListener implements Listener {
     public static HashMap<UUID, Integer> ebeneHashMap = new HashMap<UUID, Integer>();
 
     @EventHandler
-    public void PlayerJoinEvent(PlayerJoinEvent e) {
-        Player p = e.getPlayer();
+    public void PlayerCloseInvEvent(InventoryCloseEvent e) {
+        Player p = (Player) e.getPlayer();
 
-        ebeneHashMap.put(p.getUniqueId(), locationConfigManager.getEbene(p));
-    }
-
-    @EventHandler
-    public void PlayerQuitEvent(PlayerQuitEvent e) {
-        Player p = e.getPlayer();
-
-        ebeneHashMap.remove(p.getUniqueId());
+        if (e.getInventory().equals(ErfolgeBuilders.inv)) {
+            ebeneHashMap.remove(p.getUniqueId());
+        }
     }
 
     @EventHandler

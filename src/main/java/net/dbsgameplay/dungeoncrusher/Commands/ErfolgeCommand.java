@@ -27,6 +27,7 @@ public class ErfolgeCommand implements CommandExecutor {
         if (!(commandSender instanceof Player p)) return true;
 
         if (strings.length == 0) {
+            ErfolgeListener.ebeneHashMap.put(p.getUniqueId(), locationConfigManager.getEbene(p));
             ErfolgeListener.ebeneHashMap.replace(p.getUniqueId(), locationConfigManager.getEbene(p));
 
             p.playSound(p.getLocation(), Sound.ENTITY_PLAYER_LEVELUP, 10, 1);
