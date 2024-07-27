@@ -1,8 +1,8 @@
 package net.dbsgameplay.dungeoncrusher.utils.shops;
 
 import net.dbsgameplay.dungeoncrusher.Commands.interfaces.ShopCategory;
-import net.dbsgameplay.dungeoncrusher.enums.ExchangeCategory;
-import net.dbsgameplay.dungeoncrusher.enums.FoodCategory;
+import net.dbsgameplay.dungeoncrusher.enums.Shop.ExchangeCategory;
+import net.dbsgameplay.dungeoncrusher.enums.Shop.FoodCategory;
 import net.dbsgameplay.dungeoncrusher.objects.PlayerHead;
 import net.dbsgameplay.dungeoncrusher.sql.MYSQLManager;
 import net.dbsgameplay.dungeoncrusher.utils.TexturedHeads;

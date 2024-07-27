@@ -1,4 +1,4 @@
-package net.dbsgameplay.dungeoncrusher.enums;
+package net.dbsgameplay.dungeoncrusher.enums.Shop;
 
 import net.dbsgameplay.dungeoncrusher.Commands.interfaces.ShopCategory;
 import net.dbsgameplay.dungeoncrusher.DungeonCrusher;

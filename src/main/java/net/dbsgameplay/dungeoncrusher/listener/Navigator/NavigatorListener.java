@@ -10,6 +10,7 @@ import net.dbsgameplay.dungeoncrusher.utils.Configs.ConfigManager;
 import net.dbsgameplay.dungeoncrusher.utils.ItemBuilder;
 import net.dbsgameplay.dungeoncrusher.utils.Configs.LocationConfigManager;
 import net.dbsgameplay.dungeoncrusher.utils.TexturedHeads;
+import net.dbsgameplay.dungeoncrusher.utils.shops.ShopManager;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -125,15 +126,20 @@ public class NavigatorListener implements Listener {
             if (clickedItem != null && clickedItem.getItemMeta() != null && clickedItem.getItemMeta().getDisplayName() != null) {
                 String itemName = clickedItem.getItemMeta().getDisplayName();
                 if (itemName.equals("§7➢ §bSpawn")) {
+                    player.playSound(player.getLocation(), Sound.BLOCK_LEVER_CLICK, 1.0f, 1.0f);
                     teleportToSpawn(player);
                 } else if (itemName.equals("§c§lNicht Verfügbar.")) {
                     player.sendMessage(ConfigManager.getPrefix() + ConfigManager.getConfigMessage("message.notenoughkills", "", ""));
                 } else if (itemName.equals("§7➢ §bUpgrades")) {
+                    player.playSound(player.getLocation(), Sound.BLOCK_LEVER_CLICK, 1.0f, 1.0f);
                     openUpgradeInventory(player);
             } else if (clickedItem.getType().equals(Material.LIGHT_GRAY_STAINED_GLASS_PANE)) {
                     return;
                 } else if (itemName.equals("§7➢ §bShop")) {
+                    player.playSound(player.getLocation(), Sound.BLOCK_LEVER_CLICK, 1.0f, 1.0f);
+                    ShopManager.openMainShopMenu(player, mysqlManager);
                 } else if (itemName.equals("§7➢ §bSchließen")) {
+                    player.playSound(player.getLocation(), Sound.BLOCK_BARREL_CLOSE, 1.0f, 1.0f);
                     player.closeInventory();
                 } else if (itemName.equals("§eDeine Stats: ")) {
                     return;

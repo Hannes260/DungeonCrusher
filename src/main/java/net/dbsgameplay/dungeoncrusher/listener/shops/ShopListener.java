@@ -63,7 +63,6 @@ public class ShopListener implements Listener {
             case "200x Kupferbarren":
                 exchangeItems(player, Material.COPPER_INGOT, 200, Material.RAW_COPPER, 1000);
                 break;
-            // Add more cases for other materials based on your list
         }
     }
 
