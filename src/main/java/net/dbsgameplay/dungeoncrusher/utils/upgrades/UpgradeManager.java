@@ -1,7 +1,7 @@
 package net.dbsgameplay.dungeoncrusher.utils.upgrades;
 
-import net.dbsgameplay.dungeoncrusher.Commands.interfaces.ShopCategory;
-import net.dbsgameplay.dungeoncrusher.objects.PlayerHead;
+import net.dbsgameplay.dungeoncrusher.Commands.interfaces.UpgradeCategory;
+import net.dbsgameplay.dungeoncrusher.enums.Upgrades.SwordCategory;
 import net.dbsgameplay.dungeoncrusher.sql.MYSQLManager;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
@@ -16,31 +16,32 @@ import java.util.Map;
 public class UpgradeManager {
 
     MYSQLManager mysqlManager;
+
     public UpgradeManager(MYSQLManager mysqlManager){
         this.mysqlManager = mysqlManager;
         initializeCategories(mysqlManager);
     }
 
-    private static Map<String, ShopCategory> categories = new HashMap<>();
+    private static Map<String, UpgradeCategory> categories = new HashMap<>();
+
     private void initializeCategories(MYSQLManager mysqlManager) {
-
+        System.out.println("Initializing categories");
+        categories.put("schwert", new SwordCategory(mysqlManager));
+        System.out.println("Categories initialized: " + categories);
     }
-    public static void openMainMenu(Player player, MYSQLManager mysqlManager) {
-        Inventory inv = Bukkit.createInventory(null, 9*6, "Upgrade");
-        ItemStack sworditem = new ItemStack(Material.DIAMOND_SWORD);
-        ItemMeta swordmeta = sworditem.getItemMeta();
-        swordmeta.setDisplayName("§7➢ Schwert");
-        sworditem.setItemMeta(swordmeta);
 
+    public static void openMainMenu(Player player) {
+        Inventory inv = Bukkit.createInventory(null, 9 * 6, "Upgrade");
+        ItemStack swordItem = new ItemStack(Material.DIAMOND_SWORD);
+        ItemMeta swordMeta = swordItem.getItemMeta();
+        swordMeta.setDisplayName("Schwert");
+        swordItem.setItemMeta(swordMeta);
 
-        inv.setItem(20, sworditem);
+        inv.setItem(20, swordItem);
         addCloseButton(player, inv);
         player.openInventory(inv);
     }
-    private static void showBottomRightItem(Player player, Inventory inventory, MYSQLManager mysqlManager) {
-        String currentmoney = mysqlManager.getBalance(player.getUniqueId().toString());
-        inventory.setItem(53, (new PlayerHead(player.getName(), "§9Dein Geld: §a" + currentmoney + "§9€", new String[0])).getItemStack());
-    }
+
     public static void addCloseButton(Player player, Inventory inventory) {
         ItemStack closeItem = new ItemStack(Material.BARRIER);
         ItemMeta closeMeta = closeItem.getItemMeta();
@@ -49,8 +50,12 @@ public class UpgradeManager {
 
         inventory.setItem(45, closeItem);
     }
-    public static ShopCategory getCategory(String name) {
+
+    public static UpgradeCategory getCategory(String name) {
         name = name.trim().toLowerCase();
-        return categories.get(name);
+        System.out.println("Getting category for name: " + name);
+        UpgradeCategory category = categories.get(name);
+        System.out.println("Found category: " + category);
+        return category;
     }
 }

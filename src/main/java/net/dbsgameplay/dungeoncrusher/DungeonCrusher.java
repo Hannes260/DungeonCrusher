@@ -3,13 +3,12 @@ package net.dbsgameplay.dungeoncrusher;
 import net.dbsgameplay.dungeoncrusher.Commands.*;
 import net.dbsgameplay.dungeoncrusher.Commands.Economy.CoinsCommand;
 import net.dbsgameplay.dungeoncrusher.Commands.Economy.PayCommand;
-import net.dbsgameplay.dungeoncrusher.Commands.LevelSystem.ArmorUpgradeClickListener;
-import net.dbsgameplay.dungeoncrusher.Commands.LevelSystem.SwordUpgradeClickListener;
-import net.dbsgameplay.dungeoncrusher.Commands.LevelSystem.UpgradeCommand;
 import net.dbsgameplay.dungeoncrusher.Commands.Shops.ShopCommand;
+import net.dbsgameplay.dungeoncrusher.Commands.Upgrades.UpgradeCommand;
 import net.dbsgameplay.dungeoncrusher.listener.*;
 import net.dbsgameplay.dungeoncrusher.listener.Damage.*;
 import net.dbsgameplay.dungeoncrusher.listener.Navigator.NavigatorListener;
+import net.dbsgameplay.dungeoncrusher.listener.Upgrades.UpgradeListener;
 import net.dbsgameplay.dungeoncrusher.listener.protections.DungeonProtectionListener;
 import net.dbsgameplay.dungeoncrusher.listener.shops.ShopListener;
 import net.dbsgameplay.dungeoncrusher.sql.MYSQLManager;
@@ -19,6 +18,7 @@ import net.dbsgameplay.dungeoncrusher.utils.Configs.DropsConfigManager;
 import net.dbsgameplay.dungeoncrusher.utils.Configs.LocationConfigManager;
 import net.dbsgameplay.dungeoncrusher.utils.Configs.RewardConfigManager;
 import net.dbsgameplay.dungeoncrusher.utils.shops.ShopManager;
+import net.dbsgameplay.dungeoncrusher.utils.upgrades.UpgradeManager;
 import net.luckperms.api.LuckPerms;
 import net.luckperms.api.LuckPermsProvider;
 import org.bukkit.Bukkit;
@@ -79,6 +79,7 @@ public final class DungeonCrusher extends JavaPlugin {
         registerListeners();
 
         ShopManager shopManager = new ShopManager(mysqlManager);
+        UpgradeManager upgradeManager = new UpgradeManager(mysqlManager);
 
         ErfolgeMapBuilder.buildErfolgeMap();
     }
@@ -89,12 +90,6 @@ public final class DungeonCrusher extends JavaPlugin {
         if (mysqlManager != null) {
             mysqlManager.disconnect();
         }
-    }
-
-    @Override
-    public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
-        // Implement your command handling if needed
-        return false;
     }
 
     @Override
@@ -141,7 +136,7 @@ public final class DungeonCrusher extends JavaPlugin {
         getCommand("setspawn").setExecutor(new SetSpawnCommand(locationConfigManager));
         getCommand("spawn").setExecutor(new SpawnCommand(locationConfigManager, new SavezoneManager(locationConfigManager)));
         getCommand("shop").setExecutor(new ShopCommand(mysqlManager));
-        getCommand("upgrades").setExecutor(new UpgradeCommand(this, mysqlManager));
+        getCommand("upgrades").setExecutor(new UpgradeCommand(mysqlManager));
         getCommand("flyspeed").setExecutor(new FlySpeedCommand());
         getCommand("help").setExecutor(new HelpCommand());
         getCommand("daily").setExecutor(new Dailyreward(this, mysqlManager, rewardConfigManager, locationConfigManager));
@@ -170,11 +165,10 @@ public final class DungeonCrusher extends JavaPlugin {
         pluginManager.registerEvents(new DungeonListener(locationConfigManager), this);
         pluginManager.registerEvents(new MobkillListener(), this);
         pluginManager.registerEvents(new ShopListener(), this);
-        pluginManager.registerEvents(new SwordUpgradeClickListener(this, mysqlManager), this);
-        pluginManager.registerEvents(new ArmorUpgradeClickListener(this, mysqlManager), this);
         pluginManager.registerEvents(new NavigatorListener(this, locationConfigManager, mysqlManager), this);
         pluginManager.registerEvents(new PotionListener(), this);
         pluginManager.registerEvents(new ErfolgeListener(this,locationConfigManager), this);
+        pluginManager.registerEvents(new UpgradeListener(), this);
     }
 
     public static DungeonCrusher getInstance() {

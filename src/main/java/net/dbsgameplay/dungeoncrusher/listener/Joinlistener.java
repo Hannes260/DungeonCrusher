@@ -1,7 +1,6 @@
 package net.dbsgameplay.dungeoncrusher.listener;
 
 
-import net.dbsgameplay.dungeoncrusher.Commands.LevelSystem.SwordUpgradeClickListener;
 import net.dbsgameplay.dungeoncrusher.DungeonCrusher;
 import net.dbsgameplay.dungeoncrusher.sql.MYSQLManager;
 import net.dbsgameplay.dungeoncrusher.utils.Configs.ConfigManager;
@@ -11,8 +10,6 @@ import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.Sound;
-import org.bukkit.attribute.Attribute;
-import org.bukkit.attribute.AttributeModifier;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -25,7 +22,6 @@ import org.bukkit.inventory.meta.ItemMeta;
 
 import java.util.Collections;
 import java.util.Locale;
-import java.util.UUID;
 
 public class Joinlistener implements Listener {
     private final MYSQLManager mysqlManager;
@@ -71,9 +67,9 @@ public class Joinlistener implements Listener {
         }
 
         // Initialisiere den Schwert-Upgrade-ClickListener
-        SwordUpgradeClickListener swordUpgradeClickListener = new SwordUpgradeClickListener(dungeonCrusher, mysqlManager);
-        int currentlevel = mysqlManager.getSwordLevel(player.getUniqueId().toString());
-        swordUpgradeClickListener.giveSwordToPlayer(player, currentlevel);
+        //SwordUpgradeClickListener swordUpgradeClickListener = new SwordUpgradeClickListener(dungeonCrusher, mysqlManager);
+        //int currentlevel = mysqlManager.getSwordLevel(player.getUniqueId().toString());
+        //swordUpgradeClickListener.giveSwordToPlayer(player, currentlevel);
 
         // Setze Glaspaneele in das Inventar
         ItemStack glass = new ItemStack(Material.LIGHT_GRAY_STAINED_GLASS_PANE);
