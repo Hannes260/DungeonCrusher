@@ -4,7 +4,7 @@ import net.dbsgameplay.dungeoncrusher.DungeonCrusher;
 import net.dbsgameplay.dungeoncrusher.sql.MYSQLManager;
 import net.dbsgameplay.dungeoncrusher.utils.Configs.ConfigManager;
 import net.dbsgameplay.dungeoncrusher.utils.Configs.DropsConfigManager;
-import net.dbsgameplay.dungeoncrusher.utils.HologramManager;
+import net.dbsgameplay.dungeoncrusher.utils.Manager.HologramManager;
 import net.dbsgameplay.dungeoncrusher.utils.ScoreboardBuilder;
 import org.bukkit.*;
 import org.bukkit.enchantments.Enchantment;

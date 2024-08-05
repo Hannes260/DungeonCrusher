@@ -40,16 +40,16 @@ public class ScoreboardBuilder implements Listener {
         Scoreboard scoreboard = Bukkit.getScoreboardManager().getNewScoreboard();
         Objective obj = scoreboard.registerNewObjective("abcd", "abcd");
 
-        String Geld = "%img_geld%";
+        String Geld = "%oraxen_geld%";
         Geld = PlaceholderAPI.setPlaceholders(player, Geld);
 
-        String Online = "%img_online%";
+        String Online = "%oraxen_online%";
         Online = PlaceholderAPI.setPlaceholders(player, Online);
 
-        String Dungeon = "%img_dungeon%";
+        String Dungeon = "%oraxen_dungeon%";
         Dungeon = PlaceholderAPI.setPlaceholders(player, Dungeon);
 
-        String displayname = "%img_dc%";
+        String displayname = "%oraxen_dungeoncrusher%";
         displayname = PlaceholderAPI.setPlaceholders(player, displayname);
         obj.setDisplayName(displayname);
         obj.setDisplaySlot(DisplaySlot.SIDEBAR);
@@ -134,7 +134,7 @@ public class ScoreboardBuilder implements Listener {
         if (killsTeam == null) {
             killsTeam = scoreboard.registerNewTeam("kills");
         }
-        String Kills = "%img_kills%";
+        String Kills = "%oraxen_kills%";
         Kills = PlaceholderAPI.setPlaceholders(player, Kills);
         String newPrefix = Kills + " §f"+ kills;
         killsTeam.setPrefix(newPrefix);

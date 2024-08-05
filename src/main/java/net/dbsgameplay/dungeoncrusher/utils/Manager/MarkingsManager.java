@@ -1,4 +1,4 @@
-package net.dbsgameplay.dungeoncrusher.utils;
+package net.dbsgameplay.dungeoncrusher.utils.Manager;
 
 import net.dbsgameplay.dungeoncrusher.utils.Configs.ConfigManager;
 import net.dbsgameplay.dungeoncrusher.utils.Configs.LocationConfigManager;

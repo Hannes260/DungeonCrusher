@@ -1,10 +1,9 @@
-package net.dbsgameplay.dungeoncrusher.utils;
+package net.dbsgameplay.dungeoncrusher.utils.Manager;
 
 import net.dbsgameplay.dungeoncrusher.DungeonCrusher;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.entity.ArmorStand;
-import org.bukkit.entity.Player;
 
 import java.util.concurrent.ThreadLocalRandom;
 

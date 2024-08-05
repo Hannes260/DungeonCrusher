@@ -1,6 +1,6 @@
 package net.dbsgameplay.dungeoncrusher.listener;
 
-import net.dbsgameplay.dungeoncrusher.utils.SavezoneManager;
+import net.dbsgameplay.dungeoncrusher.utils.Manager.SavezoneManager;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;

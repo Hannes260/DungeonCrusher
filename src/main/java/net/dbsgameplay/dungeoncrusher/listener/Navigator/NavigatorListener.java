@@ -112,7 +112,7 @@ public class NavigatorListener implements Listener {
     @EventHandler
     public void onInventoryClick(InventoryClickEvent event) {
         Player player = (Player) event.getWhoClicked();
-        String DisplayName = "%img_teleporter%";
+        String DisplayName = "%oraxen_teleporter%";
         DisplayName = PlaceholderAPI.setPlaceholders(player, DisplayName);
         if (event.getView().getTitle().equals("§f"+DisplayName)) {
             event.setCancelled(true);

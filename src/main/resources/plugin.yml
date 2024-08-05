@@ -43,3 +43,5 @@ commands:
     description: Lösche den Chat
     aliases: [clearchat]
   erfolge:
+  gm:
+    aliases: [gamemode]

@@ -34,7 +34,7 @@ public class SwordCategory implements UpgradeCategory {
         this.scoreboardBuilder = new ScoreboardBuilder(DungeonCrusher.getInstance());
 
         this.items = new HashMap<>();
-        items.put(4, new ShopItem("§7➢ Schwert Upgrade", Material.DIAMOND_SWORD, 25, Arrays.asList("")));
+        items.put(20, new ShopItem("§7➢ Schwert Upgrade", Material.DIAMOND_SWORD, 25, Arrays.asList("")));
     }
 
     @Override
@@ -51,6 +51,8 @@ public class SwordCategory implements UpgradeCategory {
             String uuid = player.getUniqueId().toString();
             int currentLevel = mysqlManager.getSwordLevel(uuid);
             double requiredGeld = calculateRequiredGeld(currentLevel);
+            String balanceString = mysqlManager.getBalance(uuid).replace(",", ""); // Komma entfernen
+            double currentMoney = Double.parseDouble(balanceString);
             String[] materialTypes = getMaterialTypes(currentLevel);
             int requiredMaterial1 = calculateRequiredMaterial1(currentLevel);
             int requiredMaterial2 = calculateRequiredMaterial2(currentLevel);
@@ -60,9 +62,16 @@ public class SwordCategory implements UpgradeCategory {
 
             List<String> lore = new ArrayList<>();
             lore.add("§7Erforderliches Geld: §6" + requiredGeld);
-            lore.add("§7Erforderliches Material 1: §6" + requiredMaterial1 + " §7(" + currentMaterial1Amount + ")");
-            lore.add("§7Erforderliches Material 2: §6" + requiredMaterial2 + " §7(" + currentMaterial2Amount + ")");
+            lore.add("§7Material 1 (" + getMaterialDisplayName(materialTypes[0]) + "): " + requiredMaterial1 + " (" + currentMaterial1Amount + ")");
+            lore.add("§7Material 2 (" + getMaterialDisplayName(materialTypes[1]) + "): " + requiredMaterial2 + " (" + currentMaterial2Amount + ")");
             meta.setLore(lore);
+
+            //Visuelle Anezeige
+            boolean hasResources = checkResourcesForUpgrade(player, currentLevel);
+            if (hasResources) {
+                meta.addEnchant(Enchantment.KNOCKBACK, 1, true);
+                meta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
+            }
 
             itemStack.setItemMeta(meta);
             inv.setItem(slot, itemStack);
@@ -259,9 +268,9 @@ public class SwordCategory implements UpgradeCategory {
     }
 
     private Material getSwordMaterial(int level) {
-        if (level < 45) {
+        if (level < 46) {
             return Material.WOODEN_SWORD;
-        } else if (level < 85) {
+        } else if (level < 86) {
             return Material.STONE_SWORD;
         } else {
             return Material.IRON_SWORD;

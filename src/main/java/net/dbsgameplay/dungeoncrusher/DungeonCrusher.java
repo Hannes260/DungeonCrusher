@@ -17,6 +17,8 @@ import net.dbsgameplay.dungeoncrusher.utils.Configs.ConfigManager;
 import net.dbsgameplay.dungeoncrusher.utils.Configs.DropsConfigManager;
 import net.dbsgameplay.dungeoncrusher.utils.Configs.LocationConfigManager;
 import net.dbsgameplay.dungeoncrusher.utils.Configs.RewardConfigManager;
+import net.dbsgameplay.dungeoncrusher.utils.Manager.MarkingsManager;
+import net.dbsgameplay.dungeoncrusher.utils.Manager.SavezoneManager;
 import net.dbsgameplay.dungeoncrusher.utils.shops.ShopManager;
 import net.dbsgameplay.dungeoncrusher.utils.upgrades.UpgradeManager;
 import net.luckperms.api.LuckPerms;
@@ -142,6 +144,7 @@ public final class DungeonCrusher extends JavaPlugin {
         getCommand("daily").setExecutor(new Dailyreward(this, mysqlManager, rewardConfigManager, locationConfigManager));
         getCommand("cc").setExecutor(new ClearChatCommand());
         getCommand("erfolge").setExecutor(new ErfolgeCommand(this, locationConfigManager));
+        getCommand("gm").setExecutor(new Gamemode());
 
 
         // Tab Completers

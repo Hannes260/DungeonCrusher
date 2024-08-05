@@ -2,7 +2,7 @@ package net.dbsgameplay.dungeoncrusher.Commands;
 
 import net.dbsgameplay.dungeoncrusher.utils.Configs.ConfigManager;
 import net.dbsgameplay.dungeoncrusher.utils.Configs.LocationConfigManager;
-import net.dbsgameplay.dungeoncrusher.utils.SavezoneManager;
+import net.dbsgameplay.dungeoncrusher.utils.Manager.SavezoneManager;
 import org.bukkit.Location;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
