@@ -76,6 +76,14 @@ public class ShopManager {
 
     public static ShopCategory getCategory(String name) {
         name = name.trim().toLowerCase();
-        return categories.get(name);
+        Bukkit.getLogger().info("Getting category for name: " + name);
+        ShopCategory category = categories.get(name);
+        if (category == null) {
+            Bukkit.getLogger().info("No category found for name: " + name);
+        } else {
+            Bukkit.getLogger().info("Found category: " + category);
+        }
+        return category;
     }
+
 }

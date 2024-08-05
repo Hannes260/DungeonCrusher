@@ -2,6 +2,7 @@ package net.dbsgameplay.dungeoncrusher.listener.shops;
 
 import net.dbsgameplay.dungeoncrusher.Commands.interfaces.ShopCategory;
 import net.dbsgameplay.dungeoncrusher.utils.shops.ShopManager;
+import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
@@ -25,21 +26,24 @@ public class ShopListener implements Listener {
         }
 
         String title = event.getView().getTitle();
-        if (title.equals("Shop")) {
+        Bukkit.getLogger().info("Clicked inventory title: " + title);
+        Bukkit.getLogger().info("Clicked item display name: " + clickedItem.getItemMeta().getDisplayName());
+
+        if ("Shop".equalsIgnoreCase(title)) {
             event.setCancelled(true);
             String categoryName = clickedItem.getItemMeta().getDisplayName().toLowerCase();
             ShopCategory category = ShopManager.getCategory(categoryName);
             if (category != null) {
                 category.openMenu(player);
                 player.playSound(player.getLocation(), Sound.BLOCK_LEVER_CLICK, 1.0f, 1.0f);
-            } else if (clickedItem.getItemMeta().getDisplayName().equals("§cSchließen")) {
+            } else if ("§cSchließen".equals(clickedItem.getItemMeta().getDisplayName())) {
                 player.closeInventory();
                 player.playSound(player.getLocation(), Sound.BLOCK_BARREL_CLOSE, 1.0f, 1.0f);
             }
-        } else {
+        } else if (ShopManager.getCategory(title.toLowerCase()) != null) {
+            event.setCancelled(true);
             ShopCategory category = ShopManager.getCategory(title.toLowerCase());
             if (category != null) {
-                event.setCancelled(true);
                 if (event.getClick().isShiftClick() && event.getClick().isLeftClick()) {
                     category.handleShiftClick(player, clickedItem); // Shift + Left Click
                 } else {
@@ -62,6 +66,9 @@ public class ShopListener implements Listener {
                 break;
             case "200x Kupferbarren":
                 exchangeItems(player, Material.COPPER_INGOT, 200, Material.RAW_COPPER, 1000);
+                break;
+            default:
+                player.sendMessage("Item not recognized for exchange.");
                 break;
         }
     }

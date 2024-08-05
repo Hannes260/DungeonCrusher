@@ -114,7 +114,7 @@ public final class DungeonCrusher extends JavaPlugin {
             completions.addAll(Arrays.asList("1", "10", "100", "1000"));
         } else if (cmd.getName().equalsIgnoreCase("setup")) {
             if (args.length == 1) {
-                completions.addAll(Arrays.asList("setdungeon", "setsavezone", "removedungeon", "removesavezone", "setspawn", "setkills"));
+                completions.addAll(Arrays.asList("setdungeon", "setsavezone", "removedungeon", "removesavezone", "setspawn", "setkills","setmobcount"));
             } else if (args.length == 2) {
                 if (args[0].equalsIgnoreCase("setspawn") || args[0].equalsIgnoreCase("setkills")) {
                     completions.addAll(locationConfigManager.getDungeonsAndSavezones().keySet().stream()

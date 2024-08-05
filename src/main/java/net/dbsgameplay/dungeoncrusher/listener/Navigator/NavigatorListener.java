@@ -149,7 +149,7 @@ public class NavigatorListener implements Listener {
     }
 
     private void openNavigator(Player player) {
-        String DisplayName = "%img_teleporter%";
+        String DisplayName = "%oraxen_teleporter%";
         DisplayName = PlaceholderAPI.setPlaceholders(player, DisplayName);
         Inventory navigatorInventory = Bukkit.createInventory(null, 9 * 6, "§f"+DisplayName);
         Map<String, List<String>> dungeonsAndSavezones = locationConfigManager.getDungeonsAndSavezones();

@@ -8,6 +8,7 @@ import net.dbsgameplay.dungeoncrusher.utils.Configs.ConfigManager;
 import net.dbsgameplay.dungeoncrusher.utils.ScoreboardBuilder;
 import net.dbsgameplay.dungeoncrusher.utils.TexturedHeads;
 import net.dbsgameplay.dungeoncrusher.utils.shops.ShopManager;
+import net.dbsgameplay.dungeoncrusher.utils.upgrades.UpgradeManager;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
@@ -39,7 +40,7 @@ public class SwordCategory implements UpgradeCategory {
 
     @Override
     public void openMenu(Player player) {
-        Inventory inv = Bukkit.createInventory(null, 9 * 6, "Schwert");
+        Inventory inv = Bukkit.createInventory(null, 9 * 6, "§7➢ Schwert");
 
         for (int slot : items.keySet()) {
             ShopItem shopItem = items.get(slot);
@@ -94,7 +95,8 @@ public class SwordCategory implements UpgradeCategory {
         }
         String clickedDisplayName = clickedMeta.getDisplayName();
         if ("§7➢ Zurück".equals(clickedDisplayName)) {
-            ShopManager.openMainShopMenu(player, mysqlManager);
+            UpgradeManager.openMainMenu(player);
+            return;
         }
 
         String uuid = player.getUniqueId().toString();

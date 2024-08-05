@@ -1,7 +1,7 @@
 package net.dbsgameplay.dungeoncrusher.listener.Upgrades;
-
 import net.dbsgameplay.dungeoncrusher.Commands.interfaces.UpgradeCategory;
 import net.dbsgameplay.dungeoncrusher.utils.upgrades.UpgradeManager;
+import org.bukkit.Bukkit;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -21,29 +21,26 @@ public class UpgradeListener implements Listener {
         if (clickedInventory == null || clickedItem == null || clickedItem.getType().isAir()) {
             return;
         }
+
         String title = event.getView().getTitle();
-        if (title.equals("Upgrade")) {
+
+        // Prüfe, ob der Titel des Inventars mit dem Upgrade-Inventar übereinstimmt
+        if ("Upgrade".equalsIgnoreCase(title)) {
             event.setCancelled(true);
             String categoryName = clickedItem.getItemMeta().getDisplayName().toLowerCase();
             UpgradeCategory category = UpgradeManager.getCategory(categoryName);
-            System.out.println("Clicked Item Display Name: " + categoryName);
-            System.out.println("Category: " + category);
             if (category != null) {
                 category.openMenu(player);
                 player.playSound(player.getLocation(), Sound.BLOCK_LEVER_CLICK, 1.0f, 1.0f);
-            } else if (clickedItem.getItemMeta().getDisplayName().equals("§cSchließen")) {
+            } else if ("§cSchließen".equals(clickedItem.getItemMeta().getDisplayName())) {
                 player.closeInventory();
                 player.playSound(player.getLocation(), Sound.BLOCK_BARREL_CLOSE, 1.0f, 1.0f);
             }
-        } else {
+        } else if (title.startsWith("§7➢")) {  // Annahme: Kategorien-Inventare haben einen spezifischen Titelstart
+            event.setCancelled(true);
             UpgradeCategory category = UpgradeManager.getCategory(title.toLowerCase());
             if (category != null) {
-                event.setCancelled(true);
-                if (event.getClick().isShiftClick() && event.getClick().isShiftClick()) {
-                    // Handle shift-click action
-                } else {
-                    category.handleItemClick(player, clickedItem);
-                }
+                category.handleItemClick(player, clickedItem);
             }
         }
     }

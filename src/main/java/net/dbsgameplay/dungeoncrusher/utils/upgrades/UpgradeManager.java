@@ -25,16 +25,14 @@ public class UpgradeManager {
     private static Map<String, UpgradeCategory> categories = new HashMap<>();
 
     private void initializeCategories(MYSQLManager mysqlManager) {
-        System.out.println("Initializing categories");
-        categories.put("schwert", new SwordCategory(mysqlManager));
-        System.out.println("Categories initialized: " + categories);
+        categories.put("§7➢ schwert", new SwordCategory(mysqlManager));
     }
 
     public static void openMainMenu(Player player) {
         Inventory inv = Bukkit.createInventory(null, 9 * 6, "Upgrade");
         ItemStack swordItem = new ItemStack(Material.DIAMOND_SWORD);
         ItemMeta swordMeta = swordItem.getItemMeta();
-        swordMeta.setDisplayName("Schwert");
+        swordMeta.setDisplayName("§7➢ Schwert");
         swordItem.setItemMeta(swordMeta);
 
         inv.setItem(20, swordItem);
@@ -53,9 +51,13 @@ public class UpgradeManager {
 
     public static UpgradeCategory getCategory(String name) {
         name = name.trim().toLowerCase();
-        System.out.println("Getting category for name: " + name);
+        Bukkit.getLogger().info("Getting category for name: " + name);
         UpgradeCategory category = categories.get(name);
-        System.out.println("Found category: " + category);
+        if (category == null) {
+            Bukkit.getLogger().info("No category found for name: " + name);
+        } else {
+            Bukkit.getLogger().info("Found category: " + category);
+        }
         return category;
     }
 }
