@@ -9,12 +9,14 @@ net\dbsgameplay\dungeoncrusher\objects\PlayerHead.class
 net\dbsgameplay\dungeoncrusher\utils\Manager\SavezoneManager.class
 net\dbsgameplay\dungeoncrusher\utils\shops\ShopManager.class
 net\dbsgameplay\dungeoncrusher\utils\Configs\DropsConfigManager.class
+net\dbsgameplay\dungeoncrusher\Commands\Gamemode.class
 net\dbsgameplay\dungeoncrusher\utils\Configs\RewardConfigManager.class
 net\dbsgameplay\dungeoncrusher\utils\ScoreboardBuilder$1.class
 net\dbsgameplay\dungeoncrusher\listener\Navigator\NavigatorListener.class
 net\dbsgameplay\dungeoncrusher\listener\protections\DungeonProtectionListener.class
 net\dbsgameplay\dungeoncrusher\utils\ErfolgeMapBuilder.class
 net\dbsgameplay\dungeoncrusher\Commands\HelpCommand.class
+net\dbsgameplay\dungeoncrusher\enums\Upgrades\ArmorCategory$ShopItem.class
 net\dbsgameplay\dungeoncrusher\utils\Manager\MarkingsManager$Markierungsschritt.class
 net\dbsgameplay\dungeoncrusher\listener\PotionListener$1.class
 net\dbsgameplay\dungeoncrusher\utils\MobHealthBuilder.class
@@ -50,6 +52,7 @@ net\dbsgameplay\dungeoncrusher\listener\Damage\CustomDropListener.class
 net\dbsgameplay\dungeoncrusher\listener\DungeonListener.class
 net\dbsgameplay\dungeoncrusher\listener\PotionListener.class
 net\dbsgameplay\dungeoncrusher\listener\Damage\CustomDropListener$1.class
+net\dbsgameplay\dungeoncrusher\utils\upgrades\ArmorUpgradeManager.class
 net\dbsgameplay\dungeoncrusher\Commands\ErfolgeCommand.class
 net\dbsgameplay\dungeoncrusher\utils\ScoreboardBuilder.class
 net\dbsgameplay\dungeoncrusher\utils\Configs\ConfigManager.class
@@ -58,6 +61,7 @@ net\dbsgameplay\dungeoncrusher\Commands\Economy\PayCommand.class
 net\dbsgameplay\dungeoncrusher\enums\Shop\FoodCategory$ShopItem.class
 net\dbsgameplay\dungeoncrusher\utils\ErfolgeBuilders.class
 net\dbsgameplay\dungeoncrusher\Commands\FlySpeedCommand.class
+net\dbsgameplay\dungeoncrusher\listener\ChatListener.class
 net\dbsgameplay\dungeoncrusher\listener\ErfolgeListener.class
 net\dbsgameplay\dungeoncrusher\Commands\SpawnCommand.class
 net\dbsgameplay\dungeoncrusher\listener\BlockListener.class

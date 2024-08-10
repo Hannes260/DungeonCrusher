@@ -42,6 +42,10 @@ public class Joinlistener implements Listener {
 
         event.setJoinMessage(ChatColor.GREEN + "[+]" + " " + ChatColor.GRAY + player.getDisplayName());
         player.teleport(locationConfigManager.getSpawn());
+        String playerName = event.getPlayer().getName();
+        String message = "Hat das Spiel betreten";
+        String fullMessage = playerName + ": " + message;
+        DungeonCrusher.getInstance().sendToDiscord(fullMessage, 65280);
 
         if (!player.hasPlayedBefore()) {
             Bukkit.broadcastMessage(ConfigManager.getConfigMessage("message.firstjoin", "%player%", player.getName()));
@@ -144,6 +148,10 @@ public class Joinlistener implements Listener {
     public void onQuit(PlayerQuitEvent event) {
         Player player = event.getPlayer();
         event.setQuitMessage(ChatColor.RED + "[-]" + " " + ChatColor.GRAY + player.getDisplayName());
+        String playerName = event.getPlayer().getName();
+        String message = "Hat das Spiel verlassen!";
+        String fullMessage = playerName + ": " + message;
+        DungeonCrusher.getInstance().sendToDiscord(fullMessage, 16711680);
     }
 }
 

@@ -157,7 +157,7 @@ public class ScoreboardBuilder implements Listener {
                 if (dungeonKillsTeam == null) {
                     dungeonKillsTeam = scoreboard.registerNewTeam("dungeonkills");
                 }
-                String nextDungeon = "%img_next_dungeon%";
+                String nextDungeon = "%oraxen_next_dungeon%";
                 nextDungeon = PlaceholderAPI.setPlaceholders(player, nextDungeon);
                 String newPrefix = nextDungeon  + " §f" + killsNeeded + "💀";
                 dungeonKillsTeam.setPrefix(newPrefix);

@@ -1,7 +1,6 @@
 package net.dbsgameplay.dungeoncrusher.listener.Upgrades;
 import net.dbsgameplay.dungeoncrusher.Commands.interfaces.UpgradeCategory;
 import net.dbsgameplay.dungeoncrusher.utils.upgrades.UpgradeManager;
-import org.bukkit.Bukkit;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;

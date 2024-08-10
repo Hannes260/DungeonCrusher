@@ -2,12 +2,10 @@ package net.dbsgameplay.dungeoncrusher.enums.Upgrades;
 
 import net.dbsgameplay.dungeoncrusher.Commands.interfaces.UpgradeCategory;
 import net.dbsgameplay.dungeoncrusher.DungeonCrusher;
-import net.dbsgameplay.dungeoncrusher.listener.Joinlistener;
 import net.dbsgameplay.dungeoncrusher.sql.MYSQLManager;
 import net.dbsgameplay.dungeoncrusher.utils.Configs.ConfigManager;
 import net.dbsgameplay.dungeoncrusher.utils.ScoreboardBuilder;
 import net.dbsgameplay.dungeoncrusher.utils.TexturedHeads;
-import net.dbsgameplay.dungeoncrusher.utils.shops.ShopManager;
 import net.dbsgameplay.dungeoncrusher.utils.upgrades.UpgradeManager;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
@@ -28,22 +26,22 @@ import java.util.*;
 public class SwordCategory implements UpgradeCategory {
     private final MYSQLManager mysqlManager;
     private final ScoreboardBuilder scoreboardBuilder;
-    private final Map<Integer, ShopItem> items;
+    private final Map<Integer, ShopItem> upgradeitems;
 
     public SwordCategory(MYSQLManager mysqlManager) {
         this.mysqlManager = mysqlManager;
         this.scoreboardBuilder = new ScoreboardBuilder(DungeonCrusher.getInstance());
 
-        this.items = new HashMap<>();
-        items.put(20, new ShopItem("§7➢ Schwert Upgrade", Material.DIAMOND_SWORD, 25, Arrays.asList("")));
+        this.upgradeitems = new HashMap<>();
+        upgradeitems.put(20, new ShopItem("§7➢ Schwert Upgrade", Material.WOODEN_SWORD, 25, Arrays.asList("")));
     }
 
     @Override
     public void openMenu(Player player) {
         Inventory inv = Bukkit.createInventory(null, 9 * 6, "§7➢ Schwert");
 
-        for (int slot : items.keySet()) {
-            ShopItem shopItem = items.get(slot);
+        for (int slot : upgradeitems.keySet()) {
+            ShopItem shopItem = upgradeitems.get(slot);
             ItemStack itemStack = new ItemStack(shopItem.material);
             ItemMeta meta = itemStack.getItemMeta();
             meta.setDisplayName(shopItem.displayName);
@@ -68,7 +66,7 @@ public class SwordCategory implements UpgradeCategory {
             meta.setLore(lore);
 
             //Visuelle Anezeige
-            boolean hasResources = checkResourcesForUpgrade(player, currentLevel);
+            boolean hasResources = hasEnoughResourcesForVisuals(player, currentLevel);
             if (hasResources) {
                 meta.addEnchant(Enchantment.KNOCKBACK, 1, true);
                 meta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
@@ -106,19 +104,24 @@ public class SwordCategory implements UpgradeCategory {
         if (!hasResources) {
             return;
         }
-
-        upgradeSword(player, currentLevel);
-
-        updatePlayerResources(player, currentLevel);
-
-        mysqlManager.updateSwordLevel(uuid, currentLevel + 1);
-
-        player.sendMessage(ConfigManager.getPrefix() + ConfigManager.getConfigMessage("message.upgradesword", "%currentlevel%", String.valueOf(currentLevel + 1)));
-
+        for (int slot : upgradeitems.keySet()) {
+            SwordCategory.ShopItem shopItem = upgradeitems.get(slot);
+            if (shopItem.displayName.equals(clickedDisplayName)) {
+                upgradeSword(player, currentLevel);
+                updatePlayerResources(player, currentLevel);
+                mysqlManager.updateSwordLevel(uuid, currentLevel + 1);
+                int nextlevel = currentLevel + 1;
+                String playerName = player.getName();
+                String message = "\nHat das schwert geupgradet auf Level " + nextlevel;
+                String fullmessage = "Name: " + playerName + message;
+                DungeonCrusher.getInstance().sendToDiscord(fullmessage, 65280);
+                player.sendMessage(ConfigManager.getPrefix() + ConfigManager.getConfigMessage("message.upgradesword", "%currentlevel%", String.valueOf(currentLevel + 1)));
+                return;
+            }
+        }
         openMenu(player);
     }
-
-    private boolean checkResourcesForUpgrade(Player player, int currentLevel) {
+    private boolean hasEnoughResourcesForVisuals(Player player, int currentLevel) {
         String uuid = player.getUniqueId().toString();
 
         // Erforderliches Geld und Materialien berechnen
@@ -131,9 +134,33 @@ public class SwordCategory implements UpgradeCategory {
         String balanceString = mysqlManager.getBalance(uuid).replace(",", ""); // Komma entfernen
         double currentGeld = Double.parseDouble(balanceString);
 
+        // Materialmengen des Spielers abrufen
+        int currentMaterial1Amount = mysqlManager.getItemAmount(uuid, materialTypes[0]);
+        int currentMaterial2Amount = mysqlManager.getItemAmount(uuid, materialTypes[1]);
+
+        // Überprüfen, ob der Spieler genügend Geld und Materialien hat
+        return currentGeld >= requiredGeld && currentMaterial1Amount >= requiredMaterial1 && currentMaterial2Amount >= requiredMaterial2;
+    }
+    private boolean checkResourcesForUpgrade(Player player, int currentLevel) {
+        String uuid = player.getUniqueId().toString();
+
+        // Erforderliches Geld und Materialien berechnen
+        double requiredGeld = calculateRequiredGeld(currentLevel);
+        String[] materialTypes = getMaterialTypes(currentLevel);
+        int requiredMaterial1 = calculateRequiredMaterial1(currentLevel);
+        int requiredMaterial2 = calculateRequiredMaterial2(currentLevel);
+
+        // Aktuelles Geld des Spielers abrufen und in eine Zahl umwandeln
+        String balanceString = mysqlManager.getBalance(uuid).replace(",", ""); // Komma entfernen
+        double currentGeld = Double.parseDouble(balanceString);
+        int nextlevel = currentLevel + 1;
         // Überprüfen, ob der Spieler genügend Geld hat
         if (currentGeld < requiredGeld) {
             player.sendMessage(ConfigManager.getPrefix() + ConfigManager.getConfigMessage("message.notenoughmoneyforupgrade","",""));
+            String playerName = player.getName();
+            String message = "Konnte das schwert nicht auf Level " + nextlevel + "upgraden! \nzu wenig Geld";
+            String fullmessage = "Name: " + playerName +"\n Derzeitiges Level: " + currentLevel + "  \n"+ message ;
+            DungeonCrusher.getInstance().sendToDiscord(fullmessage, 16711680);
             return false;
         }
 
@@ -144,11 +171,20 @@ public class SwordCategory implements UpgradeCategory {
         // Überprüfen, ob der Spieler genügend Materialien hat
         if (currentMaterial1Amount < requiredMaterial1) {
             player.sendMessage(ConfigManager.getPrefix() + ConfigManager.getConfigMessage("message.notenoughmaterialforupgrade", "%materialtypes%", materialTypes[0]));
+            String playerName = player.getName();
+            String message = "Konnte das schwert nicht auf Level " + nextlevel + "\n" + " upgraden wegen zu wenig Materialien!";
+            String fullmessage = "Name: " + playerName +"\n Derzeitiges Level: " + currentLevel + "  \n"+ message ;
+            DungeonCrusher.getInstance().sendToDiscord(fullmessage, 16711680);
             return false;
         }
 
         if (currentMaterial2Amount < requiredMaterial2) {
             player.sendMessage(ConfigManager.getPrefix() + ConfigManager.getConfigMessage("message.notenoughmaterialforupgrade", "%materialtypes%", materialTypes[1]));
+
+            String playerName = player.getName();
+            String message = " \nKonnte das schwert nicht auf Level " + nextlevel + "\n" + " upgraden wegen zu wenig Materialien!";
+            String fullmessage = "Name: " + playerName +"\n Derzeitiges Level: " + currentLevel + "  \n"+ message ;
+            DungeonCrusher.getInstance().sendToDiscord(fullmessage, 16711680);
             return false;
         }
 
@@ -215,6 +251,7 @@ public class SwordCategory implements UpgradeCategory {
             return; // Exit if meta is null
         }
         meta.setDisplayName("§7<<Schwert Lv. " + newLevel + "§7>>");
+        meta.setUnbreakable(true);
 
         // Angriffsschaden-Attribut hinzufügen mit NamespacedKey
         NamespacedKey key = new NamespacedKey(DungeonCrusher.getInstance(), "generic.attackDamage");
@@ -244,8 +281,14 @@ public class SwordCategory implements UpgradeCategory {
             return 10 + (5 * level); // Rohkupfer
         } else if (level < 85) {
             return 230 + (5 * (level - 45)); // Bruchstein
-        } else {
+        } else if (level < 130) {
             return 430 + (5 * (level - 85)); // Roheisen
+        } else if (level < 175) {
+            return 630 + (5 * (level - 130)); // Goldnugget
+        } else if (level < 215) {
+            return 830 + (5 * (level - 175)); // Diamant
+        } else {
+            return 1030 + (5 * (level - 215)); // Netheritplatten
         }
     }
 
@@ -254,8 +297,14 @@ public class SwordCategory implements UpgradeCategory {
             return 6 + (5 * level); // Kupferbarren
         } else if (level < 85) {
             return 242 + (5 * (level - 45)); // Stein
-        } else {
+        } else if (level < 130) {
             return 462 + (5 * (level - 85)); // Eisenbarren
+        } else if (level < 175) {
+            return 682 + (5 * (level - 130)); // Goldbarren
+        } else if (level < 215) {
+            return 902 + (5 * (level - 175)); // Diamantblock
+        } else {
+            return 1122 + (5 * (level - 215)); // Netheritbarren
         }
     }
 
@@ -264,8 +313,14 @@ public class SwordCategory implements UpgradeCategory {
             return 4 + level; // Holzschwert
         } else if (level < 85) {
             return 49 + (level - 45); // Steinschwert
-        } else {
+        } else if (level < 130) {
             return 89 + (level - 85); // Eisenschwert
+        } else if (level < 175) {
+            return 129 + (level - 130); // Goldschwert
+        } else if (level < 215) {
+            return 169 + (level - 175); // Diamantschwert
+        } else {
+            return 209 + (level - 215); // Netheritschwert
         }
     }
 
@@ -274,9 +329,14 @@ public class SwordCategory implements UpgradeCategory {
             return Material.WOODEN_SWORD;
         } else if (level < 86) {
             return Material.STONE_SWORD;
-        } else {
+        } else if (level < 131) {
             return Material.IRON_SWORD;
-        }
+        } else if (level < 176) {
+            return Material.GOLDEN_SWORD;
+        } else if (level < 216) {
+            return Material.DIAMOND_SWORD;
+        } else
+            return Material.NETHERITE_SWORD;
     }
 
     private String[] getMaterialTypes(int level) {
@@ -284,8 +344,14 @@ public class SwordCategory implements UpgradeCategory {
             return new String[]{"raw_copper", "copper_ingot"};
         } else if (level < 85) {
             return new String[]{"cobblestone", "stone"};
-        } else {
+        } else if (level < 130) {
             return new String[]{"raw_iron", "iron_ingot"};
+        } else if (level < 175) {
+            return new String[]{"raw_gold", "gold_ingot"};
+        } else if (level < 215) {
+            return new String[]{"diamond", "diamond_block"};
+        } else {
+            return new String[]{"netherite_scrap", "netherite_ingot"};
         }
     }
 
@@ -303,6 +369,18 @@ public class SwordCategory implements UpgradeCategory {
                 return "Roheisen";
             case "iron_ingot":
                 return "Eisenbarren";
+            case "raw_gold":
+                return "RohGold";
+            case "gold_ingot":
+                return "Goldbarren";
+            case "diamond":
+                return "Diamant";
+            case "diamond_block":
+                return "Diamantblock";
+            case "netherite_scrap":
+                return "Netheritschrott";
+            case "netherite_ingot":
+                return "Netheritbarren";
             default:
                 return "Unbekanntes Material";
         }

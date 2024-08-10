@@ -222,12 +222,12 @@ public class NavigatorListener implements Listener {
         shop.setItemMeta(shopmeta);
         navigatorInventory.setItem(47, shop);
 
-        String Geld = "§f%img_geld%";
+        String Geld = "§f%oraxen_geld%";
         Geld = PlaceholderAPI.setPlaceholders(player, Geld);
-        String Kills = "§f%img_kills%";
+        String Kills = "§f%oraxen_kills%";
         Kills = PlaceholderAPI.setPlaceholders(player, Kills);
 
-        String Tode = "§f%img_tode%";
+        String Tode = "§f%oraxen_tode%";
         Tode = PlaceholderAPI.setPlaceholders(player, Tode);
 
         String currentmoney = mysqlManager.getBalance(player.getUniqueId().toString());

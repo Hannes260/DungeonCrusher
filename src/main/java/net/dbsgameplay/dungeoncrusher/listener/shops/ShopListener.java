@@ -26,8 +26,6 @@ public class ShopListener implements Listener {
         }
 
         String title = event.getView().getTitle();
-        Bukkit.getLogger().info("Clicked inventory title: " + title);
-        Bukkit.getLogger().info("Clicked item display name: " + clickedItem.getItemMeta().getDisplayName());
 
         if ("Shop".equalsIgnoreCase(title)) {
             event.setCancelled(true);

@@ -29,7 +29,12 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
-
+import org.json.simple.JSONObject;
+import javax.net.ssl.HttpsURLConnection;
+import java.io.IOException;
+import java.io.OutputStream;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
@@ -52,6 +57,7 @@ public final class DungeonCrusher extends JavaPlugin {
     @Override
     public void onEnable() {
         instance = this;
+
         api = LuckPermsProvider.get();
 
         // Laden der Konfigurationen und Datenbankverbindung
@@ -172,6 +178,41 @@ public final class DungeonCrusher extends JavaPlugin {
         pluginManager.registerEvents(new PotionListener(), this);
         pluginManager.registerEvents(new ErfolgeListener(this,locationConfigManager), this);
         pluginManager.registerEvents(new UpgradeListener(), this);
+        pluginManager.registerEvents(new ChatListener(), this);
+    }
+
+    public void sendToDiscord(String content, int color) {
+        try {
+            URL url = new URL("https://discord.com/api/webhooks/1270115709258829845/4lnrB58kwejDto1ach5tkG4OmumMZzcdKqb6uWTthA6dv8sm9Uqd_G46spy15BnfgYWd");
+            JSONObject jsonObject = new JSONObject();
+            jsonObject.put("content", "");
+
+            // Embed-Objekt erstellen
+            JSONObject embedObject = new JSONObject();
+            embedObject.put("title", "DungeonCrusher Notification");
+            embedObject.put("description", content);
+            embedObject.put("color", color);  // Farbe des Embeds in Dezimal
+
+            // Array von Embeds
+            jsonObject.put("embeds", new org.json.JSONArray().put(embedObject));
+
+            HttpsURLConnection connection = (HttpsURLConnection) url.openConnection();
+            connection.addRequestProperty("Content-Type", "application/json");
+            connection.addRequestProperty("User-Agent", "Java-DiscordWebhook");
+            connection.setDoOutput(true);
+            connection.setRequestMethod("POST");
+
+            OutputStream stream = connection.getOutputStream();
+            stream.write(jsonObject.toString().getBytes());
+            stream.flush();
+            stream.close();
+
+            connection.getInputStream().close();
+            connection.disconnect();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     public static DungeonCrusher getInstance() {
