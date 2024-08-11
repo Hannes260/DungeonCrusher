@@ -1,6 +1,7 @@
 package net.dbsgameplay.dungeoncrusher.utils.upgrades;
 
 import net.dbsgameplay.dungeoncrusher.Commands.interfaces.UpgradeCategory;
+import net.dbsgameplay.dungeoncrusher.enums.Upgrades.ArmorCategory;
 import net.dbsgameplay.dungeoncrusher.enums.Upgrades.SwordCategory;
 import net.dbsgameplay.dungeoncrusher.sql.MYSQLManager;
 import net.dbsgameplay.dungeoncrusher.utils.TexturedHeads;
@@ -27,18 +28,27 @@ public class UpgradeManager {
     private static Map<String, UpgradeCategory> upgradecategories = new HashMap<>();
     private void initializeCategories(MYSQLManager mysqlManager) {
         upgradecategories.put("§7➢ schwert", new SwordCategory(mysqlManager));
+        upgradecategories.put("§7➢ rüstung", new ArmorCategory(mysqlManager));
     }
 
     public static void openMainMenu(Player player) {
         Inventory inv = Bukkit.createInventory(null, 9 * 6, "Upgrade");
 
-        PlayerProfile foodprofile = TexturedHeads.getProfile("https://textures.minecraft.net/texture/77334cddfab45d75ad28e1a47bf8cf5017d2f0982f6737da22d4972952510661");
-        ItemStack foodhead = new ItemStack(Material.PLAYER_HEAD);
-        SkullMeta foodmeta = (SkullMeta) foodhead.getItemMeta();
-        foodmeta.setOwnerProfile(foodprofile);
-        foodmeta.setDisplayName("§7➢ Schwert");
-        foodhead.setItemMeta(foodmeta);
-        inv.setItem(21, foodhead);
+        PlayerProfile swordprofile = TexturedHeads.getProfile("https://textures.minecraft.net/texture/77334cddfab45d75ad28e1a47bf8cf5017d2f0982f6737da22d4972952510661");
+        ItemStack swordhead = new ItemStack(Material.PLAYER_HEAD);
+        SkullMeta swordmeta = (SkullMeta) swordhead.getItemMeta();
+        swordmeta.setOwnerProfile(swordprofile);
+        swordmeta.setDisplayName("§7➢ Schwert");
+        swordhead.setItemMeta(swordmeta);
+        inv.setItem(20, swordhead);
+
+        PlayerProfile armorprofile = TexturedHeads.getProfile("https://textures.minecraft.net/texture/77334cddfab45d75ad28e1a47bf8cf5017d2f0982f6737da22d4972952510661");
+        ItemStack armorhead = new ItemStack(Material.PLAYER_HEAD);
+        SkullMeta armormeta = (SkullMeta) armorhead.getItemMeta();
+        armormeta.setOwnerProfile(armorprofile);
+        armormeta.setDisplayName("§7➢ Rüstung");
+        armorhead.setItemMeta(armormeta);
+        inv.setItem(24, armorhead);
         addCloseButton(player, inv);
         player.openInventory(inv);
     }

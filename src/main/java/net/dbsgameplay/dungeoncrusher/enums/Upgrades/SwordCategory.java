@@ -33,7 +33,7 @@ public class SwordCategory implements UpgradeCategory {
         this.scoreboardBuilder = new ScoreboardBuilder(DungeonCrusher.getInstance());
 
         this.upgradeitems = new HashMap<>();
-        upgradeitems.put(20, new ShopItem("§7➢ Schwert Upgrade", Material.WOODEN_SWORD, 25, Arrays.asList("")));
+        upgradeitems.put(20, new ShopItem("§7➢ Schwert Upgrade", Material.DIAMOND_SWORD, 25, Arrays.asList("")));
     }
 
     @Override
@@ -349,7 +349,7 @@ public class SwordCategory implements UpgradeCategory {
         } else if (level < 175) {
             return new String[]{"raw_gold", "gold_ingot"};
         } else if (level < 215) {
-            return new String[]{"diamond", "diamond_block"};
+            return new String[]{"diamond", "diamond_ore"};
         } else {
             return new String[]{"netherite_scrap", "netherite_ingot"};
         }

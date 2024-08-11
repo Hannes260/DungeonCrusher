@@ -19,6 +19,7 @@ import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.Collections;
 import java.util.Locale;
@@ -46,6 +47,7 @@ public class Joinlistener implements Listener {
         String message = "Hat das Spiel betreten";
         String fullMessage = playerName + ": " + message;
         DungeonCrusher.getInstance().sendToDiscord(fullMessage, 65280);
+
 
         if (!player.hasPlayedBefore()) {
             Bukkit.broadcastMessage(ConfigManager.getConfigMessage("message.firstjoin", "%player%", player.getName()));
@@ -153,5 +155,6 @@ public class Joinlistener implements Listener {
         String fullMessage = playerName + ": " + message;
         DungeonCrusher.getInstance().sendToDiscord(fullMessage, 16711680);
     }
+
 }
 

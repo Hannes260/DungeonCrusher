@@ -151,6 +151,7 @@ public final class DungeonCrusher extends JavaPlugin {
         getCommand("cc").setExecutor(new ClearChatCommand());
         getCommand("erfolge").setExecutor(new ErfolgeCommand(this, locationConfigManager));
         getCommand("gm").setExecutor(new Gamemode());
+        getCommand("heal").setExecutor(new HealCommand());
 
 
         // Tab Completers
