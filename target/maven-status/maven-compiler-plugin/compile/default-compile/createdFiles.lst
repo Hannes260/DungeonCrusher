@@ -50,6 +50,7 @@ net\dbsgameplay\dungeoncrusher\DungeonCrusher.class
 net\dbsgameplay\dungeoncrusher\utils\upgrades\UpgradeManager.class
 net\dbsgameplay\dungeoncrusher\Commands\BuildCommand.class
 net\dbsgameplay\dungeoncrusher\listener\Damage\CustomDropListener.class
+net\dbsgameplay\dungeoncrusher\Commands\Testcommand.class
 net\dbsgameplay\dungeoncrusher\listener\DungeonListener.class
 net\dbsgameplay\dungeoncrusher\listener\PotionListener.class
 net\dbsgameplay\dungeoncrusher\listener\Damage\CustomDropListener$1.class
