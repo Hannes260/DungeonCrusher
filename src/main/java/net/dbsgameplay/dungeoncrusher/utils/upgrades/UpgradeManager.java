@@ -1,5 +1,6 @@
 package net.dbsgameplay.dungeoncrusher.utils.upgrades;
 
+import me.clip.placeholderapi.PlaceholderAPI;
 import net.dbsgameplay.dungeoncrusher.Commands.interfaces.UpgradeCategory;
 import net.dbsgameplay.dungeoncrusher.enums.Upgrades.ArmorCategory;
 import net.dbsgameplay.dungeoncrusher.enums.Upgrades.SwordCategory;
@@ -32,34 +33,59 @@ public class UpgradeManager {
     }
 
     public static void openMainMenu(Player player) {
-        Inventory inv = Bukkit.createInventory(null, 9 * 6, "Upgrade");
+        String DisplayName = "§f<shift:-8>%oraxen_upgrade%";
+        DisplayName = PlaceholderAPI.setPlaceholders(player, DisplayName);
+        Inventory inv = Bukkit.createInventory(null, 9 * 6, DisplayName);
 
-        PlayerProfile swordprofile = TexturedHeads.getProfile("https://textures.minecraft.net/texture/77334cddfab45d75ad28e1a47bf8cf5017d2f0982f6737da22d4972952510661");
-        ItemStack swordhead = new ItemStack(Material.PLAYER_HEAD);
-        SkullMeta swordmeta = (SkullMeta) swordhead.getItemMeta();
-        swordmeta.setOwnerProfile(swordprofile);
-        swordmeta.setDisplayName("§7➢ Schwert");
-        swordhead.setItemMeta(swordmeta);
-        inv.setItem(20, swordhead);
+        //    PlayerProfile swordprofile = TexturedHeads.getProfile("https://textures.minecraft.net/texture/77334cddfab45d75ad28e1a47bf8cf5017d2f0982f6737da22d4972952510661");
+        //       ItemStack swordhead = new ItemStack(Material.PLAYER_HEAD);
+        //      SkullMeta swordmeta = (SkullMeta) swordhead.getItemMeta();
+        //      swordmeta.setOwnerProfile(swordprofile);
+        //      swordmeta.setDisplayName("§7➢ Schwert");
+        //      swordhead.setItemMeta(swordmeta);
+        //      inv.setItem(20, swordhead);
+        ItemStack Sword = new ItemStack(Material.PAPER);
+        ItemMeta Swordmeta = Sword.getItemMeta();
+        Swordmeta.setCustomModelData(100);
+        Swordmeta.setDisplayName("§7➢ Schwert");
+        Sword.setItemMeta(Swordmeta);
+        inv.setItem(20, Sword);
 
-        PlayerProfile armorprofile = TexturedHeads.getProfile("https://textures.minecraft.net/texture/77334cddfab45d75ad28e1a47bf8cf5017d2f0982f6737da22d4972952510661");
-        ItemStack armorhead = new ItemStack(Material.PLAYER_HEAD);
-        SkullMeta armormeta = (SkullMeta) armorhead.getItemMeta();
-        armormeta.setOwnerProfile(armorprofile);
-        armormeta.setDisplayName("§7➢ Rüstung");
-        armorhead.setItemMeta(armormeta);
-        inv.setItem(24, armorhead);
+        //PlayerProfile armorprofile = TexturedHeads.getProfile("https://textures.minecraft.net/texture/77334cddfab45d75ad28e1a47bf8cf5017d2f0982f6737da22d4972952510661");
+        //ItemStack armorhead = new ItemStack(Material.PLAYER_HEAD);
+        //SkullMeta armormeta = (SkullMeta) armorhead.getItemMeta();
+        //armormeta.setOwnerProfile(armorprofile);
+        //armormeta.setDisplayName("§7➢ Rüstung");
+        //armorhead.setItemMeta(armormeta);
+        //inv.setItem(24, armorhead);
+        ItemStack Armor = new ItemStack(Material.PAPER);
+        ItemMeta Armormeta = Sword.getItemMeta();
+        Armormeta.setCustomModelData(100);
+        Armormeta.setDisplayName("§7➢ Rüstung");
+        Armor.setItemMeta(Armormeta);
+        inv.setItem(24, Armor);
         addCloseButton(player, inv);
+        addCloseButton2(player,inv);
         player.openInventory(inv);
     }
 
     public static void addCloseButton(Player player, Inventory inventory) {
-        ItemStack closeItem = new ItemStack(Material.BARRIER);
+        ItemStack closeItem = new ItemStack(Material.PAPER);
         ItemMeta closeMeta = closeItem.getItemMeta();
+        closeMeta.setCustomModelData(100);
         closeMeta.setDisplayName("§cSchließen");
         closeItem.setItemMeta(closeMeta);
 
-        inventory.setItem(45, closeItem);
+        inventory.setItem(0, closeItem);
+    }
+    public static void addCloseButton2(Player player, Inventory inventory) {
+        ItemStack closeItem = new ItemStack(Material.PAPER);
+        ItemMeta closeMeta = closeItem.getItemMeta();
+        closeMeta.setCustomModelData(100);
+        closeMeta.setDisplayName("§cSchließen");
+        closeItem.setItemMeta(closeMeta);
+
+        inventory.setItem(1, closeItem);
     }
     public static UpgradeCategory getCategory(String displayName) {
         // Durchlaufe alle Kategorien und vergleiche den Display-Namen ohne Formatierung

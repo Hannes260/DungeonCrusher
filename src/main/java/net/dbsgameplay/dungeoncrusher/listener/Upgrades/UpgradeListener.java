@@ -1,4 +1,5 @@
 package net.dbsgameplay.dungeoncrusher.listener.Upgrades;
+import me.clip.placeholderapi.PlaceholderAPI;
 import net.dbsgameplay.dungeoncrusher.Commands.interfaces.UpgradeCategory;
 import net.dbsgameplay.dungeoncrusher.utils.upgrades.UpgradeManager;
 import org.bukkit.Sound;
@@ -22,9 +23,11 @@ public class UpgradeListener implements Listener {
         }
 
         String title = event.getView().getTitle();
-
+        System.out.println(title);
+        String DisplayName = "§f<shift:-8>%oraxen_upgrade%";
+        DisplayName = PlaceholderAPI.setPlaceholders(player, DisplayName);
         // Prüfe, ob der Titel des Inventars mit dem Upgrade-Inventar übereinstimmt
-        if ("Upgrade".equalsIgnoreCase(title)) {
+        if (DisplayName.equalsIgnoreCase(title)) {
             event.setCancelled(true);
             String categoryName = clickedItem.getItemMeta().getDisplayName().toLowerCase();
             UpgradeCategory category = UpgradeManager.getCategory(categoryName);
