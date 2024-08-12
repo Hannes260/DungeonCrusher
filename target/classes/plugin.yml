@@ -45,3 +45,5 @@ commands:
   erfolge:
   gm:
     aliases: [gamemode]
+  heal:
+    aliases: [heilen]

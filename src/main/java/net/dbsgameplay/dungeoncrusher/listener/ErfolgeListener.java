@@ -3465,7 +3465,7 @@ public class ErfolgeListener implements Listener {
             for (String s : user.getCachedData().getMetaData().getSuffixes().values()) {
                 user.data().remove(SuffixNode.builder(s, 150).build());
             }
-            user.data().add(SuffixNode.builder(ErfolgeBuilders.titlesHashmap.get(suffix), 150).build());
+            user.data().add(SuffixNode.builder(" §7[§e" +ErfolgeBuilders.titlesHashmap.get(suffix) + "§7]", 150).build());
         });
     }
 }

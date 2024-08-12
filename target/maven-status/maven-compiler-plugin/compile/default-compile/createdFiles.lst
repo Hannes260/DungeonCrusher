@@ -21,6 +21,7 @@ net\dbsgameplay\dungeoncrusher\utils\Manager\MarkingsManager$Markierungsschritt.
 net\dbsgameplay\dungeoncrusher\listener\PotionListener$1.class
 net\dbsgameplay\dungeoncrusher\utils\MobHealthBuilder.class
 net\dbsgameplay\dungeoncrusher\Commands\SetSpawnCommand.class
+net\dbsgameplay\dungeoncrusher\Commands\HealCommand.class
 net\dbsgameplay\dungeoncrusher\sql\MYSQLManager.class
 net\dbsgameplay\dungeoncrusher\utils\Configs\LocationConfigManager.class
 net\dbsgameplay\dungeoncrusher\listener\DungeonListener$1.class
