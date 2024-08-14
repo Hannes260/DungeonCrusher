@@ -37,13 +37,6 @@ public class UpgradeManager {
         DisplayName = PlaceholderAPI.setPlaceholders(player, DisplayName);
         Inventory inv = Bukkit.createInventory(null, 9 * 6, DisplayName);
 
-        //    PlayerProfile swordprofile = TexturedHeads.getProfile("https://textures.minecraft.net/texture/77334cddfab45d75ad28e1a47bf8cf5017d2f0982f6737da22d4972952510661");
-        //       ItemStack swordhead = new ItemStack(Material.PLAYER_HEAD);
-        //      SkullMeta swordmeta = (SkullMeta) swordhead.getItemMeta();
-        //      swordmeta.setOwnerProfile(swordprofile);
-        //      swordmeta.setDisplayName("§7➢ Schwert");
-        //      swordhead.setItemMeta(swordmeta);
-        //      inv.setItem(20, swordhead);
         ItemStack Sword = new ItemStack(Material.PAPER);
         ItemMeta Swordmeta = Sword.getItemMeta();
         Swordmeta.setCustomModelData(100);
@@ -51,13 +44,6 @@ public class UpgradeManager {
         Sword.setItemMeta(Swordmeta);
         inv.setItem(20, Sword);
 
-        //PlayerProfile armorprofile = TexturedHeads.getProfile("https://textures.minecraft.net/texture/77334cddfab45d75ad28e1a47bf8cf5017d2f0982f6737da22d4972952510661");
-        //ItemStack armorhead = new ItemStack(Material.PLAYER_HEAD);
-        //SkullMeta armormeta = (SkullMeta) armorhead.getItemMeta();
-        //armormeta.setOwnerProfile(armorprofile);
-        //armormeta.setDisplayName("§7➢ Rüstung");
-        //armorhead.setItemMeta(armormeta);
-        //inv.setItem(24, armorhead);
         ItemStack Armor = new ItemStack(Material.PAPER);
         ItemMeta Armormeta = Sword.getItemMeta();
         Armormeta.setCustomModelData(100);

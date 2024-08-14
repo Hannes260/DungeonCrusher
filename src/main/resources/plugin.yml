@@ -29,7 +29,6 @@ commands:
     description: Setzte den Spawn
   spawn:
     description: Teleportiere dich zum Spawn
-  test:
   shop:
     description: Öffne den Shop
   upgrades:

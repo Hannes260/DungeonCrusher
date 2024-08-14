@@ -101,12 +101,6 @@
           <scope>provided</scope>
       </dependency>
       <dependency>
-          <groupId>com.github.LoneDev6</groupId>
-          <artifactId>api-itemsadder</artifactId>
-          <version>3.6.1</version>
-          <scope>provided</scope>
-      </dependency>
-      <dependency>
           <groupId>net.luckperms</groupId>
           <artifactId>api</artifactId>
           <version>5.4</version>
