@@ -239,6 +239,25 @@ public class LocationConfigManager {
     public int getmobcount(String dungeonname) {
         return config.getInt(dungeonname + ".mobcount");
     }
+    public String getPreviousDungeon(String currentDungeonName) {
+        if (currentDungeonName == null || !currentDungeonName.startsWith("dungeon")) {
+            return null;
+        }
+
+        String numberPart = currentDungeonName.replace("dungeon", "");
+        try {
+            int currentDungeonNumber = Integer.parseInt(numberPart);
+            int previousDungeonNumber = currentDungeonNumber - 1;
+
+            if (previousDungeonNumber < 1) {
+                return null; // Es gibt keinen vorherigen Dungeon
+            }
+
+            return "dungeon" + previousDungeonNumber;
+        } catch (NumberFormatException e) {
+            return null;
+        }
+    }
     public void saveConfig() {
         try {
             config.save(configFile);

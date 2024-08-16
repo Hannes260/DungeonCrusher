@@ -4,6 +4,7 @@ import net.dbsgameplay.dungeoncrusher.DungeonCrusher;
 import net.dbsgameplay.dungeoncrusher.sql.MYSQLManager;
 import net.dbsgameplay.dungeoncrusher.utils.Configs.ConfigManager;
 import net.dbsgameplay.dungeoncrusher.utils.Configs.DropsConfigManager;
+import net.dbsgameplay.dungeoncrusher.utils.Configs.LocationConfigManager;
 import net.dbsgameplay.dungeoncrusher.utils.Manager.HologramManager;
 import net.dbsgameplay.dungeoncrusher.utils.ScoreboardBuilder;
 import org.bukkit.*;
@@ -25,8 +26,7 @@ public class CustomDropListener implements Listener {
     ScoreboardBuilder scoreboardBuilder;
     DungeonCrusher dungeonCrusher;
     private final DropsConfigManager dropsConfigManager;
-
-    public CustomDropListener(DungeonCrusher dungeonCrusher, MYSQLManager mysqlManager,DropsConfigManager dropsConfigManager) {
+    public CustomDropListener(DungeonCrusher dungeonCrusher, MYSQLManager mysqlManager, DropsConfigManager dropsConfigManager) {
         this.mysqlManager = mysqlManager;
         this.scoreboardBuilder = new ScoreboardBuilder(dungeonCrusher);
         this.dropsConfigManager = dropsConfigManager;

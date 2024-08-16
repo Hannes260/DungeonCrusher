@@ -5,6 +5,7 @@ import net.dbsgameplay.dungeoncrusher.Commands.interfaces.UpgradeCategory;
 import net.dbsgameplay.dungeoncrusher.enums.Upgrades.ArmorCategory;
 import net.dbsgameplay.dungeoncrusher.enums.Upgrades.SwordCategory;
 import net.dbsgameplay.dungeoncrusher.sql.MYSQLManager;
+import net.dbsgameplay.dungeoncrusher.utils.Configs.LocationConfigManager;
 import net.dbsgameplay.dungeoncrusher.utils.TexturedHeads;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
@@ -20,7 +21,6 @@ import java.util.Map;
 public class UpgradeManager {
 
     MYSQLManager mysqlManager;
-
     public UpgradeManager(MYSQLManager mysqlManager){
         this.mysqlManager = mysqlManager;
         initializeCategories(mysqlManager);

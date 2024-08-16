@@ -29,10 +29,12 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.json.JSONArray;
 import org.json.simple.JSONObject;
 import javax.net.ssl.HttpsURLConnection;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
@@ -153,7 +155,6 @@ public final class DungeonCrusher extends JavaPlugin {
         getCommand("gm").setExecutor(new Gamemode());
         getCommand("heal").setExecutor(new HealCommand());
 
-
         // Tab Completers
         getCommand("config").setTabCompleter(this);
         getCommand("money").setTabCompleter(this);
@@ -186,20 +187,37 @@ public final class DungeonCrusher extends JavaPlugin {
         try {
             URL url = new URL("https://discord.com/api/webhooks/1270115709258829845/4lnrB58kwejDto1ach5tkG4OmumMZzcdKqb6uWTthA6dv8sm9Uqd_G46spy15BnfgYWd");
             JSONObject jsonObject = new JSONObject();
-            jsonObject.put("content", "");
+            jsonObject.put("content", "");  // Optionaler Inhalt, falls du eine Nachricht ohne Embed senden möchtest
 
             // Embed-Objekt erstellen
             JSONObject embedObject = new JSONObject();
-            embedObject.put("title", "DungeonCrusher Notification");
-            embedObject.put("description", content);
             embedObject.put("color", color);  // Farbe des Embeds in Dezimal
 
-            // Array von Embeds
-            jsonObject.put("embeds", new org.json.JSONArray().put(embedObject));
+            if (color == 0xFFFF00) { // Wenn die Nachricht als beleidigend erkannt wird
+                embedObject.put("title", "**🚨 Beleidigung erkannt 🚨**"); // Titel
+                embedObject.put("description", content); // Hauptinhalt der Nachricht
 
-            HttpsURLConnection connection = (HttpsURLConnection) url.openConnection();
-            connection.addRequestProperty("Content-Type", "application/json");
-            connection.addRequestProperty("User-Agent", "Java-DiscordWebhook");
+                // Array von Feldern erstellen
+                JSONArray fieldsArray = new JSONArray();
+                JSONObject fieldObject = new JSONObject();
+                fieldObject.put("name", "\u200B"); // Leerer Name für Abstand
+                fieldObject.put("value", "**Diese Nachricht wurde als unangemessen markiert! ⚠️**");
+                fieldObject.put("inline", false);
+                fieldsArray.put(fieldObject);
+                embedObject.put("fields", fieldsArray);
+            } else {
+                embedObject.put("title", "DungeonCrusher Notification");
+                embedObject.put("description", content);
+            }
+
+            // Array von Embeds
+            JSONArray embedsArray = new JSONArray();
+            embedsArray.put(embedObject);
+            jsonObject.put("embeds", embedsArray);
+
+            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+            connection.setRequestProperty("Content-Type", "application/json");
+            connection.setRequestProperty("User-Agent", "Java-DiscordWebhook");
             connection.setDoOutput(true);
             connection.setRequestMethod("POST");
 

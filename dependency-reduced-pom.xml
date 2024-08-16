@@ -41,6 +41,10 @@
       <url>https://repo.papermc.io/repository/maven-public/</url>
     </repository>
     <repository>
+      <id>spigot-repo</id>
+      <url>https://hub.spigotmc.org/nexus/content/repositories/snapshots/</url>
+    </repository>
+    <repository>
       <id>sonatype</id>
       <url>https://oss.sonatype.org/content/groups/public/</url>
     </repository>
@@ -81,15 +85,15 @@
       <scope>provided</scope>
     </dependency>
     <dependency>
-      <groupId>com.github.LoneDev6</groupId>
-      <artifactId>api-itemsadder</artifactId>
-      <version>3.6.1</version>
-      <scope>provided</scope>
-    </dependency>
-    <dependency>
       <groupId>net.luckperms</groupId>
       <artifactId>api</artifactId>
       <version>5.4</version>
+      <scope>provided</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.spigotmc</groupId>
+      <artifactId>spigot</artifactId>
+      <version>1.21.1-R0.1-SNAPSHOT</version>
       <scope>provided</scope>
     </dependency>
   </dependencies>

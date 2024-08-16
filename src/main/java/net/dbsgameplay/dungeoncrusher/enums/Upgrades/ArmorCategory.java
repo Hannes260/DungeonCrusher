@@ -4,6 +4,7 @@ import net.dbsgameplay.dungeoncrusher.Commands.interfaces.UpgradeCategory;
 import net.dbsgameplay.dungeoncrusher.DungeonCrusher;
 import net.dbsgameplay.dungeoncrusher.sql.MYSQLManager;
 import net.dbsgameplay.dungeoncrusher.utils.Configs.ConfigManager;
+import net.dbsgameplay.dungeoncrusher.utils.Configs.LocationConfigManager;
 import net.dbsgameplay.dungeoncrusher.utils.ScoreboardBuilder;
 import net.dbsgameplay.dungeoncrusher.utils.TexturedHeads;
 import net.dbsgameplay.dungeoncrusher.utils.upgrades.UpgradeManager;
@@ -28,7 +29,6 @@ public class ArmorCategory implements UpgradeCategory {
     private final MYSQLManager mysqlManager;
     private final ScoreboardBuilder scoreboardBuilder;
     private final Map<Integer, ShopItem> upgradeItems;
-
     public ArmorCategory(MYSQLManager mysqlManager) {
         this.mysqlManager = mysqlManager;
         this.scoreboardBuilder = new ScoreboardBuilder(DungeonCrusher.getInstance());
@@ -270,6 +270,54 @@ public class ArmorCategory implements UpgradeCategory {
             armorValue = 2.0;
         }else if (currentLevel >= 116 && currentLevel < 130) {
             item = new ItemStack(Material.IRON_BOOTS);
+            armorSlot = EquipmentSlot.FEET.ordinal();
+            armorValue = 2.0;
+        }else if (currentLevel >= 131 && currentLevel < 140) {
+            item = new ItemStack(Material.GOLDEN_HELMET);
+            armorSlot = EquipmentSlot.HEAD.ordinal();
+            armorValue = 2.0;
+        }else if (currentLevel >= 141 && currentLevel < 150) {
+            item = new ItemStack(Material.GOLDEN_CHESTPLATE);
+            armorSlot = EquipmentSlot.LEGS.ordinal();
+            armorValue = 2.0;
+        } else if (currentLevel >= 151 && currentLevel < 160) {
+            item = new ItemStack(Material.GOLDEN_LEGGINGS);
+            armorSlot = EquipmentSlot.LEGS.ordinal();
+            armorValue = 2.0;
+        } else if (currentLevel >= 161 && currentLevel < 175) {
+            item = new ItemStack(Material.GOLDEN_BOOTS);
+            armorSlot = EquipmentSlot.FEET.ordinal();
+            armorValue = 2.0;
+        } else if (currentLevel >= 176 && currentLevel < 185) {
+            item = new ItemStack(Material.DIAMOND_HELMET);
+            armorSlot = EquipmentSlot.HEAD.ordinal();
+            armorValue = 2.0;
+        } else if (currentLevel >= 186 && currentLevel < 195) {
+            item = new ItemStack(Material.DIAMOND_CHESTPLATE);
+            armorSlot = EquipmentSlot.CHEST.ordinal();
+            armorValue = 2.0;
+        } else if (currentLevel >= 196 && currentLevel < 205) {
+            item = new ItemStack(Material.DIAMOND_LEGGINGS);
+            armorSlot = EquipmentSlot.LEGS.ordinal();
+            armorValue = 2.0;
+        }else if (currentLevel >= 206 && currentLevel < 215) {
+            item = new ItemStack(Material.DIAMOND_BOOTS);
+            armorSlot = EquipmentSlot.FEET.ordinal();
+            armorValue = 2.0;
+        } else if (currentLevel >= 216 && currentLevel < 230) {
+            item = new ItemStack(Material.NETHERITE_HELMET);
+            armorSlot = EquipmentSlot.HEAD.ordinal();
+            armorValue = 2.0;
+        } else if (currentLevel >= 231 && currentLevel < 245) {
+            item = new ItemStack(Material.NETHERITE_CHESTPLATE);
+            armorSlot = EquipmentSlot.CHEST.ordinal();
+            armorValue = 2.0;
+        } else if (currentLevel >= 246 && currentLevel < 260) {
+            item = new ItemStack(Material.NETHERITE_LEGGINGS);
+            armorSlot = EquipmentSlot.LEGS.ordinal();
+            armorValue = 2.0;
+        } else if (currentLevel >= 261 && currentLevel < 280) {
+            item = new ItemStack(Material.NETHERITE_BOOTS);
             armorSlot = EquipmentSlot.FEET.ordinal();
             armorValue = 2.0;
         }

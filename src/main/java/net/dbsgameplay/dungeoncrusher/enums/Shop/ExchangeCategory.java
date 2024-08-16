@@ -4,6 +4,7 @@ import net.dbsgameplay.dungeoncrusher.Commands.interfaces.ShopCategory;
 import net.dbsgameplay.dungeoncrusher.DungeonCrusher;
 import net.dbsgameplay.dungeoncrusher.sql.MYSQLManager;
 import net.dbsgameplay.dungeoncrusher.utils.Configs.ConfigManager;
+import net.dbsgameplay.dungeoncrusher.utils.Configs.LocationConfigManager;
 import net.dbsgameplay.dungeoncrusher.utils.ScoreboardBuilder;
 import net.dbsgameplay.dungeoncrusher.utils.TexturedHeads;
 import net.dbsgameplay.dungeoncrusher.utils.shops.ShopManager;
@@ -25,7 +26,6 @@ public class ExchangeCategory implements ShopCategory {
     private final MYSQLManager mysqlManager;
     private final ScoreboardBuilder scoreboardBuilder;
     private final Map<Integer, ExchangeCategory.ShopItem> items;
-
     public ExchangeCategory(MYSQLManager mysqlManager) {
         this.mysqlManager = mysqlManager;
         this.scoreboardBuilder = new ScoreboardBuilder(DungeonCrusher.getInstance());

@@ -5,6 +5,7 @@ import net.dbsgameplay.dungeoncrusher.enums.Shop.ExchangeCategory;
 import net.dbsgameplay.dungeoncrusher.enums.Shop.FoodCategory;
 import net.dbsgameplay.dungeoncrusher.objects.PlayerHead;
 import net.dbsgameplay.dungeoncrusher.sql.MYSQLManager;
+import net.dbsgameplay.dungeoncrusher.utils.Configs.LocationConfigManager;
 import net.dbsgameplay.dungeoncrusher.utils.TexturedHeads;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
@@ -18,8 +19,7 @@ import org.bukkit.profile.PlayerProfile;
 import java.util.HashMap;
 import java.util.Map;
 
-public class ShopManager {
-
+public class ShopManager { ;
     MYSQLManager mysqlManager;
     public ShopManager(MYSQLManager mysqlManager) {
         this.mysqlManager = mysqlManager;

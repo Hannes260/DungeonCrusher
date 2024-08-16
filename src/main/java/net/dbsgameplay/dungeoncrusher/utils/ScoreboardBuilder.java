@@ -2,6 +2,7 @@ package net.dbsgameplay.dungeoncrusher.utils;
 
 import me.clip.placeholderapi.PlaceholderAPI;
 import net.dbsgameplay.dungeoncrusher.DungeonCrusher;
+import net.dbsgameplay.dungeoncrusher.enums.MobNameTranslator;
 import net.dbsgameplay.dungeoncrusher.sql.MYSQLManager;
 import net.dbsgameplay.dungeoncrusher.utils.Configs.LocationConfigManager;
 import org.bukkit.Bukkit;
@@ -144,7 +145,7 @@ public class ScoreboardBuilder implements Listener {
         String playerUUID = player.getUniqueId().toString();
         LocationConfigManager locationConfigManager = new LocationConfigManager(DungeonCrusher.getInstance());
         // Finde den nächsten nicht freigeschalteten Dungeon
-        String nextUnlockedDungeon = getNextUnlockedDungeon(player.getUniqueId().toString());
+        String nextUnlockedDungeon = getNextUnlockedDungeon(player.getUniqueId().toString(), player);
 
         if (nextUnlockedDungeon != null) {
             Integer requiredKills = locationConfigManager.getKills(nextUnlockedDungeon);
@@ -164,15 +165,13 @@ public class ScoreboardBuilder implements Listener {
             }
         }
     }
-    // LocationConfigManager locationConfigManager = new LocationConfigManager(DungeonCrusher.getPlugin());
-    private String getNextUnlockedDungeon(String playerUUID) {
+    private String getNextUnlockedDungeon(String playerUUID, Player player) {
         // Alle Dungeons aus der Konfigurationsdatei abrufen
         LocationConfigManager locationConfigManager = new LocationConfigManager(DungeonCrusher.getInstance());
         List<String> allDungeons = locationConfigManager.getDungeonsAndSavezones().keySet().stream()
                 .filter(name -> name.startsWith("dungeon"))
                 .collect(Collectors.toList());
 
-        // Aktuelle Anzahl der Kills des Spielers abrufen
         String currentKillsString = mysqlManager.getKills(playerUUID);
         int currentKills = currentKillsString != null ? Integer.parseInt(currentKillsString) : 0;
 
@@ -214,17 +213,5 @@ public class ScoreboardBuilder implements Listener {
 
         String newPrefix = "§f" + currentMoneyFormatted + "§f€";
         moneyTeam.setPrefix(newPrefix);
-    }
-    private boolean hasRequiredKills(Player player, String dungeonName) {
-        LocationConfigManager locationConfigManager = new LocationConfigManager(DungeonCrusher.getInstance());
-        Integer kills = Integer.parseInt(mysqlManager.getKills(String.valueOf(player.getUniqueId())));
-        Integer requiredKills = locationConfigManager.getKills(dungeonName);
-
-        // Wenn requiredKills null ist, setze den Wert auf 0
-        if (requiredKills == null) {
-            requiredKills = 0;
-        }
-
-        return kills >= requiredKills;
     }
 }

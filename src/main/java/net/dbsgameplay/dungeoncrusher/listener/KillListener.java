@@ -2,6 +2,7 @@ package net.dbsgameplay.dungeoncrusher.listener; // Korrekter Paketname entsprec
 
 import net.dbsgameplay.dungeoncrusher.DungeonCrusher;
 import net.dbsgameplay.dungeoncrusher.sql.MYSQLManager;
+import net.dbsgameplay.dungeoncrusher.utils.Configs.LocationConfigManager;
 import net.dbsgameplay.dungeoncrusher.utils.ScoreboardBuilder;
 import org.bukkit.entity.EntityType;
 import org.bukkit.event.EventHandler;

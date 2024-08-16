@@ -46,3 +46,4 @@ commands:
     aliases: [gamemode]
   heal:
     aliases: [heilen]
+  test:

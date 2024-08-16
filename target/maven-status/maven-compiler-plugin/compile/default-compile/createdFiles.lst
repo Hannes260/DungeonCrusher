@@ -6,6 +6,7 @@ net\dbsgameplay\dungeoncrusher\Commands\Shops\ShopCommand.class
 net\dbsgameplay\dungeoncrusher\enums\Shop\FoodCategory.class
 net\dbsgameplay\dungeoncrusher\listener\Damage\DeathListener.class
 net\dbsgameplay\dungeoncrusher\objects\PlayerHead.class
+net\dbsgameplay\dungeoncrusher\enums\MobNameTranslator.class
 net\dbsgameplay\dungeoncrusher\utils\Manager\SavezoneManager.class
 net\dbsgameplay\dungeoncrusher\utils\shops\ShopManager.class
 net\dbsgameplay\dungeoncrusher\utils\Configs\DropsConfigManager.class
@@ -50,11 +51,9 @@ net\dbsgameplay\dungeoncrusher\DungeonCrusher.class
 net\dbsgameplay\dungeoncrusher\utils\upgrades\UpgradeManager.class
 net\dbsgameplay\dungeoncrusher\Commands\BuildCommand.class
 net\dbsgameplay\dungeoncrusher\listener\Damage\CustomDropListener.class
-net\dbsgameplay\dungeoncrusher\Commands\Testcommand.class
 net\dbsgameplay\dungeoncrusher\listener\DungeonListener.class
 net\dbsgameplay\dungeoncrusher\listener\PotionListener.class
 net\dbsgameplay\dungeoncrusher\listener\Damage\CustomDropListener$1.class
-net\dbsgameplay\dungeoncrusher\utils\upgrades\ArmorUpgradeManager.class
 net\dbsgameplay\dungeoncrusher\Commands\ErfolgeCommand.class
 net\dbsgameplay\dungeoncrusher\utils\ScoreboardBuilder.class
 net\dbsgameplay\dungeoncrusher\utils\Configs\ConfigManager.class

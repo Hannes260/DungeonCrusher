@@ -4,6 +4,7 @@ import net.dbsgameplay.dungeoncrusher.Commands.interfaces.UpgradeCategory;
 import net.dbsgameplay.dungeoncrusher.DungeonCrusher;
 import net.dbsgameplay.dungeoncrusher.sql.MYSQLManager;
 import net.dbsgameplay.dungeoncrusher.utils.Configs.ConfigManager;
+import net.dbsgameplay.dungeoncrusher.utils.Configs.LocationConfigManager;
 import net.dbsgameplay.dungeoncrusher.utils.ScoreboardBuilder;
 import net.dbsgameplay.dungeoncrusher.utils.TexturedHeads;
 import net.dbsgameplay.dungeoncrusher.utils.upgrades.UpgradeManager;
@@ -27,7 +28,6 @@ public class SwordCategory implements UpgradeCategory {
     private final MYSQLManager mysqlManager;
     private final ScoreboardBuilder scoreboardBuilder;
     private final Map<Integer, ShopItem> upgradeitems;
-
     public SwordCategory(MYSQLManager mysqlManager) {
         this.mysqlManager = mysqlManager;
         this.scoreboardBuilder = new ScoreboardBuilder(DungeonCrusher.getInstance());
@@ -251,6 +251,8 @@ public class SwordCategory implements UpgradeCategory {
             return; // Exit if meta is null
         }
         meta.setDisplayName("§7<<Schwert Lv. " + newLevel + "§7>>");
+        meta.addItemFlags(ItemFlag.HIDE_ADDITIONAL_TOOLTIP);
+        meta.setLore(Collections.singletonList("Attack Damage: " + newAttackDamage));
         meta.setUnbreakable(true);
 
         // Angriffsschaden-Attribut hinzufügen mit NamespacedKey

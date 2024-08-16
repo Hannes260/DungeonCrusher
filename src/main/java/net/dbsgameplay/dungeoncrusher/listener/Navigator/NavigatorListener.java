@@ -2,6 +2,7 @@ package net.dbsgameplay.dungeoncrusher.listener.Navigator;
 
 import me.clip.placeholderapi.PlaceholderAPI;
 import net.dbsgameplay.dungeoncrusher.DungeonCrusher;
+import net.dbsgameplay.dungeoncrusher.enums.MobNameTranslator;
 import net.dbsgameplay.dungeoncrusher.objects.PlayerHead;
 import net.dbsgameplay.dungeoncrusher.sql.MYSQLManager;
 import net.dbsgameplay.dungeoncrusher.utils.Configs.ConfigManager;
@@ -184,8 +185,21 @@ public class NavigatorListener implements Listener {
                         SkullMeta meta = (SkullMeta) barrierItem.getItemMeta();
                         meta.setOwnerProfile(profile);
                         if (meta != null) {
-                            String requiredKillsString = String.valueOf(requiredKills);
+
                             meta.setDisplayName("§c§lNicht Verfügbar.");
+                            String previousDungeonName = locationConfigManager.getPreviousDungeon(dungeonName);
+                            if (previousDungeonName == null) {
+                                return; // Kein vorheriger Dungeon gefunden
+                            }
+
+                            // Hole den Mob-Typ für den vorherigen Dungeon
+                            String previousDungeonMobType = String.valueOf(locationConfigManager.getMobTypesForDungeon(previousDungeonName));
+                            String germanMobType = MobNameTranslator.translateToGerman(previousDungeonMobType);
+
+                            // Hole die Kills des Spielers für den Mob-Typ des vorherigen Dungeons
+                            int kills = mysqlManager.getPlayerMobKills(String.valueOf(player.getUniqueId()), germanMobType);
+                            int finalkills = requiredKills - kills;
+                            String requiredKillsString = String.valueOf( finalkills);
                             meta.setLore(Collections.singletonList(ConfigManager.getConfigMessage("message.requiredkillsforupgrade", "%required_kills%", requiredKillsString)));
                             barrierItem.setItemMeta(meta);
                             navigatorInventory.setItem(inventorySlot, barrierItem);
@@ -275,11 +289,27 @@ public class NavigatorListener implements Listener {
         Location spawnLocation = locationConfigManager.getSpawn();
         player.teleport(spawnLocation);
 }
-    private boolean hasRequiredKills(Player player, String dungeonName) {
-        Integer kills = Integer.parseInt(mysqlManager.getKills(String.valueOf(player.getUniqueId())));
-        Integer requiredKills = locationConfigManager.getKills(dungeonName);
+    private boolean hasRequiredKills(Player player, String currentDungeonName) {
+        // Prüfe, ob es sich um Dungeon 1 handelt
+        if ("dungeon1".equals(currentDungeonName)) {
+            // Dungeon 1 ist immer freigeschaltet
+            return true;
+        }
+        // Hole den Namen des vorherigen Dungeons
+        String previousDungeonName = locationConfigManager.getPreviousDungeon(currentDungeonName);
+        if (previousDungeonName == null) {
+            return false; // Kein vorheriger Dungeon gefunden
+        }
 
-        // Wenn requiredKills null ist, setze den Wert auf 0
+        // Hole den Mob-Typ für den vorherigen Dungeon
+        String previousDungeonMobType = String.valueOf(locationConfigManager.getMobTypesForDungeon(previousDungeonName));
+        String germanMobType = MobNameTranslator.translateToGerman(previousDungeonMobType);
+
+        // Hole die Kills des Spielers für den Mob-Typ des vorherigen Dungeons
+        int kills = mysqlManager.getPlayerMobKills(String.valueOf(player.getUniqueId()), germanMobType);
+
+        // Hole die erforderlichen Kills für den aktuellen Dungeon
+        Integer requiredKills = locationConfigManager.getKills(currentDungeonName);
         if (requiredKills == null) {
             requiredKills = 0;
         }
