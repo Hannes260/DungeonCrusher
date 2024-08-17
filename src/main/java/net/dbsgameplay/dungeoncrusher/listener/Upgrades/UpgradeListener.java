@@ -25,7 +25,6 @@ public class UpgradeListener implements Listener {
         }
 
         String title = event.getView().getTitle();
-        System.out.println(title);
         String DisplayName = "§f<shift:-8>%oraxen_upgrade%";
         DisplayName = PlaceholderAPI.setPlaceholders(player, DisplayName);
         if (event.getAction() == InventoryAction.HOTBAR_MOVE_AND_READD || event.getClick() == ClickType.NUMBER_KEY) {

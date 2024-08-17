@@ -1,4 +1,4 @@
-package net.dbsgameplay.dungeoncrusher.Commands;
+package net.dbsgameplay.dungeoncrusher.Commands.Admin;
 
 import net.dbsgameplay.dungeoncrusher.listener.protections.DungeonProtectionListener;
 import net.dbsgameplay.dungeoncrusher.utils.Configs.ConfigManager;
@@ -6,8 +6,6 @@ import org.bukkit.GameMode;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
-import org.bukkit.entity.Entity;
-import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 
 public class BuildCommand implements CommandExecutor {

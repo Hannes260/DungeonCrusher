@@ -1,4 +1,4 @@
-package net.dbsgameplay.dungeoncrusher.Commands;
+package net.dbsgameplay.dungeoncrusher.Commands.Admin;
 
 import net.dbsgameplay.dungeoncrusher.utils.Configs.ConfigManager;
 import org.bukkit.Bukkit;

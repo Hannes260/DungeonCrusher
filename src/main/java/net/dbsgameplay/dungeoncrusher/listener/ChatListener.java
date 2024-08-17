@@ -22,7 +22,7 @@ public class ChatListener implements Listener {
             "drücker", "dummschwätzer", "blödes ding", "schwachsinn", "trottelkopf",
             "saftschubse", "pennergesicht", "flachzange", "zirkusclown", "abschreiber",
             "schlafmütze", "lauch", "apfelschäler", "stinkfinger", "schwachkopf",
-            "vollspast", "abfalleimer", "kackbrötchen", "faulpelz", "arsch", "arschloch"
+            "vollspast", "abfalleimer", "kackbrötchen", "faulpelz", "arsch", "arschloch","fick"
     );
 
     @EventHandler
