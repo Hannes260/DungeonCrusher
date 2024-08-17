@@ -9,6 +9,7 @@ import net.dbsgameplay.dungeoncrusher.utils.Configs.ConfigManager;
 import net.dbsgameplay.dungeoncrusher.utils.Configs.LocationConfigManager;
 import net.dbsgameplay.dungeoncrusher.utils.TexturedHeads;
 import net.dbsgameplay.dungeoncrusher.utils.shops.ShopManager;
+import net.dbsgameplay.dungeoncrusher.utils.upgrades.UpgradeManager;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -128,6 +129,7 @@ public class NavigatorListener implements Listener {
                     player.sendMessage(ConfigManager.getPrefix() + ConfigManager.getConfigMessage("message.notenoughkills", "", ""));
                 } else if (itemName.equals("§7➢ §bUpgrades")) {
                     player.playSound(player.getLocation(), Sound.BLOCK_LEVER_CLICK, 1.0f, 1.0f);
+                    UpgradeManager.openMainMenu(player);
             } else if (clickedItem.getType().equals(Material.LIGHT_GRAY_STAINED_GLASS_PANE)) {
                     return;
                 } else if (itemName.equals("§7➢ §bShop")) {

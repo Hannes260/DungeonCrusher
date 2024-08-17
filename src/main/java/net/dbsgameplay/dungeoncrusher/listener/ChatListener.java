@@ -47,7 +47,7 @@ public class ChatListener implements Listener {
         event.setMessage(filteredMessage);
 
         // Originalnachricht an Discord senden
-        String fullMessage = "**" + playerName + "**: " + originalMessage;
+        String fullMessage = playerName + ": " + originalMessage;
         int color = isOffensive ? 0xFFFF00 : 0x00FF00; // Gelb für Beleidigungen, Grün für normale Nachrichten
         DungeonCrusher.getInstance().sendToDiscord(fullMessage, color);
     }

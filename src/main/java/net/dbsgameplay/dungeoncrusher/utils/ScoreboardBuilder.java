@@ -17,7 +17,9 @@ import org.bukkit.scoreboard.Objective;
 import org.bukkit.scoreboard.Scoreboard;
 import org.bukkit.scoreboard.Team;
 
+import java.util.Comparator;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 public class ScoreboardBuilder implements Listener {
@@ -145,14 +147,14 @@ public class ScoreboardBuilder implements Listener {
         String playerUUID = player.getUniqueId().toString();
         LocationConfigManager locationConfigManager = new LocationConfigManager(DungeonCrusher.getInstance());
         // Finde den nächsten nicht freigeschalteten Dungeon
-        String nextUnlockedDungeon = getNextUnlockedDungeon(player.getUniqueId().toString(), player);
+        int currentDungeonCount = mysqlManager.getDungeonCountForPlayer(String.valueOf(player.getUniqueId()));
+        int nextDungeonCount = currentDungeonCount + 1;
 
-        if (nextUnlockedDungeon != null) {
-            Integer requiredKills = locationConfigManager.getKills(nextUnlockedDungeon);
-            if (requiredKills != null) {
-                String currentKillsString = mysqlManager.getKills(playerUUID);
-                int currentKills = currentKillsString != null ? Integer.parseInt(currentKillsString) : 0;
-                int killsNeeded = Math.max(requiredKills - currentKills, 0); // Berechne benötigte Kills für den nächsten Dungeon
+            int requiredKills = locationConfigManager.getKills(String.valueOf("dungeon"+ nextDungeonCount));
+                String previousDungeonMobType = String.valueOf(locationConfigManager.getMobTypesForDungeon(String.valueOf("dungeon" + currentDungeonCount)));
+                String germanMobType = MobNameTranslator.translateToGerman(previousDungeonMobType);
+                int kills = mysqlManager.getPlayerMobKills(String.valueOf(player.getUniqueId()), germanMobType);
+                int finalkills = requiredKills - kills;
 
                 Team dungeonKillsTeam = scoreboard.getTeam("dungeonkills");
                 if (dungeonKillsTeam == null) {
@@ -160,47 +162,25 @@ public class ScoreboardBuilder implements Listener {
                 }
                 String nextDungeon = "%oraxen_next_dungeon%";
                 nextDungeon = PlaceholderAPI.setPlaceholders(player, nextDungeon);
-                String newPrefix = nextDungeon  + " §f" + killsNeeded + "💀";
+                String skull = "%oraxen_skull%";
+                skull = PlaceholderAPI.setPlaceholders(player, skull);
+                String newPrefix = nextDungeon + " §f" + finalkills + skull;
                 dungeonKillsTeam.setPrefix(newPrefix);
-            }
-        }
-    }
-    private String getNextUnlockedDungeon(String playerUUID, Player player) {
-        // Alle Dungeons aus der Konfigurationsdatei abrufen
-        LocationConfigManager locationConfigManager = new LocationConfigManager(DungeonCrusher.getInstance());
-        List<String> allDungeons = locationConfigManager.getDungeonsAndSavezones().keySet().stream()
-                .filter(name -> name.startsWith("dungeon"))
-                .collect(Collectors.toList());
-
-        String currentKillsString = mysqlManager.getKills(playerUUID);
-        int currentKills = currentKillsString != null ? Integer.parseInt(currentKillsString) : 0;
-
-        // Variablen initialisieren, um den nächsten nicht freigeschalteten Dungeon zu verfolgen
-        String nextDungeon = null;
-        int minDifference = Integer.MAX_VALUE;
-
-        // Den nächsten nicht freigeschalteten Dungeon finden
-        for (String dungeon : allDungeons) {
-            Integer requiredKills = locationConfigManager.getKills(dungeon);
-            if (requiredKills != null && currentKills < requiredKills) {
-                int difference = requiredKills - currentKills;
-                if (difference < minDifference) {
-                    minDifference = difference;
-                    nextDungeon = dungeon;
-                }
-            }
-        }
-
-        return nextDungeon;
     }
 
+    private int extractDungeonNumber(String dungeonName) {
+        try {
+            return Integer.parseInt(dungeonName.replace("dungeon", ""));
+        } catch (NumberFormatException e) {
+            return Integer.MAX_VALUE;
+        }
+    }
     public String getPlayerBalanceFromDB(Player player) {
         String playerUUID = player.getUniqueId().toString();
         String balance = "0.00"; // Standardwert, falls der Spieler noch nicht in der Datenbank existiert
         balance = String.valueOf(mysqlManager.getBalance(playerUUID));
         return balance;
     }
-
     public void updateMoney(Player player) {
         Scoreboard scoreboard = player.getScoreboard();
 

@@ -6,6 +6,8 @@ import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.inventory.ClickType;
+import org.bukkit.event.inventory.InventoryAction;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
@@ -26,6 +28,10 @@ public class UpgradeListener implements Listener {
         System.out.println(title);
         String DisplayName = "§f<shift:-8>%oraxen_upgrade%";
         DisplayName = PlaceholderAPI.setPlaceholders(player, DisplayName);
+        if (event.getAction() == InventoryAction.HOTBAR_MOVE_AND_READD || event.getClick() == ClickType.NUMBER_KEY) {
+            event.setCancelled(true);
+            return;
+        }
         // Prüfe, ob der Titel des Inventars mit dem Upgrade-Inventar übereinstimmt
         if (DisplayName.equalsIgnoreCase(title)) {
             event.setCancelled(true);

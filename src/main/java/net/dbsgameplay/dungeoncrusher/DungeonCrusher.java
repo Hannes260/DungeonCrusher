@@ -154,6 +154,7 @@ public final class DungeonCrusher extends JavaPlugin {
         getCommand("erfolge").setExecutor(new ErfolgeCommand(this, locationConfigManager));
         getCommand("gm").setExecutor(new Gamemode());
         getCommand("heal").setExecutor(new HealCommand());
+        getCommand("ping").setExecutor(new PingCommand());
 
         // Tab Completers
         getCommand("config").setTabCompleter(this);
@@ -174,7 +175,7 @@ public final class DungeonCrusher extends JavaPlugin {
         pluginManager.registerEvents(new MobDamageListener(new MobHealthBuilder()), this);
         pluginManager.registerEvents(new CustomDropListener(this, mysqlManager, dropsConfigManager), this);
         pluginManager.registerEvents(new DungeonListener(locationConfigManager), this);
-        pluginManager.registerEvents(new MobkillListener(), this);
+        pluginManager.registerEvents(new MobkillListener(mysqlManager, this), this);
         pluginManager.registerEvents(new ShopListener(), this);
         pluginManager.registerEvents(new NavigatorListener(this, locationConfigManager, mysqlManager), this);
         pluginManager.registerEvents(new PotionListener(), this);

@@ -27,7 +27,7 @@ public class MobNameTranslator {
             case "villager":
                 return "Dorfbewohner";
             case "goat":
-                return "Ziegen"; // Singularform für Konsistenz
+                return "Ziegen";
             case "llama":
                 return "Lama";
             case "mooshroom":
@@ -123,7 +123,7 @@ public class MobNameTranslator {
             case "warden":
                 return "Wärter";
             default:
-                return null; // Rückfall auf "Unbekannt" bei fehlender Übersetzung
+                return "Unbekannt"; // Rückfall auf "Unbekannt" bei fehlender Übersetzung
         }
     }
 }
