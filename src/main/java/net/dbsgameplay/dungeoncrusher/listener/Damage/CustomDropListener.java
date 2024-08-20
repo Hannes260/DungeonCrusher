@@ -4,7 +4,6 @@ import net.dbsgameplay.dungeoncrusher.DungeonCrusher;
 import net.dbsgameplay.dungeoncrusher.sql.MYSQLManager;
 import net.dbsgameplay.dungeoncrusher.utils.Configs.ConfigManager;
 import net.dbsgameplay.dungeoncrusher.utils.Configs.DropsConfigManager;
-import net.dbsgameplay.dungeoncrusher.utils.Configs.LocationConfigManager;
 import net.dbsgameplay.dungeoncrusher.utils.Manager.HologramManager;
 import net.dbsgameplay.dungeoncrusher.utils.ScoreboardBuilder;
 import org.bukkit.*;
@@ -89,7 +88,7 @@ public class CustomDropListener implements Listener {
         String itemName = translateMaterialName(material);
         player.sendMessage(ConfigManager.getConfigMessage("message.additem", "%item%", itemName, "%amount%", String.valueOf(amountToDrop)));
         Location hologramLocation = event.getEntity().getLocation(); // Position des getöteten Mobs
-        HologramManager.spawnItemHologram(hologramLocation, items.getType().toString());
+        HologramManager.spawnItemHologram(hologramLocation, itemName);
     }
     public static String translateMaterialName(Material material) {
         switch (material) {

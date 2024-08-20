@@ -59,4 +59,7 @@ commands:
   ping:
     description: Sehe deinen Ping ein
     aliases: [internet]
+  reset:
+    description: Setzte einen Spieler zurück
+    permission: dc.command.reset
   test:

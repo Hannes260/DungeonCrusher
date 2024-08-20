@@ -5,6 +5,7 @@ import net.dbsgameplay.dungeoncrusher.enums.MobNameTranslator;
 import net.dbsgameplay.dungeoncrusher.sql.MYSQLManager;
 import net.dbsgameplay.dungeoncrusher.utils.Configs.ConfigManager;
 import net.dbsgameplay.dungeoncrusher.utils.Configs.LocationConfigManager;
+import net.dbsgameplay.dungeoncrusher.utils.ScoreboardBuilder;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -16,9 +17,11 @@ import org.bukkit.inventory.ItemStack;
 public class MobkillListener implements Listener {
     private final MYSQLManager mysqlManager;
     private final DungeonCrusher dungeonCrusher;
+    private ScoreboardBuilder scoreboardBuilder;
 
     public MobkillListener(MYSQLManager mysqlManager, DungeonCrusher dungeonCrusher) {
         this.mysqlManager = mysqlManager;
+        this.scoreboardBuilder = new ScoreboardBuilder(dungeonCrusher);
         this.dungeonCrusher = dungeonCrusher;
     }
 
@@ -36,22 +39,31 @@ public class MobkillListener implements Listener {
                 event.getDrops().clear();
                 if (hasRequiredKills(player, "dungeon9")) {
                     mysqlManager.updateDungeonCount(String.valueOf(player.getUniqueId()), 9);
+                    scoreboardBuilder.updateDungeon(player);
                 }else if (hasRequiredKills(player, "dungeon8")) {
                     mysqlManager.updateDungeonCount(String.valueOf(player.getUniqueId()), 8);
+                    scoreboardBuilder.updateDungeon(player);
                 }else if (hasRequiredKills(player, "dungeon7")) {
                     mysqlManager.updateDungeonCount(String.valueOf(player.getUniqueId()), 7);
+                    scoreboardBuilder.updateDungeon(player);
                 }else if (hasRequiredKills(player, "dungeon6")) {
                     mysqlManager.updateDungeonCount(String.valueOf(player.getUniqueId()), 6);
+                    scoreboardBuilder.updateDungeon(player);
                 }else if (hasRequiredKills(player, "dungeon5")) {
                     mysqlManager.updateDungeonCount(String.valueOf(player.getUniqueId()), 5);
+                    scoreboardBuilder.updateDungeon(player);
                 }else if (hasRequiredKills(player, "dungeon4")) {
                     mysqlManager.updateDungeonCount(String.valueOf(player.getUniqueId()), 4);
+                    scoreboardBuilder.updateDungeon(player);
                 }else if (hasRequiredKills(player, "dungeon3")) {
                     mysqlManager.updateDungeonCount(String.valueOf(player.getUniqueId()), 3);
+                    scoreboardBuilder.updateDungeon(player);
                 } else if (hasRequiredKills(player, "dungeon2")) {
                     mysqlManager.updateDungeonCount(String.valueOf(player.getUniqueId()), 2);
+                    scoreboardBuilder.updateDungeon(player);
                 } else if (hasRequiredKills(player, "dungeon1")) {
                     mysqlManager.updateDungeonCount(String.valueOf(player.getUniqueId()), 1);
+                    scoreboardBuilder.updateDungeon(player);
                 }
             } else {
                 player.sendMessage(ConfigManager.getPrefix() + ConfigManager.getConfigMessage("message.inventoryfull","",""));

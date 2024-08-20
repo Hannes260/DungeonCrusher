@@ -127,6 +127,7 @@ public class NavigatorListener implements Listener {
                     teleportToSpawn(player);
                 } else if (itemName.equals("§c§lNicht Verfügbar.")) {
                     player.sendMessage(ConfigManager.getPrefix() + ConfigManager.getConfigMessage("message.notenoughkills", "", ""));
+                    player.playSound(player.getLocation(), Sound.BLOCK_IRON_DOOR_OPEN, 1.0f, 1.0f);
                 } else if (itemName.equals("§7➢ §bUpgrades")) {
                     player.playSound(player.getLocation(), Sound.BLOCK_LEVER_CLICK, 1.0f, 1.0f);
                     UpgradeManager.openMainMenu(player);

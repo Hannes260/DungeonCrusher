@@ -33,7 +33,7 @@ public class ErfolgeCommand implements CommandExecutor {
             p.playSound(p.getLocation(), Sound.ENTITY_PLAYER_LEVELUP, 10, 1);
             p.openInventory(ErfolgeBuilders.getInventory(locationConfigManager.getEbene(p), p));
         }else {
-            p.sendMessage(ConfigManager.getPrefix() + ConfigManager.getConfigMessage("message.erfolgeusage"),"","");
+            p.sendMessage(ConfigManager.getPrefix() + ConfigManager.getConfigMessage("message.erfolgeusage","",""));
         }
 
         return false;

@@ -10,6 +10,7 @@ import com.zaxxer.hikari.HikariDataSource;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -314,7 +315,6 @@ public class MYSQLManager {
         return itemAmount;
 
     }
-
     public void updateItemAmount(String uuid, String itemName, int newItemAmount) {
         try (Connection connection = dataSource.getConnection()) {
             // Aktualisiere die Item-Menge
@@ -334,6 +334,44 @@ public class MYSQLManager {
                         insertStatement.executeUpdate();
                     }
                 }
+            }
+
+            if (!connection.getAutoCommit()) {
+                connection.commit();
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+    public void deletePlayerfromItems(String uuid) {
+        try (Connection connection = dataSource.getConnection()) {
+            // Erstelle das SQL-Statement zum Löschen des gesamten Eintrags
+            String deleteQuery = "DELETE FROM player_items WHERE uuid = ?";
+
+            try (PreparedStatement deleteStatement = connection.prepareStatement(deleteQuery)) {
+                deleteStatement.setString(1, uuid);
+
+                // Führe das Statement aus, um den Eintrag zu löschen
+                deleteStatement.executeUpdate();
+            }
+
+            if (!connection.getAutoCommit()) {
+                connection.commit();
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+    public void deletePlayerfromMobKills(String uuid) {
+        try (Connection connection = dataSource.getConnection()) {
+            // Erstelle das SQL-Statement zum Löschen des gesamten Eintrags
+            String deleteQuery = "DELETE FROM player_mob_kills WHERE uuid = ?";
+
+            try (PreparedStatement deleteStatement = connection.prepareStatement(deleteQuery)) {
+                deleteStatement.setString(1, uuid);
+
+                // Führe das Statement aus, um den Eintrag zu löschen
+                deleteStatement.executeUpdate();
             }
 
             if (!connection.getAutoCommit()) {

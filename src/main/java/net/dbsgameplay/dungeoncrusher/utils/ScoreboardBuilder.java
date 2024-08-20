@@ -12,15 +12,11 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
+import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scoreboard.DisplaySlot;
 import org.bukkit.scoreboard.Objective;
 import org.bukkit.scoreboard.Scoreboard;
 import org.bukkit.scoreboard.Team;
-
-import java.util.Comparator;
-import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
 
 public class ScoreboardBuilder implements Listener {
 
@@ -49,9 +45,6 @@ public class ScoreboardBuilder implements Listener {
         String Online = "%oraxen_online%";
         Online = PlaceholderAPI.setPlaceholders(player, Online);
 
-        String Dungeon = "%oraxen_dungeon%";
-        Dungeon = PlaceholderAPI.setPlaceholders(player, Dungeon);
-
         String displayname = "%oraxen_dungeoncrusher%";
         displayname = PlaceholderAPI.setPlaceholders(player, displayname);
         obj.setDisplayName(displayname);
@@ -60,7 +53,7 @@ public class ScoreboardBuilder implements Listener {
         obj.getScore(Geld).setScore(10);
         obj.getScore("§d").setScore(9);
         obj.getScore("§b").setScore(8);
-        obj.getScore(Dungeon).setScore(7);
+        obj.getScore("§2").setScore(7);
         obj.getScore("§3").setScore(6);
         obj.getScore("§6").setScore(5);
         obj.getScore("§5").setScore(4);
@@ -87,7 +80,13 @@ public class ScoreboardBuilder implements Listener {
         Team kills = scoreboard.registerNewTeam("kills");
         kills.addEntry("§3");
         updateKills(player);
+
         //Dungeons
+        Team dungeon = scoreboard.registerNewTeam("dungeon");
+        dungeon.addEntry("§2");
+        updateDungeon(player);
+
+        //nextdungeonKills
         Team dungeonkills = scoreboard.registerNewTeam("dungeonkills");
         dungeonkills.addEntry("§6");
         updateDungeonKills(player);
@@ -127,6 +126,27 @@ public class ScoreboardBuilder implements Listener {
             scoreboard.getTeam("onlineCounter").setPrefix("" + ChatColor.WHITE + Bukkit.getOnlinePlayers().size() + ChatColor.WHITE + "/" + ChatColor.WHITE + Bukkit.getMaxPlayers());
         }
     }
+    public void updateDungeon(Player player) {
+        new BukkitRunnable(){
+            @Override
+            public void run() {
+                Scoreboard scoreboard = player.getScoreboard();
+
+                String playerUUID = String.valueOf(player.getUniqueId());
+                String dungeon = String.valueOf(mysqlManager.getDungeonCountForPlayer(playerUUID));
+
+                Team dungeonTeam = scoreboard.getTeam("dungeon");
+                if (dungeonTeam == null) {
+                    dungeonTeam = scoreboard.registerNewTeam("dungeon");
+                }
+                String Dungeon = "%oraxen_dungeon%";
+                Dungeon = PlaceholderAPI.setPlaceholders(player, Dungeon);
+                String newPrefix = Dungeon + " §f"+ dungeon;
+                dungeonTeam.setPrefix(newPrefix);
+            }
+        }.runTaskLater(DungeonCrusher.getInstance(), 40L);
+
+    }
     public void updateKills(Player player) {
         Scoreboard scoreboard = player.getScoreboard();
 
@@ -143,14 +163,17 @@ public class ScoreboardBuilder implements Listener {
         killsTeam.setPrefix(newPrefix);
     }
     public void updateDungeonKills(Player player) {
-        Scoreboard scoreboard = player.getScoreboard();
-        String playerUUID = player.getUniqueId().toString();
-        LocationConfigManager locationConfigManager = new LocationConfigManager(DungeonCrusher.getInstance());
-        // Finde den nächsten nicht freigeschalteten Dungeon
-        int currentDungeonCount = mysqlManager.getDungeonCountForPlayer(String.valueOf(player.getUniqueId()));
-        int nextDungeonCount = currentDungeonCount + 1;
+        new BukkitRunnable() {
+            @Override
+            public void run() {
+                Scoreboard scoreboard = player.getScoreboard();
+                String playerUUID = player.getUniqueId().toString();
+                LocationConfigManager locationConfigManager = new LocationConfigManager(DungeonCrusher.getInstance());
+                // Finde den nächsten nicht freigeschalteten Dungeon
+                int currentDungeonCount = mysqlManager.getDungeonCountForPlayer(String.valueOf(player.getUniqueId()));
+                int nextDungeonCount = currentDungeonCount + 1;
 
-            int requiredKills = locationConfigManager.getKills(String.valueOf("dungeon"+ nextDungeonCount));
+                int requiredKills = locationConfigManager.getKills(String.valueOf("dungeon"+ nextDungeonCount));
                 String previousDungeonMobType = String.valueOf(locationConfigManager.getMobTypesForDungeon(String.valueOf("dungeon" + currentDungeonCount)));
                 String germanMobType = MobNameTranslator.translateToGerman(previousDungeonMobType);
                 int kills = mysqlManager.getPlayerMobKills(String.valueOf(player.getUniqueId()), germanMobType);
@@ -166,6 +189,8 @@ public class ScoreboardBuilder implements Listener {
                 skull = PlaceholderAPI.setPlaceholders(player, skull);
                 String newPrefix = nextDungeon + " §f" + finalkills + skull;
                 dungeonKillsTeam.setPrefix(newPrefix);
+            }
+        }.runTaskLater(DungeonCrusher.getInstance(), 20L);
     }
 
     private int extractDungeonNumber(String dungeonName) {

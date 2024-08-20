@@ -11,6 +11,7 @@ import net.dbsgameplay.dungeoncrusher.utils.upgrades.UpgradeManager;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
+import org.bukkit.Sound;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.attribute.AttributeModifier;
 import org.bukkit.enchantments.Enchantment;
@@ -31,7 +32,6 @@ public class SwordCategory implements UpgradeCategory {
     public SwordCategory(MYSQLManager mysqlManager) {
         this.mysqlManager = mysqlManager;
         this.scoreboardBuilder = new ScoreboardBuilder(DungeonCrusher.getInstance());
-
         this.upgradeitems = new HashMap<>();
         upgradeitems.put(20, new ShopItem("§7➢ Schwert Upgrade", Material.DIAMOND_SWORD, 25, Arrays.asList("")));
     }
@@ -61,8 +61,8 @@ public class SwordCategory implements UpgradeCategory {
 
             List<String> lore = new ArrayList<>();
             lore.add("§7Erforderliches Geld: §6" + requiredGeld);
-            lore.add("§7Material 1 (" + getMaterialDisplayName(materialTypes[0]) + "): " + requiredMaterial1 + " (" + currentMaterial1Amount + ")");
-            lore.add("§7Material 2 (" + getMaterialDisplayName(materialTypes[1]) + "): " + requiredMaterial2 + " (" + currentMaterial2Amount + ")");
+            lore.add("§7Material 1 (" + getMaterialDisplayName(materialTypes[0]) + "): §6" + requiredMaterial1 + "§7 (" + currentMaterial1Amount + ")");
+            lore.add("§7Material 2 (" + getMaterialDisplayName(materialTypes[1]) + "): §6" + requiredMaterial2 + "§7 (" + currentMaterial2Amount + ")");
             meta.setLore(lore);
 
             //Visuelle Anezeige
@@ -108,6 +108,7 @@ public class SwordCategory implements UpgradeCategory {
             SwordCategory.ShopItem shopItem = upgradeitems.get(slot);
             if (shopItem.displayName.equals(clickedDisplayName)) {
                 upgradeSword(player, currentLevel);
+                player.playSound(player.getLocation(), Sound.BLOCK_AMETHYST_BLOCK_PLACE, 1.0f, 1.0f);
                 updatePlayerResources(player, currentLevel);
                 mysqlManager.updateSwordLevel(uuid, currentLevel + 1);
                 int nextlevel = currentLevel + 1;
@@ -115,11 +116,11 @@ public class SwordCategory implements UpgradeCategory {
                 String message = "\nHat das schwert geupgradet auf Level " + nextlevel;
                 String fullmessage = "Name: " + playerName + message;
                 DungeonCrusher.getInstance().sendToDiscord(fullmessage, 65280);
+                openMenu(player);
                 player.sendMessage(ConfigManager.getPrefix() + ConfigManager.getConfigMessage("message.upgradesword", "%currentlevel%", String.valueOf(currentLevel + 1)));
                 return;
             }
         }
-        openMenu(player);
     }
     private boolean hasEnoughResourcesForVisuals(Player player, int currentLevel) {
         String uuid = player.getUniqueId().toString();
@@ -157,6 +158,7 @@ public class SwordCategory implements UpgradeCategory {
         // Überprüfen, ob der Spieler genügend Geld hat
         if (currentGeld < requiredGeld) {
             player.sendMessage(ConfigManager.getPrefix() + ConfigManager.getConfigMessage("message.notenoughmoneyforupgrade","",""));
+            player.playSound(player.getLocation(), Sound.BLOCK_NOTE_BLOCK_HAT, 1.0f, 1.0f);
             String playerName = player.getName();
             String message = "Konnte das schwert nicht auf Level " + nextlevel + "upgraden! \nzu wenig Geld";
             String fullmessage = "Name: " + playerName +"\n Derzeitiges Level: " + currentLevel + "  \n"+ message ;
@@ -170,7 +172,7 @@ public class SwordCategory implements UpgradeCategory {
 
         // Überprüfen, ob der Spieler genügend Materialien hat
         if (currentMaterial1Amount < requiredMaterial1) {
-            player.sendMessage(ConfigManager.getPrefix() + ConfigManager.getConfigMessage("message.notenoughmaterialforupgrade", "%materialtypes%", materialTypes[0]));
+            player.sendMessage(ConfigManager.getPrefix() + ConfigManager.getConfigMessage("message.notenoughmaterialforupgrade", "%materialtypes%", getMaterialDisplayName(materialTypes[0])));
             String playerName = player.getName();
             String message = "Konnte das schwert nicht auf Level " + nextlevel + "\n" + " upgraden wegen zu wenig Materialien!";
             String fullmessage = "Name: " + playerName +"\n Derzeitiges Level: " + currentLevel + "  \n"+ message ;
@@ -179,7 +181,7 @@ public class SwordCategory implements UpgradeCategory {
         }
 
         if (currentMaterial2Amount < requiredMaterial2) {
-            player.sendMessage(ConfigManager.getPrefix() + ConfigManager.getConfigMessage("message.notenoughmaterialforupgrade", "%materialtypes%", materialTypes[1]));
+            player.sendMessage(ConfigManager.getPrefix() + ConfigManager.getConfigMessage("message.notenoughmaterialforupgrade", "%materialtypes%", getMaterialDisplayName(materialTypes[1])));
 
             String playerName = player.getName();
             String message = " \nKonnte das schwert nicht auf Level " + nextlevel + "\n" + " upgraden wegen zu wenig Materialien!";
@@ -235,7 +237,6 @@ public class SwordCategory implements UpgradeCategory {
         mysqlManager.updateItemAmount(uuid, materialTypes[1], newMaterial2Amount);
 
         // Spieler informieren
-        player.sendMessage(ConfigManager.getPrefix() + ConfigManager.getConfigMessage("message.upgradesuccesfull"));
         scoreboardBuilder.updateMoney(player);
         setPlayerInventoryItems(player);
     }

@@ -50,7 +50,7 @@ public class Joinlistener implements Listener {
 
         if (!player.hasPlayedBefore()) {
             Bukkit.broadcastMessage(ConfigManager.getConfigMessage("message.firstjoin", "%player%", player.getName()));
-            double startmoney = 1000;
+            double startmoney = 500;
             String formattedMoney = String.format(Locale.ENGLISH, "%,.2f", startmoney);
             mysqlManager.updateBalance(player.getUniqueId().toString(), formattedMoney);
             mysqlManager.updateSwordLevel(player.getUniqueId().toString(), 1);
@@ -67,7 +67,7 @@ public class Joinlistener implements Listener {
             player.getInventory().setItem(0, woodensword);
 
             // Füge 64 gekochtes Rindfleisch hinzu
-            ItemStack food = new ItemStack(Material.COOKED_BEEF, 64);
+            ItemStack food = new ItemStack(Material.BREAD, 5);
             player.getInventory().setItem(1, food);
         }
 

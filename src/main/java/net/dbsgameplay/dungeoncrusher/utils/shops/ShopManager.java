@@ -45,7 +45,7 @@ public class ShopManager { ;
         ItemStack potionhead = new ItemStack(Material.PLAYER_HEAD);
         SkullMeta potionmeta = (SkullMeta) potionhead.getItemMeta();
         potionmeta.setOwnerProfile(potionprofile);
-        potionmeta.setDisplayName("§7➢ Tränke");
+        potionmeta.setDisplayName("§c➢ Coming Soon");
         potionhead.setItemMeta(potionmeta);
         ItemStack exchangeItem = new ItemStack(Material.EMERALD);
         ItemMeta exchangeMeta = exchangeItem.getItemMeta();
