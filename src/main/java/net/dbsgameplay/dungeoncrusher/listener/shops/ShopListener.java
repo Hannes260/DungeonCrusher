@@ -1,6 +1,11 @@
 package net.dbsgameplay.dungeoncrusher.listener.shops;
 
+import me.clip.placeholderapi.PlaceholderAPI;
 import net.dbsgameplay.dungeoncrusher.Commands.interfaces.ShopCategory;
+import net.dbsgameplay.dungeoncrusher.DungeonCrusher;
+import net.dbsgameplay.dungeoncrusher.listener.Navigator.NavigatorListener;
+import net.dbsgameplay.dungeoncrusher.sql.MYSQLManager;
+import net.dbsgameplay.dungeoncrusher.utils.Configs.LocationConfigManager;
 import net.dbsgameplay.dungeoncrusher.utils.shops.ShopManager;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
@@ -16,6 +21,15 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
 public class ShopListener implements Listener {
+    private final LocationConfigManager locationConfigManager;
+    private final MYSQLManager mysqlManager;
+    private final DungeonCrusher dungeonCrusher;
+
+    public ShopListener(DungeonCrusher dungeonCrusher, LocationConfigManager locationConfigManager, MYSQLManager mysqlManager){
+        this.dungeonCrusher = dungeonCrusher;
+        this.locationConfigManager = locationConfigManager;
+        this.mysqlManager = mysqlManager;
+    }
 
     @EventHandler
     public void onInventoryClick(InventoryClickEvent event) {
@@ -26,21 +40,24 @@ public class ShopListener implements Listener {
         if (clickedInventory == null || clickedItem == null || clickedItem.getType().isAir()) {
             return;
         }
-
+        String DisplayName = "§f<shift:-8>%oraxen_shop%";
+        DisplayName = PlaceholderAPI.setPlaceholders(player, DisplayName);
         String title = event.getView().getTitle();
         if (event.getAction() == InventoryAction.HOTBAR_MOVE_AND_READD || event.getClick() == ClickType.NUMBER_KEY) {
             event.setCancelled(true);
             return;
         }
-        if ("Shop".equalsIgnoreCase(title)) {
+        if (DisplayName.equalsIgnoreCase(title)) {
             event.setCancelled(true);
             String categoryName = clickedItem.getItemMeta().getDisplayName().toLowerCase();
             ShopCategory category = ShopManager.getCategory(categoryName);
             if (category != null) {
                 category.openMenu(player);
                 player.playSound(player.getLocation(), Sound.BLOCK_LEVER_CLICK, 1.0f, 1.0f);
-            } else if ("§cSchließen".equals(clickedItem.getItemMeta().getDisplayName())) {
-                player.closeInventory();
+            } else if ("§cZurück".equals(clickedItem.getItemMeta().getDisplayName())) {
+                LocationConfigManager locationConfigManager = new LocationConfigManager(DungeonCrusher.getInstance());
+                NavigatorListener navigatorListener = new NavigatorListener(dungeonCrusher, locationConfigManager, mysqlManager);
+                navigatorListener.openNavigator(player);
                 player.playSound(player.getLocation(), Sound.BLOCK_BARREL_CLOSE, 1.0f, 1.0f);
             }
         } else if (ShopManager.getCategory(title.toLowerCase()) != null) {

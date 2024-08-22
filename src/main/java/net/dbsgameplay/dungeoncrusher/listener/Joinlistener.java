@@ -92,8 +92,9 @@ public class Joinlistener implements Listener {
         }
 
         // Füge den Navigator und das Rohkupfer zum Inventar hinzu
-        ItemStack navigator = new ItemStack(Material.ENDER_EYE);
+        ItemStack navigator = new ItemStack(Material.PAPER);
         ItemMeta navigatormeta = navigator.getItemMeta();
+        navigatormeta.setCustomModelData(200);
         navigatormeta.setDisplayName("§8➡ §9Teleporter §8✖ §7Rechtsklick");
         navigator.setItemMeta(navigatormeta);
         player.getInventory().setItem(8, navigator);
