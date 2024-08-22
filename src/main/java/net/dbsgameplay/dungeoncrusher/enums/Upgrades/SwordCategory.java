@@ -251,7 +251,7 @@ public class SwordCategory implements UpgradeCategory {
         if (meta == null) {
             return; // Exit if meta is null
         }
-        meta.setDisplayName("§7<<Schwert Lv. " + newLevel + "§7>>");
+        meta.setDisplayName("§7<<§6Schwert §aLv. " + newLevel + "§7>>");
         meta.addItemFlags(ItemFlag.HIDE_ADDITIONAL_TOOLTIP);
         meta.setLore(Collections.singletonList("Attack Damage: " + newAttackDamage));
         meta.setUnbreakable(true);

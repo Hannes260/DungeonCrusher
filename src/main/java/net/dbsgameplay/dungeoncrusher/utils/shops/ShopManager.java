@@ -1,20 +1,16 @@
 package net.dbsgameplay.dungeoncrusher.utils.shops;
 
+import me.clip.placeholderapi.PlaceholderAPI;
 import net.dbsgameplay.dungeoncrusher.Commands.interfaces.ShopCategory;
 import net.dbsgameplay.dungeoncrusher.enums.Shop.ExchangeCategory;
 import net.dbsgameplay.dungeoncrusher.enums.Shop.FoodCategory;
-import net.dbsgameplay.dungeoncrusher.objects.PlayerHead;
 import net.dbsgameplay.dungeoncrusher.sql.MYSQLManager;
-import net.dbsgameplay.dungeoncrusher.utils.Configs.LocationConfigManager;
-import net.dbsgameplay.dungeoncrusher.utils.TexturedHeads;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
-import org.bukkit.inventory.meta.SkullMeta;
-import org.bukkit.profile.PlayerProfile;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -32,46 +28,69 @@ public class ShopManager { ;
         categories.put("§7➢ eintausch", new ExchangeCategory(mysqlManager));
     }
 
-    public static void openMainShopMenu(Player player, MYSQLManager mysqlManager){
-        Inventory inv = Bukkit.createInventory(null, 9*6, "Shop");
-        PlayerProfile foodprofile = TexturedHeads.getProfile("https://textures.minecraft.net/texture/1591b61529d25a7ecd6bec00948e6fe155e3007f2d7fe559f3a83c6f808e434d");
-        ItemStack foodhead = new ItemStack(Material.PLAYER_HEAD);
-        SkullMeta foodmeta = (SkullMeta) foodhead.getItemMeta();
-        foodmeta.setOwnerProfile(foodprofile);
+    public static void openMainShopMenu(Player player, MYSQLManager mysqlManager) {
+        String DisplayName = "§f<shift:-8>%oraxen_shop%";
+        DisplayName = PlaceholderAPI.setPlaceholders(player, DisplayName);
+
+        Inventory inv = Bukkit.createInventory(null, 9*6, DisplayName);
+
+        ItemStack foodhead = new ItemStack(Material.PAPER);
+        ItemMeta foodmeta = foodhead.getItemMeta();
+        foodmeta.setCustomModelData(100);
         foodmeta.setDisplayName("§7➢ Essen");
         foodhead.setItemMeta(foodmeta);
 
-        PlayerProfile potionprofile = TexturedHeads.getProfile("https://textures.minecraft.net/texture/a7cc07fbdbfc44b30625d3ab09c7441970e8a571ede29d75be1284f7c8953a9f");
-        ItemStack potionhead = new ItemStack(Material.PLAYER_HEAD);
-        SkullMeta potionmeta = (SkullMeta) potionhead.getItemMeta();
-        potionmeta.setOwnerProfile(potionprofile);
+        ItemStack potionhead = new ItemStack(Material.PAPER);
+        ItemMeta  potionmeta = potionhead.getItemMeta();
+        potionmeta.setCustomModelData(100);
         potionmeta.setDisplayName("§c➢ Coming Soon");
         potionhead.setItemMeta(potionmeta);
-        ItemStack exchangeItem = new ItemStack(Material.EMERALD);
+
+        ItemStack exchangeItem = new ItemStack(Material.PAPER);
         ItemMeta exchangeMeta = exchangeItem.getItemMeta();
+        exchangeMeta.setCustomModelData(100);
         exchangeMeta.setDisplayName("§7➢ Eintausch");
         exchangeItem.setItemMeta(exchangeMeta);
 
         addCloseButton(player, inv);
-        inv.setItem(24, potionhead);
-        inv.setItem(22, exchangeItem);
-        inv.setItem(20, foodhead);
+        int[] potionslots = {15,16,17,24,25,26,33,34,35};
+        for (int slot : potionslots) {
+            inv.setItem(slot, potionhead);
+        }
+        int[] exchangeslots = {12,13,14,21,22,23,30,31,32};
+        for (int slot: exchangeslots) {
+            inv.setItem(slot, exchangeItem);
+        }
+        int[] foodslots = {9,10,11,18,19,20,27,28,29};
+        for (int slot : foodslots) {
+            inv.setItem(slot, foodhead);
+        }
         showBottomRightItem(player, inv, mysqlManager);
         player.openInventory(inv);
     }
 
     private static void showBottomRightItem(Player player, Inventory inventory, MYSQLManager mysqlManager) {
         String currentmoney = mysqlManager.getBalance(player.getUniqueId().toString());
-        inventory.setItem(53, (new PlayerHead(player.getName(), "§9Dein Geld: §a" + currentmoney + "§9€", new String[0])).getItemStack());
+        ItemStack playerItem = new ItemStack(Material.PAPER);
+        ItemMeta playerMeta = playerItem.getItemMeta();
+        playerMeta.setCustomModelData(100);
+        playerMeta.setDisplayName("§9Dein Geld: §a" + currentmoney + "§9€");
+        playerItem.setItemMeta(playerMeta);
+        inventory.setItem(53, playerItem);
+        inventory.setItem(52, playerItem);
+        inventory.setItem(43, playerItem);
+        inventory.setItem(44, playerItem);
     }
 
     public static void addCloseButton(Player player, Inventory inventory) {
-        ItemStack closeItem = new ItemStack(Material.BARRIER);
+        ItemStack closeItem = new ItemStack(Material.PAPER);
         ItemMeta closeMeta = closeItem.getItemMeta();
-        closeMeta.setDisplayName("§cSchließen");
+        closeMeta.setCustomModelData(100);
+        closeMeta.setDisplayName("§cZurück");
         closeItem.setItemMeta(closeMeta);
 
         inventory.setItem(45, closeItem);
+        inventory.setItem(36, closeItem);
     }
 
     public static ShopCategory getCategory(String name) {

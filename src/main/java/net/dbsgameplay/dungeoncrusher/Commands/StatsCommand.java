@@ -21,7 +21,7 @@ public class StatsCommand implements CommandExecutor {
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
             if (sender instanceof Player) {
                 Player player = (Player) sender;
-                if (args.length > 0) {
+                if (args.length == 0) {
                 player.sendMessage(ConfigManager.getPrefix() + "§aKills: §6" + mysqlManager.getKills(String.valueOf(player.getUniqueId())));
             }else
                 player.sendMessage(ConfigManager.getConfigMessage("message.statsusage",""));
