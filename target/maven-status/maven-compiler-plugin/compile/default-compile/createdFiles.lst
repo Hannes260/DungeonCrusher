@@ -2,6 +2,7 @@ net\dbsgameplay\dungeoncrusher\Commands\StatsCommand.class
 net\dbsgameplay\dungeoncrusher\enums\Shop\ExchangeCategory$ShopItem.class
 net\dbsgameplay\dungeoncrusher\Commands\interfaces\UpgradeCategory.class
 net\dbsgameplay\dungeoncrusher\enums\Upgrades\SwordCategory$ShopItem.class
+net\dbsgameplay\dungeoncrusher\Commands\Flycommand.class
 net\dbsgameplay\dungeoncrusher\Commands\Shops\ShopCommand.class
 net\dbsgameplay\dungeoncrusher\enums\Shop\FoodCategory.class
 net\dbsgameplay\dungeoncrusher\listener\Damage\DeathListener.class
@@ -24,6 +25,7 @@ net\dbsgameplay\dungeoncrusher\listener\PotionListener$1.class
 net\dbsgameplay\dungeoncrusher\Commands\Admin\FlySpeedCommand.class
 net\dbsgameplay\dungeoncrusher\Commands\Admin\ConfigCommand.class
 net\dbsgameplay\dungeoncrusher\utils\MobHealthBuilder.class
+net\dbsgameplay\dungeoncrusher\utils\QuestBuilder.class
 net\dbsgameplay\dungeoncrusher\Commands\PingCommand.class
 net\dbsgameplay\dungeoncrusher\sql\MYSQLManager.class
 net\dbsgameplay\dungeoncrusher\utils\Configs\LocationConfigManager.class
@@ -37,6 +39,7 @@ net\dbsgameplay\dungeoncrusher\enums\Upgrades\ArmorCategory.class
 net\dbsgameplay\dungeoncrusher\listener\Damage\MobDamageListener$1.class
 net\dbsgameplay\dungeoncrusher\utils\Manager\MarkingsManager.class
 net\dbsgameplay\dungeoncrusher\Commands\Admin\BuildCommand.class
+net\dbsgameplay\dungeoncrusher\enums\Shop\PotionCategory$ShopItem.class
 net\dbsgameplay\dungeoncrusher\utils\TexturedHeads.class
 net\dbsgameplay\dungeoncrusher\listener\SavezoneListener.class
 net\dbsgameplay\dungeoncrusher\utils\PlayerHeadAPI.class
@@ -72,5 +75,6 @@ net\dbsgameplay\dungeoncrusher\listener\ErfolgeListener.class
 net\dbsgameplay\dungeoncrusher\Commands\SpawnCommand.class
 net\dbsgameplay\dungeoncrusher\listener\BlockListener.class
 net\dbsgameplay\dungeoncrusher\Commands\Economy\CoinsCommand.class
+net\dbsgameplay\dungeoncrusher\enums\Shop\PotionCategory.class
 net\dbsgameplay\dungeoncrusher\Commands\Dailyreward$1.class
 net\dbsgameplay\dungeoncrusher\enums\Shop\ExchangeCategory.class

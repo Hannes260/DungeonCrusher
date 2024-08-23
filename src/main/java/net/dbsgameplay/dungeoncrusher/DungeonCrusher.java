@@ -155,6 +155,7 @@ public final class DungeonCrusher extends JavaPlugin {
         getCommand("heal").setExecutor(new HealCommand());
         getCommand("ping").setExecutor(new PingCommand());
         getCommand("reset").setExecutor(new ResetCommand(this,mysqlManager));
+        getCommand("fly").setExecutor(new Flycommand());
 
         // Tab Completers
         getCommand("config").setTabCompleter(this);

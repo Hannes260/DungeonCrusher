@@ -111,6 +111,7 @@ public class SwordCategory implements UpgradeCategory {
                 player.playSound(player.getLocation(), Sound.BLOCK_AMETHYST_BLOCK_PLACE, 1.0f, 1.0f);
                 updatePlayerResources(player, currentLevel);
                 mysqlManager.updateSwordLevel(uuid, currentLevel + 1);
+                scoreboardBuilder.updateSwordLevel(player);
                 int nextlevel = currentLevel + 1;
                 String playerName = player.getName();
                 String message = "\nHat das schwert geupgradet auf Level " + nextlevel;
