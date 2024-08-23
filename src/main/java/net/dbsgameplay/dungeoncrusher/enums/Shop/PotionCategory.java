@@ -32,32 +32,32 @@ public class PotionCategory implements ShopCategory {
         // Speed 1 Trank
         List<String> speed1lore = Arrays.asList("§7Anzahl: §61", "§7Preis: §6160€", "§7Dauer: §61:30min");
         PotionEffect speed1Effect = new PotionEffect(PotionEffectType.SPEED, 5 * 60 * 20, 0);
-        items.put(11, new PotionCategory.ShopItem("Speed |", Material.POTION, 160, speed1lore, speed1Effect));
+        items.put(11, new PotionCategory.ShopItem("Schnelligkeit I", Material.POTION, 160, speed1lore, speed1Effect));
 
         // Speed 2 Trank
         List<String> speed2lore = Arrays.asList("§7Anzahl: §61", "§7Preis: §6200€", "§7Dauer: §63:00min");
         PotionEffect speedEffect = new PotionEffect(PotionEffectType.SPEED, 3 * 60 * 20, 1); // 3 Minuten Dauer, Stärke 1
-        items.put(29, new PotionCategory.ShopItem("Speed ||", Material.POTION, 200, speed2lore, speedEffect));
+        items.put(29, new PotionCategory.ShopItem("Schnelligkeit II", Material.POTION, 200, speed2lore, speedEffect));
 
         // Stärke 1 Trank
         List<String> strength1lore = Arrays.asList("§7Anzahl: §61", "§7Preis: §6290€", "§7Dauer: §63:00min");
         PotionEffect strength1Effect = new PotionEffect(PotionEffectType.STRENGTH, 3 * 60 * 20, 0); // 1 Minute 3 Sekunden Dauer, Stärke 2
-        items.put(13, new PotionCategory.ShopItem("Strength I", Material.POTION, 290, strength1lore, strength1Effect));
+        items.put(13, new PotionCategory.ShopItem("Stärke I", Material.POTION, 290, strength1lore, strength1Effect));
 
         // Stärke 2 Trank
         List<String> strength2lore = Arrays.asList("§7Anzahl: §61", "§7Preis: §6500€", "§7Dauer: §61:30min");
         PotionEffect strengthEffect = new PotionEffect(PotionEffectType.STRENGTH, 1800, 1); // 1 Minute 3 Sekunden Dauer, Stärke 2
-        items.put(31, new PotionCategory.ShopItem("Strength II", Material.POTION, 500, strength2lore, strengthEffect));
+        items.put(31, new PotionCategory.ShopItem("Stärke II", Material.POTION, 500, strength2lore, strengthEffect));
 
         // Resistance 1 Trank
         List<String> resistancelore = Arrays.asList("§7Anzahl: §61", "§7Preis: §6780€", "§7Dauer: §65:00min");
         PotionEffect resistanceEffect = new PotionEffect(PotionEffectType.RESISTANCE, 5 * 60 * 20, 0);
-        items.put(15, new PotionCategory.ShopItem("Resistance |", Material.POTION, 780, resistancelore, resistanceEffect));
+        items.put(15, new PotionCategory.ShopItem("Resistanz I", Material.POTION, 780, resistancelore, resistanceEffect));
 
         // Resistance 2 Trank
         List<String> resistance2lore = Arrays.asList("§7Anzahl: §61", "§7Preis: §6950€", "§7Dauer: §63:00min");
         PotionEffect resistance2Effect = new PotionEffect(PotionEffectType.RESISTANCE, 3 * 60 * 20, 1);
-        items.put(33, new PotionCategory.ShopItem("Resistance ||", Material.POTION, 950, resistance2lore, resistance2Effect));
+        items.put(33, new PotionCategory.ShopItem("Resistanz II", Material.POTION, 950, resistance2lore, resistance2Effect));
     }
 
     @Override

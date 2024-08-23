@@ -62,4 +62,7 @@ commands:
   reset:
     description: Setzte einen Spieler zurück
     permission: dc.command.reset
+  fly:
+    permission: dc.command.fly
+    aliases: [fliegen]
   test:
