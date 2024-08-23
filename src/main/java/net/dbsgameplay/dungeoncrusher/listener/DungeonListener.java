@@ -189,7 +189,7 @@ public class DungeonListener implements Listener {
         Material blockTwoAboveType = new Location(world, x, y + 1, z).getBlock().getType();
 
         // Überprüfen, ob der Block an der Spawn-Position begehbar ist und der Bereich darüber frei ist
-        boolean isSafe = (blockType == Material.GRASS_BLOCK || blockType == Material.DIRT || blockType == Material.MOSS_BLOCK || blockType == Material.STONE);
+        boolean isSafe = (blockType == Material.GRASS_BLOCK || blockType == Material.DIRT || blockType == Material.MOSS_BLOCK || blockType == Material.STONE ||blockType == Material.SAND);
         return isSafe && blockAboveType == Material.AIR && blockTwoAboveType == Material.AIR;
     }
 

@@ -112,6 +112,7 @@ public class ArmorCategory implements UpgradeCategory {
                 updatePlayerResources(player, currentLevel);
                 scoreboardBuilder.updateMoney(player);
                 mysqlManager.updateArmorLvl(uuid, currentLevel + 1);
+                scoreboardBuilder.updateArmorLevel(player);
                 int nextLevel = currentLevel + 1;
                 String playerName = player.getName();
                 String message = "\nHat die Rüstung geupgradet auf Level " + nextLevel;
@@ -175,7 +176,7 @@ public class ArmorCategory implements UpgradeCategory {
 
         // Überprüfen, ob der Spieler genügend Materialien hat
         if (currentMaterial1Amount < requiredMaterial1) {
-            player.sendMessage(ConfigManager.getPrefix() + ConfigManager.getConfigMessage("message.notenoughmaterialsforupgrade", "%materialtypes%", materialTypes[0]));
+            player.sendMessage(ConfigManager.getPrefix() + ConfigManager.getConfigMessage("message.notenoughmaterialforupgrade", "%materialtypes%", getMaterialDisplayName(materialTypes[0])));
             String playerName = player.getName();
             String message = "Konnte die Rüstung nicht auf Level " + nextLevel + "\n" + " upgraden wegen zu wenig Materialien!";
             String fullMessage = "Name: " + playerName + "\n Derzeitiges Level: " + currentLevel + "  \n" + message;
@@ -184,7 +185,7 @@ public class ArmorCategory implements UpgradeCategory {
         }
 
         if (currentMaterial2Amount < requiredMaterial2) {
-            player.sendMessage(ConfigManager.getPrefix() + ConfigManager.getConfigMessage("message.notenoughmaterialsforupgrade", "%materialtypes%", materialTypes[1]));
+            player.sendMessage(ConfigManager.getPrefix() + ConfigManager.getConfigMessage("message.notenoughmaterialforupgrade", "%materialtypes%", getMaterialDisplayName(materialTypes[1])));
 
             String playerName = player.getName();
             String message = " \nKonnte die Rüstung nicht auf Level " + nextLevel + "\n" + " upgraden wegen zu wenig Materialien!";

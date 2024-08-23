@@ -96,7 +96,6 @@ public class ConfigManager {
             setDefaultIfNotSet("message.upgradesword", "§6Dein Schwert wurde erfolgreich auf Level %currentLevel% aufgewertet.");
             setDefaultIfNotSet("message.notenoughmoneyforupgrade", "§cNicht genügend Geld für das Upgrade!");
             setDefaultIfNotSet("message.notenoughmaterialforupgrade", "§cNicht genügend %materialtypes% für das Upgrade!");
-            setDefaultIfNotSet("message.notenoughmaterialsforupgrade", "§cNicht genügend Materialien für das Upgrade!");
             setDefaultIfNotSet("message.upgradesuccesfull", "§aUpgrade erfolgreich durchgeführt!");
             setDefaultIfNotSet("message.setsurvival", "§aDu wurdest in den Survival Gesetzt!");
             setDefaultIfNotSet("message.setanothersurvival", "§aDu hast §e %target_player% §ain den Survival gesetzt");

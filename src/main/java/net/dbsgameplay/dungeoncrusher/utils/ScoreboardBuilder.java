@@ -49,17 +49,20 @@ public class ScoreboardBuilder implements Listener {
         displayname = PlaceholderAPI.setPlaceholders(player, displayname);
         obj.setDisplayName(displayname);
         obj.setDisplaySlot(DisplaySlot.SIDEBAR);
-        obj.getScore("§4").setScore(11);
-        obj.getScore(Geld).setScore(10);
-        obj.getScore("§d").setScore(9);
-        obj.getScore("§b").setScore(8);
-        obj.getScore("§2").setScore(7);
-        obj.getScore("§3").setScore(6);
-        obj.getScore("§6").setScore(5);
+        obj.getScore("§1").setScore(14);
+        obj.getScore(Geld).setScore(13);
+        obj.getScore("§d").setScore(12);
+        obj.getScore("§b").setScore(11);
+        obj.getScore("§2").setScore(10);
+        obj.getScore("§3").setScore(9);
+        obj.getScore("§6").setScore(8);
+        obj.getScore("§7").setScore(7);
+        obj.getScore("§8").setScore(6);
+        obj.getScore("§4").setScore(5);
         obj.getScore("§5").setScore(4);
         obj.getScore(Online).setScore(3);
         obj.getScore(ChatColor.BLACK + "" + ChatColor.WHITE).setScore(2);
-        obj.getScore("§1").setScore(1);
+        obj.getScore("§9").setScore(1);
 
         //Teams
         Team onlinecounter = scoreboard.registerNewTeam("onlineCounter");
@@ -90,7 +93,16 @@ public class ScoreboardBuilder implements Listener {
         Team dungeonkills = scoreboard.registerNewTeam("dungeonkills");
         dungeonkills.addEntry("§6");
         updateDungeonKills(player);
-        //Items
+
+        //Swordlevel
+        Team swordlevel = scoreboard.registerNewTeam("sword");
+        swordlevel.addEntry("§8");
+        updateSwordLevel(player);
+        //Armorlevel
+        Team armorlevel = scoreboard.registerNewTeam("armor");
+        armorlevel.addEntry("§4");
+        updateArmorLevel(player);
+
     }
     @EventHandler
     public void onJoin(PlayerJoinEvent event) {
@@ -173,11 +185,17 @@ public class ScoreboardBuilder implements Listener {
                 int currentDungeonCount = mysqlManager.getDungeonCountForPlayer(String.valueOf(player.getUniqueId()));
                 int nextDungeonCount = currentDungeonCount + 1;
 
-                int requiredKills = locationConfigManager.getKills(String.valueOf("dungeon"+ nextDungeonCount));
+                Integer requiredKills = locationConfigManager.getKills("dungeon" + nextDungeonCount);
+                if (requiredKills == null) {
+                    requiredKills = 0;
+                }
                 String previousDungeonMobType = String.valueOf(locationConfigManager.getMobTypesForDungeon(String.valueOf("dungeon" + currentDungeonCount)));
                 String germanMobType = MobNameTranslator.translateToGerman(previousDungeonMobType);
                 int kills = mysqlManager.getPlayerMobKills(String.valueOf(player.getUniqueId()), germanMobType);
                 int finalkills = requiredKills - kills;
+                if (finalkills < 0) {
+                    finalkills = 0;
+                }
 
                 Team dungeonKillsTeam = scoreboard.getTeam("dungeonkills");
                 if (dungeonKillsTeam == null) {
@@ -192,7 +210,34 @@ public class ScoreboardBuilder implements Listener {
             }
         }.runTaskLater(DungeonCrusher.getInstance(), 20L);
     }
+    public void updateSwordLevel(Player player) {
+        Scoreboard scoreboard = player.getScoreboard();
 
+        String currentSwordLevel = String.valueOf((mysqlManager.getSwordLevel((player.getUniqueId().toString()))));
+
+        Team SwordTeam = scoreboard.getTeam("sword");
+        if (SwordTeam == null) {
+            SwordTeam = scoreboard.registerNewTeam("sword");
+        }
+        String Swordlvl = "%oraxen_sword_level%";
+        Swordlvl = PlaceholderAPI.setPlaceholders(player, Swordlvl);
+        String newPrefix = Swordlvl + " §f" + currentSwordLevel;
+        SwordTeam.setPrefix(newPrefix);
+    }
+    public void updateArmorLevel(Player player) {
+        Scoreboard scoreboard = player.getScoreboard();
+
+        String currentArmorLevel = String.valueOf((mysqlManager.getArmorLvl(((player.getUniqueId().toString())))));
+
+        Team ArmorTeam = scoreboard.getTeam("armor");
+        if (ArmorTeam == null) {
+            ArmorTeam = scoreboard.registerNewTeam("armor");
+        }
+        String Armorlvl = "%oraxen_armor_level%";
+        Armorlvl = PlaceholderAPI.setPlaceholders(player, Armorlvl);
+        String newPrefix = Armorlvl + " §f" + currentArmorLevel;
+        ArmorTeam.setPrefix(newPrefix);
+    }
     private int extractDungeonNumber(String dungeonName) {
         try {
             return Integer.parseInt(dungeonName.replace("dungeon", ""));
