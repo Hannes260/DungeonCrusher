@@ -180,7 +180,7 @@ public final class DungeonCrusher extends JavaPlugin {
         pluginManager.registerEvents(new NavigatorListener(this, locationConfigManager, mysqlManager), this);
         pluginManager.registerEvents(new PotionListener(), this);
         pluginManager.registerEvents(new ErfolgeListener(this,locationConfigManager), this);
-        pluginManager.registerEvents(new UpgradeListener(), this);
+        pluginManager.registerEvents(new UpgradeListener(this,locationConfigManager, mysqlManager), this);
         pluginManager.registerEvents(new ChatListener(), this);
     }
 

@@ -1,6 +1,10 @@
 package net.dbsgameplay.dungeoncrusher.listener.Upgrades;
 import me.clip.placeholderapi.PlaceholderAPI;
 import net.dbsgameplay.dungeoncrusher.Commands.interfaces.UpgradeCategory;
+import net.dbsgameplay.dungeoncrusher.DungeonCrusher;
+import net.dbsgameplay.dungeoncrusher.listener.Navigator.NavigatorListener;
+import net.dbsgameplay.dungeoncrusher.sql.MYSQLManager;
+import net.dbsgameplay.dungeoncrusher.utils.Configs.LocationConfigManager;
 import net.dbsgameplay.dungeoncrusher.utils.upgrades.UpgradeManager;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
@@ -13,7 +17,15 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
 public class UpgradeListener implements Listener {
+    private final LocationConfigManager locationConfigManager;
+    private final MYSQLManager mysqlManager;
+    private final DungeonCrusher dungeonCrusher;
 
+    public UpgradeListener(DungeonCrusher dungeonCrusher, LocationConfigManager locationConfigManager, MYSQLManager mysqlManager){
+        this.dungeonCrusher = dungeonCrusher;
+        this.locationConfigManager = locationConfigManager;
+        this.mysqlManager = mysqlManager;
+    }
     @EventHandler
     public void onInventoryClick(InventoryClickEvent event) {
         Player player = (Player) event.getWhoClicked();
@@ -39,8 +51,10 @@ public class UpgradeListener implements Listener {
             if (category != null) {
                 category.openMenu(player);
                 player.playSound(player.getLocation(), Sound.BLOCK_LEVER_CLICK, 1.0f, 1.0f);
-            } else if ("§cSchließen".equals(clickedItem.getItemMeta().getDisplayName())) {
-                player.closeInventory();
+            } else if ("§cZurück".equals(clickedItem.getItemMeta().getDisplayName())) {
+                LocationConfigManager locationConfigManager = new LocationConfigManager(DungeonCrusher.getInstance());
+                NavigatorListener navigatorListener = new NavigatorListener(dungeonCrusher, locationConfigManager, mysqlManager);
+                navigatorListener.openNavigator(player);
                 player.playSound(player.getLocation(), Sound.BLOCK_BARREL_CLOSE, 1.0f, 1.0f);
             }
         } else if (title.startsWith("§7➢")) {  // Annahme: Kategorien-Inventare haben einen spezifischen Titelstart

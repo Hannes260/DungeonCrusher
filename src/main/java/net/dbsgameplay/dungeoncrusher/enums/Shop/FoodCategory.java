@@ -1,10 +1,10 @@
 package net.dbsgameplay.dungeoncrusher.enums.Shop;
 
+import me.clip.placeholderapi.PlaceholderAPI;
 import net.dbsgameplay.dungeoncrusher.Commands.interfaces.ShopCategory;
 import net.dbsgameplay.dungeoncrusher.DungeonCrusher;
 import net.dbsgameplay.dungeoncrusher.sql.MYSQLManager;
 import net.dbsgameplay.dungeoncrusher.utils.Configs.ConfigManager;
-import net.dbsgameplay.dungeoncrusher.utils.Configs.LocationConfigManager;
 import net.dbsgameplay.dungeoncrusher.utils.ScoreboardBuilder;
 import net.dbsgameplay.dungeoncrusher.utils.TexturedHeads;
 import net.dbsgameplay.dungeoncrusher.utils.shops.ShopManager;
@@ -30,18 +30,22 @@ public class FoodCategory implements ShopCategory {
         this.scoreboardBuilder = new ScoreboardBuilder(DungeonCrusher.getInstance());
 
         this.items = new HashMap<>();
-        items.put(4, new ShopItem("Apfel", Material.APPLE, 25, Arrays.asList("§7Anzahl: §61  §7Preis: §625€", "§7Anzahl: §664  §7Preis: §61600€")));
-        items.put(11, new ShopItem("Brot", Material.BREAD, 50, Arrays.asList("§7Anzahl: §61  §7Preis: §650€", "§7Anzahl: §664  §7Preis: §63200€")));
-        items.put(15, new ShopItem("Gebackene Kartoffel", Material.BAKED_POTATO, 35, Arrays.asList("§7Anzahl: §61  §7Preis: §635€", "§7Anzahl: §664  §7Preis: §62240€")));
+        items.put(42, new ShopItem("Apfel", Material.APPLE, 25, Arrays.asList("§7Anzahl: §61  §7Preis: §625€", "§7Anzahl: §664  §7Preis: §61600€")));
+        items.put(2, new ShopItem("Brot", Material.BREAD, 50, Arrays.asList("§7Anzahl: §61  §7Preis: §650€", "§7Anzahl: §664  §7Preis: §63200€")));
+        items.put(6, new ShopItem("Gebackene Kartoffel", Material.BAKED_POTATO, 35, Arrays.asList("§7Anzahl: §61  §7Preis: §635€", "§7Anzahl: §664  §7Preis: §62240€")));
         items.put(22, new ShopItem("Verzauberter Gold Apfel", Material.ENCHANTED_GOLDEN_APPLE, 1000, Arrays.asList("§7Anzahl: §61  §7Preis: §61000€", "§7Anzahl: §664  §7Preis: §664000€")));
-        items.put(40, new ShopItem("Goldener Apfel", Material.GOLDEN_APPLE, 250, Arrays.asList("§7Anzahl: §61  §7Preis: §6250€", "§7Anzahl: §664  §7Preis: §616000€")));
+        items.put(38, new ShopItem("Goldener Apfel", Material.GOLDEN_APPLE, 250, Arrays.asList("§7Anzahl: §61  §7Preis: §6250€", "§7Anzahl: §664  §7Preis: §616000€")));
     }
 
     @Override
     public void openMenu(Player player) {
-        Inventory inv = Bukkit.createInventory(null, 9 * 6, "§7➢ Essen");
+        // Setze den Titel für das Inventar mit dem Oraxen-Placeholder
+        String displayNameFood = "§f<shift:-8>%oraxen_food_gui%";
+        displayNameFood = PlaceholderAPI.setPlaceholders(player, displayNameFood);
 
-        // Populate inventory with items from the HashMap
+        Inventory inv = Bukkit.createInventory(null, 9 * 6, displayNameFood);
+
+        // Fülle das Inventar mit Items aus der HashMap
         for (int slot : items.keySet()) {
             ShopItem shopItem = items.get(slot);
             ItemStack itemStack = new ItemStack(shopItem.material);
@@ -50,13 +54,12 @@ public class FoodCategory implements ShopCategory {
             meta.setLore(shopItem.lore);
             itemStack.setItemMeta(meta);
 
-            inv.setItem(slot, itemStack); // Set item in specific slot
+            inv.setItem(slot, itemStack); // Setze das Item in den spezifischen Slot
         }
 
         addBackButton(player, inv);
         player.openInventory(inv);
     }
-
     @Override
     public void handleItemClick(Player player, ItemStack clickedItem) {
         if (clickedItem == null || clickedItem.getType() == Material.AIR) {
@@ -106,11 +109,10 @@ public class FoodCategory implements ShopCategory {
     }
 
     private void addBackButton(Player player, Inventory inventory) {
-        PlayerProfile backheadprofile = TexturedHeads.getProfile("https://textures.minecraft.net/texture/f7aacad193e2226971ed95302dba433438be4644fbab5ebf818054061667fbe2");
-        ItemStack backhead = new ItemStack(Material.PLAYER_HEAD);
-        SkullMeta headmeta = (SkullMeta) backhead.getItemMeta();
-        headmeta.setOwnerProfile(backheadprofile);
+        ItemStack backhead = new ItemStack(Material.PAPER);
+        ItemMeta headmeta = backhead.getItemMeta();
         headmeta.setDisplayName("§7➢ Zurück");
+        headmeta.setCustomModelData(100);
         backhead.setItemMeta(headmeta);
         inventory.setItem(45, backhead);
     }
@@ -185,5 +187,3 @@ public class FoodCategory implements ShopCategory {
         }
     }
 }
-
-

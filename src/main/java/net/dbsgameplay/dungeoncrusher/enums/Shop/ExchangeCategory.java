@@ -1,5 +1,6 @@
 package net.dbsgameplay.dungeoncrusher.enums.Shop;
 
+import me.clip.placeholderapi.PlaceholderAPI;
 import net.dbsgameplay.dungeoncrusher.Commands.interfaces.ShopCategory;
 import net.dbsgameplay.dungeoncrusher.DungeonCrusher;
 import net.dbsgameplay.dungeoncrusher.sql.MYSQLManager;
@@ -67,7 +68,9 @@ public class ExchangeCategory implements ShopCategory {
 
 @Override
 public void openMenu(Player player) {
-    Inventory inv = Bukkit.createInventory(null, 9 * 6, "§7➢ Eintausch");
+    String displayNameExchange = "§f<shift:-8>%oraxen_exchange_gui%";
+    displayNameExchange = PlaceholderAPI.setPlaceholders(player, displayNameExchange);
+    Inventory inv = Bukkit.createInventory(null, 9 * 6, displayNameExchange);
 
     // Populate inventory with items from the HashMap
     for (int slot : items.keySet()) {
@@ -336,11 +339,11 @@ public void handleShiftClick(Player player, ItemStack clickedItem) {
         scoreboardBuilder.updateMoney(player);
     }
     private void addBackButton(Player player, Inventory inventory) {
-        PlayerProfile backheadprofile = TexturedHeads.getProfile("https://textures.minecraft.net/texture/f7aacad193e2226971ed95302dba433438be4644fbab5ebf818054061667fbe2");
-        ItemStack backhead = new ItemStack(Material.PLAYER_HEAD);
-        SkullMeta headmeta = (SkullMeta) backhead.getItemMeta();
-        headmeta.setOwnerProfile(backheadprofile);
+        ItemStack backhead = new ItemStack(Material.PAPER);
+        ItemMeta headmeta = backhead.getItemMeta();
+        headmeta.setCustomModelData(100);
         headmeta.setDisplayName("§7➢ Zurück");
+
         backhead.setItemMeta(headmeta);
         inventory.setItem(45, backhead);
     }

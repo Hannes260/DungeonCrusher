@@ -42,16 +42,23 @@ public class UpgradeManager {
         Swordmeta.setCustomModelData(100);
         Swordmeta.setDisplayName("§7➢ Schwert");
         Sword.setItemMeta(Swordmeta);
-        inv.setItem(20, Sword);
+
 
         ItemStack Armor = new ItemStack(Material.PAPER);
         ItemMeta Armormeta = Sword.getItemMeta();
         Armormeta.setCustomModelData(100);
         Armormeta.setDisplayName("§7➢ Rüstung");
         Armor.setItemMeta(Armormeta);
-        inv.setItem(24, Armor);
+
+        int[] swordlots = {10,11,12,19,20,21,28,29,30};
+        for (int slot : swordlots) {
+            inv.setItem(slot, Sword);
+        }
+        int[] armorlots = {14,15,16,23,24,25,32,33,34};
+        for (int slot : armorlots) {
+            inv.setItem(slot, Armor);
+        }
         addCloseButton(player, inv);
-        addCloseButton2(player,inv);
         player.openInventory(inv);
     }
 
@@ -59,19 +66,10 @@ public class UpgradeManager {
         ItemStack closeItem = new ItemStack(Material.PAPER);
         ItemMeta closeMeta = closeItem.getItemMeta();
         closeMeta.setCustomModelData(100);
-        closeMeta.setDisplayName("§cSchließen");
+        closeMeta.setDisplayName("§cZurück");
         closeItem.setItemMeta(closeMeta);
 
-        inventory.setItem(0, closeItem);
-    }
-    public static void addCloseButton2(Player player, Inventory inventory) {
-        ItemStack closeItem = new ItemStack(Material.PAPER);
-        ItemMeta closeMeta = closeItem.getItemMeta();
-        closeMeta.setCustomModelData(100);
-        closeMeta.setDisplayName("§cSchließen");
-        closeItem.setItemMeta(closeMeta);
-
-        inventory.setItem(1, closeItem);
+        inventory.setItem(45, closeItem);
     }
     public static UpgradeCategory getCategory(String displayName) {
         // Durchlaufe alle Kategorien und vergleiche den Display-Namen ohne Formatierung

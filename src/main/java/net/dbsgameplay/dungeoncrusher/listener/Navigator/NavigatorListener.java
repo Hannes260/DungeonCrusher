@@ -41,6 +41,13 @@ public class NavigatorListener implements Listener {
 
         mobTextures.put("sheep", 101);
         mobTextures.put("pig", 102);
+        mobTextures.put("cow", 103);
+        mobTextures.put("horse", 104);
+        mobTextures.put("donkey", 105);
+        mobTextures.put("camel", 106);
+        mobTextures.put("villager", 107);
+        mobTextures.put("goat", 108);
+        mobTextures.put("llama", 109);
     }
 
     @EventHandler
@@ -126,10 +133,9 @@ public class NavigatorListener implements Listener {
                 } else {
                     // Füge ein Barrier-Item hinzu oder einen Kopf, der anzeigt, dass der Dungeon gesperrt ist
                     if (requiredKills != null) { // Überprüfen, ob requiredKills nicht null ist
-                        ItemStack barrierItem = new ItemStack(Material.PLAYER_HEAD); // Verwende Material.BARRIER
-                        PlayerProfile profile = TexturedHeads.getProfile("https://textures.minecraft.net/texture/afd2400002ad9fbbbd0066941eb5b1a384ab9b0e48a178ee96e4d129a5208654");
-                        SkullMeta meta = (SkullMeta) barrierItem.getItemMeta();
-                        meta.setOwnerProfile(profile);
+                        ItemStack barrierItem = new ItemStack(Material.PAPER); // Verwende Material.BARRIER
+                        ItemMeta meta = barrierItem.getItemMeta();
+                        meta.setCustomModelData(201);
                         if (meta != null) {
                             meta.setDisplayName("§c§lNicht Verfügbar.");
                             String previousDungeonName = locationConfigManager.getPreviousDungeon(dungeonName);
@@ -223,11 +229,10 @@ public class NavigatorListener implements Listener {
                 Kills + " §e"+ mysqlManager.getKills(String.valueOf(player.getUniqueId())), Tode +" §e" + mysqlManager.getDeaths(player.getUniqueId().toString()))).getItemStack());
 
         // Schließen Item hinzufügen
-        PlayerProfile closeprofile = TexturedHeads.getProfile("https://textures.minecraft.net/texture/afd2400002ad9fbbbd0066941eb5b1a384ab9b0e48a178ee96e4d129a5208654");
-        ItemStack closeItem = new ItemStack(Material.PLAYER_HEAD);
-        SkullMeta closemeta = (SkullMeta) closeItem.getItemMeta();
-        closemeta.setOwnerProfile(closeprofile);
+        ItemStack closeItem = new ItemStack(Material.PAPER);
+        ItemMeta closemeta = closeItem.getItemMeta();
         closemeta.setDisplayName("§7➢ §bSchließen");
+        closemeta.setCustomModelData(201);
         closeItem.setItemMeta(closemeta);
         navigatorInventory.setItem(45, closeItem);
     }

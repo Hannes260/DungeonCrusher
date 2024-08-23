@@ -3,11 +3,13 @@ package net.dbsgameplay.dungeoncrusher.listener.shops;
 import me.clip.placeholderapi.PlaceholderAPI;
 import net.dbsgameplay.dungeoncrusher.Commands.interfaces.ShopCategory;
 import net.dbsgameplay.dungeoncrusher.DungeonCrusher;
+import net.dbsgameplay.dungeoncrusher.enums.Shop.ExchangeCategory;
+import net.dbsgameplay.dungeoncrusher.enums.Shop.FoodCategory;
+import net.dbsgameplay.dungeoncrusher.enums.Shop.PotionCategory;
 import net.dbsgameplay.dungeoncrusher.listener.Navigator.NavigatorListener;
 import net.dbsgameplay.dungeoncrusher.sql.MYSQLManager;
 import net.dbsgameplay.dungeoncrusher.utils.Configs.LocationConfigManager;
 import net.dbsgameplay.dungeoncrusher.utils.shops.ShopManager;
-import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
@@ -40,14 +42,27 @@ public class ShopListener implements Listener {
         if (clickedInventory == null || clickedItem == null || clickedItem.getType().isAir()) {
             return;
         }
-        String DisplayName = "§f<shift:-8>%oraxen_shop%";
-        DisplayName = PlaceholderAPI.setPlaceholders(player, DisplayName);
+
+        String displayName = "§f<shift:-8>%oraxen_shop%";
+        displayName = PlaceholderAPI.setPlaceholders(player, displayName);
         String title = event.getView().getTitle();
+
+        String displayNameFood = "§f<shift:-8>%oraxen_food_gui%";
+        displayNameFood = PlaceholderAPI.setPlaceholders(player, displayNameFood);
+
+        String displayNamePotion = "§f<shift:-8>%oraxen_potion_gui%";
+        displayNamePotion = PlaceholderAPI.setPlaceholders(player, displayNamePotion);
+
+        String displayNameExchange = "§f<shift:-8>%oraxen_exchange_gui%";
+        displayNameExchange = PlaceholderAPI.setPlaceholders(player, displayNameExchange);
+
         if (event.getAction() == InventoryAction.HOTBAR_MOVE_AND_READD || event.getClick() == ClickType.NUMBER_KEY) {
             event.setCancelled(true);
             return;
         }
-        if (DisplayName.equalsIgnoreCase(title)) {
+
+        // Originales Shop-Inventar
+        if (displayName.equalsIgnoreCase(title)) {
             event.setCancelled(true);
             String categoryName = clickedItem.getItemMeta().getDisplayName().toLowerCase();
             ShopCategory category = ShopManager.getCategory(categoryName);
@@ -60,17 +75,41 @@ public class ShopListener implements Listener {
                 navigatorListener.openNavigator(player);
                 player.playSound(player.getLocation(), Sound.BLOCK_BARREL_CLOSE, 1.0f, 1.0f);
             }
-        } else if (ShopManager.getCategory(title.toLowerCase()) != null) {
+        } else if (title.equalsIgnoreCase(displayNameFood)) {
+            event.setCancelled(true);
+            FoodCategory customInventory = new FoodCategory(mysqlManager);
+            if (event.getClick().isShiftClick() && event.getClick().isLeftClick()) {
+                customInventory.handleShiftClick(player, clickedItem);
+            } else {
+                customInventory.handleItemClick(player, clickedItem);
+            }
+        } else if (title.equalsIgnoreCase(displayNamePotion)) {
+            event.setCancelled(true);
+            PotionCategory customInventorypotion = new PotionCategory(mysqlManager);
+            if (event.getClick().isShiftClick() && event.getClick().isLeftClick()) {
+                customInventorypotion.handleShiftClick(player, clickedItem);
+            } else {
+                customInventorypotion.handleItemClick(player, clickedItem);
+            }
+        } else if (title.equalsIgnoreCase(displayNameExchange)) {
+            event.setCancelled(true);
+            ExchangeCategory customInventoryexchange = new ExchangeCategory(mysqlManager);
+            if (event.getClick().isShiftClick() && event.getClick().isLeftClick()) {
+                customInventoryexchange.handleShiftClick(player, clickedItem);
+            } else {
+                customInventoryexchange.handleItemClick(player, clickedItem);
+            }
+        }else if (ShopManager.getCategory(title.toLowerCase()) != null) {
             event.setCancelled(true);
             ShopCategory category = ShopManager.getCategory(title.toLowerCase());
             if (category != null) {
                 if (event.getClick().isShiftClick() && event.getClick().isLeftClick()) {
-                    category.handleShiftClick(player, clickedItem); // Shift + Left Click
+                    category.handleShiftClick(player, clickedItem); // Shift + Linksklick
                 } else {
-                    category.handleItemClick(player, clickedItem); // Normal Left Click
+                    category.handleItemClick(player, clickedItem); // Normaler Linksklick
                 }
             } else {
-                handleExchangeClick(player, clickedItem); // Handle exchange items
+                handleExchangeClick(player, clickedItem); // Austausch-Items verarbeiten
             }
         }
     }

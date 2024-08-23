@@ -4,6 +4,7 @@ import me.clip.placeholderapi.PlaceholderAPI;
 import net.dbsgameplay.dungeoncrusher.Commands.interfaces.ShopCategory;
 import net.dbsgameplay.dungeoncrusher.enums.Shop.ExchangeCategory;
 import net.dbsgameplay.dungeoncrusher.enums.Shop.FoodCategory;
+import net.dbsgameplay.dungeoncrusher.enums.Shop.PotionCategory;
 import net.dbsgameplay.dungeoncrusher.sql.MYSQLManager;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
@@ -26,6 +27,7 @@ public class ShopManager { ;
     private void initializeCategories(MYSQLManager mysqlManager) {
         categories.put("§7➢ essen", new FoodCategory(mysqlManager));
         categories.put("§7➢ eintausch", new ExchangeCategory(mysqlManager));
+        categories.put("§7➢ tränke", new PotionCategory(mysqlManager));
     }
 
     public static void openMainShopMenu(Player player, MYSQLManager mysqlManager) {
@@ -43,7 +45,7 @@ public class ShopManager { ;
         ItemStack potionhead = new ItemStack(Material.PAPER);
         ItemMeta  potionmeta = potionhead.getItemMeta();
         potionmeta.setCustomModelData(100);
-        potionmeta.setDisplayName("§c➢ Coming Soon");
+        potionmeta.setDisplayName("§7➢ Tränke");
         potionhead.setItemMeta(potionmeta);
 
         ItemStack exchangeItem = new ItemStack(Material.PAPER);
@@ -53,15 +55,15 @@ public class ShopManager { ;
         exchangeItem.setItemMeta(exchangeMeta);
 
         addCloseButton(player, inv);
-        int[] potionslots = {15,16,17,24,25,26,33,34,35};
+        int[] potionslots = {6,7,8,15,16,17,24,25,26};
         for (int slot : potionslots) {
             inv.setItem(slot, potionhead);
         }
-        int[] exchangeslots = {12,13,14,21,22,23,30,31,32};
+        int[] exchangeslots = {3,4,5,12,13,14,21,22,23};
         for (int slot: exchangeslots) {
             inv.setItem(slot, exchangeItem);
         }
-        int[] foodslots = {9,10,11,18,19,20,27,28,29};
+        int[] foodslots = {0,1,2,9,10,11,18,19,20};
         for (int slot : foodslots) {
             inv.setItem(slot, foodhead);
         }
