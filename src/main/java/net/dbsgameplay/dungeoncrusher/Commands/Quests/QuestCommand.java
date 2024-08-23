@@ -1,8 +1,10 @@
 package net.dbsgameplay.dungeoncrusher.Commands.Quests;
 
+import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
+import org.bukkit.inventory.Inventory;
 
 public class QuestCommand implements CommandExecutor {
     @Override
@@ -16,6 +18,10 @@ public class QuestCommand implements CommandExecutor {
         //Belohnung bekommen
         //Quest Sperren
         //Quest entsperren wenn neue kommt
+
+
+
+
 
         return false;
     }
