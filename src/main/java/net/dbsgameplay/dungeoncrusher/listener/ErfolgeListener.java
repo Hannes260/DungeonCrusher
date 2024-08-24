@@ -70,6 +70,9 @@ public class ErfolgeListener implements Listener {
 
         if (e.getCurrentItem().getType().equals(Material.NAME_TAG)) {
             if (e.getCurrentItem().getItemMeta().getDisplayName().endsWith("✅")) {
+                if  (e.getCurrentItem().getItemMeta().hasEnchantmentGlintOverride()) {
+                    e.setCancelled(true);
+                }
                 for (ItemStack items : e.getClickedInventory().getContents()) {
                     if (items == null) continue;
 
