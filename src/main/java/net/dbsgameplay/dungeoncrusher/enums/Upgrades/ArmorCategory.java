@@ -114,6 +114,7 @@ public class ArmorCategory implements UpgradeCategory {
                 mysqlManager.updateArmorLvl(uuid, currentLevel + 1);
                 scoreboardBuilder.updateArmorLevel(player);
                 int nextLevel = currentLevel + 1;
+                openMenu(player);
                 String playerName = player.getName();
                 String message = "\nHat die Rüstung geupgradet auf Level " + nextLevel;
                 String fullMessage = "Name: " + playerName + message;
@@ -122,7 +123,6 @@ public class ArmorCategory implements UpgradeCategory {
                 return;
             }
         }
-        openMenu(player);
     }
 
     private boolean hasEnoughResourcesForVisuals(Player player, int currentLevel) {
