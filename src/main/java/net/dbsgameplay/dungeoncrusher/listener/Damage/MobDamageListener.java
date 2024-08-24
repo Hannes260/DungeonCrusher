@@ -7,6 +7,7 @@ import org.bukkit.entity.*;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
+import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.event.entity.EntitySpawnEvent;
 import org.bukkit.scheduler.BukkitRunnable;
 
@@ -59,7 +60,14 @@ public class MobDamageListener implements Listener {
             }
         }
     }
-
+    @EventHandler
+    public void onEntityDeath(EntityDeathEvent event) {
+        LivingEntity entity = event.getEntity();
+        if (entity instanceof LivingEntity) {
+            entity.setCustomName(null);  // Entfernt den Namen vor dem Tod
+            entity.setCustomNameVisible(false);  // Macht den Namen unsichtbar
+        }
+    }
     private void updateHealthBar(LivingEntity entity, String mobName) {
         double maxHealth = entity.getAttribute(Attribute.GENERIC_MAX_HEALTH).getBaseValue();
         double currentHealth = entity.getHealth();
