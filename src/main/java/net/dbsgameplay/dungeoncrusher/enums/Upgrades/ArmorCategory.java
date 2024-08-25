@@ -61,9 +61,9 @@ public class ArmorCategory implements UpgradeCategory {
             int currentMaterial2Amount = mysqlManager.getItemAmount(uuid, materialTypes[1]);
 
             List<String> lore = new ArrayList<>();
-            lore.add("§7Erforderliches Geld: §6" + requiredGeld);
-            lore.add("§7Material 1 (" + getMaterialDisplayName(materialTypes[0]) + "): " + requiredMaterial1 + " (" + currentMaterial1Amount + ")");
-            lore.add("§7Material 2 (" + getMaterialDisplayName(materialTypes[1]) + "): " + requiredMaterial2 + " (" + currentMaterial2Amount + ")");
+            lore.add("§7Erforderliches Geld: §6" + currentMoney + " §7von " +requiredGeld);
+            lore.add("§7Material 1 (" + getMaterialDisplayName(materialTypes[0]) + "): §6" + currentMaterial1Amount + " §7von " + requiredMaterial1);
+            lore.add("§7Material 2 (" + getMaterialDisplayName(materialTypes[1]) + "): §6" + currentMaterial2Amount + " §7von " + requiredMaterial2);
             meta.setLore(lore);
 
             // Visuelle Anzeige
