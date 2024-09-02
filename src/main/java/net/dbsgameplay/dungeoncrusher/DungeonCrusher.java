@@ -4,6 +4,7 @@ import net.dbsgameplay.dungeoncrusher.Commands.*;
 import net.dbsgameplay.dungeoncrusher.Commands.Admin.*;
 import net.dbsgameplay.dungeoncrusher.Commands.Economy.CoinsCommand;
 import net.dbsgameplay.dungeoncrusher.Commands.Economy.PayCommand;
+import net.dbsgameplay.dungeoncrusher.Commands.Quests.QuestCommand;
 import net.dbsgameplay.dungeoncrusher.Commands.Shops.ShopCommand;
 import net.dbsgameplay.dungeoncrusher.Commands.Upgrades.UpgradeCommand;
 import net.dbsgameplay.dungeoncrusher.listener.*;
@@ -156,6 +157,8 @@ public final class DungeonCrusher extends JavaPlugin {
         getCommand("ping").setExecutor(new PingCommand());
         getCommand("reset").setExecutor(new ResetCommand(this,mysqlManager));
         getCommand("fly").setExecutor(new Flycommand());
+        getCommand("quest").setExecutor(new QuestCommand());
+        getCommand("test").setExecutor(new test());
 
         // Tab Completers
         getCommand("config").setTabCompleter(this);

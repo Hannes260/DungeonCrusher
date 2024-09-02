@@ -45,7 +45,7 @@ public class NavigatorListener implements Listener {
         mobTextures.put("horse", 104);
         mobTextures.put("donkey", 105);
         mobTextures.put("camel", 106);
-        mobTextures.put("villager", 107);
+        mobTextures.put("frog", 107);
         mobTextures.put("goat", 108);
         mobTextures.put("llama", 109);
     }
@@ -131,11 +131,10 @@ public class NavigatorListener implements Listener {
                         }
                     }
                 } else {
-                    // Füge ein Barrier-Item hinzu oder einen Kopf, der anzeigt, dass der Dungeon gesperrt ist
-                    if (requiredKills != null) { // Überprüfen, ob requiredKills nicht null ist
-                        ItemStack barrierItem = new ItemStack(Material.PAPER); // Verwende Material.BARRIER
+                    if (requiredKills != null) {
+                        ItemStack barrierItem = new ItemStack(Material.PAPER);
                         ItemMeta meta = barrierItem.getItemMeta();
-                        meta.setCustomModelData(201);
+                        meta.setCustomModelData(202);
                         if (meta != null) {
                             meta.setDisplayName("§c§lNicht Verfügbar.");
                             String previousDungeonName = locationConfigManager.getPreviousDungeon(dungeonName);

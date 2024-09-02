@@ -66,3 +66,4 @@ commands:
     permission: dc.command.fly
     aliases: [fliegen]
   test:
+  quest:

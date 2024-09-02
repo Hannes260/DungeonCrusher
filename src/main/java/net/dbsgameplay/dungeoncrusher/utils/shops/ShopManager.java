@@ -55,15 +55,15 @@ public class ShopManager { ;
         exchangeItem.setItemMeta(exchangeMeta);
 
         addCloseButton(player, inv);
-        int[] potionslots = {6,7,8,15,16,17,24,25,26};
+        int[] potionslots = {15,16,17,24,25,26,33,34,35};
         for (int slot : potionslots) {
             inv.setItem(slot, potionhead);
         }
-        int[] exchangeslots = {3,4,5,12,13,14,21,22,23};
+        int[] exchangeslots = {12,13,14,21,22,23,30,31,32};
         for (int slot: exchangeslots) {
             inv.setItem(slot, exchangeItem);
         }
-        int[] foodslots = {0,1,2,9,10,11,18,19,20};
+        int[] foodslots = {9,10,11,18,19,20,27,28,29};
         for (int slot : foodslots) {
             inv.setItem(slot, foodhead);
         }
@@ -79,9 +79,6 @@ public class ShopManager { ;
         playerMeta.setDisplayName("§9Dein Geld: §a" + currentmoney + "§9€");
         playerItem.setItemMeta(playerMeta);
         inventory.setItem(53, playerItem);
-        inventory.setItem(52, playerItem);
-        inventory.setItem(43, playerItem);
-        inventory.setItem(44, playerItem);
     }
 
     public static void addCloseButton(Player player, Inventory inventory) {
@@ -92,7 +89,6 @@ public class ShopManager { ;
         closeItem.setItemMeta(closeMeta);
 
         inventory.setItem(45, closeItem);
-        inventory.setItem(36, closeItem);
     }
 
     public static ShopCategory getCategory(String name) {

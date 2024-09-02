@@ -84,8 +84,9 @@ public class ResetCommand implements CommandExecutor {
 
         ItemStack food = new ItemStack(Material.BREAD, 5);
 
-        ItemStack navigator = new ItemStack(Material.ENDER_EYE);
+        ItemStack navigator = new ItemStack(Material.PAPER);
         ItemMeta navigatormeta = navigator.getItemMeta();
+        navigatormeta.setCustomModelData(200);
         navigatormeta.setDisplayName("§8➡ §9Teleporter §8✖ §7Rechtsklick");
         navigator.setItemMeta(navigatormeta);
         player.getInventory().setItem(1, food);
