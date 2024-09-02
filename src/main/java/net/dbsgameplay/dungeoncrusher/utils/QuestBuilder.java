@@ -4,10 +4,15 @@ import net.dbsgameplay.dungeoncrusher.DungeonCrusher;
 import net.dbsgameplay.dungeoncrusher.utils.Configs.LocationConfigManager;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
+import org.bukkit.boss.BarColor;
+import org.bukkit.boss.BarStyle;
+import org.bukkit.boss.BossBar;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
+
+import java.util.HashMap;
 
 public class QuestBuilder {
 
@@ -18,26 +23,14 @@ public class QuestBuilder {
     private LocationConfigManager locationConfigManager;
     private static DungeonCrusher dungeonCrusher;
     public static Inventory questMenu = Bukkit.createInventory(null, 54, "§7Questmenü");
+    public static HashMap<String, String> tutorialQuestMap = new HashMap<>();
+    public static BossBar bossBar = Bukkit.createBossBar(tutorialQuestMap.get("t3"), BarColor.BLUE, BarStyle.SOLID);
 
     public static Inventory getQuestmenü() {
         return questMenu;
     }
 
     public static void fillQuestmenü(Player player) {
-        //tutorial
-        //hinzufügen wenn das Tutorial abgeschlossen ist
-        ItemStack tutorialStack = new ItemStack(Material.GRASS_BLOCK);
-        ItemMeta tutorialMeta = tutorialStack.getItemMeta();
-        tutorialMeta.setItemName("§aTutorial");
-        tutorialMeta.setLore(null);
-        if (dungeonCrusher.getConfig().getBoolean("xxxIDontKnowxxx")) {
-            tutorialMeta.setEnchantmentGlintOverride(true);
-        }else {
-            tutorialMeta.setEnchantmentGlintOverride(false);
-        }
-        tutorialStack.setItemMeta(tutorialMeta);
-        questMenu.setItem(9, tutorialStack);
-
         //Daily
         //hinzufügen wenn die Daily abgeschlossen ist
         ItemStack dailyStack = new ItemStack(Material.CLOCK);

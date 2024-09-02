@@ -196,11 +196,57 @@ public class MYSQLManager {
                     + "Wärter INT DEFAULT 0"
                     + ");";
             statement.execute(createmobkillsTableQuery);
+            String createQuestTableQuery = "CREATE TABLE IF NOT EXISTS player_quest ("
+                    + "uuid VARCHAR(255) PRIMARY KEY,"
+                    + "tutorial VARCHAR(255) DEFAULT t3"
+                    + ")";
+            statement.execute(createDailyRewardTableQuery);
             statement.close();
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
+
+    public String getTutorialQuest(String uuid) {
+        String tutorial = null;
+
+        try (Connection connection = dataSource.getConnection()) {
+            // Query vorbereiten
+            String query = "SELECT tutorial FROM player_quest WHERE uuid = ?";
+            try (PreparedStatement statement = connection.prepareStatement(query)) {
+                statement.setString(1, uuid);
+
+                // Query ausführen und Ergebnis abrufen
+                try (ResultSet resultSet = statement.executeQuery()) {
+                    if (resultSet.next()) {
+                        tutorial = resultSet.getString("tutorial");
+                        statement.close();
+                        resultSet.close();
+                    }
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return tutorial;
+    }
+
+    public void updateTutorialQuest(String uuid, String value) {
+        try (Connection connection = dataSource.getConnection()) {
+            // Check if the player record exists; if not, create it
+            ensurePlayerExists(connection, uuid);
+
+            String query = "UPDATE player_quest SET tutorial = " + value + " WHERE uuid = ?";
+            try (PreparedStatement statement = connection.prepareStatement(query)) {
+                statement.setString(1, uuid);
+
+                statement.executeUpdate();
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
     public boolean canClaimDailyReward(String playerUUID) {
         try (Connection connection = dataSource.getConnection()) {
             String query = "SELECT last_daily_reward FROM player_daily_reward WHERE uuid = ?";
