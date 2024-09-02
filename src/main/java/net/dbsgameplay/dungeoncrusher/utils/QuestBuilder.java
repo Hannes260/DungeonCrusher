@@ -16,9 +16,8 @@ import java.util.HashMap;
 
 public class QuestBuilder {
 
-    public QuestBuilder(DungeonCrusher dungeonCrusher, LocationConfigManager locationConfigManager) {
+    public QuestBuilder(DungeonCrusher dungeonCrusher) {
         this.dungeonCrusher = dungeonCrusher;
-        this.locationConfigManager = locationConfigManager;
     }
     private LocationConfigManager locationConfigManager;
     private static DungeonCrusher dungeonCrusher;

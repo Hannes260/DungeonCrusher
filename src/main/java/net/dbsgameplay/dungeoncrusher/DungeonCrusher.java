@@ -71,6 +71,7 @@ public final class DungeonCrusher extends JavaPlugin {
         mysqlManager = MYSQLManager.getInstance(getDataFolder());
         markierungsManager = new MarkingsManager(locationConfigManager);
         ErfolgeBuilders erfolgeBuilders = new ErfolgeBuilders(mysqlManager);
+        QuestBuilder questBuilder = new QuestBuilder(this);
 
         getLogger().info(ANSI_BLUE +" ");
         getLogger().info(ANSI_BLUE +"  ____   ____ ");
@@ -92,6 +93,7 @@ public final class DungeonCrusher extends JavaPlugin {
         UpgradeManager upgradeManager = new UpgradeManager(mysqlManager);
 
         ErfolgeMapBuilder.buildErfolgeMap();
+        QuestMapBuilder.BuildMap();
     }
 
     @Override
@@ -157,7 +159,7 @@ public final class DungeonCrusher extends JavaPlugin {
         getCommand("ping").setExecutor(new PingCommand());
         getCommand("reset").setExecutor(new ResetCommand(this,mysqlManager));
         getCommand("fly").setExecutor(new Flycommand());
-        getCommand("quest").setExecutor(new QuestCommand());
+        getCommand("quest").setExecutor(new QuestCommand(mysqlManager));
         getCommand("test").setExecutor(new test());
 
         // Tab Completers
@@ -186,6 +188,7 @@ public final class DungeonCrusher extends JavaPlugin {
         pluginManager.registerEvents(new ErfolgeListener(this,locationConfigManager), this);
         pluginManager.registerEvents(new UpgradeListener(this,locationConfigManager, mysqlManager), this);
         pluginManager.registerEvents(new ChatListener(), this);
+        pluginManager.registerEvents(new QuestListener(mysqlManager), this);
     }
 
     public void sendToDiscord(String content, int color) {
