@@ -5,11 +5,15 @@ import net.dbsgameplay.dungeoncrusher.Commands.interfaces.ShopCategory;
 import net.dbsgameplay.dungeoncrusher.DungeonCrusher;
 import net.dbsgameplay.dungeoncrusher.sql.MYSQLManager;
 import net.dbsgameplay.dungeoncrusher.utils.Configs.ConfigManager;
+import net.dbsgameplay.dungeoncrusher.utils.QuestBuilder;
 import net.dbsgameplay.dungeoncrusher.utils.ScoreboardBuilder;
 import net.dbsgameplay.dungeoncrusher.utils.TexturedHeads;
 import net.dbsgameplay.dungeoncrusher.utils.shops.ShopManager;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
+import org.bukkit.boss.BarColor;
+import org.bukkit.boss.BarStyle;
+import org.bukkit.boss.BossBar;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
@@ -125,6 +129,13 @@ public class FoodCategory implements ShopCategory {
             HashMap<Integer, ItemStack> leftOverItems = playerInventory.addItem(item);
             if (leftOverItems.isEmpty()) {
                 p.sendMessage(ConfigManager.getPrefix() + ConfigManager.getConfigMessage("message.buyshop", "%amount%", String.valueOf(amount), "%material%", material.toString()));
+
+                if (mysqlManager.getTutorialQuest(p.getUniqueId().toString()).equalsIgnoreCase("t2")) {
+                    mysqlManager.updateTutorialQuest(p.getUniqueId().toString(), "t1");
+                    BossBar bossBar1 = QuestBuilder.bossBar;
+                    bossBar1.setTitle(QuestBuilder.tutorialQuestMap.get("t1"));
+                    bossBar1.addPlayer(p);
+                }
             } else {
                 p.sendMessage(ConfigManager.getPrefix() + ConfigManager.getConfigMessage("message.inventoryfull", "", ""));
                 addMoney(p, totalPrice);
