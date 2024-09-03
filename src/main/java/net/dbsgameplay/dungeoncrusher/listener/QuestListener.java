@@ -17,7 +17,10 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.player.PlayerItemConsumeEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.PotionMeta;
 import org.bukkit.potion.PotionEffectType;
+import org.bukkit.potion.PotionType;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.HashMap;
@@ -82,12 +85,13 @@ public class QuestListener implements Listener {
         Player p = e.getPlayer();
         HashMap<String, String> tutorialQuestMap = QuestBuilder.tutorialQuestMap;
 
-        if (e.getItem().getType() == Material.POTION && mysqlManager.getTutorialQuest(p.getUniqueId().toString()).equalsIgnoreCase("t1")) {
-            if (p.hasPotionEffect(PotionEffectType.STRENGTH)) {
+        if (e.getItem() != null && e.getItem().hasItemMeta()) {
+            if (e.getItem().getItemMeta() instanceof PotionMeta && mysqlManager.getTutorialQuest(p.getUniqueId().toString()).equalsIgnoreCase("t1")) {
                 mysqlManager.updateTutorialQuest(p.getUniqueId().toString(), "t0");
                 BossBar bossBar1 = QuestBuilder.bossBar;
                 bossBar1.removePlayer(p);
             }
         }
+
     }
 }
