@@ -34,25 +34,31 @@ public class QuestListener implements Listener {
     public void PlayerJoinEvent(PlayerJoinEvent e) {
         Player p = e.getPlayer();
         HashMap<String, String> tutorialQuestMap = QuestBuilder.tutorialQuestMap;
+        String tutorialQuest = mysqlManager.getTutorialQuest(p.getUniqueId().toString());
 
-        if (mysqlManager.getTutorialQuest(p.getUniqueId().toString()).equalsIgnoreCase("t1")) {
-            switch (mysqlManager.getTutorialQuest(p.getUniqueId().toString())) {
-                case "t3":
-                    BossBar bossBar3 = QuestBuilder.bossBar;
-                    bossBar3.setTitle(tutorialQuestMap.get("t3"));
-                    bossBar3.addPlayer(p);
-                    break;
-                case "t2":
-                    BossBar bossBar2 = QuestBuilder.bossBar;
-                    bossBar2.setTitle(tutorialQuestMap.get("t2"));
-                    bossBar2.addPlayer(p);
-                    break;
-                case "t1":
-                    BossBar bossBar1 = QuestBuilder.bossBar;
-                    bossBar1.setTitle(tutorialQuestMap.get("t1"));
-                    bossBar1.addPlayer(p);
-                    break;
-            }
+        if (tutorialQuest == null) {
+            // Spieler existiert noch nicht, daher neuen Eintrag hinzufügen
+            tutorialQuest = "t1";  // Standardwert für neue Spieler
+            mysqlManager.updateTutorialQuest(p.getUniqueId().toString(), tutorialQuest);
+        }
+
+        // Null-Check ist jetzt unnötig, da wir tutorialQuest initialisieren
+        switch (tutorialQuest) {
+            case "t3":
+                BossBar bossBar3 = QuestBuilder.bossBar;
+                bossBar3.setTitle(tutorialQuestMap.get("t3"));
+                bossBar3.addPlayer(p);
+                break;
+            case "t2":
+                BossBar bossBar2 = QuestBuilder.bossBar;
+                bossBar2.setTitle(tutorialQuestMap.get("t2"));
+                bossBar2.addPlayer(p);
+                break;
+            case "t1":
+                BossBar bossBar1 = QuestBuilder.bossBar;
+                bossBar1.setTitle(tutorialQuestMap.get("t1"));
+                bossBar1.addPlayer(p);
+                break;
         }
     }
 

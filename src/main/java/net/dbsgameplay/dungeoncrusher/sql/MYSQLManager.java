@@ -198,9 +198,9 @@ public class MYSQLManager {
             statement.execute(createmobkillsTableQuery);
             String createQuestTableQuery = "CREATE TABLE IF NOT EXISTS player_quest ("
                     + "uuid VARCHAR(255) PRIMARY KEY,"
-                    + "tutorial VARCHAR(255) DEFAULT t3"
+                    + "tutorial VARCHAR(255) DEFAULT NULL"
                     + ")";
-            statement.execute(createDailyRewardTableQuery);
+            statement.execute(createQuestTableQuery);
             statement.close();
         } catch (Exception e) {
             e.printStackTrace();
@@ -233,17 +233,32 @@ public class MYSQLManager {
 
     public void updateTutorialQuest(String uuid, String value) {
         try (Connection connection = dataSource.getConnection()) {
-            // Check if the player record exists; if not, create it
-            ensurePlayerExists(connection, uuid);
-
-            String query = "UPDATE player_quest SET tutorial = " + value + " WHERE uuid = ?";
-            try (PreparedStatement statement = connection.prepareStatement(query)) {
-                statement.setString(1, uuid);
-
-                statement.executeUpdate();
+            String checkQuery = "SELECT uuid FROM player_quest WHERE uuid = ?";
+            try (PreparedStatement chechStatement = connection.prepareStatement(checkQuery)){
+                chechStatement.setString(1, uuid);
+                try (ResultSet resultSet = chechStatement.executeQuery()){
+                    if (resultSet.next()) {
+                        String updateQuery = "UPDATE player_quest SET tutorial = ? WHERE uuid= ?";
+                        try (PreparedStatement updateStatement = connection.prepareStatement(updateQuery)) {
+                            updateStatement.setString(1, value);
+                            updateStatement.setString(2, uuid);
+                            updateStatement.executeUpdate();
+                        }
+                    }else {
+                        String insertQuery = "INSERT INTO player_quest (uuid, tutorial) VALUES (?,?)";
+                        try (PreparedStatement insertStatement = connection.prepareStatement(insertQuery)){
+                            insertStatement.setString(1, uuid);
+                            insertStatement.setString(2, value);
+                            insertStatement.executeUpdate();
+                        }
+                    }
+                }
+            }
+            if (!connection.getAutoCommit()) {
+                connection.commit();
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new RuntimeException(e);
         }
     }
 

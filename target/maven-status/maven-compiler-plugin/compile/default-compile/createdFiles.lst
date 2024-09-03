@@ -11,6 +11,7 @@ net\dbsgameplay\dungeoncrusher\objects\PlayerHead.class
 net\dbsgameplay\dungeoncrusher\enums\MobNameTranslator.class
 net\dbsgameplay\dungeoncrusher\utils\Manager\SavezoneManager.class
 net\dbsgameplay\dungeoncrusher\utils\shops\ShopManager.class
+net\dbsgameplay\dungeoncrusher\listener\QuestListener.class
 net\dbsgameplay\dungeoncrusher\utils\Configs\DropsConfigManager.class
 net\dbsgameplay\dungeoncrusher\Commands\test$1.class
 net\dbsgameplay\dungeoncrusher\utils\Configs\RewardConfigManager.class
@@ -52,6 +53,7 @@ net\dbsgameplay\dungeoncrusher\utils\Manager\HologramManager.class
 net\dbsgameplay\dungeoncrusher\Commands\interfaces\ShopCategory.class
 net\dbsgameplay\dungeoncrusher\enums\Upgrades\SwordCategory.class
 net\dbsgameplay\dungeoncrusher\utils\Manager\DungeonManager.class
+net\dbsgameplay\dungeoncrusher\utils\QuestMapBuilder.class
 net\dbsgameplay\dungeoncrusher\utils\ItemBuilder.class
 net\dbsgameplay\dungeoncrusher\Commands\Quests\QuestCommand.class
 net\dbsgameplay\dungeoncrusher\DungeonCrusher.class

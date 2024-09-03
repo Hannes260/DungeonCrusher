@@ -7,6 +7,7 @@ C:\Users\kathr\Desktop\coding\DungeonCrusher\src\main\java\net\dbsgameplay\dunge
 C:\Users\kathr\Desktop\coding\DungeonCrusher\src\main\java\net\dbsgameplay\dungeoncrusher\listener\ChatListener.java
 C:\Users\kathr\Desktop\coding\DungeonCrusher\src\main\java\net\dbsgameplay\dungeoncrusher\utils\Configs\DropsConfigManager.java
 C:\Users\kathr\Desktop\coding\DungeonCrusher\src\main\java\net\dbsgameplay\dungeoncrusher\utils\ErfolgeMapBuilder.java
+C:\Users\kathr\Desktop\coding\DungeonCrusher\src\main\java\net\dbsgameplay\dungeoncrusher\listener\QuestListener.java
 C:\Users\kathr\Desktop\coding\DungeonCrusher\src\main\java\net\dbsgameplay\dungeoncrusher\DungeonCrusher.java
 C:\Users\kathr\Desktop\coding\DungeonCrusher\src\main\java\net\dbsgameplay\dungeoncrusher\utils\Manager\SavezoneManager.java
 C:\Users\kathr\Desktop\coding\DungeonCrusher\src\main\java\net\dbsgameplay\dungeoncrusher\listener\SavezoneListener.java
@@ -60,6 +61,7 @@ C:\Users\kathr\Desktop\coding\DungeonCrusher\src\main\java\net\dbsgameplay\dunge
 C:\Users\kathr\Desktop\coding\DungeonCrusher\src\main\java\net\dbsgameplay\dungeoncrusher\utils\Configs\RewardConfigManager.java
 C:\Users\kathr\Desktop\coding\DungeonCrusher\src\main\java\net\dbsgameplay\dungeoncrusher\sql\MYSQLManager.java
 C:\Users\kathr\Desktop\coding\DungeonCrusher\src\main\java\net\dbsgameplay\dungeoncrusher\listener\shops\ShopListener.java
+C:\Users\kathr\Desktop\coding\DungeonCrusher\src\main\java\net\dbsgameplay\dungeoncrusher\utils\QuestMapBuilder.java
 C:\Users\kathr\Desktop\coding\DungeonCrusher\src\main\java\net\dbsgameplay\dungeoncrusher\utils\upgrades\UpgradeManager.java
 C:\Users\kathr\Desktop\coding\DungeonCrusher\src\main\java\net\dbsgameplay\dungeoncrusher\objects\PlayerHead.java
 C:\Users\kathr\Desktop\coding\DungeonCrusher\src\main\java\net\dbsgameplay\dungeoncrusher\Commands\Admin\BuildCommand.java
