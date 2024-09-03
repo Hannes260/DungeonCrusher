@@ -38,7 +38,7 @@ public class QuestListener implements Listener {
 
         if (tutorialQuest == null) {
             // Spieler existiert noch nicht, daher neuen Eintrag hinzufügen
-            tutorialQuest = "t1";  // Standardwert für neue Spieler
+            tutorialQuest = "t3";  // Standardwert für neue Spieler
             mysqlManager.updateTutorialQuest(p.getUniqueId().toString(), tutorialQuest);
         }
 

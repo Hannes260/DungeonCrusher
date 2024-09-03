@@ -23,7 +23,7 @@ public class QuestBuilder {
     private static DungeonCrusher dungeonCrusher;
     public static Inventory questMenu = Bukkit.createInventory(null, 54, "§7Questmenü");
     public static HashMap<String, String> tutorialQuestMap = new HashMap<>();
-    public static BossBar bossBar = Bukkit.createBossBar(tutorialQuestMap.get("t3"), BarColor.BLUE, BarStyle.SOLID);
+    final public static BossBar bossBar = Bukkit.createBossBar(tutorialQuestMap.get("t3"), BarColor.BLUE, BarStyle.SOLID);
 
     public static Inventory getQuestmenü() {
         return questMenu;
