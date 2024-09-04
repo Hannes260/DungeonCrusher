@@ -7,6 +7,7 @@ import net.dbsgameplay.dungeoncrusher.utils.Configs.DropsConfigManager;
 import net.dbsgameplay.dungeoncrusher.utils.Manager.HologramManager;
 import net.dbsgameplay.dungeoncrusher.utils.ScoreboardBuilder;
 import org.bukkit.*;
+import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
@@ -19,6 +20,7 @@ import org.bukkit.inventory.meta.ItemMeta;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Random;
 
 public class CustomDropListener implements Listener {
     MYSQLManager mysqlManager;
@@ -89,6 +91,31 @@ public class CustomDropListener implements Listener {
         player.sendMessage(ConfigManager.getConfigMessage("message.additem", "%item%", itemName, "%amount%", String.valueOf(amountToDrop)));
         Location hologramLocation = event.getEntity().getLocation(); // Position des getöteten Mobs
         HologramManager.spawnItemHologram(hologramLocation, itemName);
+
+        if (mysqlManager.getOrginQuest("daily").equalsIgnoreCase("d3") || mysqlManager.getOrginQuest("daily").equalsIgnoreCase("d4")) {
+            FileConfiguration cfg = DungeonCrusher.getInstance().getConfig();
+
+            if (cfg.contains("quest." + player.getUniqueId().toString() + "." + "daily")) {
+                cfg.set("quest." + player.getUniqueId().toString() + "." + "daily", cfg.getInt("quest." + player.getUniqueId().toString() + "." + "daily")+1);
+            }else {
+                cfg.set("quest." + player.getUniqueId().toString() + "." + "daily", 1);
+            }
+
+            if (mysqlManager.getOrginQuest("daily").equalsIgnoreCase("d3") && cfg.getInt("quest." + player.getUniqueId().toString() + "." + "daily") == 250) {
+                cfg.set("quest." + player.getUniqueId().toString() + "." + "daily", null);
+                mysqlManager.updatePlayerQuest("daily", true, player.getUniqueId().toString());
+
+                Random rdm = new Random();
+                mysqlManager.updateBalance(player.getUniqueId().toString(), mysqlManager.getBalance(player.getUniqueId().toString() + rdm.nextInt(90, 151)));
+
+            }else if (mysqlManager.getOrginQuest("daily").equalsIgnoreCase("d4") && cfg.getInt("quest." + player.getUniqueId().toString() + "." + "daily") == 300) {
+                cfg.set("quest." + player.getUniqueId().toString() + "." + "daily", null);
+                mysqlManager.updatePlayerQuest("daily", true, player.getUniqueId().toString());
+
+                Random rdm = new Random();
+                mysqlManager.updateBalance(player.getUniqueId().toString(), mysqlManager.getBalance(player.getUniqueId().toString() + rdm.nextInt(100, 171)));
+            }
+        }
     }
     public static String translateMaterialName(Material material) {
         switch (material) {

@@ -9,6 +9,7 @@ import net.dbsgameplay.dungeoncrusher.utils.ScoreboardBuilder;
 import net.dbsgameplay.dungeoncrusher.utils.shops.ShopManager;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
+import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
@@ -137,6 +138,25 @@ public class PotionCategory implements ShopCategory {
                     // Füge den Trank zum Inventar des Spielers hinzu
                     Inventory playerInventory = p.getInventory();
                     Map<Integer, ItemStack> leftOverItems = playerInventory.addItem(potion);
+
+                    if (mysqlManager.getOrginQuest("daily").equalsIgnoreCase("d5")) {
+                        FileConfiguration cfg = DungeonCrusher.getInstance().getConfig();
+
+                        if (cfg.contains("quest." + p.getUniqueId().toString() + "." + "daily")) {
+                            cfg.set("quest." + p.getUniqueId().toString() + "." + "daily", cfg.getInt("quest." + p.getUniqueId().toString() + "." + "daily")+1);
+                        }else {
+                            cfg.set("quest." + p.getUniqueId().toString() + "." + "daily", 1);
+                        }
+
+                        if (cfg.getInt("quest." + p.getUniqueId().toString() + "." + "daily") == 3) {
+                            cfg.set("quest." + p.getUniqueId().toString() + "." + "daily", null);
+                            mysqlManager.updatePlayerQuest("daily", true, p.getUniqueId().toString());
+
+                            Random rdm = new Random();
+                            mysqlManager.updateBalance(p.getUniqueId().toString(), mysqlManager.getBalance(p.getUniqueId().toString() + rdm.nextInt(90, 151)));
+                        }
+                    }
+
                     if (!leftOverItems.isEmpty()) {
                         p.sendMessage(ConfigManager.getPrefix() + ConfigManager.getConfigMessage("message.inventoryfull", "", ""));
                         addMoney(p, totalPrice);

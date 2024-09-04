@@ -1,5 +1,6 @@
 package net.dbsgameplay.dungeoncrusher.listener;
 
+import it.unimi.dsi.fastutil.Hash;
 import net.dbsgameplay.dungeoncrusher.DungeonCrusher;
 import net.dbsgameplay.dungeoncrusher.enums.Upgrades.SwordCategory;
 import net.dbsgameplay.dungeoncrusher.sql.MYSQLManager;
@@ -11,27 +12,40 @@ import org.bukkit.boss.*;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
+import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.player.PlayerItemConsumeEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
+import org.bukkit.event.player.PlayerMoveEvent;
+import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.PotionMeta;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.potion.PotionType;
+import org.bukkit.scheduler.BukkitRunnable;
 import org.jetbrains.annotations.NotNull;
 
+import java.lang.module.Configuration;
+import java.lang.reflect.InvocationTargetException;
 import java.util.HashMap;
+import java.util.Random;
+import java.util.UUID;
 
 public class QuestListener implements Listener {
 
     MYSQLManager mysqlManager;
+    DungeonCrusher dungeonCrusher;
 
-    public QuestListener(MYSQLManager mysqlManager) {
+    public QuestListener(MYSQLManager mysqlManager, DungeonCrusher dungeonCrusher) {
         this.mysqlManager = mysqlManager;
+        this.dungeonCrusher = dungeonCrusher;
     }
+
+    public static HashMap<UUID, Integer> playtimeMap = new HashMap<UUID, Integer>();
 
     @EventHandler
     public void PlayerJoinEvent(PlayerJoinEvent e) {
@@ -63,6 +77,18 @@ public class QuestListener implements Listener {
                 bossBar1.addPlayer(p);
                 break;
         }
+
+        if (dungeonCrusher.getConfig().contains("quest." + p.getUniqueId().toString() + "." + "daily")) {
+            playtimeMap.put(p.getUniqueId(), dungeonCrusher.getConfig().getInt("quest." + p.getUniqueId().toString() + "." + "daily"));
+        }else {
+            playtimeMap.put(p.getUniqueId(), 0);
+        }
+
+    }
+
+    @EventHandler
+    public void PlayerQuitEvent(PlayerQuitEvent e) {
+        playtimeMap.remove(e.getPlayer().getUniqueId());
     }
 
     @EventHandler
@@ -93,5 +119,67 @@ public class QuestListener implements Listener {
             }
         }
 
+    }
+
+    @EventHandler
+    public void EntityDeathEvent(EntityDeathEvent e) {
+        if (mysqlManager.getOrginQuest("daily").equalsIgnoreCase("d1") || mysqlManager.getOrginQuest("daily").equalsIgnoreCase("d2")) {
+            if (e.getEntity().getKiller() instanceof  Player p) {
+                FileConfiguration cfg = DungeonCrusher.getInstance().getConfig();
+
+                if (cfg.contains("quest." + p.getUniqueId().toString() + "." + "daily")) {
+                    cfg.set("quest." + p.getUniqueId().toString() + "." + "daily", cfg.getInt("quest." + p.getUniqueId().toString() + "." + "daily")+1);
+                }else {
+                    cfg.set("quest." + p.getUniqueId().toString() + "." + "daily", 1);
+                }
+
+                if (mysqlManager.getOrginQuest("daily").equalsIgnoreCase("d1") && cfg.getInt("quest." + p.getUniqueId().toString() + "." + "daily") == 100) {
+                    cfg.set("quest." + p.getUniqueId().toString() + "." + "daily", null);
+                    mysqlManager.updatePlayerQuest("daily", true, p.getUniqueId().toString());
+
+                    Random rdm = new Random();
+                    mysqlManager.updateBalance(p.getUniqueId().toString(), mysqlManager.getBalance(p.getUniqueId().toString() + rdm.nextInt(90, 151)));
+
+                }else if (mysqlManager.getOrginQuest("daily").equalsIgnoreCase("d2") && cfg.getInt("quest." + p.getUniqueId().toString() + "." + "daily") == 150) {
+                    cfg.set("quest." + p.getUniqueId().toString() + "." + "daily", null);
+                    mysqlManager.updatePlayerQuest("daily", true, p.getUniqueId().toString());
+
+                    Random rdm = new Random();
+                    mysqlManager.updateBalance(p.getUniqueId().toString(), mysqlManager.getBalance(p.getUniqueId().toString() + rdm.nextInt(100, 171)));
+                }
+            }
+        }
+    }
+
+    @EventHandler
+    public void PlayerMoveEvent(PlayerMoveEvent e) {
+        Player p = e.getPlayer();
+
+        if (mysqlManager.getOrginQuest("daily").equalsIgnoreCase("d9") || mysqlManager.getOrginQuest("daily").equalsIgnoreCase("d10")) {
+            if(e.getFrom().getX() != e.getTo().getX() || e.getFrom().getZ() != e.getTo().getZ()) {
+                FileConfiguration cfg = DungeonCrusher.getInstance().getConfig();
+
+                if (cfg.contains("quest." + p.getUniqueId().toString() + "." + "daily")) {
+                    cfg.set("quest." + p.getUniqueId().toString() + "." + "daily", cfg.getInt("quest." + p.getUniqueId().toString() + "." + "daily")+1);
+                }else {
+                    cfg.set("quest." + p.getUniqueId().toString() + "." + "daily", 1);
+                }
+
+                if (mysqlManager.getOrginQuest("daily").equalsIgnoreCase("d9") && cfg.getInt("quest." + p.getUniqueId().toString() + "." + "daily") == 500) {
+                    cfg.set("quest." + p.getUniqueId().toString() + "." + "daily", null);
+                    mysqlManager.updatePlayerQuest("daily", true, p.getUniqueId().toString());
+
+                    Random rdm = new Random();
+                    mysqlManager.updateBalance(p.getUniqueId().toString(), mysqlManager.getBalance(p.getUniqueId().toString() + rdm.nextInt(90, 151)));
+
+                }else if (mysqlManager.getOrginQuest("daily").equalsIgnoreCase("d10") && cfg.getInt("quest." + p.getUniqueId().toString() + "." + "daily") == 1000) {
+                    cfg.set("quest." + p.getUniqueId().toString() + "." + "daily", null);
+                    mysqlManager.updatePlayerQuest("daily", true, p.getUniqueId().toString());
+
+                    Random rdm = new Random();
+                    mysqlManager.updateBalance(p.getUniqueId().toString(), mysqlManager.getBalance(p.getUniqueId().toString() + rdm.nextInt(100, 171)));
+                }
+            }
+        }
     }
 }

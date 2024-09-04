@@ -14,6 +14,7 @@ import org.bukkit.Material;
 import org.bukkit.boss.BarColor;
 import org.bukkit.boss.BarStyle;
 import org.bukkit.boss.BossBar;
+import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
@@ -135,6 +136,24 @@ public class FoodCategory implements ShopCategory {
                     BossBar bossBar1 = QuestBuilder.bossBar;
                     bossBar1.setTitle(QuestBuilder.tutorialQuestMap.get("t1"));
                     bossBar1.addPlayer(p);
+
+                    if (mysqlManager.getOrginQuest("daily").equalsIgnoreCase("d6")) {
+                        FileConfiguration cfg = DungeonCrusher.getInstance().getConfig();
+
+                        if (cfg.contains("quest." + p.getUniqueId().toString() + "." + "daily")) {
+                            cfg.set("quest." + p.getUniqueId().toString() + "." + "daily", cfg.getInt("quest." + p.getUniqueId().toString() + "." + "daily")+1);
+                        }else {
+                            cfg.set("quest." + p.getUniqueId().toString() + "." + "daily", 1);
+                        }
+
+                        if (cfg.getInt("quest." + p.getUniqueId().toString() + "." + "daily") == 20) {
+                            cfg.set("quest." + p.getUniqueId().toString() + "." + "daily", null);
+                            mysqlManager.updatePlayerQuest("daily", true, p.getUniqueId().toString());
+
+                            Random rdm = new Random();
+                            mysqlManager.updateBalance(p.getUniqueId().toString(), mysqlManager.getBalance(p.getUniqueId().toString() + rdm.nextInt(90, 151)));
+                        }
+                    }
                 }
             } else {
                 p.sendMessage(ConfigManager.getPrefix() + ConfigManager.getConfigMessage("message.inventoryfull", "", ""));

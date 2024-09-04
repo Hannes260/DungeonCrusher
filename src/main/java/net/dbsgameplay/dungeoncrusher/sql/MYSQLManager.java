@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.sql.*;
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
+import org.bukkit.entity.Player;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -196,9 +197,18 @@ public class MYSQLManager {
                     + "Wärter INT DEFAULT 0"
                     + ");";
             statement.execute(createmobkillsTableQuery);
-            String createQuestTableQuery = "CREATE TABLE IF NOT EXISTS player_quest ("
+            String createPlayerQuestTableQuery = "CREATE TABLE IF NOT EXISTS player_quest ("
                     + "uuid VARCHAR(255) PRIMARY KEY,"
-                    + "tutorial VARCHAR(255) DEFAULT NULL"
+                    + "tutorial VARCHAR(255) DEFAULT NULL,"
+                    + "daily BOOLEAN DEFAULT false,"
+                    + "weekly BOOLEAN DEFAULT false,"
+                    + "monthly BOOLEAN DEFAULT false"
+                    + ")";
+            statement.execute(createPlayerQuestTableQuery);
+            String createQuestTableQuery = "CREATE TABLE IF NOT EXISTS orgin_quest ("
+                    + "daily VARCHAR(255) DEFAULT NULL,"
+                    + "weekly VARCHAR(255) DEFAULT NULL,"
+                    + "monthly VARCHAR(255) DEFAULT NULL"
                     + ")";
             statement.execute(createQuestTableQuery);
             statement.close();
@@ -248,6 +258,120 @@ public class MYSQLManager {
                         String insertQuery = "INSERT INTO player_quest (uuid, tutorial) VALUES (?,?)";
                         try (PreparedStatement insertStatement = connection.prepareStatement(insertQuery)){
                             insertStatement.setString(1, uuid);
+                            insertStatement.setString(2, value);
+                            insertStatement.executeUpdate();
+                        }
+                    }
+                }
+            }
+            if (!connection.getAutoCommit()) {
+                connection.commit();
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public String getOrginQuest(String questType) {
+        String quest = null;
+
+        try (Connection connection = dataSource.getConnection()) {
+            // Query vorbereiten
+            String query = "SELECT ? FROM orgin_quest";
+            try (PreparedStatement statement = connection.prepareStatement(query)) {
+                statement.setString(1, questType);
+
+                // Query ausführen und Ergebnis abrufen
+                try (ResultSet resultSet = statement.executeQuery()) {
+                    if (resultSet.next()) {
+                        quest = resultSet.getString(questType);
+                        statement.close();
+                        resultSet.close();
+                    }
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return quest;
+    }
+
+    public void updatePlayerQuest(String questType, Boolean value, String uuid) {
+        try (Connection connection = dataSource.getConnection()) {
+            String checkQuery = "SELECT ? FROM player_quest WHERE uuid = ?";
+            try (PreparedStatement chechStatement = connection.prepareStatement(checkQuery)){
+                chechStatement.setString(1, questType);
+                chechStatement.setString(2, uuid);
+                try (ResultSet resultSet = chechStatement.executeQuery()){
+                    if (resultSet.next()) {
+                        String updateQuery = "UPDATE player_quest SET ? = ? WHERE uuid = ?";
+                        try (PreparedStatement updateStatement = connection.prepareStatement(updateQuery)) {
+                            updateStatement.setString(1, questType);
+                            updateStatement.setBoolean(2, value);
+                            updateStatement.setString(3, uuid);
+                            updateStatement.executeUpdate();
+                        }
+                    }else {
+                        String insertQuery = "INSERT INTO player_quest (uuid, ?) VALUES (? , ?)";
+                        try (PreparedStatement insertStatement = connection.prepareStatement(insertQuery)){
+                            insertStatement.setString(1, questType);
+                            insertStatement.setString(2, uuid);
+                            insertStatement.setBoolean(3, value);
+                            insertStatement.executeUpdate();
+                        }
+                    }
+                }
+            }
+            if (!connection.getAutoCommit()) {
+                connection.commit();
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public Boolean getPlayerQuest(String questType, String uuid) {
+        Boolean quest = null;
+
+        try (Connection connection = dataSource.getConnection()) {
+            // Query vorbereiten
+            String query = "SELECT ? FROM player_quest WHERE uuid = ?";
+            try (PreparedStatement statement = connection.prepareStatement(query)) {
+                statement.setString(1, questType);
+                statement.setString(2, uuid);
+
+                // Query ausführen und Ergebnis abrufen
+                try (ResultSet resultSet = statement.executeQuery()) {
+                    if (resultSet.next()) {
+                        quest = resultSet.getBoolean(questType);
+                        statement.close();
+                        resultSet.close();
+                    }
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return quest;
+    }
+
+    public void updateOrginQuest(String questType, String value) {
+        try (Connection connection = dataSource.getConnection()) {
+            String checkQuery = "SELECT ? FROM orgin_quest";
+            try (PreparedStatement chechStatement = connection.prepareStatement(checkQuery)){
+                chechStatement.setString(1, questType);
+                try (ResultSet resultSet = chechStatement.executeQuery()){
+                    if (resultSet.next()) {
+                        String updateQuery = "UPDATE orgin_quest SET ? = ?";
+                        try (PreparedStatement updateStatement = connection.prepareStatement(updateQuery)) {
+                            updateStatement.setString(1, questType);
+                            updateStatement.setString(2, value);
+                            updateStatement.executeUpdate();
+                        }
+                    }else {
+                        String insertQuery = "INSERT INTO orgin_quest (?) VALUES (?)";
+                        try (PreparedStatement insertStatement = connection.prepareStatement(insertQuery)){
+                            insertStatement.setString(1, questType);
                             insertStatement.setString(2, value);
                             insertStatement.executeUpdate();
                         }
