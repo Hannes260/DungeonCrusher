@@ -296,6 +296,37 @@ public class MYSQLManager {
         return quest;
     }
 
+    public void updateOrginQuest(String questType, String value) {
+        try (Connection connection = dataSource.getConnection()) {
+            String checkQuery = "SELECT ? FROM orgin_quest";
+            try (PreparedStatement chechStatement = connection.prepareStatement(checkQuery)){
+                chechStatement.setString(1, questType);
+                try (ResultSet resultSet = chechStatement.executeQuery()){
+                    if (resultSet.next()) {
+                        String updateQuery = "UPDATE orgin_quest SET ? = ?";
+                        try (PreparedStatement updateStatement = connection.prepareStatement(updateQuery)) {
+                            updateStatement.setString(1, questType);
+                            updateStatement.setString(2, value);
+                            updateStatement.executeUpdate();
+                        }
+                    }else {
+                        String insertQuery = "INSERT INTO orgin_quest (?) VALUES (?)";
+                        try (PreparedStatement insertStatement = connection.prepareStatement(insertQuery)){
+                            insertStatement.setString(1, questType);
+                            insertStatement.setString(2, value);
+                            insertStatement.executeUpdate();
+                        }
+                    }
+                }
+            }
+            if (!connection.getAutoCommit()) {
+                connection.commit();
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     public void updatePlayerQuest(String questType, Boolean value, String uuid) {
         try (Connection connection = dataSource.getConnection()) {
             String checkQuery = "SELECT ? FROM player_quest WHERE uuid = ?";
@@ -353,37 +384,6 @@ public class MYSQLManager {
             e.printStackTrace();
         }
         return quest;
-    }
-
-    public void updateOrginQuest(String questType, String value) {
-        try (Connection connection = dataSource.getConnection()) {
-            String checkQuery = "SELECT ? FROM orgin_quest";
-            try (PreparedStatement chechStatement = connection.prepareStatement(checkQuery)){
-                chechStatement.setString(1, questType);
-                try (ResultSet resultSet = chechStatement.executeQuery()){
-                    if (resultSet.next()) {
-                        String updateQuery = "UPDATE orgin_quest SET ? = ?";
-                        try (PreparedStatement updateStatement = connection.prepareStatement(updateQuery)) {
-                            updateStatement.setString(1, questType);
-                            updateStatement.setString(2, value);
-                            updateStatement.executeUpdate();
-                        }
-                    }else {
-                        String insertQuery = "INSERT INTO orgin_quest (?) VALUES (?)";
-                        try (PreparedStatement insertStatement = connection.prepareStatement(insertQuery)){
-                            insertStatement.setString(1, questType);
-                            insertStatement.setString(2, value);
-                            insertStatement.executeUpdate();
-                        }
-                    }
-                }
-            }
-            if (!connection.getAutoCommit()) {
-                connection.commit();
-            }
-        } catch (SQLException e) {
-            throw new RuntimeException(e);
-        }
     }
 
     public boolean canClaimDailyReward(String playerUUID) {

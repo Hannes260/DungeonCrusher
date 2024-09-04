@@ -29,23 +29,24 @@ public class QuestBuilder {
     public static Inventory questMenu = Bukkit.createInventory(null, 54, "§7Questmenü");
     public static HashMap<String, String> tutorialQuestMap = new HashMap<>();
     public static HashMap<String, String> dailyQuestMap = new HashMap<>();
-    public static HashMap<String, String> dailyQuestBMap = new HashMap<>();
     final public static BossBar bossBar = Bukkit.createBossBar(tutorialQuestMap.get("t3"), BarColor.BLUE, BarStyle.SOLID);
-    public static String[] dailyQuests = (String[]) tutorialQuestMap.values().toArray();
+
 
     public static Inventory getQuestmenü() {
         return questMenu;
     }
 
     public static void fillQuestmenü(Player player) {
+
         Date nowdaily = new Date(System.currentTimeMillis());
         SimpleDateFormat formatdaily = new SimpleDateFormat("HH:mm:ss");
 
         if (formatdaily.format(nowdaily).equalsIgnoreCase("00:00:01")) {
             Random random = new Random();
-            int rdmNum = random.nextInt(0, dailyQuests.length + 1);
-            String questKey = dailyQuests[rdmNum];
-            mysqlManager.updateOrginQuest("daily", questKey);
+            int rdmNum = random.nextInt(0, dailyQuestMap.size());
+            String[] keyArray = dailyQuestMap.keySet().toArray(new String[0]);
+            String key = keyArray[rdmNum]; // Access the element at index 9
+            mysqlManager.updateOrginQuest("daily", key);
             mysqlManager.updatePlayerQuest("daily", false, player.getUniqueId().toString());
             dungeonCrusher.getConfig().set("quest." + player.getUniqueId().toString() + "." + "daily", null);
         }

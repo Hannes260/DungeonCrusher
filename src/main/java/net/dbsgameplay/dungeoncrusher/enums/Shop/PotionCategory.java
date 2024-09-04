@@ -139,7 +139,7 @@ public class PotionCategory implements ShopCategory {
                     Inventory playerInventory = p.getInventory();
                     Map<Integer, ItemStack> leftOverItems = playerInventory.addItem(potion);
 
-                    if (mysqlManager.getOrginQuest("daily").equalsIgnoreCase("d5")) {
+                    if (mysqlManager.getOrginQuest("daily") != null && mysqlManager.getOrginQuest("daily").equalsIgnoreCase("d5") && mysqlManager.getTutorialQuest(p.getUniqueId().toString()).equalsIgnoreCase("t0")) {
                         FileConfiguration cfg = DungeonCrusher.getInstance().getConfig();
 
                         if (cfg.contains("quest." + p.getUniqueId().toString() + "." + "daily")) {

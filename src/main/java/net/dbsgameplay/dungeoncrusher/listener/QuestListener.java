@@ -123,8 +123,8 @@ public class QuestListener implements Listener {
 
     @EventHandler
     public void EntityDeathEvent(EntityDeathEvent e) {
-        if (mysqlManager.getOrginQuest("daily").equalsIgnoreCase("d1") || mysqlManager.getOrginQuest("daily").equalsIgnoreCase("d2")) {
-            if (e.getEntity().getKiller() instanceof  Player p) {
+        if (mysqlManager.getOrginQuest("daily") != null && mysqlManager.getOrginQuest("daily").equalsIgnoreCase("d1") || mysqlManager.getOrginQuest("daily") != null && mysqlManager.getOrginQuest("daily").equalsIgnoreCase("d2")) {
+            if (e.getEntity().getKiller() instanceof  Player p && mysqlManager.getTutorialQuest(p.getUniqueId().toString()).equalsIgnoreCase("t0")) {
                 FileConfiguration cfg = DungeonCrusher.getInstance().getConfig();
 
                 if (cfg.contains("quest." + p.getUniqueId().toString() + "." + "daily")) {
@@ -155,7 +155,7 @@ public class QuestListener implements Listener {
     public void PlayerMoveEvent(PlayerMoveEvent e) {
         Player p = e.getPlayer();
 
-        if (mysqlManager.getOrginQuest("daily").equalsIgnoreCase("d9") || mysqlManager.getOrginQuest("daily").equalsIgnoreCase("d10")) {
+        if (mysqlManager.getOrginQuest("daily") != null && mysqlManager.getTutorialQuest(p.getUniqueId().toString()).equalsIgnoreCase("t0") && mysqlManager.getOrginQuest("daily").equalsIgnoreCase("d9") || mysqlManager.getOrginQuest("daily") != null && mysqlManager.getTutorialQuest(p.getUniqueId().toString()).equalsIgnoreCase("t0") && mysqlManager.getOrginQuest("daily").equalsIgnoreCase("d10")) {
             if(e.getFrom().getX() != e.getTo().getX() || e.getFrom().getZ() != e.getTo().getZ()) {
                 FileConfiguration cfg = DungeonCrusher.getInstance().getConfig();
 

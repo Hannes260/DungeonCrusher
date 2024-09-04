@@ -7,7 +7,6 @@ public class QuestMapBuilder {
     public static void BuildMap() {
         HashMap<String, String> tutorialQuestMap = QuestBuilder.tutorialQuestMap;
         HashMap<String, String> dailyQuestMap = QuestBuilder.dailyQuestMap;
-        HashMap<String, String> dailyQuestBMap = QuestBuilder.dailyQuestBMap;
 
         tutorialQuestMap.put("t3", "§6Verbessere dein Schwert auf Lvl. 2.");
         tutorialQuestMap.put("t2", "§6Kaufe dir Essen im Teleporter.");
@@ -24,16 +23,6 @@ public class QuestMapBuilder {
         dailyQuestMap.put("d9", "§6Lege 500 Meter zurück.");
         dailyQuestMap.put("d10", "§6Lege 1000 Meter zurück.");
 
-        dailyQuestBMap.put("d1b", "§6Töte 100 Kreaturen.");
-        dailyQuestBMap.put("d2b", "§6Töte 150 Kreaturen.");
-        dailyQuestBMap.put("d3b", "§6Sammle 250 Materialien.");
-        dailyQuestBMap.put("d4b", "§6Sammle 300 Materialien.");
-        dailyQuestBMap.put("d5b", "§6Kaufe 3 Tränke.");
-        dailyQuestBMap.put("d6b", "§6Kaufe 20 mal Essen.");
-        dailyQuestBMap.put("d7b", "§6Spiele 60 Minuten.");
-        dailyQuestBMap.put("d8b", "§6Spiele 90 Minuten.");
-        dailyQuestBMap.put("d9b", "§6Lege 500 Meter zurück.");
-        dailyQuestBMap.put("d10b", "§6Lege 1000 Meter zurück.");
     }
 
 

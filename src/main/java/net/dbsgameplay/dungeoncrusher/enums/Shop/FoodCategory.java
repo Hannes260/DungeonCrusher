@@ -131,13 +131,13 @@ public class FoodCategory implements ShopCategory {
             if (leftOverItems.isEmpty()) {
                 p.sendMessage(ConfigManager.getPrefix() + ConfigManager.getConfigMessage("message.buyshop", "%amount%", String.valueOf(amount), "%material%", material.toString()));
 
-                if (mysqlManager.getTutorialQuest(p.getUniqueId().toString()).equalsIgnoreCase("t2")) {
+                if (mysqlManager.getOrginQuest("daily") != null && mysqlManager.getTutorialQuest(p.getUniqueId().toString()).equalsIgnoreCase("t2")) {
                     mysqlManager.updateTutorialQuest(p.getUniqueId().toString(), "t1");
                     BossBar bossBar1 = QuestBuilder.bossBar;
                     bossBar1.setTitle(QuestBuilder.tutorialQuestMap.get("t1"));
                     bossBar1.addPlayer(p);
 
-                    if (mysqlManager.getOrginQuest("daily").equalsIgnoreCase("d6")) {
+                    if (mysqlManager.getOrginQuest("daily").equalsIgnoreCase("d6") && mysqlManager.getTutorialQuest(p.getUniqueId().toString()).equalsIgnoreCase("t0")) {
                         FileConfiguration cfg = DungeonCrusher.getInstance().getConfig();
 
                         if (cfg.contains("quest." + p.getUniqueId().toString() + "." + "daily")) {

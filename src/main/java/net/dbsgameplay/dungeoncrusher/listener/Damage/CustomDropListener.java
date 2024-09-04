@@ -92,7 +92,7 @@ public class CustomDropListener implements Listener {
         Location hologramLocation = event.getEntity().getLocation(); // Position des getöteten Mobs
         HologramManager.spawnItemHologram(hologramLocation, itemName);
 
-        if (mysqlManager.getOrginQuest("daily").equalsIgnoreCase("d3") || mysqlManager.getOrginQuest("daily").equalsIgnoreCase("d4")) {
+        if (mysqlManager.getOrginQuest("daily") != null && mysqlManager.getOrginQuest("daily").equalsIgnoreCase("d3") && mysqlManager.getTutorialQuest(player.getUniqueId().toString()).equalsIgnoreCase("t0")|| mysqlManager.getOrginQuest("daily") != null && mysqlManager.getOrginQuest("daily").equalsIgnoreCase("d4")&& mysqlManager.getTutorialQuest(player.getUniqueId().toString()).equalsIgnoreCase("t0")) {
             FileConfiguration cfg = DungeonCrusher.getInstance().getConfig();
 
             if (cfg.contains("quest." + player.getUniqueId().toString() + "." + "daily")) {
