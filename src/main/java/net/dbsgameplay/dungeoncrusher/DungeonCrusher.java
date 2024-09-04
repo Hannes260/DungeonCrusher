@@ -218,7 +218,7 @@ public final class DungeonCrusher extends JavaPlugin {
         pluginManager.registerEvents(new ErfolgeListener(this,locationConfigManager), this);
         pluginManager.registerEvents(new UpgradeListener(this,locationConfigManager, mysqlManager), this);
         pluginManager.registerEvents(new ChatListener(), this);
-        pluginManager.registerEvents(new QuestListener(mysqlManager), this);
+        pluginManager.registerEvents(new QuestListener(mysqlManager, this), this);
     }
 
     public void sendToDiscord(String content, int color) {
