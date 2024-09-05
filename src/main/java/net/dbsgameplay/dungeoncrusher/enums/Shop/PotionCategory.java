@@ -141,7 +141,7 @@ public class PotionCategory implements ShopCategory {
                     Map<Integer, ItemStack> leftOverItems = playerInventory.addItem(potion);
 
                     //QuestCheck
-                    QuestBuilder.checkIfQuestIsDone("daily", "d5", p, 3);
+                    QuestBuilder.checkIfWeeklyIsDone("daily", "d5", p, 3);
 
                     if (!leftOverItems.isEmpty()) {
                         p.sendMessage(ConfigManager.getPrefix() + ConfigManager.getConfigMessage("message.inventoryfull", "", ""));

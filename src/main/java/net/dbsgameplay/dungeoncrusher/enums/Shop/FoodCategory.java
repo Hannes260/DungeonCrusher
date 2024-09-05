@@ -139,7 +139,7 @@ public class FoodCategory implements ShopCategory {
                 }
 
                 //QuestCheck
-                QuestBuilder.checkIfQuestIsDone("daily", "d6", p, 20);
+                QuestBuilder.checkIfWeeklyIsDone("daily", "d6", p, 20);
 
             } else {
                 p.sendMessage(ConfigManager.getPrefix() + ConfigManager.getConfigMessage("message.inventoryfull", "", ""));
@@ -172,7 +172,7 @@ public class FoodCategory implements ShopCategory {
         return true;
     }
 
-    private void addMoney(Player player, double amount) {
+    public void addMoney(Player player, double amount) {
         String playerName = player.getUniqueId().toString();
         double currentMoney;
         try {

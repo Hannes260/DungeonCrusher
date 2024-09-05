@@ -1,11 +1,13 @@
 package net.dbsgameplay.dungeoncrusher.utils;
 
 import net.dbsgameplay.dungeoncrusher.DungeonCrusher;
+import net.dbsgameplay.dungeoncrusher.enums.Shop.FoodCategory;
 import net.dbsgameplay.dungeoncrusher.sql.MYSQLManager;
 import net.dbsgameplay.dungeoncrusher.utils.Configs.LocationConfigManager;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.OfflinePlayer;
+import org.bukkit.Sound;
 import org.bukkit.boss.BarColor;
 import org.bukkit.boss.BarStyle;
 import org.bukkit.boss.BossBar;
@@ -45,18 +47,19 @@ public class QuestBuilder {
         dailylMeta.setItemName("§6Daily");
         ArrayList<String> dailyList = new ArrayList<>();
         dailyList.add(dailyQuestMap.get(mysqlManager.getOrginQuest("daily")));
-        dailylMeta.setLore(dailyList);
 
-        if (mysqlManager.getPlayerQuest("daily", player.getUniqueId().toString()) == null) {
-            mysqlManager.updatePlayerQuest("daily", false, player.getUniqueId().toString());
+
+        if (mysqlManager.getPlayerWeeklyQuest(player.getUniqueId().toString()) == null) {
+            mysqlManager.updatePlayerWeeklyQuest(false, player.getUniqueId().toString());
         }
 
-        if (mysqlManager.getPlayerQuest("daily", player.getUniqueId().toString())) {
+        if (mysqlManager.getPlayerWeeklyQuest(player.getUniqueId().toString())) {
+            dailyList.add("§aAbgeschlossen!");
             dailylMeta.setEnchantmentGlintOverride(true);
         } else {
             dailylMeta.setEnchantmentGlintOverride(false);
         }
-
+        dailylMeta.setLore(dailyList);
         dailyStack.setItemMeta(dailylMeta);
         questMenu.setItem(11, dailyStack);
     }
@@ -83,31 +86,35 @@ public class QuestBuilder {
             String key = keyArray[rdmNum]; // Access the element at index 9
             mysqlManager.updateOrginQuest("daily", key);
             for (OfflinePlayer p : Bukkit.getServer().getOfflinePlayers()) {
-                mysqlManager.updatePlayerQuest("daily", false, p.getUniqueId().toString());
+                mysqlManager.updatePlayerWeeklyQuest( false, p.getUniqueId().toString());
             }
             for (Player p : Bukkit.getServer().getOnlinePlayers()) {
-                mysqlManager.updatePlayerQuest("daily", false, p.getUniqueId().toString());
+                mysqlManager.updatePlayerWeeklyQuest( false, p.getUniqueId().toString());
             }
             dungeonCrusher.getConfig().set("quest.", null);
         }
     }
 
-    public static void checkIfQuestIsDone(String questType, String quest, Player p, int aim) {
-        if (mysqlManager.getOrginQuest(questType) != null && mysqlManager.getOrginQuest(questType).equalsIgnoreCase(quest) && mysqlManager.getTutorialQuest(p.getUniqueId().toString()).equalsIgnoreCase("t0")) {
+    public static void checkIfWeeklyIsDone(String questType, String quest, Player p, int aim) {
+        if (mysqlManager.getOrginQuest(questType) != null && mysqlManager.getOrginQuest(questType).equalsIgnoreCase(quest) && mysqlManager.getTutorialQuest(p.getUniqueId().toString()).equalsIgnoreCase("t0") && mysqlManager.getPlayerWeeklyQuest(p.getUniqueId().toString()) == false) {
             FileConfiguration cfg = DungeonCrusher.getInstance().getConfig();
-
             if (cfg.contains("quest." + p.getUniqueId().toString() + "." + questType)) {
                 cfg.set("quest." + p.getUniqueId().toString() + "." + questType, cfg.getInt("quest." + p.getUniqueId().toString() + "." + questType)+1);
+                DungeonCrusher.getInstance().saveConfig();
             }else {
                 cfg.set("quest." + p.getUniqueId().toString() + "." + questType, 1);
+                DungeonCrusher.getInstance().saveConfig();
             }
 
             if (cfg.getInt("quest." + p.getUniqueId().toString() + "." + questType) == aim) {
                 cfg.set("quest." + p.getUniqueId().toString() + "." + questType, null);
-                mysqlManager.updatePlayerQuest(questType, false, p.getUniqueId().toString());
+                DungeonCrusher.getInstance().saveConfig();
+                mysqlManager.updatePlayerWeeklyQuest( true, p.getUniqueId().toString());
 
                 Random rdm = new Random();
-                mysqlManager.updateBalance(p.getUniqueId().toString(), mysqlManager.getBalance(p.getUniqueId().toString() + rdm.nextInt(90, 151)));
+                FoodCategory foodCategory = new FoodCategory(mysqlManager);
+                foodCategory.addMoney(p, rdm.nextInt(70,100));
+                p.playSound(p.getLocation(), Sound.ENTITY_ARROW_HIT_PLAYER, 100, 1);
             }
         }
     }

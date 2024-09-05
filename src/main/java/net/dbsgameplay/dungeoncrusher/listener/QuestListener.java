@@ -53,6 +53,9 @@ public class QuestListener implements Listener {
         HashMap<String, String> tutorialQuestMap = QuestBuilder.tutorialQuestMap;
         String tutorialQuest = mysqlManager.getTutorialQuest(p.getUniqueId().toString());
 
+        if  (!p.hasPlayedBefore()) {
+            p.sendMessage("§6Das Tutorial an der Bossbar zeigt dir wie du Spielst!");
+        }
         if (tutorialQuest == null) {
             // Spieler existiert noch nicht, daher neuen Eintrag hinzufügen
             tutorialQuest = "t3";  // Standardwert für neue Spieler
@@ -104,6 +107,10 @@ public class QuestListener implements Listener {
                 bossBar2.addPlayer(p);
             }
         }
+
+        if (e.getClickedInventory().equals(QuestBuilder.questMenu)) {
+            e.setCancelled(true);
+        }
     }
 
     @EventHandler
@@ -116,6 +123,7 @@ public class QuestListener implements Listener {
                 mysqlManager.updateTutorialQuest(p.getUniqueId().toString(), "t0");
                 BossBar bossBar1 = QuestBuilder.bossBar;
                 bossBar1.removePlayer(p);
+                p.sendMessage("§6Du hast das Tutorial abgeschlossen. Viel spaß dir noch auf dem DungeonCrusher!");
             }
         }
 
@@ -125,9 +133,9 @@ public class QuestListener implements Listener {
     public void EntityDeathEvent(EntityDeathEvent e) {
         if (e.getEntity().getKiller() instanceof Player p) {
             //QuestCheck
-            QuestBuilder.checkIfQuestIsDone("daily", "d1", p, 100);
+            QuestBuilder.checkIfWeeklyIsDone("daily", "d1", p, 100);
             //QuestCheck
-            QuestBuilder.checkIfQuestIsDone("daily", "d2", p, 150);
+            QuestBuilder.checkIfWeeklyIsDone("daily", "d2", p, 150);
         }
     }
 
@@ -137,9 +145,9 @@ public class QuestListener implements Listener {
 
         if(e.getFrom().getX() != e.getTo().getX() || e.getFrom().getZ() != e.getTo().getZ()) {
             //QuestCheck
-            QuestBuilder.checkIfQuestIsDone("daily", "d9", p, 500);
+            QuestBuilder.checkIfWeeklyIsDone("daily", "d9", p, 500);
             //QuestCheck
-            QuestBuilder.checkIfQuestIsDone("daily", "d10", p, 1000);
+            QuestBuilder.checkIfWeeklyIsDone("daily", "d10", p, 1000);
         }
     }
 }

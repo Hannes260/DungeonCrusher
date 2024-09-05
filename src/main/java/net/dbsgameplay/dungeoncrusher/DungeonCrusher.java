@@ -281,21 +281,21 @@ public final class DungeonCrusher extends JavaPlugin {
                 QuestBuilder.checkForOrginQuestUpdate();
 
                 for (Player p : Bukkit.getServer().getOnlinePlayers()) {
-                    if (mysqlManager.getOrginQuest("daily") != null && mysqlManager.getOrginQuest("daily").equalsIgnoreCase("d7") && mysqlManager.getTutorialQuest(p.getUniqueId().toString()).equalsIgnoreCase("t0")|| mysqlManager.getOrginQuest("daily") != null && mysqlManager.getOrginQuest("daily").equalsIgnoreCase("d8") && mysqlManager.getTutorialQuest(p.getUniqueId().toString()).equalsIgnoreCase("t0")) {
+                    if (mysqlManager.getOrginQuest("daily") != null && mysqlManager.getOrginQuest("daily").equalsIgnoreCase("d7") && mysqlManager.getTutorialQuest(p.getUniqueId().toString()).equalsIgnoreCase("t0") && mysqlManager.getPlayerWeeklyQuest(p.getUniqueId().toString()) == false|| mysqlManager.getOrginQuest("daily") != null && mysqlManager.getOrginQuest("daily").equalsIgnoreCase("d8") && mysqlManager.getTutorialQuest(p.getUniqueId().toString()).equalsIgnoreCase("t0") && mysqlManager.getPlayerWeeklyQuest(p.getUniqueId().toString()) == false) {
 
                         QuestListener.playtimeMap.replace(p.getUniqueId(), QuestListener.playtimeMap.get(p.getUniqueId())+1);
                         cfg.set("quest." + p.getUniqueId().toString() + "." + "daily", QuestListener.playtimeMap.get(p.getUniqueId()));
 
                         if (mysqlManager.getOrginQuest("daily").equalsIgnoreCase("d7") && cfg.getInt("quest." + p.getUniqueId().toString() + "." + "daily") == 3600) {
                             cfg.set("quest." + p.getUniqueId().toString() + "." + "daily", null);
-                            mysqlManager.updatePlayerQuest("daily", true, p.getUniqueId().toString());
+                            mysqlManager.updatePlayerWeeklyQuest( true, p.getUniqueId().toString());
 
                             Random rdm = new Random();
                             mysqlManager.updateBalance(p.getUniqueId().toString(), mysqlManager.getBalance(p.getUniqueId().toString() + rdm.nextInt(90, 151)));
 
                         }else if (mysqlManager.getOrginQuest("daily").equalsIgnoreCase("d8") && cfg.getInt("quest." + p.getUniqueId().toString() + "." + "daily") == 5400) {
                             cfg.set("quest." + p.getUniqueId().toString() + "." + "daily", null);
-                            mysqlManager.updatePlayerQuest("daily", true, p.getUniqueId().toString());
+                            mysqlManager.updatePlayerWeeklyQuest(true, p.getUniqueId().toString());
 
                             Random rdm = new Random();
                             mysqlManager.updateBalance(p.getUniqueId().toString(), mysqlManager.getBalance(p.getUniqueId().toString() + rdm.nextInt(100, 171)));
