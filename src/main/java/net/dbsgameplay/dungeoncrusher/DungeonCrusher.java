@@ -281,7 +281,7 @@ public final class DungeonCrusher extends JavaPlugin {
                 QuestBuilder.checkForOrginQuestUpdate();
 
                 for (Player p : Bukkit.getServer().getOnlinePlayers()) {
-                    if (mysqlManager.getOrginQuest("daily") != null && mysqlManager.getOrginQuest("daily").equalsIgnoreCase("d7") && mysqlManager.getTutorialQuest(p.getUniqueId().toString()).equalsIgnoreCase("t0")|| mysqlManager.getOrginQuest("daily").equalsIgnoreCase("d8") && mysqlManager.getTutorialQuest(p.getUniqueId().toString()).equalsIgnoreCase("t0")) {
+                    if (mysqlManager.getOrginQuest("daily") != null && mysqlManager.getOrginQuest("daily").equalsIgnoreCase("d7") && mysqlManager.getTutorialQuest(p.getUniqueId().toString()).equalsIgnoreCase("t0")|| mysqlManager.getOrginQuest("daily") != null && mysqlManager.getOrginQuest("daily").equalsIgnoreCase("d8") && mysqlManager.getTutorialQuest(p.getUniqueId().toString()).equalsIgnoreCase("t0")) {
 
                         QuestListener.playtimeMap.replace(p.getUniqueId(), QuestListener.playtimeMap.get(p.getUniqueId())+1);
                         cfg.set("quest." + p.getUniqueId().toString() + "." + "daily", QuestListener.playtimeMap.get(p.getUniqueId()));

@@ -28,7 +28,7 @@ public class QuestCommand implements CommandExecutor {
             QuestBuilder.fillQuestmenü(p);
             p.openInventory(QuestBuilder.getQuestmenü());
         }else {
-            p.sendActionBar("§c§lDu hast das tutorial noch nicht abgeschlossen!");
+            p.sendActionBar("§c§lDu hast das TUTORIAL noch nicht abgeschlossen!");
         }
 
         return false;

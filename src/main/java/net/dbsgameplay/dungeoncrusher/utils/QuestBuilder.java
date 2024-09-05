@@ -46,11 +46,17 @@ public class QuestBuilder {
         ArrayList<String> dailyList = new ArrayList<>();
         dailyList.add(dailyQuestMap.get(mysqlManager.getOrginQuest("daily")));
         dailylMeta.setLore(dailyList);
+
+        if (mysqlManager.getPlayerQuest("daily", player.getUniqueId().toString()) == null) {
+            mysqlManager.updatePlayerQuest("daily", false, player.getUniqueId().toString());
+        }
+
         if (mysqlManager.getPlayerQuest("daily", player.getUniqueId().toString())) {
             dailylMeta.setEnchantmentGlintOverride(true);
         } else {
             dailylMeta.setEnchantmentGlintOverride(false);
         }
+
         dailyStack.setItemMeta(dailylMeta);
         questMenu.setItem(11, dailyStack);
     }
@@ -98,7 +104,7 @@ public class QuestBuilder {
 
             if (cfg.getInt("quest." + p.getUniqueId().toString() + "." + questType) == aim) {
                 cfg.set("quest." + p.getUniqueId().toString() + "." + questType, null);
-                mysqlManager.updatePlayerQuest(questType, true, p.getUniqueId().toString());
+                mysqlManager.updatePlayerQuest(questType, false, p.getUniqueId().toString());
 
                 Random rdm = new Random();
                 mysqlManager.updateBalance(p.getUniqueId().toString(), mysqlManager.getBalance(p.getUniqueId().toString() + rdm.nextInt(90, 151)));

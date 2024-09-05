@@ -200,9 +200,9 @@ public class MYSQLManager {
             String createPlayerQuestTableQuery = "CREATE TABLE IF NOT EXISTS player_quest ("
                     + "uuid VARCHAR(255) PRIMARY KEY,"
                     + "tutorial VARCHAR(255) DEFAULT NULL,"
-                    + "daily BOOLEAN DEFAULT false,"
-                    + "weekly BOOLEAN DEFAULT false,"
-                    + "monthly BOOLEAN DEFAULT false"
+                    + "daily BOOLEAN DEFAULT FALSE,"
+                    + "weekly BOOLEAN DEFAULT FALSE,"
+                    + "monthly BOOLEAN DEFAULT FALSE"
                     + ")";
             statement.execute(createPlayerQuestTableQuery);
             String createQuestTableQuery = "CREATE TABLE IF NOT EXISTS orgin_quest ("
@@ -283,7 +283,7 @@ public class MYSQLManager {
                 // Query ausführen und Ergebnis abrufen
                 try (ResultSet resultSet = statement.executeQuery()) {
                     if (resultSet.next()) {
-                        quest = resultSet.getString(questType);
+                        quest = resultSet.getString("quest");
                         statement.close();
                         resultSet.close();
                     }
@@ -328,30 +328,33 @@ public class MYSQLManager {
 
     public void updatePlayerQuest(String questType, Boolean value, String uuid) {
         try (Connection connection = dataSource.getConnection()) {
-            String checkQuery = "SELECT ? FROM player_quest WHERE uuid = ?";
-            try (PreparedStatement chechStatement = connection.prepareStatement(checkQuery)){
-                chechStatement.setString(1, questType);
-                chechStatement.setString(2, uuid);
-                try (ResultSet resultSet = chechStatement.executeQuery()){
+            // Check if player_quest exists for the given questType and uuid
+            String checkQuery = "SELECT 1 FROM player_quest WHERE questType = ? AND uuid = ?";
+            try (PreparedStatement checkStatement = connection.prepareStatement(checkQuery)) {
+                checkStatement.setString(1, questType);
+                checkStatement.setString(2, uuid);
+                try (ResultSet resultSet = checkStatement.executeQuery()) {
                     if (resultSet.next()) {
-                        String updateQuery = "UPDATE player_quest SET ? = ? WHERE uuid = ?";
+                        // Update player_quest if exists
+                        String updateQuery = "UPDATE player_quest SET value = ? WHERE questType = ? AND uuid = ?";
                         try (PreparedStatement updateStatement = connection.prepareStatement(updateQuery)) {
-                            updateStatement.setString(1, questType);
-                            updateStatement.setBoolean(2, value);
+                            updateStatement.setBoolean(1, value);
+                            updateStatement.setString(2, questType);
                             updateStatement.setString(3, uuid);
                             updateStatement.executeUpdate();
                         }
-                    }else {
-                        String insertQuery = "INSERT INTO player_quest (uuid, ?) VALUES (? , ?)";
-                        try (PreparedStatement insertStatement = connection.prepareStatement(insertQuery)){
-                            insertStatement.setString(1, questType);
-                            insertStatement.setString(2, uuid);
-                            insertStatement.setBoolean(3, value);
+                    } else {
+                        // Insert new row if player_quest doesn't exist
+                        String insertQuery = "INSERT INTO player_quest (uuid, questType) VALUES (?, ?)";
+                        try (PreparedStatement insertStatement = connection.prepareStatement(insertQuery)) {
+                            insertStatement.setString(1, uuid);
+                            insertStatement.setBoolean(2, value);
                             insertStatement.executeUpdate();
                         }
                     }
                 }
             }
+
             if (!connection.getAutoCommit()) {
                 connection.commit();
             }
