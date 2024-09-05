@@ -206,9 +206,8 @@ public class MYSQLManager {
                     + ")";
             statement.execute(createPlayerQuestTableQuery);
             String createQuestTableQuery = "CREATE TABLE IF NOT EXISTS orgin_quest ("
-                    + "daily VARCHAR(255) DEFAULT NULL,"
-                    + "weekly VARCHAR(255) DEFAULT NULL,"
-                    + "monthly VARCHAR(255) DEFAULT NULL"
+                    + "type VARCHAR(255) PRIMARY KEY,"
+                    + "quest VARCHAR(255) DEFAULT NULL"
                     + ")";
             statement.execute(createQuestTableQuery);
             statement.close();
@@ -277,7 +276,7 @@ public class MYSQLManager {
 
         try (Connection connection = dataSource.getConnection()) {
             // Query vorbereiten
-            String query = "SELECT ? FROM orgin_quest";
+            String query = "SELECT quest FROM orgin_quest WHERE type = ?";
             try (PreparedStatement statement = connection.prepareStatement(query)) {
                 statement.setString(1, questType);
 
@@ -298,19 +297,19 @@ public class MYSQLManager {
 
     public void updateOrginQuest(String questType, String value) {
         try (Connection connection = dataSource.getConnection()) {
-            String checkQuery = "SELECT ? FROM orgin_quest";
+            String checkQuery = "SELECT quest FROM orgin_quest WHERE type = ?";
             try (PreparedStatement chechStatement = connection.prepareStatement(checkQuery)){
                 chechStatement.setString(1, questType);
                 try (ResultSet resultSet = chechStatement.executeQuery()){
                     if (resultSet.next()) {
-                        String updateQuery = "UPDATE orgin_quest SET ? = ?";
+                        String updateQuery = "UPDATE orgin_quest SET quest = ? WHERE type = ?";
                         try (PreparedStatement updateStatement = connection.prepareStatement(updateQuery)) {
-                            updateStatement.setString(1, questType);
-                            updateStatement.setString(2, value);
+                            updateStatement.setString(1, value);
+                            updateStatement.setString(2, questType);
                             updateStatement.executeUpdate();
                         }
                     }else {
-                        String insertQuery = "INSERT INTO orgin_quest (?) VALUES (?)";
+                        String insertQuery = "INSERT INTO orgin_quest (type, quest) VALUES (?, ?)";
                         try (PreparedStatement insertStatement = connection.prepareStatement(insertQuery)){
                             insertStatement.setString(1, questType);
                             insertStatement.setString(2, value);

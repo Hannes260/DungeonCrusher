@@ -123,31 +123,11 @@ public class QuestListener implements Listener {
 
     @EventHandler
     public void EntityDeathEvent(EntityDeathEvent e) {
-        if (mysqlManager.getOrginQuest("daily") != null && mysqlManager.getOrginQuest("daily").equalsIgnoreCase("d1") || mysqlManager.getOrginQuest("daily") != null && mysqlManager.getOrginQuest("daily").equalsIgnoreCase("d2")) {
-            if (e.getEntity().getKiller() instanceof  Player p && mysqlManager.getTutorialQuest(p.getUniqueId().toString()).equalsIgnoreCase("t0")) {
-                FileConfiguration cfg = DungeonCrusher.getInstance().getConfig();
-
-                if (cfg.contains("quest." + p.getUniqueId().toString() + "." + "daily")) {
-                    cfg.set("quest." + p.getUniqueId().toString() + "." + "daily", cfg.getInt("quest." + p.getUniqueId().toString() + "." + "daily")+1);
-                }else {
-                    cfg.set("quest." + p.getUniqueId().toString() + "." + "daily", 1);
-                }
-
-                if (mysqlManager.getOrginQuest("daily").equalsIgnoreCase("d1") && cfg.getInt("quest." + p.getUniqueId().toString() + "." + "daily") == 100) {
-                    cfg.set("quest." + p.getUniqueId().toString() + "." + "daily", null);
-                    mysqlManager.updatePlayerQuest("daily", true, p.getUniqueId().toString());
-
-                    Random rdm = new Random();
-                    mysqlManager.updateBalance(p.getUniqueId().toString(), mysqlManager.getBalance(p.getUniqueId().toString() + rdm.nextInt(90, 151)));
-
-                }else if (mysqlManager.getOrginQuest("daily").equalsIgnoreCase("d2") && cfg.getInt("quest." + p.getUniqueId().toString() + "." + "daily") == 150) {
-                    cfg.set("quest." + p.getUniqueId().toString() + "." + "daily", null);
-                    mysqlManager.updatePlayerQuest("daily", true, p.getUniqueId().toString());
-
-                    Random rdm = new Random();
-                    mysqlManager.updateBalance(p.getUniqueId().toString(), mysqlManager.getBalance(p.getUniqueId().toString() + rdm.nextInt(100, 171)));
-                }
-            }
+        if (e.getEntity().getKiller() instanceof Player p) {
+            //QuestCheck
+            QuestBuilder.checkIfQuestIsDone("daily", "d1", p, 100);
+            //QuestCheck
+            QuestBuilder.checkIfQuestIsDone("daily", "d2", p, 150);
         }
     }
 
@@ -155,31 +135,11 @@ public class QuestListener implements Listener {
     public void PlayerMoveEvent(PlayerMoveEvent e) {
         Player p = e.getPlayer();
 
-        if (mysqlManager.getOrginQuest("daily") != null && mysqlManager.getTutorialQuest(p.getUniqueId().toString()).equalsIgnoreCase("t0") && mysqlManager.getOrginQuest("daily").equalsIgnoreCase("d9") || mysqlManager.getOrginQuest("daily") != null && mysqlManager.getTutorialQuest(p.getUniqueId().toString()).equalsIgnoreCase("t0") && mysqlManager.getOrginQuest("daily").equalsIgnoreCase("d10")) {
-            if(e.getFrom().getX() != e.getTo().getX() || e.getFrom().getZ() != e.getTo().getZ()) {
-                FileConfiguration cfg = DungeonCrusher.getInstance().getConfig();
-
-                if (cfg.contains("quest." + p.getUniqueId().toString() + "." + "daily")) {
-                    cfg.set("quest." + p.getUniqueId().toString() + "." + "daily", cfg.getInt("quest." + p.getUniqueId().toString() + "." + "daily")+1);
-                }else {
-                    cfg.set("quest." + p.getUniqueId().toString() + "." + "daily", 1);
-                }
-
-                if (mysqlManager.getOrginQuest("daily").equalsIgnoreCase("d9") && cfg.getInt("quest." + p.getUniqueId().toString() + "." + "daily") == 500) {
-                    cfg.set("quest." + p.getUniqueId().toString() + "." + "daily", null);
-                    mysqlManager.updatePlayerQuest("daily", true, p.getUniqueId().toString());
-
-                    Random rdm = new Random();
-                    mysqlManager.updateBalance(p.getUniqueId().toString(), mysqlManager.getBalance(p.getUniqueId().toString() + rdm.nextInt(90, 151)));
-
-                }else if (mysqlManager.getOrginQuest("daily").equalsIgnoreCase("d10") && cfg.getInt("quest." + p.getUniqueId().toString() + "." + "daily") == 1000) {
-                    cfg.set("quest." + p.getUniqueId().toString() + "." + "daily", null);
-                    mysqlManager.updatePlayerQuest("daily", true, p.getUniqueId().toString());
-
-                    Random rdm = new Random();
-                    mysqlManager.updateBalance(p.getUniqueId().toString(), mysqlManager.getBalance(p.getUniqueId().toString() + rdm.nextInt(100, 171)));
-                }
-            }
+        if(e.getFrom().getX() != e.getTo().getX() || e.getFrom().getZ() != e.getTo().getZ()) {
+            //QuestCheck
+            QuestBuilder.checkIfQuestIsDone("daily", "d9", p, 500);
+            //QuestCheck
+            QuestBuilder.checkIfQuestIsDone("daily", "d10", p, 1000);
         }
     }
 }

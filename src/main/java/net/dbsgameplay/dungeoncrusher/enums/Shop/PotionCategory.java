@@ -5,6 +5,7 @@ import net.dbsgameplay.dungeoncrusher.Commands.interfaces.ShopCategory;
 import net.dbsgameplay.dungeoncrusher.DungeonCrusher;
 import net.dbsgameplay.dungeoncrusher.sql.MYSQLManager;
 import net.dbsgameplay.dungeoncrusher.utils.Configs.ConfigManager;
+import net.dbsgameplay.dungeoncrusher.utils.QuestBuilder;
 import net.dbsgameplay.dungeoncrusher.utils.ScoreboardBuilder;
 import net.dbsgameplay.dungeoncrusher.utils.shops.ShopManager;
 import org.bukkit.Bukkit;
@@ -139,23 +140,8 @@ public class PotionCategory implements ShopCategory {
                     Inventory playerInventory = p.getInventory();
                     Map<Integer, ItemStack> leftOverItems = playerInventory.addItem(potion);
 
-                    if (mysqlManager.getOrginQuest("daily") != null && mysqlManager.getOrginQuest("daily").equalsIgnoreCase("d5") && mysqlManager.getTutorialQuest(p.getUniqueId().toString()).equalsIgnoreCase("t0")) {
-                        FileConfiguration cfg = DungeonCrusher.getInstance().getConfig();
-
-                        if (cfg.contains("quest." + p.getUniqueId().toString() + "." + "daily")) {
-                            cfg.set("quest." + p.getUniqueId().toString() + "." + "daily", cfg.getInt("quest." + p.getUniqueId().toString() + "." + "daily")+1);
-                        }else {
-                            cfg.set("quest." + p.getUniqueId().toString() + "." + "daily", 1);
-                        }
-
-                        if (cfg.getInt("quest." + p.getUniqueId().toString() + "." + "daily") == 3) {
-                            cfg.set("quest." + p.getUniqueId().toString() + "." + "daily", null);
-                            mysqlManager.updatePlayerQuest("daily", true, p.getUniqueId().toString());
-
-                            Random rdm = new Random();
-                            mysqlManager.updateBalance(p.getUniqueId().toString(), mysqlManager.getBalance(p.getUniqueId().toString() + rdm.nextInt(90, 151)));
-                        }
-                    }
+                    //QuestCheck
+                    QuestBuilder.checkIfQuestIsDone("daily", "d5", p, 3);
 
                     if (!leftOverItems.isEmpty()) {
                         p.sendMessage(ConfigManager.getPrefix() + ConfigManager.getConfigMessage("message.inventoryfull", "", ""));

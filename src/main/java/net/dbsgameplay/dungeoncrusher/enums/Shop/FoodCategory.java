@@ -131,30 +131,16 @@ public class FoodCategory implements ShopCategory {
             if (leftOverItems.isEmpty()) {
                 p.sendMessage(ConfigManager.getPrefix() + ConfigManager.getConfigMessage("message.buyshop", "%amount%", String.valueOf(amount), "%material%", material.toString()));
 
-                if (mysqlManager.getOrginQuest("daily") != null && mysqlManager.getTutorialQuest(p.getUniqueId().toString()).equalsIgnoreCase("t2")) {
+                if (mysqlManager.getTutorialQuest(p.getUniqueId().toString()).equalsIgnoreCase("t2")) {
                     mysqlManager.updateTutorialQuest(p.getUniqueId().toString(), "t1");
                     BossBar bossBar1 = QuestBuilder.bossBar;
                     bossBar1.setTitle(QuestBuilder.tutorialQuestMap.get("t1"));
                     bossBar1.addPlayer(p);
-
-                    if (mysqlManager.getOrginQuest("daily").equalsIgnoreCase("d6") && mysqlManager.getTutorialQuest(p.getUniqueId().toString()).equalsIgnoreCase("t0")) {
-                        FileConfiguration cfg = DungeonCrusher.getInstance().getConfig();
-
-                        if (cfg.contains("quest." + p.getUniqueId().toString() + "." + "daily")) {
-                            cfg.set("quest." + p.getUniqueId().toString() + "." + "daily", cfg.getInt("quest." + p.getUniqueId().toString() + "." + "daily")+1);
-                        }else {
-                            cfg.set("quest." + p.getUniqueId().toString() + "." + "daily", 1);
-                        }
-
-                        if (cfg.getInt("quest." + p.getUniqueId().toString() + "." + "daily") == 20) {
-                            cfg.set("quest." + p.getUniqueId().toString() + "." + "daily", null);
-                            mysqlManager.updatePlayerQuest("daily", true, p.getUniqueId().toString());
-
-                            Random rdm = new Random();
-                            mysqlManager.updateBalance(p.getUniqueId().toString(), mysqlManager.getBalance(p.getUniqueId().toString() + rdm.nextInt(90, 151)));
-                        }
-                    }
                 }
+
+                //QuestCheck
+                QuestBuilder.checkIfQuestIsDone("daily", "d6", p, 20);
+
             } else {
                 p.sendMessage(ConfigManager.getPrefix() + ConfigManager.getConfigMessage("message.inventoryfull", "", ""));
                 addMoney(p, totalPrice);

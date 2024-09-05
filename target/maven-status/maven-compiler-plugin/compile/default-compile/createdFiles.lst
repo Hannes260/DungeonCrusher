@@ -83,4 +83,5 @@ net\dbsgameplay\dungeoncrusher\listener\BlockListener.class
 net\dbsgameplay\dungeoncrusher\Commands\Economy\CoinsCommand.class
 net\dbsgameplay\dungeoncrusher\enums\Shop\PotionCategory.class
 net\dbsgameplay\dungeoncrusher\Commands\Dailyreward$1.class
+net\dbsgameplay\dungeoncrusher\DungeonCrusher$1.class
 net\dbsgameplay\dungeoncrusher\enums\Shop\ExchangeCategory.class

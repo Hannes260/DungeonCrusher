@@ -40,6 +40,7 @@ import java.io.File;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -272,17 +273,13 @@ public final class DungeonCrusher extends JavaPlugin {
     }
 
     public static void startPlaytimer(MYSQLManager mysqlManager, FileConfiguration cfg, DungeonCrusher dungeonCrusher) {
-        if (mysqlManager.getOrginQuest("daily") == null) {
-            Random random = new Random();
-            int rdmNum = random.nextInt(0, QuestBuilder.dailyQuestMap.size());
-            String[] keyArray = QuestBuilder.dailyQuestMap.keySet().toArray(new String[0]);
-            String key = keyArray[rdmNum]; // Access the element at index 9
-            mysqlManager.updateOrginQuest("daily", key);
-        }
+        QuestBuilder.checkForOrginQuest();
 
         new BukkitRunnable() {
             @Override
             public void run() {
+                QuestBuilder.checkForOrginQuestUpdate();
+
                 for (Player p : Bukkit.getServer().getOnlinePlayers()) {
                     if (mysqlManager.getOrginQuest("daily") != null && mysqlManager.getOrginQuest("daily").equalsIgnoreCase("d7") && mysqlManager.getTutorialQuest(p.getUniqueId().toString()).equalsIgnoreCase("t0")|| mysqlManager.getOrginQuest("daily").equalsIgnoreCase("d8") && mysqlManager.getTutorialQuest(p.getUniqueId().toString()).equalsIgnoreCase("t0")) {
 
