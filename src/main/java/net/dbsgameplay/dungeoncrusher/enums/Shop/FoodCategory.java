@@ -139,7 +139,7 @@ public class FoodCategory implements ShopCategory {
                 }
 
                 //QuestCheck
-                QuestBuilder.checkIfWeeklyIsDone("daily", "d6", p, 20);
+                QuestBuilder.checkIfDailyIsDone("daily", "d6", p, 20);
 
             } else {
                 p.sendMessage(ConfigManager.getPrefix() + ConfigManager.getConfigMessage("message.inventoryfull", "", ""));

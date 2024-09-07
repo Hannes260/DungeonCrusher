@@ -200,7 +200,9 @@ public class MYSQLManager {
             String createPlayerQuestTableQuery = "CREATE TABLE IF NOT EXISTS player_quest ("
                     + "uuid VARCHAR(255) PRIMARY KEY,"
                     + "tutorial VARCHAR(255) DEFAULT NULL,"
-                    + "daily BOOLEAN DEFAULT FALSE,"
+                    + "daily1 BOOLEAN DEFAULT FALSE,"
+                    + "daily2 BOOLEAN DEFAULT FALSE,"
+                    + "daily3 BOOLEAN DEFAULT FALSE,"
                     + "weekly BOOLEAN DEFAULT FALSE,"
                     + "monthly BOOLEAN DEFAULT FALSE"
                     + ")";
@@ -326,24 +328,27 @@ public class MYSQLManager {
         }
     }
 
-    public void updatePlayerWeeklyQuest(boolean value, String uuid) {
+    public void updatePlayerDailyQuest(int num, boolean value, String uuid) {
         try (Connection connection = dataSource.getConnection()) {
-            String checkQuery = "SELECT weekly FROM player_quest WHERE uuid = ?";
+            String checkQuery = "SELECT daily? FROM player_quest WHERE uuid = ?";
             try (PreparedStatement chechStatement = connection.prepareStatement(checkQuery)){
-                chechStatement.setString(1, uuid);
+                chechStatement.setInt(1, num);
+                chechStatement.setString(2, uuid);
                 try (ResultSet resultSet = chechStatement.executeQuery()){
                     if (resultSet.next()) {
-                        String updateQuery = "UPDATE player_quest SET weekly = ? WHERE uuid = ?";
+                        String updateQuery = "UPDATE player_quest SET daily? = ? WHERE uuid = ?";
                         try (PreparedStatement updateStatement = connection.prepareStatement(updateQuery)) {
-                            updateStatement.setBoolean(1, value);
-                            updateStatement.setString(2, uuid);
+                            updateStatement.setInt(1, num);
+                            updateStatement.setBoolean(2, value);
+                            updateStatement.setString(3, uuid);
                             updateStatement.executeUpdate();
                         }
                     }else {
-                        String insertQuery = "INSERT INTO player_quest (uuid, weekly) VALUES (?, ?)";
+                        String insertQuery = "INSERT INTO player_quest (uuid, daily?) VALUES (?, ?)";
                         try (PreparedStatement insertStatement = connection.prepareStatement(insertQuery)){
-                            insertStatement.setString(1, uuid);
-                            insertStatement.setBoolean(2, value);
+                            insertStatement.setInt(1, num);
+                            insertStatement.setString(2, uuid);
+                            insertStatement.setBoolean(3, value);
                             insertStatement.executeUpdate();
                         }
                     }
@@ -357,19 +362,20 @@ public class MYSQLManager {
         }
     }
 
-    public Boolean getPlayerWeeklyQuest(String uuid) {
+    public Boolean getPlayerDailyQuest(int num, String uuid) {
         Boolean quest = null;
 
         try (Connection connection = dataSource.getConnection()) {
             // Query vorbereiten
-            String query = "SELECT weekly FROM player_quest WHERE uuid = ?";
+            String query = "SELECT daily? FROM player_quest WHERE uuid = ?";
             try (PreparedStatement statement = connection.prepareStatement(query)) {
+                statement.setInt(1, num);
                 statement.setString(1, uuid);
 
                 // Query ausführen und Ergebnis abrufen
                 try (ResultSet resultSet = statement.executeQuery()) {
                     if (resultSet.next()) {
-                        quest = resultSet.getBoolean("weekly");
+                        quest = resultSet.getBoolean("daily" + num);
                         statement.close();
                         resultSet.close();
                     }

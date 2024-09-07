@@ -1,10 +1,12 @@
 package net.dbsgameplay.dungeoncrusher.utils;
 
 import net.dbsgameplay.dungeoncrusher.DungeonCrusher;
+import net.dbsgameplay.dungeoncrusher.enums.Shop.FoodCategory;
 import net.dbsgameplay.dungeoncrusher.listener.DungeonListener;
 import net.dbsgameplay.dungeoncrusher.sql.MYSQLManager;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
+import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
@@ -376,6 +378,8 @@ public class ErfolgeBuilders {
             }
             if (kills >= neededKillsForComplete) {
                 itemMeta.setDisplayName("§aErfolg " + i + " ✅");
+                String mobID = "Erfolg_" + mob + "_" + i;
+                arrayList.add("§7[" + "§8" + titlesHashmap.get(mobID) + "§7]");
             }else {
                 itemMeta.setDisplayName("§fErfolg " + i);
                 arrayList.add("§7Du brauchst noch §6" + (neededKillsForComplete-kills) + " §7Kills");
@@ -384,7 +388,10 @@ public class ErfolgeBuilders {
             itemMeta.setLore(arrayList);
             itemMeta.setEnchantmentGlintOverride(false);
             if (DungeonCrusher.api.getPlayerAdapter(Player.class).getUser(p).getCachedData().getMetaData().getSuffix() != null) {
-                if (DungeonCrusher.api.getPlayerAdapter(Player.class).getUser(p).getCachedData().getMetaData().getSuffix().equalsIgnoreCase(titlesHashmap.get(itemMeta.getItemName()))) {
+                String suffix = DungeonCrusher.api.getPlayerAdapter(Player.class).getUser(p).getCachedData().getMetaData().getSuffix();
+                p.sendMessage(suffix.substring(0, suffix.length() -3 ).substring(6));
+                if (suffix.substring(0, suffix.length() -3 ).substring(6).equalsIgnoreCase(titlesHashmap.get(itemMeta.getItemName()))) {
+                    p.sendMessage("2");
                     itemMeta.setEnchantmentGlintOverride(true);
                 }
             }
@@ -393,6 +400,122 @@ public class ErfolgeBuilders {
             int[] slots = {0,9,18,27,28,29,20,11,2,3,4,13,22,31,32,33,24,15,6,7};
             inv.setItem(slots[i-1], itemStack);
         }
+
+    }
+
+    public static void checkPlayerKills() {
+            for (Player p : Bukkit.getServer().getOnlinePlayers()) {
+                FoodCategory foodCategory = new FoodCategory(mysqlManager);
+                String[] moblist ={"Schaf","Schweine","Kuh","Pferd","Esel","Kamel","Dorfbewohner","Ziegen", "Lama","Mooshroom","Maultier","Schnüffler","Panda","Schildkröten","Ozelot","Axolotl","Fuchs", "Katzen","Huhn","Frosch","Kaninchen","Silberfisch","Diener","Eisbären","Zombiepferd","Wolf", "Zombiedorfbewohner","Schneegolem","Skelett","Ertrunkenen","Wüstenzombie","Spinnen","Zombie","Eiswanderer","Creeper", "Höhlenspinnen","Endermiten","Schreiter","Lohen","Skelettpferde","Hexen","Schleim","Magmawürfel","Enderman", "Piglin","Zombiefizierter_Piglin", "Piglin_Barbaren","Plünderer","Hoglin","Magier","Ghast","Wither_Skelett","Zoglin","Verwüster","Eisengolem", "Wärter",};
+                for (String s : moblist) {
+                    int nowKill = mysqlManager.getPlayerMobKills(p.getUniqueId().toString(), s);
+
+
+                    switch (nowKill) {
+                        case 500:
+                            p.playSound(p.getLocation(), Sound.ENTITY_ARROW_HIT_PLAYER, 100, 1);
+                            p.sendActionBar("§6Du hast einen Erfolg abgeschlossen!");
+                            foodCategory.addMoney(p, 100);
+                            mysqlManager.updateItemAmount(p.getUniqueId().toString(), "rohkohle", mysqlManager.getItemAmount(p.getUniqueId().toString(), "rohkohle")+100);
+                            break;
+                        case 1000:
+                            p.playSound(p.getLocation(), Sound.ENTITY_ARROW_HIT_PLAYER, 100, 1);
+                            p.sendActionBar("§6Du hast einen Erfolg abgeschlossen!");
+                            foodCategory.addMoney(p, 200);
+                            break;
+                        case 1500:
+                            p.playSound(p.getLocation(), Sound.ENTITY_ARROW_HIT_PLAYER, 100, 1);
+                            p.sendActionBar("§6Du hast einen Erfolg abgeschlossen!");
+                            foodCategory.addMoney(p, 300);
+                            break;
+                        case 2000:
+                            p.playSound(p.getLocation(), Sound.ENTITY_ARROW_HIT_PLAYER, 100, 1);
+                            p.sendActionBar("§6Du hast einen Erfolg abgeschlossen!");
+                            foodCategory.addMoney(p, 400);
+                            break;
+                        case 2500:
+                            p.playSound(p.getLocation(), Sound.ENTITY_ARROW_HIT_PLAYER, 100, 1);
+                            p.sendActionBar("§6Du hast einen Erfolg abgeschlossen!");
+                            foodCategory.addMoney(p, 500);
+                            break;
+                        case 3000:
+                            p.playSound(p.getLocation(), Sound.ENTITY_ARROW_HIT_PLAYER, 100, 1);
+                            p.sendActionBar("§6Du hast einen Erfolg abgeschlossen!");
+                            foodCategory.addMoney(p, 600);
+                            break;
+                        case 3500:
+                            p.playSound(p.getLocation(), Sound.ENTITY_ARROW_HIT_PLAYER, 100, 1);
+                            p.sendActionBar("§6Du hast einen Erfolg abgeschlossen!");
+                            foodCategory.addMoney(p, 700);
+                            break;
+                        case 4000:
+                            p.playSound(p.getLocation(), Sound.ENTITY_ARROW_HIT_PLAYER, 100, 1);
+                            p.sendActionBar("§6Du hast einen Erfolg abgeschlossen!");
+                            foodCategory.addMoney(p, 800);
+                            break;
+                        case 4500:
+                            p.playSound(p.getLocation(), Sound.ENTITY_ARROW_HIT_PLAYER, 100, 1);
+                            p.sendActionBar("§6Du hast einen Erfolg abgeschlossen!");
+                            foodCategory.addMoney(p, 900);
+                            break;
+                        case 5000:
+                            p.playSound(p.getLocation(), Sound.ENTITY_ARROW_HIT_PLAYER, 100, 1);
+                            p.sendActionBar("§6Du hast einen Erfolg abgeschlossen!");
+                            foodCategory.addMoney(p, 1000);
+                            break;
+                        case 5500:
+                            p.playSound(p.getLocation(), Sound.ENTITY_ARROW_HIT_PLAYER, 100, 1);
+                            p.sendActionBar("§6Du hast einen Erfolg abgeschlossen!");
+                            foodCategory.addMoney(p, 1100);
+                            break;
+                        case 6000:
+                            p.playSound(p.getLocation(), Sound.ENTITY_ARROW_HIT_PLAYER, 100, 1);
+                            p.sendActionBar("§6Du hast einen Erfolg abgeschlossen!");
+                            foodCategory.addMoney(p, 1200);
+                            break;
+                        case 6500:
+                            p.playSound(p.getLocation(), Sound.ENTITY_ARROW_HIT_PLAYER, 100, 1);
+                            p.sendActionBar("§6Du hast einen Erfolg abgeschlossen!");
+                            foodCategory.addMoney(p, 1300);
+                            break;
+                        case 7000:
+                            p.playSound(p.getLocation(), Sound.ENTITY_ARROW_HIT_PLAYER, 100, 1);
+                            p.sendActionBar("§6Du hast einen Erfolg abgeschlossen!");
+                            foodCategory.addMoney(p, 1400);
+                            break;
+                        case 7500:
+                            p.playSound(p.getLocation(), Sound.ENTITY_ARROW_HIT_PLAYER, 100, 1);
+                            p.sendActionBar("§6Du hast einen Erfolg abgeschlossen!");
+                            foodCategory.addMoney(p, 1500);
+                            break;
+                        case 8000:
+                            p.playSound(p.getLocation(), Sound.ENTITY_ARROW_HIT_PLAYER, 100, 1);
+                            p.sendActionBar("§6Du hast einen Erfolg abgeschlossen!");
+                            foodCategory.addMoney(p, 1600);
+                            break;
+                        case 8500:
+                            p.playSound(p.getLocation(), Sound.ENTITY_ARROW_HIT_PLAYER, 100, 1);
+                            p.sendActionBar("§6Du hast einen Erfolg abgeschlossen!");
+                            foodCategory.addMoney(p, 1700);
+                            break;
+                        case 9000:
+                            p.playSound(p.getLocation(), Sound.ENTITY_ARROW_HIT_PLAYER, 100, 1);
+                            p.sendActionBar("§6Du hast einen Erfolg abgeschlossen!");
+                            foodCategory.addMoney(p, 1800);
+                            break;
+                        case 9500:
+                            p.playSound(p.getLocation(), Sound.ENTITY_ARROW_HIT_PLAYER, 100, 1);
+                            p.sendActionBar("§6Du hast einen Erfolg abgeschlossen!");
+                            foodCategory.addMoney(p, 1900);
+                            break;
+                        case 10000:
+                            p.playSound(p.getLocation(), Sound.ENTITY_ARROW_HIT_PLAYER, 100, 1);
+                            p.sendActionBar("§6Du hast einen Erfolg abgeschlossen!");
+                            foodCategory.addMoney(p, 2000);
+                            break;
+                    }
+                }
+            }
 
     }
 

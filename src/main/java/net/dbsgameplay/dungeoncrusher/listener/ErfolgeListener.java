@@ -9,6 +9,7 @@ import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.bukkit.inventory.ItemStack;
@@ -70,9 +71,18 @@ public class ErfolgeListener implements Listener {
 
         if (e.getCurrentItem().getType().equals(Material.NAME_TAG)) {
             if (e.getCurrentItem().getItemMeta().getDisplayName().endsWith("✅")) {
-                if  (e.getCurrentItem().getItemMeta().hasEnchantmentGlintOverride()) {
+
+                if  (e.getCurrentItem().getItemMeta().getEnchantmentGlintOverride()) {
+                    p.sendMessage("§6Du hast deinen Titel entfernt.");
+                    p.playSound(p.getLocation(), Sound.ENTITY_ARROW_HIT_PLAYER, 10, 1);
+                    ItemMeta meta = e.getCurrentItem().getItemMeta();
+                    meta.setEnchantmentGlintOverride(false);
+                    e.getCurrentItem().setItemMeta(meta);
+                    removeSuffix(p);
                     e.setCancelled(true);
+                    return;
                 }
+
                 for (ItemStack items : e.getClickedInventory().getContents()) {
                     if (items == null) continue;
 
@@ -82,6 +92,7 @@ public class ErfolgeListener implements Listener {
                         items.setItemMeta(meta);
                     }
                 }
+
                 ItemMeta meta = e.getCurrentItem().getItemMeta();
                 meta.setEnchantmentGlintOverride(true);
                 e.getCurrentItem().setItemMeta(meta);
@@ -3461,6 +3472,13 @@ public class ErfolgeListener implements Listener {
         e.setCancelled(true);
     }
 
+    @EventHandler
+    public void EnitiyDeathEvent(EntityDeathEvent e) {
+        if (e.getEntity().getKiller() instanceof Player p) {
+            ErfolgeBuilders.checkPlayerKills();
+        }
+    }
+
     public void setSuffix(String suffix, Player player) {
         // Load, modify, then save
         DungeonCrusher.api.getUserManager().modifyUser(player.getUniqueId(), user -> {
@@ -3469,6 +3487,16 @@ public class ErfolgeListener implements Listener {
                 user.data().remove(SuffixNode.builder(s, 150).build());
             }
             user.data().add(SuffixNode.builder(" §7[§e" +ErfolgeBuilders.titlesHashmap.get(suffix) + "§7]", 150).build());
+        });
+    }
+
+    public void removeSuffix(Player player) {
+        // Load, modify, then save
+        DungeonCrusher.api.getUserManager().modifyUser(player.getUniqueId(), user -> {
+            // Add the permission
+            for (String s : user.getCachedData().getMetaData().getSuffixes().values()) {
+                user.data().remove(SuffixNode.builder(s, 150).build());
+            }
         });
     }
 }

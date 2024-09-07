@@ -108,9 +108,12 @@ public class QuestListener implements Listener {
             }
         }
 
-        if (e.getClickedInventory().equals(QuestBuilder.questMenu)) {
-            e.setCancelled(true);
+        if (e.getClickedInventory() != null) {
+            if (e.getClickedInventory().equals(QuestBuilder.questMenu)) {
+                e.setCancelled(true);
+            }
         }
+
     }
 
     @EventHandler
@@ -133,9 +136,9 @@ public class QuestListener implements Listener {
     public void EntityDeathEvent(EntityDeathEvent e) {
         if (e.getEntity().getKiller() instanceof Player p) {
             //QuestCheck
-            QuestBuilder.checkIfWeeklyIsDone("daily", "d1", p, 100);
+            QuestBuilder.checkIfDailyIsDone("daily", "d1", p, 100);
             //QuestCheck
-            QuestBuilder.checkIfWeeklyIsDone("daily", "d2", p, 150);
+            QuestBuilder.checkIfDailyIsDone("daily", "d2", p, 150);
         }
     }
 
@@ -145,9 +148,9 @@ public class QuestListener implements Listener {
 
         if(e.getFrom().getX() != e.getTo().getX() || e.getFrom().getZ() != e.getTo().getZ()) {
             //QuestCheck
-            QuestBuilder.checkIfWeeklyIsDone("daily", "d9", p, 500);
+            QuestBuilder.checkIfDailyIsDone("daily", "d9", p, 500);
             //QuestCheck
-            QuestBuilder.checkIfWeeklyIsDone("daily", "d10", p, 1000);
+            QuestBuilder.checkIfDailyIsDone("daily", "d10", p, 1000);
         }
     }
 }

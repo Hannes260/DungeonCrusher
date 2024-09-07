@@ -94,9 +94,9 @@ public class CustomDropListener implements Listener {
         HologramManager.spawnItemHologram(hologramLocation, itemName);
 
         //QuestCheck
-        QuestBuilder.checkIfWeeklyIsDone("daily", "d3", player, 250);
+        QuestBuilder.checkIfDailyIsDone("daily", "d3", player, 250);
         //QuestCheck
-        QuestBuilder.checkIfWeeklyIsDone("daily", "d4", player, 300);
+        QuestBuilder.checkIfDailyIsDone("daily", "d4", player, 300);
     }
     public static String translateMaterialName(Material material) {
         switch (material) {
