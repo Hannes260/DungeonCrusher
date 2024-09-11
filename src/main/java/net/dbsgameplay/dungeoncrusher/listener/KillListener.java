@@ -51,7 +51,7 @@ public class KillListener implements Listener {
                 mysqlManager.updateMobKillsForPlayer(playeruuid, "Dorfbewohner", 1);
             }
             if (event.getEntityType().equals(EntityType.GOAT)) {
-                mysqlManager.updateMobKillsForPlayer(playeruuid, "Ziege", 1);
+                mysqlManager.updateMobKillsForPlayer(playeruuid, "Ziegen", 1);
             }
             if (event.getEntityType().equals(EntityType.LLAMA)) {
                 mysqlManager.updateMobKillsForPlayer(playeruuid, "Lama", 1);
@@ -196,6 +196,15 @@ public class KillListener implements Listener {
             }
             if (event.getEntityType().equals(EntityType.WARDEN)) {
                 mysqlManager.updateMobKillsForPlayer(playeruuid, "Wärter", 1);
+            }
+            if (event.getEntityType().equals(EntityType.BOGGED)) {
+                mysqlManager.updateMobKillsForPlayer(playeruuid, "Sumpfskelett", 1);
+            }
+            if (event.getEntityType().equals(EntityType.BREEZE)) {
+                mysqlManager.updateMobKillsForPlayer(playeruuid, "Böe", 1);
+            }
+            if (event.getEntityType().equals(EntityType.ARMADILLO)) {
+                    mysqlManager.updateMobKillsForPlayer(playeruuid, "Gürteltier", 1);
             }
         }
     }

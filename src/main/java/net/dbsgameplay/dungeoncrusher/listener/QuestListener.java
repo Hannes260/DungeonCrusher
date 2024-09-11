@@ -5,30 +5,41 @@ import net.dbsgameplay.dungeoncrusher.DungeonCrusher;
 import net.dbsgameplay.dungeoncrusher.enums.Upgrades.SwordCategory;
 import net.dbsgameplay.dungeoncrusher.sql.MYSQLManager;
 import net.dbsgameplay.dungeoncrusher.utils.QuestBuilder;
+import net.dbsgameplay.dungeoncrusher.utils.quests.Daily;
+import net.md_5.bungee.api.chat.ClickEvent;
+import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.Bukkit;
 import org.bukkit.Color;
 import org.bukkit.Material;
+import org.bukkit.Sound;
 import org.bukkit.boss.*;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.player.PlayerItemConsumeEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
+import org.bukkit.inventory.Inventory;
+import org.bukkit.inventory.InventoryView;
+import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.PotionMeta;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.potion.PotionType;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.jetbrains.annotations.NotNull;
 
+import java.awt.*;
 import java.lang.module.Configuration;
 import java.lang.reflect.InvocationTargetException;
 import java.util.HashMap;
@@ -39,6 +50,7 @@ public class QuestListener implements Listener {
 
     MYSQLManager mysqlManager;
     DungeonCrusher dungeonCrusher;
+    public static HashMap<UUID, Integer> rewardChoosenMap = new HashMap<>();
 
     public QuestListener(MYSQLManager mysqlManager, DungeonCrusher dungeonCrusher) {
         this.mysqlManager = mysqlManager;
@@ -114,6 +126,63 @@ public class QuestListener implements Listener {
             }
         }
 
+        if (e.getClickedInventory().equals(QuestBuilder.rewardMenu)) {
+            if (rewardChoosenMap.containsKey(p.getUniqueId())) {
+                rewardChoosenMap.remove(p.getUniqueId());
+
+                if (e.getCurrentItem() != null) {
+                    String material = null;
+                    int amount = Integer.parseInt(e.getCurrentItem().getItemMeta().getDisplayName().substring(10));
+                    switch (e.getCurrentItem().getType()) {
+                        case Material.RAW_COPPER -> material = "raw_copper";
+                        case Material.COPPER_INGOT -> material = "copper_ingot";
+                        case Material.RAW_IRON -> material = "raw_iron";
+                        case Material.IRON_INGOT -> material = "iron_ingot";
+                        case Material.RAW_GOLD -> material = "raw_gold";
+                        case Material.GOLD_INGOT -> material = "gold_ingot";
+                        case Material.COAL -> material = "coal";
+                        case Material.COBBLESTONE -> material = "cobblestone";
+                        case Material.DIAMOND_ORE -> material = "diamond_ore";
+                        case Material.DIAMOND -> material = "diamond";
+                        case Material.STONE -> material = "stone";
+                        case Material.NETHERITE_INGOT -> material = "netherite_ingot";
+                        case Material.NETHERITE_SCRAP -> material = "netherite_scrap";
+                    }
+                    p.playSound(p.getLocation(), Sound.ENTITY_ARROW_HIT_PLAYER, 100, 1);
+                    mysqlManager.updateItemAmount(p.getUniqueId().toString(), material, mysqlManager.getItemAmount(p.getUniqueId().toString(), material)+amount);
+                    updateItems(p);
+                }
+
+                p.closeInventory();
+                e.setCancelled(true);
+            }else {
+                rewardChoosenMap.put(p.getUniqueId(), 1);
+                if (e.getCurrentItem() != null) {
+                    String material = null;
+                    int amount = Integer.parseInt(e.getCurrentItem().getItemMeta().getDisplayName().substring(10));
+                    switch (e.getCurrentItem().getType()) {
+                        case Material.RAW_COPPER -> material = "raw_copper";
+                        case Material.COPPER_INGOT -> material = "copper_ingot";
+                        case Material.RAW_IRON -> material = "raw_iron";
+                        case Material.IRON_INGOT -> material = "iron_ingot";
+                        case Material.RAW_GOLD -> material = "raw_gold";
+                        case Material.GOLD_INGOT -> material = "gold_ingot";
+                        case Material.COAL -> material = "coal";
+                        case Material.COBBLESTONE -> material = "cobblestone";
+                        case Material.DIAMOND_ORE -> material = "diamond_ore";
+                        case Material.DIAMOND -> material = "diamond";
+                        case Material.STONE -> material = "stone";
+                        case Material.NETHERITE_INGOT -> material = "netherite_ingot";
+                        case Material.NETHERITE_SCRAP -> material = "netherite_scrap";
+                    }
+                    p.playSound(p.getLocation(), Sound.ENTITY_ARROW_HIT_PLAYER, 100, 1);
+                    mysqlManager.updateItemAmount(p.getUniqueId().toString(), material, mysqlManager.getItemAmount(p.getUniqueId().toString(), material)+amount);
+                    updateItems(p);
+                }
+                e.setCancelled(true);
+            }
+        }
+
     }
 
     @EventHandler
@@ -135,10 +204,16 @@ public class QuestListener implements Listener {
     @EventHandler
     public void EntityDeathEvent(EntityDeathEvent e) {
         if (e.getEntity().getKiller() instanceof Player p) {
-            //QuestCheck
-            QuestBuilder.checkIfDailyIsDone("daily", "d1", p, 100);
-            //QuestCheck
-            QuestBuilder.checkIfDailyIsDone("daily", "d2", p, 150);
+            Daily.doDailyQuest(p, Daily.dailyKillQuestList);
+        }
+    }
+
+    @EventHandler
+    public void EntityDamageEvent(EntityDamageEvent e) {
+        if (e.getEntity() instanceof Player p) {
+            if (p.getOpenInventory().getTopInventory().equals(QuestBuilder.rewardMenu)) {
+                e.setCancelled(true);
+            }
         }
     }
 
@@ -146,11 +221,114 @@ public class QuestListener implements Listener {
     public void PlayerMoveEvent(PlayerMoveEvent e) {
         Player p = e.getPlayer();
 
-        if(e.getFrom().getX() != e.getTo().getX() || e.getFrom().getZ() != e.getTo().getZ()) {
-            //QuestCheck
-            QuestBuilder.checkIfDailyIsDone("daily", "d9", p, 500);
-            //QuestCheck
-            QuestBuilder.checkIfDailyIsDone("daily", "d10", p, 1000);
+        if(e.getFrom().getBlockX() != e.getTo().getBlockX() || e.getFrom().getBlockZ() != e.getTo().getBlockZ()) {
+            Daily.doDailyQuest(p, Daily.dailyMoveQuestList);
         }
+    }
+
+    private void updateItems(Player player) {
+        ItemStack rawcopper = new ItemStack(Material.RAW_COPPER);
+        ItemMeta rawcoppermeta = rawcopper.getItemMeta();
+        rawcoppermeta.setDisplayName("§bAnzahl ➝ §6" + mysqlManager.getItemAmount(player.getUniqueId().toString(), "raw_copper"));
+        rawcoppermeta.addEnchant(Enchantment.KNOCKBACK,1,true);
+        rawcoppermeta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
+        rawcopper.setItemMeta(rawcoppermeta);
+        player.getInventory().setItem(9, rawcopper);
+
+        ItemStack copperingot = new ItemStack(Material.COPPER_INGOT);
+        ItemMeta copperingotmeta = copperingot.getItemMeta();
+        copperingotmeta.setDisplayName("§bAnzahl ➝ §6" + mysqlManager.getItemAmount(player.getUniqueId().toString(), "copper_ingot"));
+        copperingotmeta.addEnchant(Enchantment.KNOCKBACK,1,true);
+        copperingotmeta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
+        copperingot.setItemMeta(copperingotmeta);
+        player.getInventory().setItem(10, copperingot);
+
+        ItemStack rawgold = new ItemStack(Material.RAW_GOLD);
+        ItemMeta rawgoldmeta = rawgold.getItemMeta();
+        rawgoldmeta.setDisplayName("§bAnzahl ➝ §6" + mysqlManager.getItemAmount(player.getUniqueId().toString(), "raw_gold"));
+        rawgoldmeta.addEnchant(Enchantment.KNOCKBACK,1,true);
+        rawgoldmeta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
+        rawgold.setItemMeta(rawgoldmeta);
+        player.getInventory().setItem(18, rawgold);
+
+        ItemStack goldingot = new ItemStack(Material.GOLD_INGOT);
+        ItemMeta goldingotmeta = goldingot.getItemMeta();
+        goldingotmeta.setDisplayName("§bAnzahl ➝ §6" + mysqlManager.getItemAmount(player.getUniqueId().toString(), "gold_ingot"));
+        goldingotmeta.addEnchant(Enchantment.KNOCKBACK,1,true);
+        goldingotmeta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
+        goldingot.setItemMeta(goldingotmeta);
+        player.getInventory().setItem(19, goldingot);
+
+        ItemStack rawiron = new ItemStack(Material.RAW_IRON);
+        ItemMeta rawironmeta = rawiron.getItemMeta();
+        rawironmeta.setDisplayName("§bAnzahl ➝ §6" + mysqlManager.getItemAmount(player.getUniqueId().toString(), "raw_iron"));
+        rawironmeta.addEnchant(Enchantment.KNOCKBACK,1,true);
+        rawironmeta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
+        rawiron.setItemMeta(rawironmeta);
+        player.getInventory().setItem(27, rawiron);
+
+        ItemStack ironingot = new ItemStack(Material.IRON_INGOT);
+        ItemMeta ironingotmeta = ironingot.getItemMeta();
+        ironingotmeta.setDisplayName("§bAnzahl ➝ §6" + mysqlManager.getItemAmount(player.getUniqueId().toString(), "iron_ingot"));
+        ironingotmeta.addEnchant(Enchantment.KNOCKBACK,1,true);
+        ironingotmeta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
+        ironingot.setItemMeta(ironingotmeta);
+        player.getInventory().setItem(28, ironingot);
+
+        ItemStack coal = new ItemStack(Material.COAL);
+        ItemMeta coalmeta = coal.getItemMeta();
+        coalmeta.setDisplayName("§bAnzahl ➝ §6" + mysqlManager.getItemAmount(player.getUniqueId().toString(), "coal"));
+        coalmeta.addEnchant(Enchantment.KNOCKBACK,1,true);
+        coalmeta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
+        coal.setItemMeta(coalmeta);
+        player.getInventory().setItem(22, coal);
+
+        ItemStack cobblestone = new ItemStack(Material.COBBLESTONE);
+        ItemMeta cobblestonemeta = cobblestone.getItemMeta();
+        cobblestonemeta.setDisplayName("§bAnzahl ➝ §6" + mysqlManager.getItemAmount(player.getUniqueId().toString(), "cobblestone"));
+        cobblestonemeta.addEnchant(Enchantment.KNOCKBACK,1,true);
+        cobblestonemeta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
+        cobblestone.setItemMeta(cobblestonemeta);
+        player.getInventory().setItem(17, cobblestone);
+
+        ItemStack stone = new ItemStack(Material.STONE);
+        ItemMeta stonemeta = stone.getItemMeta();
+        stonemeta.setDisplayName("§bAnzahl ➝ §6" + mysqlManager.getItemAmount(player.getUniqueId().toString(), "stone"));
+        stonemeta.addEnchant(Enchantment.KNOCKBACK,1,true);
+        stonemeta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
+        stone.setItemMeta(stonemeta);
+        player.getInventory().setItem(16, stone);
+
+        ItemStack diamondore = new ItemStack(Material.DIAMOND_ORE);
+        ItemMeta diamondoremeta = diamondore.getItemMeta();
+        diamondoremeta.setDisplayName("§bAnzahl ➝ §6" + mysqlManager.getItemAmount(player.getUniqueId().toString(), "diamond_ore"));
+        diamondoremeta.addEnchant(Enchantment.KNOCKBACK,1,true);
+        diamondoremeta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
+        diamondore.setItemMeta(diamondoremeta);
+        player.getInventory().setItem(26, diamondore);
+
+        ItemStack diamond = new ItemStack(Material.DIAMOND);
+        ItemMeta diamondmeta = diamond.getItemMeta();
+        diamondmeta.setDisplayName("§bAnzahl ➝ §6" + mysqlManager.getItemAmount(player.getUniqueId().toString(), "diamond"));
+        diamondmeta.addEnchant(Enchantment.KNOCKBACK,1,true);
+        diamondmeta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
+        diamond.setItemMeta(diamondmeta);
+        player.getInventory().setItem(25, diamond);
+
+        ItemStack netherite = new ItemStack(Material.NETHERITE_INGOT);
+        ItemMeta netheritemeta = netherite.getItemMeta();
+        netheritemeta.setDisplayName("§bAnzahl ➝ §6" + mysqlManager.getItemAmount(player.getUniqueId().toString(), "netherite_ingot"));
+        netheritemeta.addEnchant(Enchantment.KNOCKBACK,1,true);
+        netheritemeta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
+        netherite.setItemMeta(netheritemeta);
+        player.getInventory().setItem(34, netherite);
+
+        ItemStack netheritescrap = new ItemStack(Material.NETHERITE_SCRAP);
+        ItemMeta netheritescrapmeta = netheritescrap.getItemMeta();
+        netheritescrapmeta.setDisplayName("§bAnzahl ➝ §6" + mysqlManager.getItemAmount(player.getUniqueId().toString(), "netherite_scrap"));
+        netheritescrapmeta.addEnchant(Enchantment.KNOCKBACK,1,true);
+        netheritescrapmeta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
+        netheritescrap.setItemMeta(netheritescrapmeta);
+        player.getInventory().setItem(35, netheritescrap);
     }
 }

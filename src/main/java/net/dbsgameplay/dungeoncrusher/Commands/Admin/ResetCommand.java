@@ -2,8 +2,10 @@ package net.dbsgameplay.dungeoncrusher.Commands.Admin;
 
 import net.dbsgameplay.dungeoncrusher.DungeonCrusher;
 import net.dbsgameplay.dungeoncrusher.enums.Upgrades.SwordCategory;
+import net.dbsgameplay.dungeoncrusher.listener.ErfolgeListener;
 import net.dbsgameplay.dungeoncrusher.sql.MYSQLManager;
 import net.dbsgameplay.dungeoncrusher.utils.Configs.ConfigManager;
+import net.dbsgameplay.dungeoncrusher.utils.ErfolgeBuilders;
 import net.dbsgameplay.dungeoncrusher.utils.ScoreboardBuilder;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
@@ -93,6 +95,6 @@ public class ResetCommand implements CommandExecutor {
         player.getInventory().setItem(0, woodensword);
         player.getInventory().setItem(8, navigator);
 
-
+        ErfolgeListener.removeSuffix(player);
     }
 }

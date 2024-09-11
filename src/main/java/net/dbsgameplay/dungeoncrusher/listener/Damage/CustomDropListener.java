@@ -7,6 +7,7 @@ import net.dbsgameplay.dungeoncrusher.utils.Configs.DropsConfigManager;
 import net.dbsgameplay.dungeoncrusher.utils.Manager.HologramManager;
 import net.dbsgameplay.dungeoncrusher.utils.QuestBuilder;
 import net.dbsgameplay.dungeoncrusher.utils.ScoreboardBuilder;
+import net.dbsgameplay.dungeoncrusher.utils.quests.Daily;
 import org.bukkit.*;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.enchantments.Enchantment;
@@ -93,10 +94,7 @@ public class CustomDropListener implements Listener {
         Location hologramLocation = event.getEntity().getLocation(); // Position des getöteten Mobs
         HologramManager.spawnItemHologram(hologramLocation, itemName);
 
-        //QuestCheck
-        QuestBuilder.checkIfDailyIsDone("daily", "d3", player, 250);
-        //QuestCheck
-        QuestBuilder.checkIfDailyIsDone("daily", "d4", player, 300);
+        Daily.doDailyQuest(player, Daily.dailyGetQuestList);
     }
     public static String translateMaterialName(Material material) {
         switch (material) {

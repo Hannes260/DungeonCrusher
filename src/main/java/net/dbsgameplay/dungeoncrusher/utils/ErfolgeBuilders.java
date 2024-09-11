@@ -4,6 +4,8 @@ import net.dbsgameplay.dungeoncrusher.DungeonCrusher;
 import net.dbsgameplay.dungeoncrusher.enums.Shop.FoodCategory;
 import net.dbsgameplay.dungeoncrusher.listener.DungeonListener;
 import net.dbsgameplay.dungeoncrusher.sql.MYSQLManager;
+import net.dbsgameplay.dungeoncrusher.utils.Configs.LocationConfigManager;
+import net.dbsgameplay.dungeoncrusher.utils.Manager.DungeonManager;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.Sound;
@@ -98,7 +100,7 @@ public class ErfolgeBuilders {
                 break;
             case 7:
                 inv = Bukkit.createInventory(null, 54, "§fErfolge - Ebene §3" + ebene);
-                fillInv(p, "Dorfbewohner");
+                fillInv(p, "Frosch");
                 setOperators(inv);
                 break;
             case 8:
@@ -163,7 +165,7 @@ public class ErfolgeBuilders {
                 break;
             case 20:
                 inv = Bukkit.createInventory(null, 54, "§fErfolge - Ebene §3" + ebene);
-                fillInv(p, "Frosch");
+                fillInv(p, "Dorfbewohner");
                 setOperators(inv);
                 break;
             case 21:
@@ -173,175 +175,190 @@ public class ErfolgeBuilders {
                 break;
             case 22:
                 inv = Bukkit.createInventory(null, 54, "§fErfolge - Ebene §3" + ebene);
-                fillInv(p, "Silberfisch");
+                fillInv(p, "Gürteltier");
                 setOperators(inv);
                 break;
             case 23:
                 inv = Bukkit.createInventory(null, 54, "§fErfolge - Ebene §3" + ebene);
-                fillInv(p, "Diener");
+                fillInv(p, "Silberfisch");
                 setOperators(inv);
                 break;
             case 24:
                 inv = Bukkit.createInventory(null, 54, "§fErfolge - Ebene §3" + ebene);
-                fillInv(p, "Eisbären");
+                fillInv(p, "Diener");
                 setOperators(inv);
                 break;
             case 25:
                 inv = Bukkit.createInventory(null, 54, "§fErfolge - Ebene §3" + ebene);
-                fillInv(p, "Zombiepferd");
+                fillInv(p, "Eisbären");
                 setOperators(inv);
                 break;
             case 26:
                 inv = Bukkit.createInventory(null, 54, "§fErfolge - Ebene §3" + ebene);
-                fillInv(p, "Wolf");
+                fillInv(p, "Zombiepferd");
                 setOperators(inv);
                 break;
             case 27:
                 inv = Bukkit.createInventory(null, 54, "§fErfolge - Ebene §3" + ebene);
-                fillInv(p, "Zombiedorfbewohner");
+                fillInv(p, "Wolf");
                 setOperators(inv);
                 break;
             case 28:
                 inv = Bukkit.createInventory(null, 54, "§fErfolge - Ebene §3" + ebene);
-                fillInv(p, "Schneegolem");
+                fillInv(p, "Zombiedorfbewohner");
                 setOperators(inv);
                 break;
             case 29:
                 inv = Bukkit.createInventory(null, 54, "§fErfolge - Ebene §3" + ebene);
-                fillInv(p, "Skelett");
+                fillInv(p, "Schneegolem");
                 setOperators(inv);
                 break;
             case 30:
                 inv = Bukkit.createInventory(null, 54, "§fErfolge - Ebene §3" + ebene);
-                fillInv(p, "Ertrunkenen");
+                fillInv(p, "Böe");
                 setOperators(inv);
                 break;
             case 31:
                 inv = Bukkit.createInventory(null, 54, "§fErfolge - Ebene §3" + ebene);
-                fillInv(p, "Wüstenzombie");
+                fillInv(p, "Skelett");
                 setOperators(inv);
                 break;
             case 32:
                 inv = Bukkit.createInventory(null, 54, "§fErfolge - Ebene §3" + ebene);
-                fillInv(p, "Spinnen");
+                fillInv(p, "Ertrunkenen");
                 setOperators(inv);
                 break;
             case 33:
                 inv = Bukkit.createInventory(null, 54, "§fErfolge - Ebene §3" + ebene);
-                fillInv(p, "Zombie");
+                fillInv(p, "Wüstenzombie");
                 setOperators(inv);
                 break;
             case 34:
                 inv = Bukkit.createInventory(null, 54, "§fErfolge - Ebene §3" + ebene);
-                fillInv(p, "Eiswanderer");
+                fillInv(p, "Spinnen");
                 setOperators(inv);
                 break;
             case 35:
                 inv = Bukkit.createInventory(null, 54, "§fErfolge - Ebene §3" + ebene);
-                fillInv(p, "Creeper");
+                fillInv(p, "Zombie");
                 setOperators(inv);
                 break;
             case 36:
                 inv = Bukkit.createInventory(null, 54, "§fErfolge - Ebene §3" + ebene);
-                fillInv(p, "Höhlenspinnen");
+                fillInv(p, "Eiswanderer");
                 setOperators(inv);
                 break;
             case 37:
                 inv = Bukkit.createInventory(null, 54, "§fErfolge - Ebene §3" + ebene);
-                fillInv(p, "Endermiten");
+                fillInv(p, "Creeper");
                 setOperators(inv);
                 break;
             case 38:
                 inv = Bukkit.createInventory(null, 54, "§fErfolge - Ebene §3" + ebene);
-                fillInv(p, "Schreiter");
+                fillInv(p, "Höhlenspinnen");
                 setOperators(inv);
                 break;
             case 39:
                 inv = Bukkit.createInventory(null, 54, "§fErfolge - Ebene §3" + ebene);
-                fillInv(p, "Lohen");
+                fillInv(p, "Endermiten");
                 setOperators(inv);
                 break;
             case 40:
                 inv = Bukkit.createInventory(null, 54, "§fErfolge - Ebene §3" + ebene);
-                fillInv(p, "Skelettpferde");
+                fillInv(p, "Schreiter");
                 setOperators(inv);
                 break;
             case 41:
                 inv = Bukkit.createInventory(null, 54, "§fErfolge - Ebene §3" + ebene);
-                fillInv(p, "Hexen");
+                fillInv(p, "Lohen");
                 setOperators(inv);
                 break;
             case 42:
                 inv = Bukkit.createInventory(null, 54, "§fErfolge - Ebene §3" + ebene);
-                fillInv(p, "Schleim");
+                fillInv(p, "Skelettpferde");
                 setOperators(inv);
                 break;
             case 43:
                 inv = Bukkit.createInventory(null, 54, "§fErfolge - Ebene §3" + ebene);
-                fillInv(p, "Magmawürfel");
+                fillInv(p, "Hexen");
                 setOperators(inv);
                 break;
             case 44:
                 inv = Bukkit.createInventory(null, 54, "§fErfolge - Ebene §3" + ebene);
-                fillInv(p, "Enderman");
+                fillInv(p, "Schleim");
                 setOperators(inv);
                 break;
             case 45:
                 inv = Bukkit.createInventory(null, 54, "§fErfolge - Ebene §3" + ebene);
-                fillInv(p, "Piglin");
+                fillInv(p, "Magmawürfel");
                 setOperators(inv);
                 break;
             case 46:
                 inv = Bukkit.createInventory(null, 54, "§fErfolge - Ebene §3" + ebene);
-                fillInv(p, "Zombiefizierter_Piglin");
+                fillInv(p, "Enderman");
                 setOperators(inv);
                 break;
             case 47:
                 inv = Bukkit.createInventory(null, 54, "§fErfolge - Ebene §3" + ebene);
-                fillInv(p, "Piglin_Barbaren");
+                fillInv(p, "Piglin");
                 setOperators(inv);
                 break;
             case 48:
                 inv = Bukkit.createInventory(null, 54, "§fErfolge - Ebene §3" + ebene);
-                fillInv(p, "Plünderer");
+                fillInv(p, "Sumpfskelett");
                 setOperators(inv);
                 break;
             case 49:
                 inv = Bukkit.createInventory(null, 54, "§fErfolge - Ebene §3" + ebene);
-                fillInv(p, "Hoglin");
+                fillInv(p, "Zombiefizierter_Piglin");
                 setOperators(inv);
                 break;
             case 50:
                 inv = Bukkit.createInventory(null, 54, "§fErfolge - Ebene §3" + ebene);
-                fillInv(p, "Magier");
+                fillInv(p, "Piglin_Barbaren");
                 setOperators(inv);
                 break;
             case 51:
                 inv = Bukkit.createInventory(null, 54, "§fErfolge - Ebene §3" + ebene);
-                fillInv(p, "Ghast");
+                fillInv(p, "Plünderer");
                 setOperators(inv);
                 break;
             case 52:
                 inv = Bukkit.createInventory(null, 54, "§fErfolge - Ebene §3" + ebene);
-                fillInv(p, "Wither_Skelett");
+                fillInv(p, "Hoglin");
                 setOperators(inv);
                 break;
             case 53:
                 inv = Bukkit.createInventory(null, 54, "§fErfolge - Ebene §3" + ebene);
-                fillInv(p, "Zoglin");
+                fillInv(p, "Magier");
                 setOperators(inv);
                 break;
             case 54:
                 inv = Bukkit.createInventory(null, 54, "§fErfolge - Ebene §3" + ebene);
-                fillInv(p, "Verwüster");
+                fillInv(p, "Ghast");
                 setOperators(inv);
                 break;
             case 55:
                 inv = Bukkit.createInventory(null, 54, "§fErfolge - Ebene §3" + ebene);
-                fillInv(p, "Eisengolem");
+                fillInv(p, "Wither_Skelett");
                 setOperators(inv);
                 break;
             case 56:
+                inv = Bukkit.createInventory(null, 54, "§fErfolge - Ebene §3" + ebene);
+                fillInv(p, "Zoglin");
+                setOperators(inv);
+                break;
+            case 57:
+                inv = Bukkit.createInventory(null, 54, "§fErfolge - Ebene §3" + ebene);
+                fillInv(p, "Verwüster");
+                setOperators(inv);
+                break;
+            case 58:
+                inv = Bukkit.createInventory(null, 54, "§fErfolge - Ebene §3" + ebene);
+                fillInv(p, "Eisengolem");
+                setOperators(inv);
+                break;
+            case 59:
                 inv = Bukkit.createInventory(null, 54, "§fErfolge - Ebene §3" + ebene);
                 fillInv(p, "Wärter");
                 setOperators(inv);
@@ -378,20 +395,18 @@ public class ErfolgeBuilders {
             }
             if (kills >= neededKillsForComplete) {
                 itemMeta.setDisplayName("§aErfolg " + i + " ✅");
-                String mobID = "Erfolg_" + mob + "_" + i;
-                arrayList.add("§7[" + "§8" + titlesHashmap.get(mobID) + "§7]");
             }else {
                 itemMeta.setDisplayName("§fErfolg " + i);
                 arrayList.add("§7Du brauchst noch §6" + (neededKillsForComplete-kills) + " §7Kills");
             }
+            String mobID = "Erfolg_" + mob + "_" + i;
+            arrayList.add("§7[" + "§8" + titlesHashmap.get(mobID) + "§7]");
             itemMeta.setItemName("Erfolg_" + mob + "_"+i);
             itemMeta.setLore(arrayList);
             itemMeta.setEnchantmentGlintOverride(false);
             if (DungeonCrusher.api.getPlayerAdapter(Player.class).getUser(p).getCachedData().getMetaData().getSuffix() != null) {
                 String suffix = DungeonCrusher.api.getPlayerAdapter(Player.class).getUser(p).getCachedData().getMetaData().getSuffix();
-                p.sendMessage(suffix.substring(0, suffix.length() -3 ).substring(6));
                 if (suffix.substring(0, suffix.length() -3 ).substring(6).equalsIgnoreCase(titlesHashmap.get(itemMeta.getItemName()))) {
-                    p.sendMessage("2");
                     itemMeta.setEnchantmentGlintOverride(true);
                 }
             }
@@ -407,11 +422,17 @@ public class ErfolgeBuilders {
             for (Player p : Bukkit.getServer().getOnlinePlayers()) {
                 String[] moblist ={"Schaf","Schweine","Kuh","Pferd","Esel","Kamel","Dorfbewohner","Ziegen", "Lama","Mooshroom","Maultier","Schnüffler","Panda","Schildkröten","Ozelot","Axolotl","Fuchs", "Katzen","Huhn","Frosch","Kaninchen","Silberfisch","Diener","Eisbären","Zombiepferd","Wolf", "Zombiedorfbewohner","Schneegolem","Skelett","Ertrunkenen","Wüstenzombie","Spinnen","Zombie","Eiswanderer","Creeper", "Höhlenspinnen","Endermiten","Schreiter","Lohen","Skelettpferde","Hexen","Schleim","Magmawürfel","Enderman", "Piglin","Zombiefizierter_Piglin", "Piglin_Barbaren","Plünderer","Hoglin","Magier","Ghast","Wither_Skelett","Zoglin","Verwüster","Eisengolem", "Wärter",};
                 for (String s : moblist) {
-                    int nowKill = mysqlManager.getPlayerMobKills(p.getUniqueId().toString(), s);
 
                     for (int i = 1; i != 21; i++) {
-                        if (nowKill == i*500) {
-                            reward(i*100/10, p);
+                        if (mysqlManager.getPlayerMobKills(p.getUniqueId().toString(), s) == i*500) {
+                            //locationconfigmanager
+                            for (int i1 = 0; i1 != moblist.length+1; i1++) {
+                                if (moblist[i1].equals(s)) {
+                                    reward(i*100 + (i1*1000), p);
+                                    p.sendMessage(i1 + ", " + mysqlManager.getPlayerMobKills(p.getUniqueId().toString(), s));
+                                }
+                            }
+
                         }
                     }
                 }
@@ -426,11 +447,11 @@ public class ErfolgeBuilders {
         p.sendActionBar("§6Du hast einen Erfolg abgeschlossen!");
         foodCategory.addMoney(p, value);
         p.sendMessage(" §7[§a+§7] §6" + value + "€");
-        mysqlManager.updateItemAmount(p.getUniqueId().toString(), "rohkupfer", mysqlManager.getItemAmount(p.getUniqueId().toString(), "rohkohle")+value);
+        mysqlManager.updateItemAmount(p.getUniqueId().toString(), "raw_copper", mysqlManager.getItemAmount(p.getUniqueId().toString(), "raw_copper")+value/10);
         p.sendMessage(" §7[§a+§7] §6RohKupfer §7[§a" + value + "x§7]");
-        mysqlManager.updateItemAmount(p.getUniqueId().toString(), "kupfer", mysqlManager.getItemAmount(p.getUniqueId().toString(), "kupfer")+value);
+        mysqlManager.updateItemAmount(p.getUniqueId().toString(), "copper_ingot", mysqlManager.getItemAmount(p.getUniqueId().toString(), "copper")+value/10);
         p.sendMessage(" §7[§a+§7] §6Kupferbarren §7[§a" + value + "x§7]");
-        mysqlManager.updateItemAmount(p.getUniqueId().toString(), "kohle", mysqlManager.getItemAmount(p.getUniqueId().toString(), "kohle")+value);
+        mysqlManager.updateItemAmount(p.getUniqueId().toString(), "coal", mysqlManager.getItemAmount(p.getUniqueId().toString(), "coal")+value/10);
         p.sendMessage(" §7[§a+§7] §6Kohle §7[§a" + value + "x§7]");
     }
 

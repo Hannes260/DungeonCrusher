@@ -97,7 +97,7 @@ public class ErfolgeListener implements Listener {
                 meta.setEnchantmentGlintOverride(true);
                 e.getCurrentItem().setItemMeta(meta);
 
-                p.sendMessage("§6Du hast deinen Titel gewechselt.");
+                p.sendMessage("§6Du hast deinen Titel auf " + e.getCurrentItem().getItemMeta().getItemName() + " §6gewechselt!");
                 p.playSound(p.getLocation(), Sound.ENTITY_ARROW_HIT_PLAYER, 10, 1);
 
                 String itemName = e.getCurrentItem().getItemMeta().getItemName();
@@ -3490,7 +3490,7 @@ public class ErfolgeListener implements Listener {
         });
     }
 
-    public void removeSuffix(Player player) {
+    public static void removeSuffix(Player player) {
         // Load, modify, then save
         DungeonCrusher.api.getUserManager().modifyUser(player.getUniqueId(), user -> {
             // Add the permission
