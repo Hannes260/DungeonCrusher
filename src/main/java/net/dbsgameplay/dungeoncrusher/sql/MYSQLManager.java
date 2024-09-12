@@ -194,15 +194,24 @@ public class MYSQLManager {
                     + "Zoglin INT DEFAULT 0,"
                     + "Verwüster INT DEFAULT 0,"
                     + "Eisengolem INT DEFAULT 0,"
-                    + "Wärter INT DEFAULT 0"
+                    + "Wärter INT DEFAULT 0,"
+                    + "Böe INT DEFAULT 0,"
+                    + "Gürteltier INT DEFAULT 0,"
+                    + "Sumpfskelett INT DEFAULT 0"
                     + ");";
             statement.execute(createmobkillsTableQuery);
             String createPlayerQuestTableQuery = "CREATE TABLE IF NOT EXISTS player_quest ("
                     + "uuid VARCHAR(255) PRIMARY KEY,"
                     + "tutorial VARCHAR(255) DEFAULT NULL,"
-                    + "daily BOOLEAN DEFAULT FALSE,"
-                    + "weekly BOOLEAN DEFAULT FALSE,"
-                    + "monthly BOOLEAN DEFAULT FALSE"
+                    + "daily1 BOOLEAN DEFAULT FALSE,"
+                    + "daily2 BOOLEAN DEFAULT FALSE,"
+                    + "daily3 BOOLEAN DEFAULT FALSE,"
+                    + "weekly1 BOOLEAN DEFAULT FALSE,"
+                    + "weekly2 BOOLEAN DEFAULT FALSE,"
+                    + "weekly3 BOOLEAN DEFAULT FALSE,"
+                    + "monthly1 BOOLEAN DEFAULT FALSE,"
+                    + "monthly2 BOOLEAN DEFAULT FALSE,"
+                    + "monthly3 BOOLEAN DEFAULT FALSE"
                     + ")";
             statement.execute(createPlayerQuestTableQuery);
             String createQuestTableQuery = "CREATE TABLE IF NOT EXISTS orgin_quest ("
@@ -326,21 +335,21 @@ public class MYSQLManager {
         }
     }
 
-    public void updatePlayerWeeklyQuest(boolean value, String uuid) {
+    public void updatePlayerQuest(String questType, boolean value, String uuid) {
         try (Connection connection = dataSource.getConnection()) {
-            String checkQuery = "SELECT weekly FROM player_quest WHERE uuid = ?";
+            String checkQuery = "SELECT " + questType + " FROM player_quest WHERE uuid = ?";
             try (PreparedStatement chechStatement = connection.prepareStatement(checkQuery)){
                 chechStatement.setString(1, uuid);
                 try (ResultSet resultSet = chechStatement.executeQuery()){
                     if (resultSet.next()) {
-                        String updateQuery = "UPDATE player_quest SET weekly = ? WHERE uuid = ?";
+                        String updateQuery = "UPDATE player_quest SET " + questType + " = ? WHERE uuid = ?";
                         try (PreparedStatement updateStatement = connection.prepareStatement(updateQuery)) {
                             updateStatement.setBoolean(1, value);
                             updateStatement.setString(2, uuid);
                             updateStatement.executeUpdate();
                         }
                     }else {
-                        String insertQuery = "INSERT INTO player_quest (uuid, weekly) VALUES (?, ?)";
+                        String insertQuery = "INSERT INTO player_quest (uuid, " + questType + ") VALUES (?, ?)";
                         try (PreparedStatement insertStatement = connection.prepareStatement(insertQuery)){
                             insertStatement.setString(1, uuid);
                             insertStatement.setBoolean(2, value);
@@ -357,19 +366,19 @@ public class MYSQLManager {
         }
     }
 
-    public Boolean getPlayerWeeklyQuest(String uuid) {
+    public Boolean getPlayerQuest(String questType, String uuid) {
         Boolean quest = null;
 
         try (Connection connection = dataSource.getConnection()) {
             // Query vorbereiten
-            String query = "SELECT weekly FROM player_quest WHERE uuid = ?";
+            String query = "SELECT " + questType + " FROM player_quest WHERE uuid = ?";
             try (PreparedStatement statement = connection.prepareStatement(query)) {
                 statement.setString(1, uuid);
 
                 // Query ausführen und Ergebnis abrufen
                 try (ResultSet resultSet = statement.executeQuery()) {
                     if (resultSet.next()) {
-                        quest = resultSet.getBoolean("weekly");
+                        quest = resultSet.getBoolean(questType);
                         statement.close();
                         resultSet.close();
                     }

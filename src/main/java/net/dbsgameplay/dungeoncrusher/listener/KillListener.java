@@ -51,7 +51,7 @@ public class KillListener implements Listener {
                 mysqlManager.updateMobKillsForPlayer(playeruuid, "Dorfbewohner", 1);
             }
             if (event.getEntityType().equals(EntityType.GOAT)) {
-                mysqlManager.updateMobKillsForPlayer(playeruuid, "Ziege", 1);
+                mysqlManager.updateMobKillsForPlayer(playeruuid, "Ziegen", 1);
             }
             if (event.getEntityType().equals(EntityType.LLAMA)) {
                 mysqlManager.updateMobKillsForPlayer(playeruuid, "Lama", 1);
@@ -147,7 +147,7 @@ public class KillListener implements Listener {
                 mysqlManager.updateMobKillsForPlayer(playeruuid, "Lohen", 1);
             }
             if (event.getEntityType().equals(EntityType.SKELETON_HORSE)) {
-                mysqlManager.updateMobKillsForPlayer(playeruuid, "Skelettenpferde", 1);
+                mysqlManager.updateMobKillsForPlayer(playeruuid, "Skelettpferde", 1);
             }
             if (event.getEntityType().equals(EntityType.WITCH)) {
                 mysqlManager.updateMobKillsForPlayer(playeruuid, "Hexen", 1);
@@ -165,10 +165,10 @@ public class KillListener implements Listener {
                 mysqlManager.updateMobKillsForPlayer(playeruuid, "Piglin", 1);
             }
             if (event.getEntityType().equals(EntityType.ZOMBIFIED_PIGLIN)) {
-                mysqlManager.updateMobKillsForPlayer(playeruuid, "Zombifizierter Piglin", 1);
+                mysqlManager.updateMobKillsForPlayer(playeruuid, "Zombifizierter_Piglin", 1);
             }
             if (event.getEntityType().equals(EntityType.PIGLIN_BRUTE)) {
-                mysqlManager.updateMobKillsForPlayer(playeruuid, "Piglin Barbaren", 1);
+                mysqlManager.updateMobKillsForPlayer(playeruuid, "Piglin_Barbaren", 1);
             }
             if (event.getEntityType().equals(EntityType.PILLAGER)) {
                 mysqlManager.updateMobKillsForPlayer(playeruuid, "Plünderer", 1);
@@ -183,7 +183,7 @@ public class KillListener implements Listener {
                 mysqlManager.updateMobKillsForPlayer(playeruuid, "Ghast", 1);
             }
             if (event.getEntityType().equals(EntityType.WITHER_SKELETON)) {
-                mysqlManager.updateMobKillsForPlayer(playeruuid, "Wither Skelett", 1);
+                mysqlManager.updateMobKillsForPlayer(playeruuid, "Wither_Skelett", 1);
             }
             if (event.getEntityType().equals(EntityType.ZOGLIN)) {
                 mysqlManager.updateMobKillsForPlayer(playeruuid, "Zoglin", 1);
@@ -196,6 +196,15 @@ public class KillListener implements Listener {
             }
             if (event.getEntityType().equals(EntityType.WARDEN)) {
                 mysqlManager.updateMobKillsForPlayer(playeruuid, "Wärter", 1);
+            }
+            if (event.getEntityType().equals(EntityType.BOGGED)) {
+                mysqlManager.updateMobKillsForPlayer(playeruuid, "Sumpfskelett", 1);
+            }
+            if (event.getEntityType().equals(EntityType.BREEZE)) {
+                mysqlManager.updateMobKillsForPlayer(playeruuid, "Böe", 1);
+            }
+            if (event.getEntityType().equals(EntityType.ARMADILLO)) {
+                    mysqlManager.updateMobKillsForPlayer(playeruuid, "Gürteltier", 1);
             }
         }
     }

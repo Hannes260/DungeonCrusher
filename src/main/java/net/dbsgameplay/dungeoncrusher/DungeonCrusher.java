@@ -7,6 +7,7 @@ import net.dbsgameplay.dungeoncrusher.Commands.Economy.PayCommand;
 import net.dbsgameplay.dungeoncrusher.Commands.Quests.QuestCommand;
 import net.dbsgameplay.dungeoncrusher.Commands.Shops.ShopCommand;
 import net.dbsgameplay.dungeoncrusher.Commands.Upgrades.UpgradeCommand;
+import net.dbsgameplay.dungeoncrusher.enums.Shop.FoodCategory;
 import net.dbsgameplay.dungeoncrusher.listener.*;
 import net.dbsgameplay.dungeoncrusher.listener.Damage.*;
 import net.dbsgameplay.dungeoncrusher.listener.Navigator.NavigatorListener;
@@ -15,17 +16,16 @@ import net.dbsgameplay.dungeoncrusher.listener.protections.DungeonProtectionList
 import net.dbsgameplay.dungeoncrusher.listener.shops.ShopListener;
 import net.dbsgameplay.dungeoncrusher.sql.MYSQLManager;
 import net.dbsgameplay.dungeoncrusher.utils.*;
-import net.dbsgameplay.dungeoncrusher.utils.Configs.ConfigManager;
-import net.dbsgameplay.dungeoncrusher.utils.Configs.DropsConfigManager;
-import net.dbsgameplay.dungeoncrusher.utils.Configs.LocationConfigManager;
-import net.dbsgameplay.dungeoncrusher.utils.Configs.RewardConfigManager;
+import net.dbsgameplay.dungeoncrusher.utils.Configs.*;
 import net.dbsgameplay.dungeoncrusher.utils.Manager.MarkingsManager;
 import net.dbsgameplay.dungeoncrusher.utils.Manager.SavezoneManager;
+import net.dbsgameplay.dungeoncrusher.utils.quests.Daily;
 import net.dbsgameplay.dungeoncrusher.utils.shops.ShopManager;
 import net.dbsgameplay.dungeoncrusher.utils.upgrades.UpgradeManager;
 import net.luckperms.api.LuckPerms;
 import net.luckperms.api.LuckPermsProvider;
 import org.bukkit.Bukkit;
+import org.bukkit.Sound;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -51,6 +51,7 @@ public final class DungeonCrusher extends JavaPlugin {
     private LocationConfigManager locationConfigManager;
     private DropsConfigManager dropsConfigManager;
     private RewardConfigManager rewardConfigManager;
+    private QuestConfigManager questConfigManager;
     private MYSQLManager mysqlManager;
     private MarkingsManager markierungsManager;
     public static final String ANSI_BLUE = "\u001B[34m";
@@ -69,6 +70,7 @@ public final class DungeonCrusher extends JavaPlugin {
         locationConfigManager = new LocationConfigManager(this);
         dropsConfigManager = new DropsConfigManager(this);
         rewardConfigManager = new RewardConfigManager(this);
+        questConfigManager = new QuestConfigManager(this);
         mysqlManager = MYSQLManager.getInstance(getDataFolder());
         markierungsManager = new MarkingsManager(locationConfigManager);
         ErfolgeBuilders erfolgeBuilders = new ErfolgeBuilders(mysqlManager);
@@ -95,6 +97,7 @@ public final class DungeonCrusher extends JavaPlugin {
 
         ErfolgeMapBuilder.buildErfolgeMap();
         QuestMapBuilder.BuildMap();
+        Daily daily = new Daily(mysqlManager, this);
 
         startPlaytimer(mysqlManager, getConfig(), this);
     }
@@ -273,35 +276,98 @@ public final class DungeonCrusher extends JavaPlugin {
     }
 
     public static void startPlaytimer(MYSQLManager mysqlManager, FileConfiguration cfg, DungeonCrusher dungeonCrusher) {
-        QuestBuilder.checkForOrginQuest();
+        QuestConfigManager.loadMap();
+        Daily.loadDaily();
+        Daily.checkForDailyOrginQuest();
 
         new BukkitRunnable() {
             @Override
             public void run() {
-                QuestBuilder.checkForOrginQuestUpdate();
+                Daily.checkForDailyOrginQuestUpdate();
 
                 for (Player p : Bukkit.getServer().getOnlinePlayers()) {
-                    if (mysqlManager.getOrginQuest("daily") != null && mysqlManager.getOrginQuest("daily").equalsIgnoreCase("d7") && mysqlManager.getTutorialQuest(p.getUniqueId().toString()).equalsIgnoreCase("t0") && mysqlManager.getPlayerWeeklyQuest(p.getUniqueId().toString()) == false|| mysqlManager.getOrginQuest("daily") != null && mysqlManager.getOrginQuest("daily").equalsIgnoreCase("d8") && mysqlManager.getTutorialQuest(p.getUniqueId().toString()).equalsIgnoreCase("t0") && mysqlManager.getPlayerWeeklyQuest(p.getUniqueId().toString()) == false) {
+                    if (QuestBuilder.isTutorialDone(p)) {
+                        FileConfiguration cfg = dungeonCrusher.getConfig();
+                        String dailyQuest1 = mysqlManager.getOrginQuest("daily1");
+                        String dailyQuest2 = mysqlManager.getOrginQuest("daily2");
+                        String dailyQuest3 = mysqlManager.getOrginQuest("daily3");
+                        FoodCategory foodCategory = new FoodCategory(mysqlManager);
 
-                        QuestListener.playtimeMap.replace(p.getUniqueId(), QuestListener.playtimeMap.get(p.getUniqueId())+1);
-                        cfg.set("quest." + p.getUniqueId().toString() + "." + "daily", QuestListener.playtimeMap.get(p.getUniqueId()));
-
-                        if (mysqlManager.getOrginQuest("daily").equalsIgnoreCase("d7") && cfg.getInt("quest." + p.getUniqueId().toString() + "." + "daily") == 3600) {
-                            cfg.set("quest." + p.getUniqueId().toString() + "." + "daily", null);
-                            mysqlManager.updatePlayerWeeklyQuest( true, p.getUniqueId().toString());
-
-                            Random rdm = new Random();
-                            mysqlManager.updateBalance(p.getUniqueId().toString(), mysqlManager.getBalance(p.getUniqueId().toString() + rdm.nextInt(90, 151)));
-
-                        }else if (mysqlManager.getOrginQuest("daily").equalsIgnoreCase("d8") && cfg.getInt("quest." + p.getUniqueId().toString() + "." + "daily") == 5400) {
-                            cfg.set("quest." + p.getUniqueId().toString() + "." + "daily", null);
-                            mysqlManager.updatePlayerWeeklyQuest(true, p.getUniqueId().toString());
-
-                            Random rdm = new Random();
-                            mysqlManager.updateBalance(p.getUniqueId().toString(), mysqlManager.getBalance(p.getUniqueId().toString() + rdm.nextInt(100, 171)));
+                        for (String s : Daily.dailyPlayQuestList.keySet()) {
+                            if (s.equals(dailyQuest1)) {
+                                if (!Daily.isDailyDone(1, p)) {
+                                    String path = "quest." + p.getUniqueId().toString() + "daily1";
+                                    if (cfg.contains(path)) {
+                                        if (cfg.getInt(path) == Daily.dailyPlayQuestList.get(s)*60) {
+                                            p.playSound(p.getLocation(), Sound.ENTITY_ARROW_HIT_PLAYER, 100, 1);
+                                            QuestBuilder.openRewardmenü(p, s, Daily.dailyRewardItemList);
+                                            mysqlManager.updatePlayerQuest("daily1", true, p.getUniqueId().toString());
+                                            if (Daily.dailyRewardMoneyList.get(s) != null) {
+                                                foodCategory.addMoney(p, Daily.dailyRewardMoneyList.get(s));
+                                                p.sendMessage(" §7[§a+§7] §6" + Daily.dailyRewardMoneyList.get(s) + "€");
+                                            }
+                                        } else {
+                                            QuestListener.playtimeMap.replace(p.getUniqueId(), QuestListener.playtimeMap.get(p.getUniqueId())+1);
+                                            cfg.set(path, QuestListener.playtimeMap.get(p.getUniqueId()));
+                                            dungeonCrusher.saveConfig();
+                                        }
+                                    } else {
+                                        QuestListener.playtimeMap.replace(p.getUniqueId(), QuestListener.playtimeMap.get(p.getUniqueId())+1);
+                                        cfg.set(path, QuestListener.playtimeMap.get(p.getUniqueId()));
+                                        dungeonCrusher.saveConfig();
+                                    }
+                                }
+                            } else if (s.equals(dailyQuest2)) {
+                                if (!Daily.isDailyDone(2, p)) {
+                                    String path = "quest." + p.getUniqueId().toString() + "daily2";
+                                    if (cfg.contains(path)) {
+                                        if (cfg.getInt(path) == Daily.dailyPlayQuestList.get(s)*60) {
+                                            p.playSound(p.getLocation(), Sound.ENTITY_ARROW_HIT_PLAYER, 100, 1);
+                                            QuestBuilder.openRewardmenü(p, s, Daily.dailyRewardItemList);
+                                            mysqlManager.updatePlayerQuest("daily2", true, p.getUniqueId().toString());
+                                            if (Daily.dailyRewardMoneyList.get(s) != null) {
+                                                foodCategory.addMoney(p, Daily.dailyRewardMoneyList.get(s));
+                                                p.sendMessage(" §7[§a+§7] §6" + Daily.dailyRewardMoneyList.get(s) + "€");
+                                            }
+                                        } else {
+                                            QuestListener.playtimeMap.replace(p.getUniqueId(), QuestListener.playtimeMap.get(p.getUniqueId())+1);
+                                            cfg.set(path, QuestListener.playtimeMap.get(p.getUniqueId()));
+                                            dungeonCrusher.saveConfig();
+                                        }
+                                    } else {
+                                        QuestListener.playtimeMap.replace(p.getUniqueId(), QuestListener.playtimeMap.get(p.getUniqueId())+1);
+                                        cfg.set(path, QuestListener.playtimeMap.get(p.getUniqueId()));
+                                        dungeonCrusher.saveConfig();
+                                    }
+                                }
+                            } else if (s.equals(dailyQuest3)) {
+                                if (!Daily.isDailyDone(3, p)) {
+                                    String path = "quest." + p.getUniqueId().toString() + "daily3";
+                                    if (cfg.contains(path)) {
+                                        if (cfg.getInt(path) == Daily.dailyPlayQuestList.get(s)*60) {
+                                            p.playSound(p.getLocation(), Sound.ENTITY_ARROW_HIT_PLAYER, 100, 1);
+                                            QuestBuilder.openRewardmenü(p, s, Daily.dailyRewardItemList);
+                                            mysqlManager.updatePlayerQuest("daily3", true, p.getUniqueId().toString());
+                                            if (Daily.dailyRewardMoneyList.get(s) != null) {
+                                                foodCategory.addMoney(p, Daily.dailyRewardMoneyList.get(s));
+                                                p.sendMessage(" §7[§a+§7] §6" + Daily.dailyRewardMoneyList.get(s) + "€");
+                                            }
+                                        } else {
+                                            QuestListener.playtimeMap.replace(p.getUniqueId(), QuestListener.playtimeMap.get(p.getUniqueId())+1);
+                                            cfg.set(path, QuestListener.playtimeMap.get(p.getUniqueId()));
+                                            dungeonCrusher.saveConfig();
+                                        }
+                                    } else {
+                                        QuestListener.playtimeMap.replace(p.getUniqueId(), QuestListener.playtimeMap.get(p.getUniqueId())+1);
+                                        cfg.set(path, QuestListener.playtimeMap.get(p.getUniqueId()));
+                                        dungeonCrusher.saveConfig();
+                                    }
+                                }
+                            }
                         }
                     }
                 }
+
 
 
             }

@@ -138,9 +138,6 @@ public class FoodCategory implements ShopCategory {
                     bossBar1.addPlayer(p);
                 }
 
-                //QuestCheck
-                QuestBuilder.checkIfWeeklyIsDone("daily", "d6", p, 20);
-
             } else {
                 p.sendMessage(ConfigManager.getPrefix() + ConfigManager.getConfigMessage("message.inventoryfull", "", ""));
                 addMoney(p, totalPrice);
