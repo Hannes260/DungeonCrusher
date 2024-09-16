@@ -2,13 +2,12 @@ package net.dbsgameplay.dungeoncrusher.listener.Stats;
 
 import me.clip.placeholderapi.PlaceholderAPI;
 import net.dbsgameplay.dungeoncrusher.Commands.interfaces.StatsCategory;
-import net.dbsgameplay.dungeoncrusher.Commands.interfaces.UpgradeCategory;
 import net.dbsgameplay.dungeoncrusher.DungeonCrusher;
+import net.dbsgameplay.dungeoncrusher.enums.Stats.KillsCategory;
 import net.dbsgameplay.dungeoncrusher.listener.Navigator.NavigatorListener;
 import net.dbsgameplay.dungeoncrusher.sql.MYSQLManager;
 import net.dbsgameplay.dungeoncrusher.utils.Configs.LocationConfigManager;
 import net.dbsgameplay.dungeoncrusher.utils.Stats.StatsManager;
-import net.dbsgameplay.dungeoncrusher.utils.upgrades.UpgradeManager;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -39,15 +38,21 @@ public class StatsListener implements Listener {
             return;
         }
 
+        String displayName = "§f<shift:-8>%oraxen_stats%";
+        displayName = PlaceholderAPI.setPlaceholders(player, displayName);
         String title = event.getView().getTitle();
-        String DisplayName = "§f<shift:-8>%oraxen_stats%";
-        DisplayName = PlaceholderAPI.setPlaceholders(player, DisplayName);
+
+        String displayNameKills = "§f<shift:-8>%oraxen_kills_gui%";
+        displayNameKills = PlaceholderAPI.setPlaceholders(player, displayNameKills);
+
+
         if (event.getAction() == InventoryAction.HOTBAR_MOVE_AND_READD || event.getClick() == ClickType.NUMBER_KEY) {
             event.setCancelled(true);
             return;
         }
-        // Prüfe, ob der Titel des Inventars mit dem Upgrade-Inventar übereinstimmt
-        if (DisplayName.equalsIgnoreCase(title)) {
+
+        // Originales Shop-Inventar
+        if (displayName.equalsIgnoreCase(title)) {
             event.setCancelled(true);
             String categoryName = clickedItem.getItemMeta().getDisplayName().toLowerCase();
             StatsCategory category = StatsManager.getCategory(categoryName);
@@ -60,12 +65,10 @@ public class StatsListener implements Listener {
                 navigatorListener.openNavigator(player);
                 player.playSound(player.getLocation(), Sound.BLOCK_BARREL_CLOSE, 1.0f, 1.0f);
             }
-        } else if (title.startsWith("§7➢")) {  // Annahme: Kategorien-Inventare haben einen spezifischen Titelstart
+        } else if (title.equalsIgnoreCase(displayNameKills)) {
             event.setCancelled(true);
-            StatsCategory category = StatsManager.getCategory(title.toLowerCase());
-            if (category != null) {
-                category.handleItemClick(player, clickedItem);
-            }
+            KillsCategory customInventory = new KillsCategory(mysqlManager);
+                customInventory.handleItemClick(player, clickedItem);
         }
     }
 }

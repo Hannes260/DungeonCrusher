@@ -1,0 +1,21 @@
+quest:
+  daily:
+    move:
+      d1:
+        quest: 20
+        money: 150
+        items:
+          kupfer: 20
+          rohKupfer: 10
+      d2:
+          quest: 200
+          money: 1500
+          items:
+            kupfer: 200
+            rohKupfer: 100
+
+    play:
+      d3:
+        quest: 60
+        items:
+          kupfer: 25

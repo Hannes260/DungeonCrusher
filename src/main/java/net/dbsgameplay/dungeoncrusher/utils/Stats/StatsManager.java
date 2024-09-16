@@ -4,7 +4,6 @@ import me.clip.placeholderapi.PlaceholderAPI;
 import net.dbsgameplay.dungeoncrusher.Commands.interfaces.StatsCategory;
 import net.dbsgameplay.dungeoncrusher.enums.Stats.KillsCategory;
 import net.dbsgameplay.dungeoncrusher.sql.MYSQLManager;
-import net.dbsgameplay.dungeoncrusher.utils.Configs.LocationConfigManager;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -23,10 +22,10 @@ public class StatsManager {
     }
     private static Map<String, StatsCategory> categories = new HashMap<>();
     private void initializeCategories(MYSQLManager mysqlManager) {
-        categories.put("§7➢ Kills", new KillsCategory(mysqlManager));
+        categories.put("§7➢ kills", new KillsCategory(mysqlManager));
     }
 
-    public static void openMainShopMenu(Player player, MYSQLManager mysqlManager) {
+    public static void openMainShopMenu(Player player) {
         String DisplayName = "§f<shift:-8>%oraxen_stats%";
         DisplayName = PlaceholderAPI.setPlaceholders(player, DisplayName);
 

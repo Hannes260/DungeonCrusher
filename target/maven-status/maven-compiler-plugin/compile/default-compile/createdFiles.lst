@@ -11,6 +11,8 @@ net\dbsgameplay\dungeoncrusher\listener\protections\DungeonProtectionListener.cl
 net\dbsgameplay\dungeoncrusher\utils\ErfolgeMapBuilder.class
 net\dbsgameplay\dungeoncrusher\enums\Upgrades\ArmorCategory$ShopItem.class
 net\dbsgameplay\dungeoncrusher\utils\Manager\MarkingsManager$Markierungsschritt.class
+net\dbsgameplay\dungeoncrusher\utils\Stats\StatsManager.class
+net\dbsgameplay\dungeoncrusher\enums\Stats\KillsCategory.class
 net\dbsgameplay\dungeoncrusher\utils\QuestBuilder.class
 net\dbsgameplay\dungeoncrusher\sql\MYSQLManager.class
 net\dbsgameplay\dungeoncrusher\listener\DungeonListener$1.class
@@ -24,6 +26,7 @@ net\dbsgameplay\dungeoncrusher\Commands\Admin\BuildCommand.class
 net\dbsgameplay\dungeoncrusher\utils\TexturedHeads.class
 net\dbsgameplay\dungeoncrusher\listener\SavezoneListener.class
 net\dbsgameplay\dungeoncrusher\Commands\Upgrades\UpgradeCommand.class
+net\dbsgameplay\dungeoncrusher\listener\Stats\StatsListener.class
 net\dbsgameplay\dungeoncrusher\listener\QuestListener$1.class
 net\dbsgameplay\dungeoncrusher\Commands\Quests\QuestCommand.class
 net\dbsgameplay\dungeoncrusher\DungeonCrusher.class
@@ -71,6 +74,7 @@ net\dbsgameplay\dungeoncrusher\utils\PlayerHeadAPI.class
 net\dbsgameplay\dungeoncrusher\Commands\Dailyreward.class
 net\dbsgameplay\dungeoncrusher\utils\ScoreboardBuilder$2.class
 net\dbsgameplay\dungeoncrusher\utils\Manager\HologramManager.class
+net\dbsgameplay\dungeoncrusher\Commands\interfaces\StatsCategory.class
 net\dbsgameplay\dungeoncrusher\Commands\interfaces\ShopCategory.class
 net\dbsgameplay\dungeoncrusher\enums\Upgrades\SwordCategory.class
 net\dbsgameplay\dungeoncrusher\utils\Manager\DungeonManager.class

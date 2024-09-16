@@ -48,6 +48,57 @@ public class NavigatorListener implements Listener {
         mobTextures.put("frog", 107);
         mobTextures.put("goat", 108);
         mobTextures.put("llama", 109);
+        mobTextures.put("mooshroom", 110);
+        mobTextures.put("mule", 111);
+        mobTextures.put("sniffer", 112);
+        mobTextures.put("panda", 113);
+        mobTextures.put("turtle", 114);
+        mobTextures.put("ocelot", 115);
+        mobTextures.put("axolotl", 116);
+        mobTextures.put("fox", 117);
+        mobTextures.put("cat", 118);
+        mobTextures.put("chicken", 119);
+        mobTextures.put("villager", 120);
+        mobTextures.put("rabbit", 121);
+        mobTextures.put("armadillo", 122);
+        mobTextures.put("silverfish", 123);
+        mobTextures.put("vindicator", 124);
+        mobTextures.put("polar_bear", 125);
+        mobTextures.put("zombie_horse", 126);
+        mobTextures.put("wolf", 127);
+        mobTextures.put("breeze", 128);
+        mobTextures.put("zombie_villager", 129);
+        mobTextures.put("snow_golem", 130);
+        mobTextures.put("skeleton", 131);
+        mobTextures.put("drowned", 132);
+        mobTextures.put("husk", 133);
+        mobTextures.put("spider", 134);
+        mobTextures.put("zombie", 135);
+        mobTextures.put("stray", 136);
+        mobTextures.put("creeper", 137);
+        mobTextures.put("cave_spider", 138);
+        mobTextures.put("endermite", 139);
+        mobTextures.put("strider", 140);
+        mobTextures.put("blaze", 141);
+        mobTextures.put("skeleton_horse", 142);
+        mobTextures.put("witch", 143);
+        mobTextures.put("slime", 144);
+        mobTextures.put("magma_cube", 145);
+        mobTextures.put("bogged", 146);
+        mobTextures.put("enderman", 147);
+        mobTextures.put("piglin", 148);
+        mobTextures.put("zombified_piglin", 149);
+        mobTextures.put("piglin_brutte", 150);
+        mobTextures.put("pillager", 151);
+        mobTextures.put("hoglin", 152);
+        mobTextures.put("evoker", 153);
+        mobTextures.put("ghast", 154);
+        mobTextures.put("wither_skeleton", 155);
+        mobTextures.put("zoglin", 156);
+        mobTextures.put("ravager", 157);
+        mobTextures.put("iron_golem", 158);
+        mobTextures.put("warden", 159);
+
     }
 
     @EventHandler
@@ -66,25 +117,20 @@ public class NavigatorListener implements Listener {
         Player player = (Player) event.getWhoClicked();
         String DisplayName = "§f<shift:-8>%oraxen_teleporter_gui%";
         DisplayName = PlaceholderAPI.setPlaceholders(player, DisplayName);
+
+        // Prüfen, ob das Inventar das spezielle Navigator-Inventar ist
         if (event.getView().getTitle().startsWith("§f" + DisplayName)) {
-            event.setCancelled(true);
+            event.setCancelled(true); // Verhindern, dass Spieler Items bewegen
 
             ItemStack clickedItem = event.getCurrentItem();
-            if (clickedItem != null && clickedItem.getItemMeta() != null && clickedItem.getItemMeta().getDisplayName() != null) {
-                String itemName = clickedItem.getItemMeta().getDisplayName();
 
-                // Nächste Seite
-                if (itemName.equals("§aNächste Seite")) {
-                    openNavigator(player, 2);
-                }
-
-                // Vorherige Seite
-                if (itemName.equals("§cVorherige Seite")) {
-                    openNavigator(player, 1);
-                }
-                // Handle other clicks (z.B. für die Menüoptionen)
-                handleNavigatorClick(player, clickedItem);
+            // Sicherstellen, dass auf ein valides Item geklickt wird
+            if (clickedItem == null || clickedItem.getItemMeta() == null || clickedItem.getItemMeta().getDisplayName() == null) {
+                return; // Kein gültiges Item, also nichts tun
             }
+
+            // Verarbeite nur bestimmte Items (mit bekannten DisplayNames)
+            handleNavigatorClick(player, clickedItem);
         }
     }
 
@@ -125,7 +171,6 @@ public class NavigatorListener implements Listener {
                         if (meta != null) {
                             meta.setDisplayName(dungeonName);
                             meta.setLore(Collections.singletonList(ConfigManager.getConfigMessage("message.navigatorheadlore","%mob_type%",mobType)));
-                            mobHead.setItemMeta(meta);
                             mobHead.setItemMeta(meta);
                             navigatorInventory.setItem(i - startIndex, mobHead);
                         }
@@ -224,8 +269,17 @@ public class NavigatorListener implements Listener {
         Tode = PlaceholderAPI.setPlaceholders(player, Tode);
 
         String currentmoney = mysqlManager.getBalance(player.getUniqueId().toString());
-        navigatorInventory.setItem(53, (new PlayerHead(player.getName(), "§eDeine Stats: ", Geld +" §e" + currentmoney,
-                Kills + " §e"+ mysqlManager.getKills(String.valueOf(player.getUniqueId())), Tode +" §e" + mysqlManager.getDeaths(player.getUniqueId().toString()))).getItemStack());
+        ItemStack profileItem = new ItemStack(Material.PAPER);
+        ItemMeta profilemeta = profileItem.getItemMeta();
+        profilemeta.setDisplayName("§7➢ §eDeine Stats: ");
+        List<String> lore = new ArrayList<>();
+        lore.add(Geld + " §e" + currentmoney);
+        lore.add(Kills + " §e" + mysqlManager.getKills(String.valueOf(player.getUniqueId())));
+        lore.add(Tode + " §e" + mysqlManager.getDeaths(player.getUniqueId().toString()));
+        profilemeta.setLore(lore);
+        profilemeta.setCustomModelData(205);
+        profileItem.setItemMeta(profilemeta);
+        navigatorInventory.setItem(53, profileItem);
 
         // Schließen Item hinzufügen
         ItemStack closeItem = new ItemStack(Material.PAPER);
@@ -260,8 +314,6 @@ public class NavigatorListener implements Listener {
         } else {
             if (hasRequiredKills(player, itemName)) {
                 teleportToDungeon(player, itemName);
-            } else {
-                player.sendMessage(ConfigManager.getPrefix() + ConfigManager.getConfigMessage("message.notenoughkills", "", ""));
             }
         }
     }
