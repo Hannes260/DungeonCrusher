@@ -1,3 +1,58 @@
+#quest:
+  #daily:
+    #move:
+      #d1:
+        #quest: 20
+        #money: 150
+        #items:
+          #kupfer: 20
+          #rohKupfer: 10
+      #d2:
+        #quest: 60
+        #money: 1500
+        #items:
+          #kupfer: 200
+          #rohkupfer: 100
+          #gold: 200
+          #rohgold: 100
+          #eisen: 200
+          #roheisen: 100
+          #kohle: 200
+          #stein: 100
+          #bruchstein: 100
+          #diamant: 100
+          #diamanterz: 100
+          #netherite: 100
+          #antikerschrott: 100
+    #play:
+      #d3:
+        #quest: 60
+        #items:
+          #kupfer: 25
+      #d8:
+        #quest: 90
+        #items:
+          #kupfer: 10090
+    #kill:
+      #d4:
+        #quest: 123
+        #items:
+          #kupfer: 25
+      #d5:
+        #quest: 123
+        #items:
+          #kupfer: 25
+    #get:
+      #d6:
+        #quest: 177
+        #items:
+          #kupfer: 75
+      #d7:
+        #quest: 190
+        #items:
+          #kupfer: 25
+#------------------------------------------------------------------
+
 quest:
   daily:
     move:
@@ -8,14 +63,150 @@ quest:
           kupfer: 20
           rohKupfer: 10
       d2:
-          quest: 200
-          money: 1500
-          items:
-            kupfer: 200
-            rohKupfer: 100
-
+        quest: 60
+        money: 1500
+        items:
+          kupfer: 200
+          rohkupfer: 100
+          gold: 200
+          rohgold: 100
+          eisen: 200
+          roheisen: 100
+          kohle: 200
+          stein: 100
+          bruchstein: 100
+          diamant: 100
+          diamanterz: 100
+          netherite: 100
+          antikerschrott: 100
     play:
       d3:
         quest: 60
+        items:
+          kupfer: 25
+      d8:
+        quest: 90
+        items:
+          kupfer: 10090
+    kill:
+      d4:
+        quest: 123
+        items:
+          kupfer: 25
+      d5:
+        quest: 123
+        items:
+          kupfer: 25
+    get:
+      d6:
+        quest: 177
+        items:
+          kupfer: 75
+      d7:
+        quest: 190
+        items:
+          kupfer: 25
+  weekly:
+    move:
+      w1:
+        quest: 200
+        money: 150
+        items:
+          kupfer: 20
+          rohKupfer: 10
+      w2:
+        quest: 600
+        money: 1500
+        items:
+          kupfer: 200
+          rohkupfer: 100
+          gold: 200
+          rohgold: 100
+          eisen: 200
+          roheisen: 100
+          kohle: 200
+          stein: 100
+          bruchstein: 100
+          diamant: 100
+          diamanterz: 100
+          netherite: 100
+          antikerschrott: 100
+    play:
+      w4:
+        quest: 600
+        items:
+          kupfer: 25
+      w8:
+        quest: 900
+        items:
+          kupfer: 10090
+    kill:
+      w4:
+        quest: 1230
+        items:
+          kupfer: 25
+      w5:
+        quest: 1230
+        items:
+          kupfer: 25
+    get:
+      w6:
+        quest: 1770
+        items:
+          kupfer: 75
+      w7:
+        quest: 1900
+        items:
+          kupfer: 25
+  monthly:
+    move:
+      m1:
+        quest: 999999
+        money: 150
+        items:
+          kupfer: 20
+          rohKupfer: 10
+      m2:
+        quest: 999999
+        money: 1500
+        items:
+          kupfer: 200
+          rohkupfer: 100
+          gold: 200
+          rohgold: 100
+          eisen: 200
+          roheisen: 100
+          kohle: 200
+          stein: 100
+          bruchstein: 100
+          diamant: 100
+          diamanterz: 100
+          netherite: 100
+          antikerschrott: 100
+    play:
+      m4:
+        quest: 999999
+        items:
+          kupfer: 25
+      m8:
+        quest: 999999
+        items:
+          kupfer: 10090
+    kill:
+      m4:
+        quest: 999999
+        items:
+          kupfer: 25
+      m5:
+        quest: 999999
+        items:
+          kupfer: 25
+    get:
+      m6:
+        quest: 999999
+        items:
+          kupfer: 75
+      m7:
+        quest: 999999
         items:
           kupfer: 25

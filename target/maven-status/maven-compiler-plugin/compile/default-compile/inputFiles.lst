@@ -34,6 +34,7 @@ C:\Users\deibe\Desktop\DungeonCrusher\src\main\java\net\dbsgameplay\dungeoncrush
 C:\Users\deibe\Desktop\DungeonCrusher\src\main\java\net\dbsgameplay\dungeoncrusher\utils\Manager\MarkingsManager.java
 C:\Users\deibe\Desktop\DungeonCrusher\src\main\java\net\dbsgameplay\dungeoncrusher\enums\Upgrades\SwordCategory.java
 C:\Users\deibe\Desktop\DungeonCrusher\src\main\java\net\dbsgameplay\dungeoncrusher\Commands\Admin\ClearChatCommand.java
+C:\Users\deibe\Desktop\DungeonCrusher\src\main\java\net\dbsgameplay\dungeoncrusher\utils\quests\Monthly.java
 C:\Users\deibe\Desktop\DungeonCrusher\src\main\java\net\dbsgameplay\dungeoncrusher\listener\ChatListener.java
 C:\Users\deibe\Desktop\DungeonCrusher\src\main\java\net\dbsgameplay\dungeoncrusher\Commands\test.java
 C:\Users\deibe\Desktop\DungeonCrusher\src\main\java\net\dbsgameplay\dungeoncrusher\utils\Configs\QuestConfigManager.java
@@ -51,6 +52,7 @@ C:\Users\deibe\Desktop\DungeonCrusher\src\main\java\net\dbsgameplay\dungeoncrush
 C:\Users\deibe\Desktop\DungeonCrusher\src\main\java\net\dbsgameplay\dungeoncrusher\Commands\PingCommand.java
 C:\Users\deibe\Desktop\DungeonCrusher\src\main\java\net\dbsgameplay\dungeoncrusher\Commands\Dailyreward.java
 C:\Users\deibe\Desktop\DungeonCrusher\src\main\java\net\dbsgameplay\dungeoncrusher\enums\MobNameTranslator.java
+C:\Users\deibe\Desktop\DungeonCrusher\src\main\java\net\dbsgameplay\dungeoncrusher\utils\quests\Weekly.java
 C:\Users\deibe\Desktop\DungeonCrusher\src\main\java\net\dbsgameplay\dungeoncrusher\Commands\Admin\FlySpeedCommand.java
 C:\Users\deibe\Desktop\DungeonCrusher\src\main\java\net\dbsgameplay\dungeoncrusher\listener\Upgrades\UpgradeListener.java
 C:\Users\deibe\Desktop\DungeonCrusher\src\main\java\net\dbsgameplay\dungeoncrusher\utils\ErfolgeBuilders.java

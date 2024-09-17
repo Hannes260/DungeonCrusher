@@ -3,6 +3,7 @@ net\dbsgameplay\dungeoncrusher\enums\Shop\FoodCategory.class
 net\dbsgameplay\dungeoncrusher\utils\Configs\QuestConfigManager.class
 net\dbsgameplay\dungeoncrusher\Commands\Admin\SetSpawnCommand.class
 net\dbsgameplay\dungeoncrusher\objects\PlayerHead.class
+net\dbsgameplay\dungeoncrusher\utils\quests\Monthly.class
 net\dbsgameplay\dungeoncrusher\listener\QuestListener.class
 net\dbsgameplay\dungeoncrusher\utils\Configs\DropsConfigManager.class
 net\dbsgameplay\dungeoncrusher\utils\ScoreboardBuilder$1.class
@@ -74,6 +75,7 @@ net\dbsgameplay\dungeoncrusher\utils\Manager\HologramManager.class
 net\dbsgameplay\dungeoncrusher\Commands\interfaces\ShopCategory.class
 net\dbsgameplay\dungeoncrusher\enums\Upgrades\SwordCategory.class
 net\dbsgameplay\dungeoncrusher\utils\Manager\DungeonManager.class
+net\dbsgameplay\dungeoncrusher\utils\quests\Weekly.class
 net\dbsgameplay\dungeoncrusher\utils\QuestMapBuilder.class
 net\dbsgameplay\dungeoncrusher\utils\ItemBuilder.class
 net\dbsgameplay\dungeoncrusher\utils\upgrades\UpgradeManager.class

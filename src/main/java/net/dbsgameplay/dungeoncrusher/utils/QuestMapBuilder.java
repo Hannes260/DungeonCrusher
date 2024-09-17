@@ -1,8 +1,5 @@
 package net.dbsgameplay.dungeoncrusher.utils;
 
-import net.dbsgameplay.dungeoncrusher.DungeonCrusher;
-import net.dbsgameplay.dungeoncrusher.utils.quests.Daily;
-
 import java.util.HashMap;
 
 public class QuestMapBuilder {
@@ -13,9 +10,5 @@ public class QuestMapBuilder {
         tutorialQuestMap.put("t3", "§6Verbessere dein Schwert auf Lvl. 2.");
         tutorialQuestMap.put("t2", "§6Kaufe dir Essen im Teleporter.");
         tutorialQuestMap.put("t1", "§6Trinke einen Stärketrank.");
-
-        Daily.loadDaily();
     }
-
-
 }

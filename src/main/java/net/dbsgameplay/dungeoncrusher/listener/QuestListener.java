@@ -1,22 +1,14 @@
 package net.dbsgameplay.dungeoncrusher.listener;
 
-import it.unimi.dsi.fastutil.Hash;
 import net.dbsgameplay.dungeoncrusher.DungeonCrusher;
-import net.dbsgameplay.dungeoncrusher.enums.Upgrades.SwordCategory;
 import net.dbsgameplay.dungeoncrusher.sql.MYSQLManager;
 import net.dbsgameplay.dungeoncrusher.utils.QuestBuilder;
 import net.dbsgameplay.dungeoncrusher.utils.quests.Daily;
-import net.md_5.bungee.api.chat.ClickEvent;
-import net.md_5.bungee.api.chat.TextComponent;
-import org.bukkit.Bukkit;
-import org.bukkit.Color;
+import net.dbsgameplay.dungeoncrusher.utils.quests.Monthly;
+import net.dbsgameplay.dungeoncrusher.utils.quests.Weekly;
 import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.boss.*;
-import org.bukkit.command.Command;
-import org.bukkit.command.CommandExecutor;
-import org.bukkit.command.CommandSender;
-import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -28,22 +20,12 @@ import org.bukkit.event.player.PlayerItemConsumeEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
-import org.bukkit.inventory.Inventory;
-import org.bukkit.inventory.InventoryView;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.PotionMeta;
-import org.bukkit.potion.PotionEffectType;
-import org.bukkit.potion.PotionType;
-import org.bukkit.scheduler.BukkitRunnable;
-import org.jetbrains.annotations.NotNull;
 
-import java.awt.*;
-import java.lang.module.Configuration;
-import java.lang.reflect.InvocationTargetException;
 import java.util.HashMap;
-import java.util.Random;
 import java.util.UUID;
 
 public class QuestListener implements Listener {
@@ -120,10 +102,12 @@ public class QuestListener implements Listener {
             }
         }
 
-        if (e.getClickedInventory() != null) {
-            if (e.getClickedInventory().equals(QuestBuilder.questMenu)) {
-                e.setCancelled(true);
-            }
+        if (e.getClickedInventory() == null) {
+            return;
+        }
+
+        if (e.getClickedInventory().equals(QuestBuilder.questMenu)) {
+            e.setCancelled(true);
         }
 
         if (e.getClickedInventory().equals(QuestBuilder.rewardMenu)) {
@@ -133,6 +117,12 @@ public class QuestListener implements Listener {
                 if (e.getCurrentItem() != null) {
                     String material = null;
                     int amount = Integer.parseInt(e.getCurrentItem().getItemMeta().getDisplayName().substring(10));
+
+                    if (amount == 0) {
+                        e.setCancelled(true);
+                        return;
+                    }
+
                     switch (e.getCurrentItem().getType()) {
                         case Material.RAW_COPPER -> material = "raw_copper";
                         case Material.COPPER_INGOT -> material = "copper_ingot";
@@ -160,6 +150,12 @@ public class QuestListener implements Listener {
                 if (e.getCurrentItem() != null) {
                     String material = null;
                     int amount = Integer.parseInt(e.getCurrentItem().getItemMeta().getDisplayName().substring(10));
+
+                    if (amount == 0) {
+                        e.setCancelled(true);
+                        return;
+                    }
+
                     switch (e.getCurrentItem().getType()) {
                         case Material.RAW_COPPER -> material = "raw_copper";
                         case Material.COPPER_INGOT -> material = "copper_ingot";
@@ -204,7 +200,9 @@ public class QuestListener implements Listener {
     @EventHandler
     public void EntityDeathEvent(EntityDeathEvent e) {
         if (e.getEntity().getKiller() instanceof Player p) {
-            Daily.doDailyQuest(p, Daily.dailyKillQuestList);
+            Daily.doQuest(p, Daily.KillQuestList);
+            Weekly.doQuest(p, Weekly.KillQuestList);
+            Monthly.doQuest(p, Monthly.KillQuestList);
         }
     }
 
@@ -222,7 +220,9 @@ public class QuestListener implements Listener {
         Player p = e.getPlayer();
 
         if(e.getFrom().getBlockX() != e.getTo().getBlockX() || e.getFrom().getBlockZ() != e.getTo().getBlockZ()) {
-            Daily.doDailyQuest(p, Daily.dailyMoveQuestList);
+            Daily.doQuest(p, Daily.MoveQuestList);
+            Weekly.doQuest(p, Weekly.MoveQuestList);
+            Monthly.doQuest(p, Monthly.MoveQuestList);
         }
     }
 

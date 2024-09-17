@@ -13,7 +13,7 @@ import org.bukkit.entity.Player;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
-public class Daily {
+public class Weekly {
     public static HashMap<String, Map<String, Object>> RewardItemList = new HashMap<>();
     public static HashMap<String, Integer> RewardMoneyList = new HashMap<>();
 
@@ -27,7 +27,7 @@ public class Daily {
     public static MYSQLManager mysqlManager;
     public static DungeonCrusher dungeonCrusher;
 
-    public Daily(MYSQLManager mysqlManager, DungeonCrusher dungeonCrusher) {
+    public Weekly(MYSQLManager mysqlManager, DungeonCrusher dungeonCrusher) {
         this.mysqlManager = mysqlManager;
         this.dungeonCrusher = dungeonCrusher;
     }
@@ -48,39 +48,39 @@ public class Daily {
     }
 
     public static void checkForOrginQuest() {
-        //
-        if (mysqlManager.getOrginQuest("daily1") == null) {
+        Bukkit.getLogger().info(Quests.toString());
+        if (mysqlManager.getOrginQuest("weekly1") == null) {
             Random random = new Random();
             int rdmNum = random.nextInt(0, Quests.size());
             String key = Quests.get(rdmNum);
-            mysqlManager.updateOrginQuest("daily1", key);
+            mysqlManager.updateOrginQuest("weekly1", key);
         }
-        if (mysqlManager.getOrginQuest("daily2") == null) {
+        if (mysqlManager.getOrginQuest("weekly2") == null) {
             Random random = new Random();
             int rdmNum = random.nextInt(0, Quests.size());
             String key = Quests.get(rdmNum);
-            if (key == mysqlManager.getOrginQuest("daily1")) {
-                while (key == mysqlManager.getOrginQuest("daily1")) {
+            if (key == mysqlManager.getOrginQuest("weekly1")) {
+                while (key == mysqlManager.getOrginQuest("weekly1")) {
                     rdmNum = random.nextInt(0, Quests.size());
                     key = Quests.get(rdmNum);
                 }
-                mysqlManager.updateOrginQuest("daily2", key);
+                mysqlManager.updateOrginQuest("weekly2", key);
             }else {
-                mysqlManager.updateOrginQuest("daily2", key);
+                mysqlManager.updateOrginQuest("weekly2", key);
             }
         }
-        if (mysqlManager.getOrginQuest("daily3") == null) {
+        if (mysqlManager.getOrginQuest("weekly3") == null) {
             Random random = new Random();
             int rdmNum = random.nextInt(0, Quests.size());
             String key = Quests.get(rdmNum);
-            if (key == mysqlManager.getOrginQuest("daily1") || key == mysqlManager.getOrginQuest("daily2")) {
-                while (key == mysqlManager.getOrginQuest("daily1") || key == mysqlManager.getOrginQuest("daily2")) {
+            if (key == mysqlManager.getOrginQuest("weekly1") || key == mysqlManager.getOrginQuest("weekly2")) {
+                while (key == mysqlManager.getOrginQuest("weekly1") || key == mysqlManager.getOrginQuest("weekly2")) {
                     rdmNum = random.nextInt(0, Quests.size());
                     key = Quests.get(rdmNum);
                 }
-                mysqlManager.updateOrginQuest("daily3", key);
+                mysqlManager.updateOrginQuest("weekly3", key);
             }else {
-                mysqlManager.updateOrginQuest("daily3", key);
+                mysqlManager.updateOrginQuest("weekly3", key);
             }
         }
     }
@@ -92,51 +92,51 @@ public class Daily {
 
         if (format.format(now).equalsIgnoreCase("01")) {
             //
-            if (mysqlManager.getOrginQuest("daily1") == null) {
+            if (mysqlManager.getOrginQuest("weekly1") == null) {
                 Random random = new Random();
                 int rdmNum = random.nextInt(0, Quests.size());
                 String key = Quests.get(rdmNum);
-                mysqlManager.updateOrginQuest("daily1", key);
+                mysqlManager.updateOrginQuest("weekly1", key);
             }
-            if (mysqlManager.getOrginQuest("daily2") == null) {
+            if (mysqlManager.getOrginQuest("weekly2") == null) {
                 Random random = new Random();
                 int rdmNum = random.nextInt(0, Quests.size());
                 String key = Quests.get(rdmNum);
-                if (key == mysqlManager.getOrginQuest("daily1")) {
-                    while (key == mysqlManager.getOrginQuest("daily1")) {
+                if (key == mysqlManager.getOrginQuest("weekly1")) {
+                    while (key == mysqlManager.getOrginQuest("weekly1")) {
                         rdmNum = random.nextInt(0, Quests.size());
                         key = Quests.get(rdmNum);
                     }
-                    mysqlManager.updateOrginQuest("daily2", key);
+                    mysqlManager.updateOrginQuest("weekly2", key);
                 }else {
-                    mysqlManager.updateOrginQuest("daily2", key);
+                    mysqlManager.updateOrginQuest("weekly2", key);
                 }
             }
-            if (mysqlManager.getOrginQuest("daily3") == null) {
+            if (mysqlManager.getOrginQuest("weekly3") == null) {
                 Random random = new Random();
                 int rdmNum = random.nextInt(0, Quests.size());
                 String key = Quests.get(rdmNum);
-                if (key == mysqlManager.getOrginQuest("daily1") || key == mysqlManager.getOrginQuest("daily2")) {
-                    while (key == mysqlManager.getOrginQuest("daily1") || key == mysqlManager.getOrginQuest("daily2")) {
+                if (key == mysqlManager.getOrginQuest("weekly1") || key == mysqlManager.getOrginQuest("weekly2")) {
+                    while (key == mysqlManager.getOrginQuest("weekly1") || key == mysqlManager.getOrginQuest("weekly2")) {
                         rdmNum = random.nextInt(0, Quests.size());
                         key = Quests.get(rdmNum);
                     }
-                    mysqlManager.updateOrginQuest("daily3", key);
+                    mysqlManager.updateOrginQuest("weekly3", key);
                 }else {
-                    mysqlManager.updateOrginQuest("daily3", key);
+                    mysqlManager.updateOrginQuest("weekly3", key);
                 }
             }
             for (OfflinePlayer p : Bukkit.getServer().getOfflinePlayers()) {
-                mysqlManager.updatePlayerQuest( "daily1",false, p.getUniqueId().toString());
-                mysqlManager.updatePlayerQuest( "daily2",false, p.getUniqueId().toString());
-                mysqlManager.updatePlayerQuest( "daily3",false, p.getUniqueId().toString());
+                mysqlManager.updatePlayerQuest( "weekly1",false, p.getUniqueId().toString());
+                mysqlManager.updatePlayerQuest( "weekly2",false, p.getUniqueId().toString());
+                mysqlManager.updatePlayerQuest( "weekly3",false, p.getUniqueId().toString());
                 dungeonCrusher.getConfig().set("quest." + p.getUniqueId().toString(), null);
                 dungeonCrusher.saveConfig();
             }
             for (Player p : Bukkit.getServer().getOnlinePlayers()) {
-                mysqlManager.updatePlayerQuest( "daily1",false, p.getUniqueId().toString());
-                mysqlManager.updatePlayerQuest( "daily2",false, p.getUniqueId().toString());
-                mysqlManager.updatePlayerQuest( "daily3",false, p.getUniqueId().toString());
+                mysqlManager.updatePlayerQuest( "weekly1",false, p.getUniqueId().toString());
+                mysqlManager.updatePlayerQuest( "weekly2",false, p.getUniqueId().toString());
+                mysqlManager.updatePlayerQuest( "weekly3",false, p.getUniqueId().toString());
                 dungeonCrusher.getConfig().set("quest." + p.getUniqueId().toString(), null);
                 dungeonCrusher.saveConfig();
             }
@@ -170,7 +170,7 @@ public class Daily {
     }
 
     public static boolean isDone(int num, Player p){
-        if (mysqlManager.getPlayerQuest("daily" + num, p.getUniqueId().toString()) == true) {
+        if (mysqlManager.getPlayerQuest("weekly" + num, p.getUniqueId().toString()) == true) {
             return true;
         }
         return false;
@@ -179,23 +179,23 @@ public class Daily {
     public static void doQuest(Player p, HashMap<String, Integer> questMap) {
         if (QuestBuilder.isTutorialDone(p)) {
             FileConfiguration cfg = dungeonCrusher.getConfig();
-            String Quest1 = mysqlManager.getOrginQuest("daily1");
-            String Quest2 = mysqlManager.getOrginQuest("daily2");
-            String Quest3 = mysqlManager.getOrginQuest("daily3");
+            String Quest1 = mysqlManager.getOrginQuest("weekly1");
+            String Quest2 = mysqlManager.getOrginQuest("weekly2");
+            String Quest3 = mysqlManager.getOrginQuest("weekly3");
             FoodCategory foodCategory = new FoodCategory(mysqlManager);
 
             for (String s : questMap.keySet()) {
                 if (s.equals(Quest1)) {
-                    if (!Daily.isDone(1, p)) {
-                        String path = "quest." + p.getUniqueId().toString() + "." + "daily1";
+                    if (!Weekly.isDone(1, p)) {
+                        String path = "quest." + p.getUniqueId().toString() + "." + "." + "weekly1";
                         if (cfg.contains(path)) {
                             if (cfg.getInt(path) == questMap.get(s)) {
                                 p.playSound(p.getLocation(), Sound.ENTITY_ARROW_HIT_PLAYER, 100, 1);
-                                QuestBuilder.openRewardmenü(p, s, Daily.RewardItemList);
-                                mysqlManager.updatePlayerQuest("daily1", true, p.getUniqueId().toString());
-                                if (Daily.RewardMoneyList.get(s) != null) {
-                                    foodCategory.addMoney(p, Daily.RewardMoneyList.get(s));
-                                    p.sendMessage(" §7[§a+§7] §6" + Daily.RewardMoneyList.get(s) + "€");
+                                QuestBuilder.openRewardmenü(p, s, Weekly.RewardItemList);
+                                mysqlManager.updatePlayerQuest("weekly1", true, p.getUniqueId().toString());
+                                if (Weekly.RewardMoneyList.get(s) != null) {
+                                    foodCategory.addMoney(p, Weekly.RewardMoneyList.get(s));
+                                    p.sendMessage(" §7[§a+§7] §6" + Weekly.RewardMoneyList.get(s) + "€");
                                 }
                                 dungeonCrusher.getConfig().set("quest." + p.getUniqueId().toString(), null);
                                 dungeonCrusher.saveConfig();
@@ -209,16 +209,16 @@ public class Daily {
                         }
                     }
                 } else if (s.equals(Quest2)) {
-                    if (!Daily.isDone(2, p)) {
-                        String path = "quest." + p.getUniqueId().toString() + "." + "daily2";
+                    if (!Weekly.isDone(2, p)) {
+                        String path = "quest." + p.getUniqueId().toString() + "." + "weekly2";
                         if (cfg.contains(path)) {
                             if (cfg.getInt(path) == questMap.get(s)) {
                                 p.playSound(p.getLocation(), Sound.ENTITY_ARROW_HIT_PLAYER, 100, 1);
-                                QuestBuilder.openRewardmenü(p, s, Daily.RewardItemList);
-                                mysqlManager.updatePlayerQuest("daily2", true, p.getUniqueId().toString());
-                                if (Daily.RewardMoneyList.get(s) != null) {
-                                    foodCategory.addMoney(p, Daily.RewardMoneyList.get(s));
-                                    p.sendMessage(" §7[§a+§7] §6" + Daily.RewardMoneyList.get(s) + "€");
+                                QuestBuilder.openRewardmenü(p, s, Weekly.RewardItemList);
+                                mysqlManager.updatePlayerQuest("weekly2", true, p.getUniqueId().toString());
+                                if (Weekly.RewardMoneyList.get(s) != null) {
+                                    foodCategory.addMoney(p, Weekly.RewardMoneyList.get(s));
+                                    p.sendMessage(" §7[§a+§7] §6" + Weekly.RewardMoneyList.get(s) + "€");
                                 }
                                 dungeonCrusher.getConfig().set("quest." + p.getUniqueId().toString(), null);
                                 dungeonCrusher.saveConfig();
@@ -232,16 +232,16 @@ public class Daily {
                         }
                     }
                 } else if (s.equals(Quest3)) {
-                    if (!Daily.isDone(3, p)) {
-                        String path = "quest." + p.getUniqueId().toString() + "." + "daily3";
+                    if (!Weekly.isDone(3, p)) {
+                        String path = "quest." + p.getUniqueId().toString() + "." + "weekly3";
                         if (cfg.contains(path)) {
                             if (cfg.getInt(path) == questMap.get(s)) {
                                 p.playSound(p.getLocation(), Sound.ENTITY_ARROW_HIT_PLAYER, 100, 1);
-                                QuestBuilder.openRewardmenü(p, s, Daily.RewardItemList);
-                                mysqlManager.updatePlayerQuest("daily3", true, p.getUniqueId().toString());
-                                if (Daily.RewardMoneyList.get(s) != null) {
-                                    foodCategory.addMoney(p, Daily.RewardMoneyList.get(s));
-                                    p.sendMessage(" §7[§a+§7] §6" + Daily.RewardMoneyList.get(s) + "€");
+                                QuestBuilder.openRewardmenü(p, s, Weekly.RewardItemList);
+                                mysqlManager.updatePlayerQuest("weekly3", true, p.getUniqueId().toString());
+                                if (Weekly.RewardMoneyList.get(s) != null) {
+                                    foodCategory.addMoney(p, Weekly.RewardMoneyList.get(s));
+                                    p.sendMessage(" §7[§a+§7] §6" + Weekly.RewardMoneyList.get(s) + "€");
                                 }
                                 dungeonCrusher.getConfig().set("quest." + p.getUniqueId().toString(), null);
                                 dungeonCrusher.saveConfig();

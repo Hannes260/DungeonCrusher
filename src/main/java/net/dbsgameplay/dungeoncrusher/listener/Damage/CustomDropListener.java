@@ -5,11 +5,11 @@ import net.dbsgameplay.dungeoncrusher.sql.MYSQLManager;
 import net.dbsgameplay.dungeoncrusher.utils.Configs.ConfigManager;
 import net.dbsgameplay.dungeoncrusher.utils.Configs.DropsConfigManager;
 import net.dbsgameplay.dungeoncrusher.utils.Manager.HologramManager;
-import net.dbsgameplay.dungeoncrusher.utils.QuestBuilder;
 import net.dbsgameplay.dungeoncrusher.utils.ScoreboardBuilder;
 import net.dbsgameplay.dungeoncrusher.utils.quests.Daily;
+import net.dbsgameplay.dungeoncrusher.utils.quests.Monthly;
+import net.dbsgameplay.dungeoncrusher.utils.quests.Weekly;
 import org.bukkit.*;
-import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
@@ -22,7 +22,6 @@ import org.bukkit.inventory.meta.ItemMeta;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
-import java.util.Random;
 
 public class CustomDropListener implements Listener {
     MYSQLManager mysqlManager;
@@ -94,7 +93,9 @@ public class CustomDropListener implements Listener {
         Location hologramLocation = event.getEntity().getLocation(); // Position des getöteten Mobs
         HologramManager.spawnItemHologram(hologramLocation, itemName);
 
-        Daily.doDailyQuest(player, Daily.dailyGetQuestList);
+        Daily.doQuest(player, Daily.GetQuestList);
+        Weekly.doQuest(player, Weekly.GetQuestList);
+        Monthly.doQuest(player, Monthly.GetQuestList);
     }
     public static String translateMaterialName(Material material) {
         switch (material) {
