@@ -12,9 +12,13 @@ import net.dbsgameplay.dungeoncrusher.utils.shops.ShopManager;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.Listener;
+import org.bukkit.event.player.AsyncPlayerChatEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -90,7 +94,6 @@ public class KillsCategory implements StatsCategory {
     public void openMenu(Player player) {
         openMenu(player, 1);
     }
-
     public void openMenu(Player player, int page) {
         String displayNameKills = "§f<shift:-8>%oraxen_kills_gui%";
         displayNameKills = PlaceholderAPI.setPlaceholders(player, displayNameKills);
@@ -137,6 +140,77 @@ public class KillsCategory implements StatsCategory {
             ItemMeta nextPageMeta = nextPageButton.getItemMeta();
             nextPageMeta.setDisplayName("§aNächste Seite");
             nextPageButton.setItemMeta(nextPageMeta);
+            inv.setItem(44, nextPageButton);
+        }
+
+        // "Vorherige Seite"-Button
+        if (page > 1) {
+            ItemStack previousPageButton = new ItemStack(Material.ARROW);
+            ItemMeta previousPageMeta = previousPageButton.getItemMeta();
+            previousPageMeta.setDisplayName("§cVorherige Seite");
+            previousPageButton.setItemMeta(previousPageMeta);
+            inv.setItem(44, previousPageButton);
+        }
+        ItemStack searchItem = new ItemStack(Material.COMPASS);
+        ItemMeta searchMeta = searchItem.getItemMeta();
+        searchMeta.setDisplayName("§7➢ Spieler suchen");
+        searchItem.setItemMeta(searchMeta);
+        inv.setItem(53, searchItem);
+
+        ItemStack backhead = new ItemStack(Material.PAPER);
+        ItemMeta headmeta = backhead.getItemMeta();
+        headmeta.setDisplayName("§7➢ Zurück");
+        headmeta.setCustomModelData(100);
+        backhead.setItemMeta(headmeta);
+        inv.setItem(45, backhead);
+        player.openInventory(inv);
+    }
+    public void openSecondMenu(Player player, int page, String founduuid) {
+        String displayNameKills = "§f<shift:-8>%oraxen_kills_gui%";
+        displayNameKills = PlaceholderAPI.setPlaceholders(player, displayNameKills);
+
+        Inventory inv = Bukkit.createInventory(null, 9 * 6, displayNameKills);
+        LocationConfigManager locationConfigManager = new LocationConfigManager(DungeonCrusher.getInstance());
+
+        Map<String, List<String>> dungeonsAndSavezones = locationConfigManager.getDungeonsAndSavezones();
+        List<String> sortedDungeonNames = dungeonsAndSavezones.keySet().stream()
+                .filter(name -> name.startsWith("dungeon"))
+                .sorted(Comparator.comparingInt(this::extractDungeonNumber))
+                .collect(Collectors.toList());
+
+        int totalItems = sortedDungeonNames.size();
+        int itemsPerPage = 45; // 44 Mobs pro Seite, 1 für "Nächste Seite"
+        int totalPages = (int) Math.ceil((double) totalItems / itemsPerPage);
+
+        int startIndex = (page - 1) * itemsPerPage;
+        int endIndex = Math.min(startIndex + itemsPerPage, totalItems);
+
+        // Generiere die Mob-Köpfe mit den entsprechenden Texturen und Lore
+        for (int i = startIndex; i < endIndex; i++) {
+            String dungeonName = sortedDungeonNames.get(i);
+            String mobType = getMobTypeForDungeon(dungeonName);
+            if (mobType != null && mobTextures.containsKey(mobType)) {
+                Integer customModelData = mobTextures.get(mobType);
+                ItemStack mobHead = createCustomMobHead(dungeonName, customModelData);
+                if (mobHead != null) {
+                    ItemMeta meta = mobHead.getItemMeta();
+                    if (meta != null) {
+                        String germanMobType = MobNameTranslator.translateToGerman(mobType);
+                        meta.setDisplayName("§6" + dungeonName);
+                        int kills = mysqlManager.getPlayerMobKills(founduuid, germanMobType);
+                        meta.setLore(Collections.singletonList("§aDeine Kills: §6" + String.valueOf(kills)));
+                        mobHead.setItemMeta(meta);
+                        inv.setItem(i - startIndex, mobHead);
+                    }
+                }
+            }
+        }
+        // "Nächste Seite"-Button
+        if (page < totalPages) {
+            ItemStack nextPageButton = new ItemStack(Material.ARROW);
+            ItemMeta nextPageMeta = nextPageButton.getItemMeta();
+            nextPageMeta.setDisplayName("§aNächste Seite");
+            nextPageButton.setItemMeta(nextPageMeta);
             inv.setItem(53, nextPageButton);
         }
 
@@ -156,16 +230,53 @@ public class KillsCategory implements StatsCategory {
         inv.setItem(45, backhead);
         player.openInventory(inv);
     }
-
     @Override
     public void handleItemClick(Player player, ItemStack clickedItem) {
         ItemMeta clickedMeta = clickedItem.getItemMeta();
         if (clickedMeta == null) {
             return;
         }
-        String clickedDisplayName = clickedMeta.getDisplayName();
-        if ("§7➢ Zurück".equals(clickedDisplayName)) {
-            StatsManager.openMainShopMenu(player);
+        if ("§7➢ Spieler suchen".equals(clickedItem.getItemMeta().getDisplayName())) {
+            player.closeInventory();
+            player.sendMessage(ConfigManager.getPrefix() + "§aGib den Namen des Spielers ein, den du suchen möchtest:");
+
+            DungeonCrusher.getInstance().getServer().getPluginManager().registerEvents(new Listener() {
+                @EventHandler
+                public void onChat(AsyncPlayerChatEvent chatEvent) {
+                    if (chatEvent.getPlayer().equals(player)) {
+                        chatEvent.setCancelled(true);
+                        String searchQuery = chatEvent.getMessage();
+
+                        // Hier rufen wir die UUID aus der MySQL-Datenbank ab
+                        String foundPlayerUUID = mysqlManager.getPlayerUUIDByName(searchQuery);
+
+                        if (foundPlayerUUID == null) {
+                            player.sendMessage(ConfigManager.getPrefix() + "§cKein Spieler mit diesem Namen gefunden.");
+                        } else {
+                            if (player.getUniqueId().toString().equals(foundPlayerUUID)) {
+                                player.sendMessage(ConfigManager.getPrefix() + "§cDu kannst dich nicht Selbst suchen!");
+                            } else {
+                                // Verwende BukkitRunnable, um das Öffnen des Menüs synchron durchzuführen
+                                new BukkitRunnable() {
+                                    @Override
+                                    public void run() {
+                                        String playerfoundName = mysqlManager.getPlayerNameByUUID(foundPlayerUUID);
+                                        openSecondMenu(player, 1, foundPlayerUUID);
+                                    }
+                                }.runTask(DungeonCrusher.getInstance()); // `plugin` ist eine Instanz deiner Haupt-Plugin-Klasse
+                            }
+                        }
+                        // Deregistriere den Listener nach der Eingabe
+                        AsyncPlayerChatEvent.getHandlerList().unregister(this);
+                    }
+                }
+            }, DungeonCrusher.getInstance());
+
+        } else {
+            String clickedDisplayName = clickedMeta.getDisplayName();
+            if ("§7➢ Zurück".equals(clickedDisplayName)) {
+                StatsManager.openMainShopMenu(player);
+            }
         }
     }
     private String getMobTypeForDungeon(String dungeonName) {

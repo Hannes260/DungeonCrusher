@@ -7,11 +7,9 @@ import java.io.IOException;
 import java.sql.*;
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
-import org.bukkit.entity.Player;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -101,7 +99,11 @@ public class MYSQLManager {
                     + "balance VARCHAR(255) NOT NULL"
                     + ")";
             statement.execute(createTableQuery);
-
+            String createPlayerNamesQuery = "CREATE TABLE IF NOT EXISTS player_names ("
+                    + "name VARCHAR(255) PRIMARY KEY,"
+                    + "uuid VARCHAR(255) PRIMARY KEY"
+                    + ")";
+            statement.execute(createPlayerNamesQuery);
             String createStatsTableQuery = "CREATE TABLE IF NOT EXISTS player_stats ("
                     + "uuid VARCHAR(255) PRIMARY KEY,"
                     + "deaths INT DEFAULT 0 NOT NULL,"
@@ -248,7 +250,6 @@ public class MYSQLManager {
         }
         return tutorial;
     }
-
     public void updateTutorialQuest(String uuid, String value) {
         try (Connection connection = dataSource.getConnection()) {
             String checkQuery = "SELECT uuid FROM player_quest WHERE uuid = ?";
@@ -279,7 +280,6 @@ public class MYSQLManager {
             throw new RuntimeException(e);
         }
     }
-
     public String getOrginQuest(String questType) {
         String quest = null;
 
@@ -303,7 +303,6 @@ public class MYSQLManager {
         }
         return quest;
     }
-
     public void updateOrginQuest(String questType, String value) {
         try (Connection connection = dataSource.getConnection()) {
             String checkQuery = "SELECT quest FROM orgin_quest WHERE type = ?";
@@ -334,7 +333,6 @@ public class MYSQLManager {
             throw new RuntimeException(e);
         }
     }
-
     public void updatePlayerQuest(String questType, boolean value, String uuid) {
         try (Connection connection = dataSource.getConnection()) {
             String checkQuery = "SELECT " + questType + " FROM player_quest WHERE uuid = ?";
@@ -365,7 +363,6 @@ public class MYSQLManager {
             throw new RuntimeException(e);
         }
     }
-
     public Boolean getPlayerQuest(String questType, String uuid) {
         Boolean quest = null;
 
@@ -389,7 +386,6 @@ public class MYSQLManager {
         }
         return quest;
     }
-
     public boolean canClaimDailyReward(String playerUUID) {
         try (Connection connection = dataSource.getConnection()) {
             String query = "SELECT last_daily_reward FROM player_daily_reward WHERE uuid = ?";
@@ -415,7 +411,6 @@ public class MYSQLManager {
         }
         return false;
     }
-
     public void grantDailyReward(String playerUUID) {
         try (Connection connection = dataSource.getConnection()) {
             Timestamp currentTimestamp = new Timestamp(System.currentTimeMillis());
@@ -977,7 +972,6 @@ public class MYSQLManager {
             e.printStackTrace();
         }
     }
-
     public int getArmorLvl(String uuid) {
         int armorLevel = 0;
 
@@ -1070,7 +1064,6 @@ public class MYSQLManager {
             e.printStackTrace();
         }
     }
-
     private void ensurePlayerExists(Connection connection, String uuid) throws SQLException {
         String query = "INSERT IGNORE INTO player_mob_kills (uuid) VALUES (?)";
         try (PreparedStatement statement = connection.prepareStatement(query)) {
@@ -1132,6 +1125,81 @@ public class MYSQLManager {
 
             if (!connection.getAutoCommit()) {
                 connection.commit();
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+    public String getPlayerUUIDByName(String playerName) {
+        String uuid = null;
+
+        // Korrekte Abfrage: Suche nach dem Spielernamen und gebe die UUID zurück
+        String query = "SELECT uuid FROM player_names WHERE name = ?";
+        try (Connection connection = dataSource.getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+
+            // Spielername als Suchparameter setzen
+            preparedStatement.setString(1, playerName);
+
+            try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                if (resultSet.next()) {
+                    uuid = resultSet.getString("uuid");  // UUID des Spielers aus der DB abrufen
+                }
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return uuid;  // Gibt die UUID zurück oder null, wenn kein Spieler gefunden wurde
+    }
+    public String getPlayerNameByUUID(String playerUUID) {
+        String uuid = null;
+
+        String query = "SELECT uuid FROM player_names WHERE uuid = ?";
+        try (Connection connection = dataSource.getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+
+            // Spielername als Suchparameter setzen
+            preparedStatement.setString(1, playerUUID);
+
+            try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                if (resultSet.next()) {
+                    uuid = resultSet.getString("uuid");  // UUID des Spielers aus der DB abrufen
+                }
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return uuid;  // Gibt die UUID zurück oder null, wenn kein Spieler gefunden wurde
+    }
+    public void updatePlayerUUIDByName(String playerName, String playerUUID) {
+        try (Connection connection = dataSource.getConnection()) {
+            // Überprüfen, ob der Spielername bereits existiert
+            String checkQuery = "SELECT uuid FROM player_names WHERE name = ?";
+            try (PreparedStatement checkStatement = connection.prepareStatement(checkQuery)) {
+                checkStatement.setString(1, playerName);
+                try (ResultSet resultSet = checkStatement.executeQuery()) {
+                    if (resultSet.next()) {
+                        // Spielername existiert bereits, also aktualisieren wir die UUID
+                        String updateQuery = "UPDATE player_names SET uuid = ? WHERE name = ?";
+                        try (PreparedStatement updateStatement = connection.prepareStatement(updateQuery)) {
+                            updateStatement.setString(1, playerUUID);
+                            updateStatement.setString(2, playerName);
+                            updateStatement.executeUpdate();
+                        }
+                    } else {
+                        // Spielername existiert nicht, also fügen wir ihn neu ein
+                        String insertQuery = "INSERT INTO player_names (name, uuid) VALUES (?, ?)";
+                        try (PreparedStatement insertStatement = connection.prepareStatement(insertQuery)) {
+                            insertStatement.setString(1, playerName);
+                            insertStatement.setString(2, playerUUID);
+                            insertStatement.executeUpdate();
+                        }
+                    }
+                }
             }
         } catch (SQLException e) {
             e.printStackTrace();

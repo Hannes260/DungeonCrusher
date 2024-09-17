@@ -41,6 +41,7 @@ public class Joinlistener implements Listener {
         Player player = event.getPlayer();
 
         event.setJoinMessage(ChatColor.GREEN + "[+]" + " " + ChatColor.GRAY + player.getDisplayName());
+        mysqlManager.updatePlayerUUIDByName(player.getName(), player.getUniqueId().toString());
         player.teleport(locationConfigManager.getSpawn());
         String playerName = event.getPlayer().getName();
         String message = "Hat das Spiel betreten";

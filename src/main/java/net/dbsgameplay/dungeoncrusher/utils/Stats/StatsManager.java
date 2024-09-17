@@ -11,7 +11,13 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
+import javax.annotation.Nullable;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class StatsManager {
@@ -31,17 +37,17 @@ public class StatsManager {
 
         Inventory inv = Bukkit.createInventory(null, 9*6, DisplayName);
 
-        ItemStack foodhead = new ItemStack(Material.PAPER);
-        ItemMeta foodmeta = foodhead.getItemMeta();
-        foodmeta.setCustomModelData(100);
-        foodmeta.setDisplayName("§7➢ Kills");
-        foodhead.setItemMeta(foodmeta);
+        ItemStack killsItem = new ItemStack(Material.PAPER);
+        ItemMeta killsMeta = killsItem.getItemMeta();
+        killsMeta.setCustomModelData(100);
+        killsMeta.setDisplayName("§7➢ Kills");
+        killsItem.setItemMeta(killsMeta);
 
         addCloseButton(player, inv);
 
         int[] killslots = {9,10,11,18,19,20,27,28,29};
         for (int slot : killslots) {
-            inv.setItem(slot, foodhead);
+            inv.setItem(slot, killsItem);
         }
         player.openInventory(inv);
     }
