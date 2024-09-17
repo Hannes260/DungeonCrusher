@@ -11,6 +11,7 @@ import net.dbsgameplay.dungeoncrusher.enums.Shop.FoodCategory;
 import net.dbsgameplay.dungeoncrusher.listener.*;
 import net.dbsgameplay.dungeoncrusher.listener.Damage.*;
 import net.dbsgameplay.dungeoncrusher.listener.Navigator.NavigatorListener;
+import net.dbsgameplay.dungeoncrusher.listener.Stats.StatsListener;
 import net.dbsgameplay.dungeoncrusher.listener.Upgrades.UpgradeListener;
 import net.dbsgameplay.dungeoncrusher.listener.protections.DungeonProtectionListener;
 import net.dbsgameplay.dungeoncrusher.listener.shops.ShopListener;
@@ -19,6 +20,7 @@ import net.dbsgameplay.dungeoncrusher.utils.*;
 import net.dbsgameplay.dungeoncrusher.utils.Configs.*;
 import net.dbsgameplay.dungeoncrusher.utils.Manager.MarkingsManager;
 import net.dbsgameplay.dungeoncrusher.utils.Manager.SavezoneManager;
+import net.dbsgameplay.dungeoncrusher.utils.Stats.StatsManager;
 import net.dbsgameplay.dungeoncrusher.utils.quests.Daily;
 import net.dbsgameplay.dungeoncrusher.utils.quests.Monthly;
 import net.dbsgameplay.dungeoncrusher.utils.quests.Weekly;
@@ -94,6 +96,7 @@ public final class DungeonCrusher extends JavaPlugin {
 
         ShopManager shopManager = new ShopManager(mysqlManager);
         UpgradeManager upgradeManager = new UpgradeManager(mysqlManager);
+        StatsManager statsManager = new StatsManager(mysqlManager);
 
         ErfolgeMapBuilder.buildErfolgeMap();
         QuestMapBuilder.BuildMap();
@@ -197,6 +200,7 @@ public final class DungeonCrusher extends JavaPlugin {
         pluginManager.registerEvents(new UpgradeListener(this,locationConfigManager, mysqlManager), this);
         pluginManager.registerEvents(new ChatListener(), this);
         pluginManager.registerEvents(new QuestListener(mysqlManager, this), this);
+        pluginManager.registerEvents(new StatsListener(this, locationConfigManager, mysqlManager), this);
     }
 
     public void sendToDiscord(String content, int color) {

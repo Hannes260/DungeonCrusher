@@ -27,6 +27,7 @@ public class MobkillListener implements Listener {
 
     @EventHandler
     public void onEntityDeath(EntityDeathEvent event) {
+
         LivingEntity entity = event.getEntity();
         if (entity.getKiller() instanceof Player) {
             Player player = entity.getKiller();

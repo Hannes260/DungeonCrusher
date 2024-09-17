@@ -3,6 +3,7 @@ package net.dbsgameplay.dungeoncrusher.Commands;
 import net.dbsgameplay.dungeoncrusher.DungeonCrusher;
 import net.dbsgameplay.dungeoncrusher.sql.MYSQLManager;
 import net.dbsgameplay.dungeoncrusher.utils.Configs.ConfigManager;
+import net.dbsgameplay.dungeoncrusher.utils.Stats.StatsManager;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -22,7 +23,7 @@ public class StatsCommand implements CommandExecutor {
             if (sender instanceof Player) {
                 Player player = (Player) sender;
                 if (args.length == 0) {
-                player.sendMessage(ConfigManager.getPrefix() + "§aKills: §6" + mysqlManager.getKills(String.valueOf(player.getUniqueId())));
+                    StatsManager.openMainShopMenu(player);
             }else
                 player.sendMessage(ConfigManager.getConfigMessage("message.statsusage",""));
         }else
