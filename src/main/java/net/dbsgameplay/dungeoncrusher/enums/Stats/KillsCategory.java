@@ -25,7 +25,7 @@ import java.util.stream.Collectors;
 
 public class KillsCategory implements StatsCategory {
     final Map<String,Integer> mobTextures = new HashMap<>();
-    private final MYSQLManager mysqlManager;;
+    private final MYSQLManager mysqlManager;
     public KillsCategory(MYSQLManager mysqlManager) {
         this.mysqlManager = mysqlManager;
 
@@ -151,9 +151,10 @@ public class KillsCategory implements StatsCategory {
             previousPageButton.setItemMeta(previousPageMeta);
             inv.setItem(44, previousPageButton);
         }
-        ItemStack searchItem = new ItemStack(Material.COMPASS);
+        ItemStack searchItem = new ItemStack(Material.PAPER);
         ItemMeta searchMeta = searchItem.getItemMeta();
         searchMeta.setDisplayName("§7➢ Spieler suchen");
+        searchMeta.setCustomModelData(206);
         searchItem.setItemMeta(searchMeta);
         inv.setItem(53, searchItem);
 

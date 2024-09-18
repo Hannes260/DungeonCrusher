@@ -1,5 +1,7 @@
 package net.dbsgameplay.dungeoncrusher;
 
+import me.clip.placeholderapi.PlaceholderAPI;
+import me.clip.placeholderapi.expansion.PlaceholderExpansion;
 import net.dbsgameplay.dungeoncrusher.Commands.*;
 import net.dbsgameplay.dungeoncrusher.Commands.Admin.*;
 import net.dbsgameplay.dungeoncrusher.Commands.Economy.CoinsCommand;
@@ -7,6 +9,7 @@ import net.dbsgameplay.dungeoncrusher.Commands.Economy.PayCommand;
 import net.dbsgameplay.dungeoncrusher.Commands.Quests.QuestCommand;
 import net.dbsgameplay.dungeoncrusher.Commands.Shops.ShopCommand;
 import net.dbsgameplay.dungeoncrusher.Commands.Upgrades.UpgradeCommand;
+import net.dbsgameplay.dungeoncrusher.enums.MyPlaceholderExpansion;
 import net.dbsgameplay.dungeoncrusher.enums.Shop.FoodCategory;
 import net.dbsgameplay.dungeoncrusher.listener.*;
 import net.dbsgameplay.dungeoncrusher.listener.Damage.*;
@@ -62,10 +65,9 @@ public final class DungeonCrusher extends JavaPlugin {
     public static LuckPerms api;
     @Override
     public void onEnable() {
+
         instance = this;
-
         api = LuckPermsProvider.get();
-
         // Laden der Konfigurationen und Datenbankverbindung
         saveDefaultConfig();
         configManager = new ConfigManager(this);
@@ -93,6 +95,8 @@ public final class DungeonCrusher extends JavaPlugin {
 
         // Register Listeners
         registerListeners();
+
+        new MyPlaceholderExpansion(mysqlManager).register();
 
         ShopManager shopManager = new ShopManager(mysqlManager);
         UpgradeManager upgradeManager = new UpgradeManager(mysqlManager);

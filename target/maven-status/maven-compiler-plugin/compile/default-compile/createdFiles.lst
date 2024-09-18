@@ -21,6 +21,7 @@ net\dbsgameplay\dungeoncrusher\listener\DungeonListener$1.class
 net\dbsgameplay\dungeoncrusher\listener\Damage\MobDamageListener.class
 net\dbsgameplay\dungeoncrusher\Commands\Admin\ClearChatCommand.class
 net\dbsgameplay\dungeoncrusher\Commands\test$3.class
+net\dbsgameplay\dungeoncrusher\enums\MyPlaceholderExpansion.class
 net\dbsgameplay\dungeoncrusher\listener\Upgrades\UpgradeListener.class
 net\dbsgameplay\dungeoncrusher\enums\Upgrades\ArmorCategory.class
 net\dbsgameplay\dungeoncrusher\listener\Damage\MobDamageListener$1.class
