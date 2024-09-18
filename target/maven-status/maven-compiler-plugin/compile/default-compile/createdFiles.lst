@@ -3,6 +3,7 @@ net\dbsgameplay\dungeoncrusher\enums\Shop\FoodCategory.class
 net\dbsgameplay\dungeoncrusher\utils\Configs\QuestConfigManager.class
 net\dbsgameplay\dungeoncrusher\Commands\Admin\SetSpawnCommand.class
 net\dbsgameplay\dungeoncrusher\objects\PlayerHead.class
+net\dbsgameplay\dungeoncrusher\enums\Stats\KillsCategory$1$1.class
 net\dbsgameplay\dungeoncrusher\utils\quests\Monthly.class
 net\dbsgameplay\dungeoncrusher\listener\QuestListener.class
 net\dbsgameplay\dungeoncrusher\utils\Configs\DropsConfigManager.class
@@ -47,6 +48,7 @@ net\dbsgameplay\dungeoncrusher\enums\Shop\PotionCategory.class
 net\dbsgameplay\dungeoncrusher\Commands\Dailyreward$1.class
 net\dbsgameplay\dungeoncrusher\DungeonCrusher$1.class
 net\dbsgameplay\dungeoncrusher\enums\Shop\ExchangeCategory.class
+net\dbsgameplay\dungeoncrusher\enums\Stats\KillsCategory$1.class
 net\dbsgameplay\dungeoncrusher\Commands\StatsCommand.class
 net\dbsgameplay\dungeoncrusher\enums\Shop\ExchangeCategory$ShopItem.class
 net\dbsgameplay\dungeoncrusher\Commands\interfaces\UpgradeCategory.class
