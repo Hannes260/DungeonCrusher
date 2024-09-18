@@ -130,15 +130,17 @@ public class Monthly {
                 mysqlManager.updatePlayerQuest("monthly1", false, p.getUniqueId().toString());
                 mysqlManager.updatePlayerQuest("monthly2", false, p.getUniqueId().toString());
                 mysqlManager.updatePlayerQuest("monthly3", false, p.getUniqueId().toString());
-                dungeonCrusher.getConfig().set("quest." + p.getUniqueId().toString(), null);
-                dungeonCrusher.saveConfig();
+                mysqlManager.updatePlayerTempQuest("monthly3", p.getUniqueId().toString(), 0);
+                mysqlManager.updatePlayerTempQuest("monthly2", p.getUniqueId().toString(), 0);
+                mysqlManager.updatePlayerTempQuest("monthly1", p.getUniqueId().toString(), 0);
             }
             for (Player p : Bukkit.getServer().getOnlinePlayers()) {
                 mysqlManager.updatePlayerQuest("monthly1", false, p.getUniqueId().toString());
                 mysqlManager.updatePlayerQuest("monthly2", false, p.getUniqueId().toString());
                 mysqlManager.updatePlayerQuest("monthly3", false, p.getUniqueId().toString());
-                dungeonCrusher.getConfig().set("quest." + p.getUniqueId().toString(), null);
-                dungeonCrusher.saveConfig();
+                mysqlManager.updatePlayerTempQuest("monthly3", p.getUniqueId().toString(), 0);
+                mysqlManager.updatePlayerTempQuest("monthly2", p.getUniqueId().toString(), 0);
+                mysqlManager.updatePlayerTempQuest("monthly1", p.getUniqueId().toString(), 0);
             }
         }
     }
@@ -184,12 +186,20 @@ public class Monthly {
             String Quest3 = mysqlManager.getOrginQuest("monthly3");
             FoodCategory foodCategory = new FoodCategory(mysqlManager);
 
+            try {
+                mysqlManager.getPlayerTempQuest("monthly1", p.getUniqueId().toString());
+                mysqlManager.getPlayerTempQuest("monthly2", p.getUniqueId().toString());
+                mysqlManager.getPlayerTempQuest("monthly3", p.getUniqueId().toString());
+            }catch (Exception e) {
+                mysqlManager.updatePlayerTempQuest("monthly1", p.getUniqueId().toString(), 0);
+                mysqlManager.updatePlayerTempQuest("monthly2", p.getUniqueId().toString(), 0);
+                mysqlManager.updatePlayerTempQuest("monthly3", p.getUniqueId().toString(), 0);
+            }
+
             for (String s : questMap.keySet()) {
                 if (s.equals(Quest1)) {
                     if (!Monthly.isDone(1, p)) {
-                        String path = "quest." + p.getUniqueId().toString() + "." + "monthly1";
-                        if (cfg.contains(path)) {
-                            if (cfg.getInt(path) == questMap.get(s)) {
+                            if (mysqlManager.getPlayerTempQuest("monthly1", p.getUniqueId().toString()) == questMap.get(s)) {
                                 p.playSound(p.getLocation(), Sound.ENTITY_ARROW_HIT_PLAYER, 100, 1);
                                 QuestBuilder.openRewardmenü(p, s, Monthly.RewardItemList);
                                 mysqlManager.updatePlayerQuest("monthly1", true, p.getUniqueId().toString());
@@ -197,22 +207,13 @@ public class Monthly {
                                     foodCategory.addMoney(p, Monthly.RewardMoneyList.get(s));
                                     p.sendMessage(" §7[§a+§7] §6" + Monthly.RewardMoneyList.get(s) + "€");
                                 }
-                                dungeonCrusher.getConfig().set("quest." + p.getUniqueId().toString(), null);
-                                dungeonCrusher.saveConfig();
                             } else {
-                                cfg.set(path, cfg.getInt(path) + 1);
-                                dungeonCrusher.saveConfig();
+                                mysqlManager.updatePlayerTempQuest("monthly1", p.getUniqueId().toString(), mysqlManager.getPlayerTempQuest("monthly1", p.getUniqueId().toString())+1);
                             }
-                        } else {
-                            cfg.set(path, cfg.getInt(path) + 1);
-                            dungeonCrusher.saveConfig();
-                        }
                     }
                 } else if (s.equals(Quest2)) {
                     if (!Monthly.isDone(2, p)) {
-                        String path = "quest." + p.getUniqueId().toString() + "." + "monthly2";
-                        if (cfg.contains(path)) {
-                            if (cfg.getInt(path) == questMap.get(s)) {
+                            if (mysqlManager.getPlayerTempQuest("monthly2", p.getUniqueId().toString()) == questMap.get(s)) {
                                 p.playSound(p.getLocation(), Sound.ENTITY_ARROW_HIT_PLAYER, 100, 1);
                                 QuestBuilder.openRewardmenü(p, s, Monthly.RewardItemList);
                                 mysqlManager.updatePlayerQuest("monthly2", true, p.getUniqueId().toString());
@@ -220,22 +221,13 @@ public class Monthly {
                                     foodCategory.addMoney(p, Monthly.RewardMoneyList.get(s));
                                     p.sendMessage(" §7[§a+§7] §6" + Monthly.RewardMoneyList.get(s) + "€");
                                 }
-                                dungeonCrusher.getConfig().set("quest." + p.getUniqueId().toString(), null);
-                                dungeonCrusher.saveConfig();
                             } else {
-                                cfg.set(path, cfg.getInt(path) + 1);
-                                dungeonCrusher.saveConfig();
+                                mysqlManager.updatePlayerTempQuest("monthly2", p.getUniqueId().toString(), mysqlManager.getPlayerTempQuest("monthly2", p.getUniqueId().toString())+1);
                             }
-                        } else {
-                            cfg.set(path, cfg.getInt(path) + 1);
-                            dungeonCrusher.saveConfig();
-                        }
                     }
                 } else if (s.equals(Quest3)) {
                     if (!Monthly.isDone(3, p)) {
-                        String path = "quest." + p.getUniqueId().toString() + "." + "monthly3";
-                        if (cfg.contains(path)) {
-                            if (cfg.getInt(path) == questMap.get(s)) {
+                            if (mysqlManager.getPlayerTempQuest("monthly3", p.getUniqueId().toString()) == questMap.get(s)) {
                                 p.playSound(p.getLocation(), Sound.ENTITY_ARROW_HIT_PLAYER, 100, 1);
                                 QuestBuilder.openRewardmenü(p, s, Monthly.RewardItemList);
                                 mysqlManager.updatePlayerQuest("monthly3", true, p.getUniqueId().toString());
@@ -243,16 +235,9 @@ public class Monthly {
                                     foodCategory.addMoney(p, Monthly.RewardMoneyList.get(s));
                                     p.sendMessage(" §7[§a+§7] §6" + Monthly.RewardMoneyList.get(s) + "€");
                                 }
-                                dungeonCrusher.getConfig().set("quest." + p.getUniqueId().toString(), null);
-                                dungeonCrusher.saveConfig();
                             } else {
-                                cfg.set(path, cfg.getInt(path) + 1);
-                                dungeonCrusher.saveConfig();
+                                mysqlManager.updatePlayerTempQuest("monthly3", p.getUniqueId().toString(), mysqlManager.getPlayerTempQuest("monthly3", p.getUniqueId().toString())+1);
                             }
-                        } else {
-                            cfg.set(path, cfg.getInt(path) + 1);
-                            dungeonCrusher.saveConfig();
-                        }
                     }
                 }
             }

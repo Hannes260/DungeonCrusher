@@ -10,6 +10,7 @@ import org.bukkit.Sound;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
@@ -130,15 +131,17 @@ public class Daily {
                 mysqlManager.updatePlayerQuest( "daily1",false, p.getUniqueId().toString());
                 mysqlManager.updatePlayerQuest( "daily2",false, p.getUniqueId().toString());
                 mysqlManager.updatePlayerQuest( "daily3",false, p.getUniqueId().toString());
-                dungeonCrusher.getConfig().set("quest." + p.getUniqueId().toString(), null);
-                dungeonCrusher.saveConfig();
+                mysqlManager.updatePlayerTempQuest("daily3", p.getUniqueId().toString(), 0);
+                mysqlManager.updatePlayerTempQuest("daily2", p.getUniqueId().toString(), 0);
+                mysqlManager.updatePlayerTempQuest("daily1", p.getUniqueId().toString(), 0);
             }
             for (Player p : Bukkit.getServer().getOnlinePlayers()) {
                 mysqlManager.updatePlayerQuest( "daily1",false, p.getUniqueId().toString());
                 mysqlManager.updatePlayerQuest( "daily2",false, p.getUniqueId().toString());
                 mysqlManager.updatePlayerQuest( "daily3",false, p.getUniqueId().toString());
-                dungeonCrusher.getConfig().set("quest." + p.getUniqueId().toString(), null);
-                dungeonCrusher.saveConfig();
+                mysqlManager.updatePlayerTempQuest("daily3", p.getUniqueId().toString(), 0);
+                mysqlManager.updatePlayerTempQuest("daily2", p.getUniqueId().toString(), 0);
+                mysqlManager.updatePlayerTempQuest("daily1", p.getUniqueId().toString(), 0);
             }
 
         }
@@ -184,12 +187,20 @@ public class Daily {
             String Quest3 = mysqlManager.getOrginQuest("daily3");
             FoodCategory foodCategory = new FoodCategory(mysqlManager);
 
+            try {
+                mysqlManager.getPlayerTempQuest("daily1", p.getUniqueId().toString());
+                mysqlManager.getPlayerTempQuest("daily2", p.getUniqueId().toString());
+                mysqlManager.getPlayerTempQuest("daily3", p.getUniqueId().toString());
+            }catch (Exception e) {
+                mysqlManager.updatePlayerTempQuest("daily1", p.getUniqueId().toString(), 0);
+                mysqlManager.updatePlayerTempQuest("daily2", p.getUniqueId().toString(), 0);
+                mysqlManager.updatePlayerTempQuest("daily3", p.getUniqueId().toString(), 0);
+            }
+
             for (String s : questMap.keySet()) {
                 if (s.equals(Quest1)) {
                     if (!Daily.isDone(1, p)) {
-                        String path = "quest." + p.getUniqueId().toString() + "." + "daily1";
-                        if (cfg.contains(path)) {
-                            if (cfg.getInt(path) == questMap.get(s)) {
+                            if (mysqlManager.getPlayerTempQuest("daily1", p.getUniqueId().toString()) == questMap.get(s)) {
                                 p.playSound(p.getLocation(), Sound.ENTITY_ARROW_HIT_PLAYER, 100, 1);
                                 QuestBuilder.openRewardmenü(p, s, Daily.RewardItemList);
                                 mysqlManager.updatePlayerQuest("daily1", true, p.getUniqueId().toString());
@@ -197,22 +208,13 @@ public class Daily {
                                     foodCategory.addMoney(p, Daily.RewardMoneyList.get(s));
                                     p.sendMessage(" §7[§a+§7] §6" + Daily.RewardMoneyList.get(s) + "€");
                                 }
-                                dungeonCrusher.getConfig().set("quest." + p.getUniqueId().toString(), null);
-                                dungeonCrusher.saveConfig();
                             } else {
-                                cfg.set(path, cfg.getInt(path) + 1);
-                                dungeonCrusher.saveConfig();
+                                mysqlManager.updatePlayerTempQuest("daily1", p.getUniqueId().toString(), mysqlManager.getPlayerTempQuest("daily1", p.getUniqueId().toString())+1);
                             }
-                        } else {
-                            cfg.set(path, cfg.getInt(path) + 1);
-                            dungeonCrusher.saveConfig();
-                        }
                     }
                 } else if (s.equals(Quest2)) {
                     if (!Daily.isDone(2, p)) {
-                        String path = "quest." + p.getUniqueId().toString() + "." + "daily2";
-                        if (cfg.contains(path)) {
-                            if (cfg.getInt(path) == questMap.get(s)) {
+                            if (mysqlManager.getPlayerTempQuest("daily2", p.getUniqueId().toString()) == questMap.get(s)) {
                                 p.playSound(p.getLocation(), Sound.ENTITY_ARROW_HIT_PLAYER, 100, 1);
                                 QuestBuilder.openRewardmenü(p, s, Daily.RewardItemList);
                                 mysqlManager.updatePlayerQuest("daily2", true, p.getUniqueId().toString());
@@ -220,22 +222,13 @@ public class Daily {
                                     foodCategory.addMoney(p, Daily.RewardMoneyList.get(s));
                                     p.sendMessage(" §7[§a+§7] §6" + Daily.RewardMoneyList.get(s) + "€");
                                 }
-                                dungeonCrusher.getConfig().set("quest." + p.getUniqueId().toString(), null);
-                                dungeonCrusher.saveConfig();
                             } else {
-                                cfg.set(path, cfg.getInt(path) + 1);
-                                dungeonCrusher.saveConfig();
+                                mysqlManager.updatePlayerTempQuest("daily2", p.getUniqueId().toString(), mysqlManager.getPlayerTempQuest("daily2", p.getUniqueId().toString())+1);
                             }
-                        } else {
-                            cfg.set(path, cfg.getInt(path) + 1);
-                            dungeonCrusher.saveConfig();
-                        }
                     }
                 } else if (s.equals(Quest3)) {
                     if (!Daily.isDone(3, p)) {
-                        String path = "quest." + p.getUniqueId().toString() + "." + "daily3";
-                        if (cfg.contains(path)) {
-                            if (cfg.getInt(path) == questMap.get(s)) {
+                            if (mysqlManager.getPlayerTempQuest("daily3", p.getUniqueId().toString()) == questMap.get(s)) {
                                 p.playSound(p.getLocation(), Sound.ENTITY_ARROW_HIT_PLAYER, 100, 1);
                                 QuestBuilder.openRewardmenü(p, s, Daily.RewardItemList);
                                 mysqlManager.updatePlayerQuest("daily3", true, p.getUniqueId().toString());
@@ -243,16 +236,9 @@ public class Daily {
                                     foodCategory.addMoney(p, Daily.RewardMoneyList.get(s));
                                     p.sendMessage(" §7[§a+§7] §6" + Daily.RewardMoneyList.get(s) + "€");
                                 }
-                                dungeonCrusher.getConfig().set("quest." + p.getUniqueId().toString(), null);
-                                dungeonCrusher.saveConfig();
                             } else {
-                                cfg.set(path, cfg.getInt(path) + 1);
-                                dungeonCrusher.saveConfig();
+                                mysqlManager.updatePlayerTempQuest("daily3", p.getUniqueId().toString(), mysqlManager.getPlayerTempQuest("daily3", p.getUniqueId().toString())+1);
                             }
-                        } else {
-                            cfg.set(path, cfg.getInt(path) + 1);
-                            dungeonCrusher.saveConfig();
-                        }
                     }
                 }
             }

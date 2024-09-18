@@ -221,6 +221,19 @@ public class MYSQLManager {
                     + "quest VARCHAR(255) DEFAULT NULL"
                     + ")";
             statement.execute(createQuestTableQuery);
+            String createPlayerTempQuestTableQuery = "CREATE TABLE IF NOT EXISTS player_temp_quest ("
+                    + "uuid VARCHAR(255) PRIMARY KEY,"
+                    + "daily1 INT DEFAULT 0,"
+                    + "daily2 INT DEFAULT 0,"
+                    + "daily3 INT DEFAULT 0,"
+                    + "weekly1 INT DEFAULT 0,"
+                    + "weekly2 INT DEFAULT 0,"
+                    + "weekly3 INT DEFAULT 0,"
+                    + "monthly1 INT DEFAULT 0,"
+                    + "monthly2 INT DEFAULT 0,"
+                    + "monthly3 INT DEFAULT 0"
+                    + ")";
+            statement.execute(createPlayerTempQuestTableQuery);
             statement.close();
         } catch (Exception e) {
             e.printStackTrace();
@@ -386,6 +399,62 @@ public class MYSQLManager {
         }
         return quest;
     }
+
+    public void updatePlayerTempQuest(String questType, String uuid, int value) {
+        try (Connection connection = dataSource.getConnection()) {
+            String checkQuery = "SELECT " + questType + " FROM player_temp_quest WHERE uuid = ?";
+            try (PreparedStatement chechStatement = connection.prepareStatement(checkQuery)){
+                chechStatement.setString(1, uuid);
+                try (ResultSet resultSet = chechStatement.executeQuery()){
+                    if (resultSet.next()) {
+                        String updateQuery = "UPDATE player_temp_quest SET " + questType + " = ? WHERE uuid = ?";
+                        try (PreparedStatement updateStatement = connection.prepareStatement(updateQuery)) {
+                            updateStatement.setInt(1, value);
+                            updateStatement.setString(2, uuid);
+                            updateStatement.executeUpdate();
+                        }
+                    }else {
+                        String insertQuery = "INSERT INTO player_temp_quest (uuid, " + questType + ") VALUES (?, ?)";
+                        try (PreparedStatement insertStatement = connection.prepareStatement(insertQuery)){
+                            insertStatement.setString(1, uuid);
+                            insertStatement.setInt(2, value);
+                            insertStatement.executeUpdate();
+                        }
+                    }
+                }
+            }
+            if (!connection.getAutoCommit()) {
+                connection.commit();
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+    public int getPlayerTempQuest(String questType, String uuid) {
+        int quest = 0;
+
+        try (Connection connection = dataSource.getConnection()) {
+            // Query vorbereiten
+            String query = "SELECT " + questType + " FROM player_temp_quest WHERE uuid = ?";
+            try (PreparedStatement statement = connection.prepareStatement(query)) {
+                statement.setString(1, uuid);
+
+                // Query ausführen und Ergebnis abrufen
+                try (ResultSet resultSet = statement.executeQuery()) {
+                    if (resultSet.next()) {
+                        quest = resultSet.getInt(questType);
+                        statement.close();
+                        resultSet.close();
+                    }
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return quest;
+    }
+
+
     public boolean canClaimDailyReward(String playerUUID) {
         try (Connection connection = dataSource.getConnection()) {
             String query = "SELECT last_daily_reward FROM player_daily_reward WHERE uuid = ?";
