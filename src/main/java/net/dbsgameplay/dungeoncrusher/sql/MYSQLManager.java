@@ -386,6 +386,7 @@ public class MYSQLManager {
         }
         return quest;
     }
+
     public boolean canClaimDailyReward(String playerUUID) {
         try (Connection connection = dataSource.getConnection()) {
             String query = "SELECT last_daily_reward FROM player_daily_reward WHERE uuid = ?";
@@ -424,6 +425,7 @@ public class MYSQLManager {
             e.printStackTrace();
         }
     }
+
     public void updateBalance(String uuid, String balance) {
         try (Connection connection = dataSource.getConnection()) {
             String checkQuery = "SELECT uuid FROM player_accounts WHERE uuid = ?";
@@ -479,6 +481,7 @@ public class MYSQLManager {
         }
         return balance;
     }
+
     public int getItemAmount(String uuid, String itemName) {
         int itemAmount = 0;
 
@@ -527,6 +530,7 @@ public class MYSQLManager {
             e.printStackTrace();
         }
     }
+
     public void deletePlayerfromItems(String uuid) {
         try (Connection connection = dataSource.getConnection()) {
             // Erstelle das SQL-Statement zum Löschen des gesamten Eintrags
@@ -565,6 +569,7 @@ public class MYSQLManager {
             e.printStackTrace();
         }
     }
+
     public int getDeaths(String uuid) {
         int totalDeaths = 0;
 
@@ -677,6 +682,7 @@ public class MYSQLManager {
             logger.log(Level.SEVERE, "Fehler beim Aktualisieren der Kills in der Datenbank", e);
         }
     }
+
     public int getSwordLevel(String uuid) {
         int swordLevel = 0;
 
@@ -1031,6 +1037,7 @@ public class MYSQLManager {
             e.printStackTrace();
         }
     }
+
     public int getPlayerMobKills(String uuid, String mobType) {
         int mobKills = 0;
         try (Connection connection = dataSource.getConnection()) {
@@ -1064,13 +1071,8 @@ public class MYSQLManager {
             e.printStackTrace();
         }
     }
-    private void ensurePlayerExists(Connection connection, String uuid) throws SQLException {
-        String query = "INSERT IGNORE INTO player_mob_kills (uuid) VALUES (?)";
-        try (PreparedStatement statement = connection.prepareStatement(query)) {
-            statement.setString(1, uuid);
-            statement.executeUpdate();
-        }
-    }
+
+
     public int getDungeonCountForPlayer(String uuid) {
         int dungeonCount = 0;
 
@@ -1130,6 +1132,68 @@ public class MYSQLManager {
             e.printStackTrace();
         }
     }
+
+
+    public String getToplistKills(int rank) {
+        String result = "N/A";
+
+        try (Connection connection = dataSource.getConnection()) {
+            // Query für einen bestimmten Platz basierend auf Kills
+            String query = "SELECT uuid, kills FROM player_stats ORDER BY kills DESC LIMIT ?, 1";
+            try (PreparedStatement statement = connection.prepareStatement(query)) {
+                statement.setInt(1, rank - 1);  // Weil SQL-Indexes bei 0 beginnen, ziehen wir 1 ab
+
+                // Query ausführen und Ergebnis abrufen
+                try (ResultSet resultSet = statement.executeQuery()) {
+                    if (resultSet.next()) {
+                        String uuid = resultSet.getString("uuid");
+                        int kills = resultSet.getInt("kills");
+
+                        // Abrufen des Spielernamens basierend auf der UUID
+                        String playerName = getPlayerName(uuid);
+
+                        // Ergebnis im Format "Name: Kills" speichern
+                        result = "§6" + playerName + "§7: §6Kills: §a" + kills;
+                    }
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return result;
+    }
+    public String getToplistDungeonCount(int rank) {
+        String result = "N/A";
+
+        try (Connection connection = dataSource.getConnection()) {
+            // Query für einen bestimmten Platz basierend auf DungeonCount
+            String query = "SELECT uuid, dungeon FROM player_stats ORDER BY dungeon DESC LIMIT ?, 1";
+            try (PreparedStatement statement = connection.prepareStatement(query)) {
+                statement.setInt(1, rank - 1);  // Weil SQL-Indexes bei 0 beginnen, ziehen wir 1 ab
+
+                // Query ausführen und Ergebnis abrufen
+                try (ResultSet resultSet = statement.executeQuery()) {
+                    if (resultSet.next()) {
+                        String uuid = resultSet.getString("uuid");
+                        int dungeonCount = resultSet.getInt("dungeon");
+
+                        // Abrufen des Spielernamens basierend auf der UUID
+                        String playerName = getPlayerName(uuid);
+
+                        // Ergebnis im Format "Name: DungeonCount" speichern
+                        result = "§6" + playerName + "§7: §6Dungeon: §a" + dungeonCount;
+                    }
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return result;
+    }
+
+
     public String getPlayerUUIDByName(String playerName) {
         String uuid = null;
 
@@ -1175,6 +1239,29 @@ public class MYSQLManager {
 
         return uuid;  // Gibt die UUID zurück oder null, wenn kein Spieler gefunden wurde
     }
+    public String getPlayerName(String playerUUID) {
+        String playerName = null;
+
+        // Abfrage: Suche nach dem Namen basierend auf der UUID
+        String query = "SELECT name FROM player_names WHERE uuid = ?";
+        try (Connection connection = dataSource.getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+
+            // UUID als Suchparameter setzen
+            preparedStatement.setString(1, playerUUID);
+
+            try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                if (resultSet.next()) {
+                    playerName = resultSet.getString("name");  // Namen des Spielers aus der DB abrufen
+                }
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return playerName;  // Gibt den Spielernamen zurück oder null, wenn kein Spieler gefunden wurde
+    }
     public void updatePlayerUUIDByName(String playerName, String playerUUID) {
         try (Connection connection = dataSource.getConnection()) {
             // Überprüfen, ob der Spielername bereits existiert
@@ -1205,5 +1292,11 @@ public class MYSQLManager {
             e.printStackTrace();
         }
     }
-
+    private void ensurePlayerExists(Connection connection, String uuid) throws SQLException {
+        String query = "INSERT IGNORE INTO player_mob_kills (uuid) VALUES (?)";
+        try (PreparedStatement statement = connection.prepareStatement(query)) {
+            statement.setString(1, uuid);
+            statement.executeUpdate();
+        }
+    }
 }
