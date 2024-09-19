@@ -51,7 +51,8 @@ public class Joinlistener implements Listener {
             String formattedMoney = String.format(Locale.ENGLISH, "%,.2f", startmoney);
             mysqlManager.updateBalance(player.getUniqueId().toString(), formattedMoney);
             mysqlManager.updateSwordLevel(player.getUniqueId().toString(), 1);
-            scoreboardBuilder.updateMoney(player);
+            mysqlManager.updateDungeonCount(player.getUniqueId().toString(), 1);
+            scoreboardBuilder.setup(player);
 
             // Initialisiere das Holzschwert
             ItemStack woodensword = new ItemStack(Material.WOODEN_SWORD);

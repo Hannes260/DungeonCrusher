@@ -67,6 +67,10 @@ public class MyPlaceholderExpansion extends PlaceholderExpansion {
             return mysqlManager.getToplistDungeonCount(2);
         } else if (identifier.equals("top_dungeon_1")) {
             return mysqlManager.getToplistDungeonCount(1);
+        }else if (identifier.equals("top_me")) {
+            return mysqlManager.getPlayerRankAndKills(player.getUniqueId().toString());
+        } else if (identifier.equals("top_dungeon_me")) {
+            return mysqlManager.getPlayerRankAndDungeonCount(player.getUniqueId().toString());
         }
         return null;
     }

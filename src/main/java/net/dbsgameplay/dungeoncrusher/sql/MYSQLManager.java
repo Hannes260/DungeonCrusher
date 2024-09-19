@@ -101,7 +101,7 @@ public class MYSQLManager {
             statement.execute(createTableQuery);
             String createPlayerNamesQuery = "CREATE TABLE IF NOT EXISTS player_names ("
                     + "name VARCHAR(255) PRIMARY KEY,"
-                    + "uuid VARCHAR(255) PRIMARY KEY"
+                    + "uuid VARCHAR(255) NOT NULL"
                     + ")";
             statement.execute(createPlayerNamesQuery);
             String createStatsTableQuery = "CREATE TABLE IF NOT EXISTS player_stats ("
@@ -110,11 +110,11 @@ public class MYSQLManager {
                     + "kills INT DEFAULT 0 NOT NULL,"
                     + "dungeon INT DEFAULT 0 NOT NULL,"
                     + "sword_lvl INT DEFAULT 1 NOT NULL,"
-                    + "helm_lvl INT DEFAULT 1 NOT NULL,"
-                    + "chestplate_lvl INT DEFAULT 1 NOT NULL,"
-                    + "leggings_lvl INT DEFAULT 1 NOT NULL,"
-                    + "boots_lvl INT DEFAULT 1 NOT NULL,"
-                    + "armor_lvl INT DEFAULT 1 NOT NULL"
+                    + "helm_lvl INT DEFAULT 0 NOT NULL,"
+                    + "chestplate_lvl INT DEFAULT 0 NOT NULL,"
+                    + "leggings_lvl INT DEFAULT 0 NOT NULL,"
+                    + "boots_lvl INT DEFAULT 0 NOT NULL,"
+                    + "armor_lvl INT DEFAULT 0 NOT NULL"
                     + ")";
             statement.execute(createStatsTableQuery);
             String createItemsTableQuery = "CREATE TABLE IF NOT EXISTS player_items ("
@@ -1314,6 +1314,79 @@ public class MYSQLManager {
                         String playerName = getPlayerName(uuid);
                         // Ergebnis im Format "Name: DungeonCount" speichern
                         result = "§6" + playerName + "§7: §6Dungeon: §a" + dungeonCount;
+                    }
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return result;
+    }
+    public String getPlayerRankAndDungeonCount(String playerUUID) {
+        String result = "N/A";
+        try (Connection connection = dataSource.getConnection()) {
+            // Query, um die Dungeon-Anzahl des bestimmten Spielers zu finden
+            String query = "SELECT dungeon FROM player_stats WHERE uuid = ?";
+            int playerDungeonCount = 0;
+            try (PreparedStatement statement = connection.prepareStatement(query)) {
+                statement.setString(1, playerUUID);
+                try (ResultSet resultSet = statement.executeQuery()) {
+                    if (resultSet.next()) {
+                        playerDungeonCount = resultSet.getInt("dungeon");
+                    } else {
+                        return "Player not found.";
+                    }
+                }
+            }
+
+            // Query, um den Rang des Spielers basierend auf DungeonCounts zu finden
+            String rankQuery = "SELECT COUNT(*) AS rank FROM player_stats WHERE dungeon > ?";
+            try (PreparedStatement rankStatement = connection.prepareStatement(rankQuery)) {
+                rankStatement.setInt(1, playerDungeonCount);
+                try (ResultSet rankResultSet = rankStatement.executeQuery()) {
+                    if (rankResultSet.next()) {
+                        int rank = rankResultSet.getInt("rank") + 1; // Rang berechnen (1-basiert)
+                        // Abrufen des Spielernamens basierend auf der UUID
+                        String playerName = getPlayerName(playerUUID);
+                        // Ergebnis im Format "Rang: Name: DungeonCount" speichern
+                        result = "§7" + rank + ". §6" + playerName + "§7: §6Dungeon: §a" + playerDungeonCount;
+                    }
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return result;
+    }
+
+    public String getPlayerRankAndKills(String playerUUID) {
+        String result = "N/A";
+        try (Connection connection = dataSource.getConnection()) {
+            // Query, um die Kills des bestimmten Spielers zu finden
+            String query = "SELECT kills FROM player_stats WHERE uuid = ?";
+            int playerKills = 0;
+            try (PreparedStatement statement = connection.prepareStatement(query)) {
+                statement.setString(1, playerUUID);
+                try (ResultSet resultSet = statement.executeQuery()) {
+                    if (resultSet.next()) {
+                        playerKills = resultSet.getInt("kills");
+                    } else {
+                        return "Player not found.";
+                    }
+                }
+            }
+
+            // Query, um den Rang des Spielers basierend auf Kills zu finden
+            String rankQuery = "SELECT COUNT(*) AS rank FROM player_stats WHERE kills > ?";
+            try (PreparedStatement rankStatement = connection.prepareStatement(rankQuery)) {
+                rankStatement.setInt(1, playerKills);
+                try (ResultSet rankResultSet = rankStatement.executeQuery()) {
+                    if (rankResultSet.next()) {
+                        int rank = rankResultSet.getInt("rank") + 1; // Rang berechnen (1-basiert)
+                        // Abrufen des Spielernamens basierend auf der UUID
+                        String playerName = getPlayerName(playerUUID);
+                        // Ergebnis im Format "Rang: Name: Kills" speichern
+                        result = "§7" + rank + ". §6" + playerName + "§7: §6Kills: §a" + playerKills;
                     }
                 }
             }
