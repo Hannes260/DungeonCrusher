@@ -7,6 +7,7 @@ import net.dbsgameplay.dungeoncrusher.objects.PlayerHead;
 import net.dbsgameplay.dungeoncrusher.sql.MYSQLManager;
 import net.dbsgameplay.dungeoncrusher.utils.Configs.ConfigManager;
 import net.dbsgameplay.dungeoncrusher.utils.Configs.LocationConfigManager;
+import net.dbsgameplay.dungeoncrusher.utils.Stats.StatsManager;
 import net.dbsgameplay.dungeoncrusher.utils.TexturedHeads;
 import net.dbsgameplay.dungeoncrusher.utils.shops.ShopManager;
 import net.dbsgameplay.dungeoncrusher.utils.upgrades.UpgradeManager;
@@ -271,12 +272,7 @@ public class NavigatorListener implements Listener {
         String currentmoney = mysqlManager.getBalance(player.getUniqueId().toString());
         ItemStack profileItem = new ItemStack(Material.PAPER);
         ItemMeta profilemeta = profileItem.getItemMeta();
-        profilemeta.setDisplayName("§7➢ §eDeine Stats: ");
-        List<String> lore = new ArrayList<>();
-        lore.add(Geld + " §e" + currentmoney);
-        lore.add(Kills + " §e" + mysqlManager.getKills(String.valueOf(player.getUniqueId())));
-        lore.add(Tode + " §e" + mysqlManager.getDeaths(player.getUniqueId().toString()));
-        profilemeta.setLore(lore);
+        profilemeta.setDisplayName("§7➢ §bDeine Stats");
         profilemeta.setCustomModelData(205);
         profileItem.setItemMeta(profilemeta);
         navigatorInventory.setItem(53, profileItem);
@@ -309,8 +305,9 @@ public class NavigatorListener implements Listener {
         } else if (itemName.equals("§7➢ §bSchließen")) {
             player.playSound(player.getLocation(), Sound.BLOCK_BARREL_CLOSE, 1.0f, 1.0f);
             player.closeInventory();
-        } else if (itemName.equals("§eDeine Stats: ")) {
-            return;
+        } else if (itemName.equals("§7➢ §bDeine Stats")) {
+            player.playSound(player.getLocation(), Sound.BLOCK_LEVER_CLICK, 1.0f, 1.0f);
+            StatsManager.openMainShopMenu(player);
         } else {
             if (hasRequiredKills(player, itemName)) {
                 teleportToDungeon(player, itemName);

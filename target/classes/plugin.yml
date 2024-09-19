@@ -67,3 +67,4 @@ commands:
     aliases: [fliegen]
   test:
   quest:
+  invsee:

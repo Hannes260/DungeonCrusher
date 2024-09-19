@@ -50,7 +50,7 @@ public class StatsListener implements Listener {
             return;
         }
 
-        String displayName = "§f<shift:-8>%oraxen_stats%";
+        String displayName = "§f<shift:-8>%oraxen_stats_gui%";
         displayName = PlaceholderAPI.setPlaceholders(player, displayName);
         String title = event.getView().getTitle();
 

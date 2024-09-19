@@ -36,6 +36,9 @@ import org.bukkit.Sound;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.entity.Entity;
+import org.bukkit.entity.EntityType;
+import org.bukkit.entity.Mob;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -63,6 +66,7 @@ public final class DungeonCrusher extends JavaPlugin {
     public static final String ANSI_GREEN = "\u001B[32m";
     public static final String ANSI_WHITE = "\u001B[37m";
     public static LuckPerms api;
+    private final Set<EntityType> mobsToRemove = new HashSet<>();
     @Override
     public void onEnable() {
 
@@ -176,6 +180,7 @@ public final class DungeonCrusher extends JavaPlugin {
         getCommand("fly").setExecutor(new Flycommand());
         getCommand("quest").setExecutor(new QuestCommand(mysqlManager));
         getCommand("test").setExecutor(new test());
+        getCommand("invsee").setExecutor(new InvseeCommand());
 
         // Tab Completers
         getCommand("config").setTabCompleter(this);
@@ -205,6 +210,7 @@ public final class DungeonCrusher extends JavaPlugin {
         pluginManager.registerEvents(new ChatListener(), this);
         pluginManager.registerEvents(new QuestListener(mysqlManager, this), this);
         pluginManager.registerEvents(new StatsListener(this, locationConfigManager, mysqlManager), this);
+        pluginManager.registerEvents(new InvseeListener(), this);
     }
 
     public void sendToDiscord(String content, int color) {

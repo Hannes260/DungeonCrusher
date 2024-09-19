@@ -6,10 +6,7 @@ import net.dbsgameplay.dungeoncrusher.sql.MYSQLManager;
 import net.dbsgameplay.dungeoncrusher.utils.Configs.ConfigManager;
 import net.dbsgameplay.dungeoncrusher.utils.Configs.LocationConfigManager;
 import net.dbsgameplay.dungeoncrusher.utils.ScoreboardBuilder;
-import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
-import org.bukkit.Material;
-import org.bukkit.Sound;
+import org.bukkit.*;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -19,16 +16,13 @@ import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
-
 import java.util.Collections;
 import java.util.Locale;
-
 public class Joinlistener implements Listener {
     private final MYSQLManager mysqlManager;
     private final LocationConfigManager locationConfigManager;
     private final ScoreboardBuilder scoreboardBuilder;
     private final DungeonCrusher dungeonCrusher;
-
     public Joinlistener(DungeonCrusher dungeonCrusher, MYSQLManager mysqlManager, LocationConfigManager locationConfigManager) {
         this.dungeonCrusher = dungeonCrusher;
         this.mysqlManager = mysqlManager;
@@ -47,8 +41,6 @@ public class Joinlistener implements Listener {
         String message = "Hat das Spiel betreten";
         String fullMessage = playerName + ": " + message;
         DungeonCrusher.getInstance().sendToDiscord(fullMessage, 65280);
-
-
         if (!player.hasPlayedBefore()) {
             Bukkit.broadcastMessage(ConfigManager.getConfigMessage("message.firstjoin", "%player%", player.getName()));
             double startmoney = 500;

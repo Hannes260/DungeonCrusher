@@ -28,11 +28,13 @@ C:\Users\kathr\Desktop\coding\DungeonCrusher\src\main\java\net\dbsgameplay\dunge
 C:\Users\kathr\Desktop\coding\DungeonCrusher\src\main\java\net\dbsgameplay\dungeoncrusher\listener\Damage\MobkillListener.java
 C:\Users\kathr\Desktop\coding\DungeonCrusher\src\main\java\net\dbsgameplay\dungeoncrusher\Commands\Admin\FlySpeedCommand.java
 C:\Users\kathr\Desktop\coding\DungeonCrusher\src\main\java\net\dbsgameplay\dungeoncrusher\Commands\Admin\ClearChatCommand.java
+C:\Users\kathr\Desktop\coding\DungeonCrusher\src\main\java\net\dbsgameplay\dungeoncrusher\Commands\Admin\InvseeCommand.java
 C:\Users\kathr\Desktop\coding\DungeonCrusher\src\main\java\net\dbsgameplay\dungeoncrusher\listener\Damage\DeathListener.java
 C:\Users\kathr\Desktop\coding\DungeonCrusher\src\main\java\net\dbsgameplay\dungeoncrusher\enums\Shop\FoodCategory.java
 C:\Users\kathr\Desktop\coding\DungeonCrusher\src\main\java\net\dbsgameplay\dungeoncrusher\utils\QuestBuilder.java
 C:\Users\kathr\Desktop\coding\DungeonCrusher\src\main\java\net\dbsgameplay\dungeoncrusher\enums\Stats\KillsCategory.java
 C:\Users\kathr\Desktop\coding\DungeonCrusher\src\main\java\net\dbsgameplay\dungeoncrusher\utils\Configs\LocationConfigManager.java
+C:\Users\kathr\Desktop\coding\DungeonCrusher\src\main\java\net\dbsgameplay\dungeoncrusher\listener\InvseeListener.java
 C:\Users\kathr\Desktop\coding\DungeonCrusher\src\main\java\net\dbsgameplay\dungeoncrusher\utils\quests\Daily.java
 C:\Users\kathr\Desktop\coding\DungeonCrusher\src\main\java\net\dbsgameplay\dungeoncrusher\Commands\Admin\ConfigCommand.java
 C:\Users\kathr\Desktop\coding\DungeonCrusher\src\main\java\net\dbsgameplay\dungeoncrusher\Commands\HelpCommand.java
@@ -68,6 +70,7 @@ C:\Users\kathr\Desktop\coding\DungeonCrusher\src\main\java\net\dbsgameplay\dunge
 C:\Users\kathr\Desktop\coding\DungeonCrusher\src\main\java\net\dbsgameplay\dungeoncrusher\listener\KillListener.java
 C:\Users\kathr\Desktop\coding\DungeonCrusher\src\main\java\net\dbsgameplay\dungeoncrusher\utils\Configs\RewardConfigManager.java
 C:\Users\kathr\Desktop\coding\DungeonCrusher\src\main\java\net\dbsgameplay\dungeoncrusher\sql\MYSQLManager.java
+C:\Users\kathr\Desktop\coding\DungeonCrusher\src\main\java\net\dbsgameplay\dungeoncrusher\enums\MyPlaceholderExpansion.java
 C:\Users\kathr\Desktop\coding\DungeonCrusher\src\main\java\net\dbsgameplay\dungeoncrusher\listener\shops\ShopListener.java
 C:\Users\kathr\Desktop\coding\DungeonCrusher\src\main\java\net\dbsgameplay\dungeoncrusher\utils\QuestMapBuilder.java
 C:\Users\kathr\Desktop\coding\DungeonCrusher\src\main\java\net\dbsgameplay\dungeoncrusher\utils\upgrades\UpgradeManager.java

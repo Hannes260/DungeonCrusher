@@ -32,7 +32,7 @@ public class StatsManager {
     }
 
     public static void openMainShopMenu(Player player) {
-        String DisplayName = "§f<shift:-8>%oraxen_stats%";
+        String DisplayName = "§f<shift:-8>%oraxen_stats_gui%";
         DisplayName = PlaceholderAPI.setPlaceholders(player, DisplayName);
 
         Inventory inv = Bukkit.createInventory(null, 9*6, DisplayName);
@@ -45,7 +45,7 @@ public class StatsManager {
 
         addCloseButton(player, inv);
 
-        int[] killslots = {9,10,11,18,19,20,27,28,29};
+        int[] killslots = {10,11,12,19,20,21,28,29,30};
         for (int slot : killslots) {
             inv.setItem(slot, killsItem);
         }
