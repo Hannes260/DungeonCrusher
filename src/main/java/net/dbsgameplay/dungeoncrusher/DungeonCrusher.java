@@ -33,6 +33,7 @@ import net.luckperms.api.LuckPerms;
 import net.luckperms.api.LuckPermsProvider;
 import org.bukkit.Bukkit;
 import org.bukkit.Sound;
+import org.bukkit.World;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -158,17 +159,21 @@ public final class DungeonCrusher extends JavaPlugin {
         mobTypesToKill.add(EntityType.IRON_GOLEM);
         mobTypesToKill.add(EntityType.WARDEN);
 
-        // Entferne alle Mobs dieser Typen auf allen geladenen Welten
-        Bukkit.getScheduler().runTaskLater(this, () -> {
-            Bukkit.getWorlds().forEach(world -> {
+        World world = Bukkit.getWorld("DungeonCrusher");
+
+        if (world != null) {
+            // Entferne die Mobs
+            Bukkit.getScheduler().runTaskLater(this, () -> {
                 for (Entity entity : world.getEntities()) {
                     if (mobTypesToKill.contains(entity.getType())) {
                         entity.remove();
                     }
                 }
-            });
-            getLogger().info("Alle ausgewählten Mobs wurden entfernt.");
-        }, 20L); // 1 Sekunde Verzögerung nach Start
+                getLogger().info("Alle ausgewählten Mobs in der Welt DungeonCrusher wurden entfernt.");
+            }, 20L); // 1 Sekunde Verzögerung
+        } else {
+            getLogger().warning("Welt 'DungeonCrusher' wurde nicht gefunden!");
+        }
 
         new MyPlaceholderExpansion(mysqlManager).register();
 
