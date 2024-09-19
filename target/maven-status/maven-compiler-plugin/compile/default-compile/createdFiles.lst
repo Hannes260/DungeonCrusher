@@ -100,3 +100,4 @@ net\dbsgameplay\dungeoncrusher\Commands\test$2.class
 net\dbsgameplay\dungeoncrusher\enums\Shop\FoodCategory$ShopItem.class
 net\dbsgameplay\dungeoncrusher\listener\ChatListener.class
 net\dbsgameplay\dungeoncrusher\Commands\SpawnCommand.class
+net\dbsgameplay\dungeoncrusher\listener\ChunkListener.class

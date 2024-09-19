@@ -100,6 +100,21 @@ public final class DungeonCrusher extends JavaPlugin {
 
         // Register Listeners
         registerListeners();
+
+        new MyPlaceholderExpansion(mysqlManager).register();
+
+        ShopManager shopManager = new ShopManager(mysqlManager);
+        UpgradeManager upgradeManager = new UpgradeManager(mysqlManager);
+        StatsManager statsManager = new StatsManager(mysqlManager);
+
+        ErfolgeMapBuilder.buildErfolgeMap();
+        QuestMapBuilder.BuildMap();
+        Daily daily = new Daily(mysqlManager, this);
+        Weekly weekly = new Weekly(mysqlManager, this);
+        Monthly monthly = new Monthly(mysqlManager, this);
+
+        startPlaytimer(mysqlManager, getConfig(), this);
+
         mobTypesToKill.add(EntityType.SHEEP);
         mobTypesToKill.add(EntityType.PIG);
         mobTypesToKill.add(EntityType.COW);
@@ -158,36 +173,6 @@ public final class DungeonCrusher extends JavaPlugin {
         mobTypesToKill.add(EntityType.RAVAGER);
         mobTypesToKill.add(EntityType.IRON_GOLEM);
         mobTypesToKill.add(EntityType.WARDEN);
-
-        World world = Bukkit.getWorld("DungeonCrusher");
-
-        if (world != null) {
-            // Entferne die Mobs
-            Bukkit.getScheduler().runTaskLater(this, () -> {
-                for (Entity entity : world.getEntities()) {
-                    if (mobTypesToKill.contains(entity.getType())) {
-                        entity.remove();
-                    }
-                }
-                getLogger().info("Alle ausgewählten Mobs in der Welt DungeonCrusher wurden entfernt.");
-            }, 20L); // 1 Sekunde Verzögerung
-        } else {
-            getLogger().warning("Welt 'DungeonCrusher' wurde nicht gefunden!");
-        }
-
-        new MyPlaceholderExpansion(mysqlManager).register();
-
-        ShopManager shopManager = new ShopManager(mysqlManager);
-        UpgradeManager upgradeManager = new UpgradeManager(mysqlManager);
-        StatsManager statsManager = new StatsManager(mysqlManager);
-
-        ErfolgeMapBuilder.buildErfolgeMap();
-        QuestMapBuilder.BuildMap();
-        Daily daily = new Daily(mysqlManager, this);
-        Weekly weekly = new Weekly(mysqlManager, this);
-        Monthly monthly = new Monthly(mysqlManager, this);
-
-        startPlaytimer(mysqlManager, getConfig(), this);
     }
 
     @Override
@@ -286,6 +271,7 @@ public final class DungeonCrusher extends JavaPlugin {
         pluginManager.registerEvents(new QuestListener(mysqlManager, this), this);
         pluginManager.registerEvents(new StatsListener(this, locationConfigManager, mysqlManager), this);
         pluginManager.registerEvents(new InvseeListener(), this);
+        pluginManager.registerEvents(new ChunkListener(this, mobTypesToKill), this);
     }
 
     public void sendToDiscord(String content, int color) {
