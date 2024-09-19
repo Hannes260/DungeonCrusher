@@ -66,7 +66,7 @@ public final class DungeonCrusher extends JavaPlugin {
     public static final String ANSI_GREEN = "\u001B[32m";
     public static final String ANSI_WHITE = "\u001B[37m";
     public static LuckPerms api;
-    private final Set<EntityType> mobsToRemove = new HashSet<>();
+    private final Set<EntityType> mobTypesToKill = new HashSet<>();
     @Override
     public void onEnable() {
 
@@ -99,6 +99,76 @@ public final class DungeonCrusher extends JavaPlugin {
 
         // Register Listeners
         registerListeners();
+        mobTypesToKill.add(EntityType.SHEEP);
+        mobTypesToKill.add(EntityType.PIG);
+        mobTypesToKill.add(EntityType.COW);
+        mobTypesToKill.add(EntityType.HORSE);
+        mobTypesToKill.add(EntityType.DONKEY);
+        mobTypesToKill.add(EntityType.CAMEL);
+        mobTypesToKill.add(EntityType.FROG);
+        mobTypesToKill.add(EntityType.GOAT);
+        mobTypesToKill.add(EntityType.LLAMA);
+        mobTypesToKill.add(EntityType.MOOSHROOM); // Mooshroom
+        mobTypesToKill.add(EntityType.MULE);
+        mobTypesToKill.add(EntityType.SNIFFER);
+        mobTypesToKill.add(EntityType.PANDA);
+        mobTypesToKill.add(EntityType.TURTLE);
+        mobTypesToKill.add(EntityType.OCELOT);
+        mobTypesToKill.add(EntityType.AXOLOTL);
+        mobTypesToKill.add(EntityType.FOX);
+        mobTypesToKill.add(EntityType.CAT);
+        mobTypesToKill.add(EntityType.CHICKEN);
+        mobTypesToKill.add(EntityType.VILLAGER);
+        mobTypesToKill.add(EntityType.RABBIT);
+        mobTypesToKill.add(EntityType.ARMADILLO);
+        mobTypesToKill.add(EntityType.SILVERFISH);
+        mobTypesToKill.add(EntityType.VINDICATOR);
+        mobTypesToKill.add(EntityType.POLAR_BEAR);
+        mobTypesToKill.add(EntityType.ZOMBIE_HORSE);
+        mobTypesToKill.add(EntityType.WOLF);
+        mobTypesToKill.add(EntityType.BREEZE); // Falls dieser Mob existiert
+        mobTypesToKill.add(EntityType.ZOMBIE_VILLAGER);
+        mobTypesToKill.add(EntityType.SNOW_GOLEM); // Snow Golem
+        mobTypesToKill.add(EntityType.SKELETON);
+        mobTypesToKill.add(EntityType.DROWNED);
+        mobTypesToKill.add(EntityType.HUSK);
+        mobTypesToKill.add(EntityType.SPIDER);
+        mobTypesToKill.add(EntityType.ZOMBIE);
+        mobTypesToKill.add(EntityType.STRAY);
+        mobTypesToKill.add(EntityType.CREEPER);
+        mobTypesToKill.add(EntityType.CAVE_SPIDER);
+        mobTypesToKill.add(EntityType.ENDERMITE);
+        mobTypesToKill.add(EntityType.STRIDER);
+        mobTypesToKill.add(EntityType.BLAZE);
+        mobTypesToKill.add(EntityType.SKELETON_HORSE);
+        mobTypesToKill.add(EntityType.WITCH);
+        mobTypesToKill.add(EntityType.SLIME);
+        mobTypesToKill.add(EntityType.MAGMA_CUBE);
+        mobTypesToKill.add(EntityType.ENDERMAN);
+        mobTypesToKill.add(EntityType.PIGLIN);
+        mobTypesToKill.add(EntityType.ZOMBIFIED_PIGLIN);
+        mobTypesToKill.add(EntityType.PIGLIN_BRUTE);
+        mobTypesToKill.add(EntityType.PILLAGER);
+        mobTypesToKill.add(EntityType.HOGLIN);
+        mobTypesToKill.add(EntityType.EVOKER);
+        mobTypesToKill.add(EntityType.GHAST);
+        mobTypesToKill.add(EntityType.WITHER_SKELETON);
+        mobTypesToKill.add(EntityType.ZOGLIN);
+        mobTypesToKill.add(EntityType.RAVAGER);
+        mobTypesToKill.add(EntityType.IRON_GOLEM);
+        mobTypesToKill.add(EntityType.WARDEN);
+
+        // Entferne alle Mobs dieser Typen auf allen geladenen Welten
+        Bukkit.getScheduler().runTaskLater(this, () -> {
+            Bukkit.getWorlds().forEach(world -> {
+                for (Entity entity : world.getEntities()) {
+                    if (mobTypesToKill.contains(entity.getType())) {
+                        entity.remove();
+                    }
+                }
+            });
+            getLogger().info("Alle ausgewählten Mobs wurden entfernt.");
+        }, 20L); // 1 Sekunde Verzögerung nach Start
 
         new MyPlaceholderExpansion(mysqlManager).register();
 
