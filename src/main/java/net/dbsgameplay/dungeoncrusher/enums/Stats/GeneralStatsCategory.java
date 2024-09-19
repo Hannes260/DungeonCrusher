@@ -39,6 +39,13 @@ public class GeneralStatsCategory implements StatsCategory {
         damageMeta.setLore(Collections.singletonList(String.valueOf(player.getStatistic(Statistic.DAMAGE_DEALT))));
         damageItem.setItemMeta(damageMeta);
         inv.setItem(1, damageItem);
+
+        ItemStack takeddamageItem = new ItemStack(Material.DIAMOND_CHESTPLATE);
+        ItemMeta takeddamageMeta = takeddamageItem.getItemMeta();
+        takeddamageMeta.setDisplayName("§7➢ Erlittener Schaden");
+        takeddamageMeta.setLore(Collections.singletonList(String.valueOf(player.getStatistic(Statistic.DAMAGE_TAKEN))));
+        takeddamageItem.setItemMeta(takeddamageMeta);
+        inv.setItem(2, takeddamageItem);
     }
 
     @Override

@@ -1274,5 +1274,71 @@ public class MYSQLManager {
             e.printStackTrace();
         }
     }
+    public String getToplistKills(int rank) {
+        String result = "N/A";
+        try (Connection connection = dataSource.getConnection()) {
+            // Query für einen bestimmten Platz basierend auf Kills
+            String query = "SELECT uuid, kills FROM player_stats ORDER BY kills DESC LIMIT ?, 1";
+            try (PreparedStatement statement = connection.prepareStatement(query)) {
+                statement.setInt(1, rank - 1);  // Weil SQL-Indexes bei 0 beginnen, ziehen wir 1 ab
+                // Query ausführen und Ergebnis abrufen
+                try (ResultSet resultSet = statement.executeQuery()) {
+                    if (resultSet.next()) {
+                        String uuid = resultSet.getString("uuid");
+                        int kills = resultSet.getInt("kills");
+                        // Abrufen des Spielernamens basierend auf der UUID
+                        String playerName = getPlayerName(uuid);
+                        // Ergebnis im Format "Name: Kills" speichern
+                        result = "§6" + playerName + "§7: §6Kills: §a" + kills;
+                    }
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return result;
+    }
+    public String getToplistDungeonCount(int rank) {
+        String result = "N/A";
+        try (Connection connection = dataSource.getConnection()) {
+            // Query für einen bestimmten Platz basierend auf DungeonCount
+            String query = "SELECT uuid, dungeon FROM player_stats ORDER BY dungeon DESC LIMIT ?, 1";
+            try (PreparedStatement statement = connection.prepareStatement(query)) {
+                statement.setInt(1, rank - 1);  // Weil SQL-Indexes bei 0 beginnen, ziehen wir 1 ab
+                // Query ausführen und Ergebnis abrufen
+                try (ResultSet resultSet = statement.executeQuery()) {
+                    if (resultSet.next()) {
+                        String uuid = resultSet.getString("uuid");
+                        int dungeonCount = resultSet.getInt("dungeon");
+                        // Abrufen des Spielernamens basierend auf der UUID
+                        String playerName = getPlayerName(uuid);
+                        // Ergebnis im Format "Name: DungeonCount" speichern
+                        result = "§6" + playerName + "§7: §6Dungeon: §a" + dungeonCount;
+                    }
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return result;
+    }
+    public String getPlayerName(String playerUUID) {
+        String playerName = null;
+        // Abfrage: Suche nach dem Namen basierend auf der UUID
+        String query = "SELECT name FROM player_names WHERE uuid = ?";
+        try (Connection connection = dataSource.getConnection();
+             PreparedStatement preparedStatement = connection.prepareStatement(query)) {
+            // UUID als Suchparameter setzen
+            preparedStatement.setString(1, playerUUID);
+            try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                if (resultSet.next()) {
+                    playerName = resultSet.getString("name");  // Namen des Spielers aus der DB abrufen
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return playerName;  // Gibt den Spielernamen zurück oder null, wenn kein Spieler gefunden wurde
+    }
 
 }
