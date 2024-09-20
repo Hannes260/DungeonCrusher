@@ -6,6 +6,7 @@ import net.dbsgameplay.dungeoncrusher.utils.QuestBuilder;
 import net.dbsgameplay.dungeoncrusher.utils.quests.Daily;
 import net.dbsgameplay.dungeoncrusher.utils.quests.Monthly;
 import net.dbsgameplay.dungeoncrusher.utils.quests.Weekly;
+import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.boss.*;
@@ -189,6 +190,7 @@ public class QuestListener implements Listener {
 
         if (e.getItem() != null && e.getItem().hasItemMeta()) {
             if (e.getItem().getItemMeta() instanceof PotionMeta potion && mysqlManager.getTutorialQuest(p.getUniqueId().toString()).equalsIgnoreCase("t1")) {
+                Bukkit.getLogger().info(potion.getBasePotionType().toString());
                 if (potion.getBasePotionType() == PotionType.STRENGTH || potion.getBasePotionType() == PotionType.STRONG_STRENGTH || potion.getBasePotionType() == PotionType.LONG_STRENGTH) {
                     mysqlManager.updateTutorialQuest(p.getUniqueId().toString(), "t0");
                     BossBar bossBar1 = QuestBuilder.bossBar;

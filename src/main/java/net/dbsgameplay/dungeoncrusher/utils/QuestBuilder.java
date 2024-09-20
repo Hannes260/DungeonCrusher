@@ -1,5 +1,6 @@
 package net.dbsgameplay.dungeoncrusher.utils;
 
+import it.unimi.dsi.fastutil.Hash;
 import net.dbsgameplay.dungeoncrusher.DungeonCrusher;
 import net.dbsgameplay.dungeoncrusher.sql.MYSQLManager;
 import net.dbsgameplay.dungeoncrusher.utils.Configs.LocationConfigManager;
@@ -31,12 +32,13 @@ public class QuestBuilder {
 
     public static Inventory questMenu = Bukkit.createInventory(null, 54, "§7Questmenü");
     public static Inventory rewardMenu = Bukkit.createInventory(null, 27, "§7Rewardmenü - §6Such dir 2 aus!");
+    public static HashMap<String, HashMap<String, Map<String, Object>>> unclaimedQuestRewards = new HashMap<>();
+
 
     public static HashMap<String, String> tutorialQuestMap = new HashMap<>();
     public static List<String> dailyQuestList = new ArrayList<>();
 
     public static BossBar bossBar = Bukkit.createBossBar(tutorialQuestMap.get("t3"), BarColor.BLUE, BarStyle.SOLID);
-
 
     public static Inventory getQuestmenü() {
         return questMenu;

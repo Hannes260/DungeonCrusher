@@ -209,7 +209,7 @@ public class Monthly {
                     if (!Monthly.isDone(1, p)) {
                             if (mysqlManager.getPlayerTempQuest("monthly1", p.getUniqueId().toString()) == questMap.get(s)) {
                                 p.playSound(p.getLocation(), Sound.ENTITY_ARROW_HIT_PLAYER, 100, 1);
-                                QuestBuilder.openRewardmenü(p, s, Monthly.RewardItemList);
+                                QuestBuilder.unclaimedQuestRewards.put(p.getUniqueId().toString(), Daily.RewardItemList);
                                 mysqlManager.updatePlayerQuest("monthly1", true, p.getUniqueId().toString());
                                 if (Monthly.RewardMoneyList.get(s) != null) {
                                     foodCategory.addMoney(p, Monthly.RewardMoneyList.get(s));
@@ -223,7 +223,7 @@ public class Monthly {
                     if (!Monthly.isDone(2, p)) {
                             if (mysqlManager.getPlayerTempQuest("monthly2", p.getUniqueId().toString()) == questMap.get(s)) {
                                 p.playSound(p.getLocation(), Sound.ENTITY_ARROW_HIT_PLAYER, 100, 1);
-                                QuestBuilder.openRewardmenü(p, s, Monthly.RewardItemList);
+                                QuestBuilder.unclaimedQuestRewards.put(p.getUniqueId().toString(), Daily.RewardItemList);
                                 mysqlManager.updatePlayerQuest("monthly2", true, p.getUniqueId().toString());
                                 if (Monthly.RewardMoneyList.get(s) != null) {
                                     foodCategory.addMoney(p, Monthly.RewardMoneyList.get(s));
@@ -237,7 +237,7 @@ public class Monthly {
                     if (!Monthly.isDone(3, p)) {
                             if (mysqlManager.getPlayerTempQuest("monthly3", p.getUniqueId().toString()) == questMap.get(s)) {
                                 p.playSound(p.getLocation(), Sound.ENTITY_ARROW_HIT_PLAYER, 100, 1);
-                                QuestBuilder.openRewardmenü(p, s, Monthly.RewardItemList);
+                                QuestBuilder.unclaimedQuestRewards.put(p.getUniqueId().toString(), Daily.RewardItemList);
                                 mysqlManager.updatePlayerQuest("monthly3", true, p.getUniqueId().toString());
                                 if (Monthly.RewardMoneyList.get(s) != null) {
                                     foodCategory.addMoney(p, Monthly.RewardMoneyList.get(s));

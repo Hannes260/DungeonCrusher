@@ -211,7 +211,7 @@ public class Daily {
                     if (!Daily.isDone(1, p)) {
                             if (mysqlManager.getPlayerTempQuest("daily1", p.getUniqueId().toString()) == questMap.get(s)) {
                                 p.playSound(p.getLocation(), Sound.ENTITY_ARROW_HIT_PLAYER, 100, 1);
-                                QuestBuilder.openRewardmenü(p, s, Daily.RewardItemList);
+                                QuestBuilder.unclaimedQuestRewards.put(p.getUniqueId().toString(), Daily.RewardItemList);
                                 mysqlManager.updatePlayerQuest("daily1", true, p.getUniqueId().toString());
                                 if (Daily.RewardMoneyList.get(s) != null) {
                                     foodCategory.addMoney(p, Daily.RewardMoneyList.get(s));
@@ -225,7 +225,7 @@ public class Daily {
                     if (!Daily.isDone(2, p)) {
                             if (mysqlManager.getPlayerTempQuest("daily2", p.getUniqueId().toString()) == questMap.get(s)) {
                                 p.playSound(p.getLocation(), Sound.ENTITY_ARROW_HIT_PLAYER, 100, 1);
-                                QuestBuilder.openRewardmenü(p, s, Daily.RewardItemList);
+                                QuestBuilder.unclaimedQuestRewards.put(p.getUniqueId().toString(), Daily.RewardItemList);
                                 mysqlManager.updatePlayerQuest("daily2", true, p.getUniqueId().toString());
                                 if (Daily.RewardMoneyList.get(s) != null) {
                                     foodCategory.addMoney(p, Daily.RewardMoneyList.get(s));
@@ -239,7 +239,7 @@ public class Daily {
                     if (!Daily.isDone(3, p)) {
                             if (mysqlManager.getPlayerTempQuest("daily3", p.getUniqueId().toString()) == questMap.get(s)) {
                                 p.playSound(p.getLocation(), Sound.ENTITY_ARROW_HIT_PLAYER, 100, 1);
-                                QuestBuilder.openRewardmenü(p, s, Daily.RewardItemList);
+                                QuestBuilder.unclaimedQuestRewards.put(p.getUniqueId().toString(), Daily.RewardItemList);
                                 mysqlManager.updatePlayerQuest("daily3", true, p.getUniqueId().toString());
                                 if (Daily.RewardMoneyList.get(s) != null) {
                                     foodCategory.addMoney(p, Daily.RewardMoneyList.get(s));
