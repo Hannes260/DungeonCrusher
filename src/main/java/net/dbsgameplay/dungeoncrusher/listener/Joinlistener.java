@@ -8,6 +8,8 @@ import net.dbsgameplay.dungeoncrusher.utils.Configs.LocationConfigManager;
 import net.dbsgameplay.dungeoncrusher.utils.ScoreboardBuilder;
 import org.bukkit.*;
 import org.bukkit.enchantments.Enchantment;
+import org.bukkit.entity.Entity;
+import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -17,7 +19,10 @@ import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.Locale;
+import java.util.Set;
+
 public class Joinlistener implements Listener {
     private final MYSQLManager mysqlManager;
     private final LocationConfigManager locationConfigManager;
@@ -29,7 +34,6 @@ public class Joinlistener implements Listener {
         this.scoreboardBuilder = new ScoreboardBuilder(dungeonCrusher);
         this.locationConfigManager = locationConfigManager;
     }
-
     @EventHandler
     public void onJoin(PlayerJoinEvent event) {
         Player player = event.getPlayer();
@@ -47,7 +51,8 @@ public class Joinlistener implements Listener {
             String formattedMoney = String.format(Locale.ENGLISH, "%,.2f", startmoney);
             mysqlManager.updateBalance(player.getUniqueId().toString(), formattedMoney);
             mysqlManager.updateSwordLevel(player.getUniqueId().toString(), 1);
-            scoreboardBuilder.updateMoney(player);
+            mysqlManager.updateDungeonCount(player.getUniqueId().toString(), 1);
+            scoreboardBuilder.setup(player);
 
             // Initialisiere das Holzschwert
             ItemStack woodensword = new ItemStack(Material.WOODEN_SWORD);

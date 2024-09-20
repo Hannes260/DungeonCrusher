@@ -235,11 +235,10 @@ public class NavigatorListener implements Listener {
     }
     private void addStaticElementsToNavigator(Inventory navigatorInventory, Player player) {
         // Spawn Item hinzufügen
-        PlayerProfile profile = TexturedHeads.getProfile("https://textures.minecraft.net/texture/1289d5b178626ea23d0b0c3d2df5c085e8375056bf685b5ed5bb477fe8472d94");
-        ItemStack spawn = new ItemStack(Material.PLAYER_HEAD);
-        SkullMeta meta = (SkullMeta) spawn.getItemMeta();
-        meta.setOwnerProfile(profile);
+        ItemStack spawn = new ItemStack(Material.PAPER);
+        ItemMeta meta = spawn.getItemMeta();
         meta.setDisplayName("§7➢ §bSpawn");
+        meta.setCustomModelData(204);
         spawn.setItemMeta(meta);
         navigatorInventory.setItem(49, spawn);
 
