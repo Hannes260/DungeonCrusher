@@ -51,6 +51,7 @@ import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.*;
+import java.util.concurrent.CompletableFuture;
 import java.util.stream.Collectors;
 
 public final class DungeonCrusher extends JavaPlugin {
@@ -373,175 +374,132 @@ public final class DungeonCrusher extends JavaPlugin {
                     if (QuestBuilder.isTutorialDone(p)) {
                         FileConfiguration cfg = dungeonCrusher.getConfig();
                         FoodCategory foodCategory = new FoodCategory(mysqlManager);
-                        String dailyQuest1 = mysqlManager.getOrginQuest("daily1");
-                        String dailyQuest2 = mysqlManager.getOrginQuest("daily2");
-                        String dailyQuest3 = mysqlManager.getOrginQuest("daily3");
-                        String weeklyQuest1 = mysqlManager.getOrginQuest("weekly1");
-                        String weeklyQuest2 = mysqlManager.getOrginQuest("weekly2");
-                        String weeklyQuest3 = mysqlManager.getOrginQuest("weekly3");
-                        String monthlyQuest1 = mysqlManager.getOrginQuest("monthly1");
-                        String monthlyQuest2 = mysqlManager.getOrginQuest("monthly2");
-                        String monthlyQuest3 = mysqlManager.getOrginQuest("monthly3");
 
-                        //Daily
-                        for (String s : Daily.PlayQuestList.keySet()) {
-                            if (s.equals(dailyQuest1)) {
-                                if (!Daily.isDone(1, p)) {
-                                    if (mysqlManager.getPlayerTempQuest("daily1", p.getUniqueId().toString()) >= Daily.PlayQuestList.get(s) * 60) {
-                                        p.playSound(p.getLocation(), Sound.ENTITY_ARROW_HIT_PLAYER, 100, 1);
-                                        QuestBuilder.openRewardmenü(p, s, Daily.RewardItemList);
-                                        mysqlManager.updatePlayerQuest("daily1", true, p.getUniqueId().toString());
-                                        if (Daily.RewardMoneyList.get(s) != null) {
-                                            foodCategory.addMoney(p, Daily.RewardMoneyList.get(s));
-                                            p.sendMessage(" §7[§a+§7] §6" + Daily.RewardMoneyList.get(s) + "€");
-                                        }
-                                    } else {
-                                        QuestListener.playtimeMap.replace(p.getUniqueId(), QuestListener.playtimeMap.get(p.getUniqueId()) + 10);
-                                        getMysqlManager().updatePlayerTempQuest("daily1", p.getUniqueId().toString(), QuestListener.playtimeMap.get(p.getUniqueId()));
-                                        dungeonCrusher.saveConfig();
-                                    }
-                                }
-                            } else if (s.equals(dailyQuest2)) {
-                                if (!Daily.isDone(2, p)) {
-                                    if (mysqlManager.getPlayerTempQuest("daily2", p.getUniqueId().toString()) >= Daily.PlayQuestList.get(s) * 60) {
-                                        p.playSound(p.getLocation(), Sound.ENTITY_ARROW_HIT_PLAYER, 100, 1);
-                                        QuestBuilder.openRewardmenü(p, s, Daily.RewardItemList);
-                                        mysqlManager.updatePlayerQuest("daily2", true, p.getUniqueId().toString());
-                                        if (Daily.RewardMoneyList.get(s) != null) {
-                                            foodCategory.addMoney(p, Daily.RewardMoneyList.get(s));
-                                            p.sendMessage(" §7[§a+§7] §6" + Daily.RewardMoneyList.get(s) + "€");
-                                        }
-                                    } else {
-                                        QuestListener.playtimeMap.replace(p.getUniqueId(), QuestListener.playtimeMap.get(p.getUniqueId()) + 10);
-                                        getMysqlManager().updatePlayerTempQuest("daily2", p.getUniqueId().toString(), QuestListener.playtimeMap.get(p.getUniqueId()));
-                                        dungeonCrusher.saveConfig();
-                                    }
-                                }
-                            } else if (s.equals(dailyQuest3)) {
-                                if (!Daily.isDone(3, p)) {
-                                    if (mysqlManager.getPlayerTempQuest("daily3", p.getUniqueId().toString()) >= Daily.PlayQuestList.get(s) * 60) {
-                                        p.playSound(p.getLocation(), Sound.ENTITY_ARROW_HIT_PLAYER, 100, 1);
-                                        QuestBuilder.openRewardmenü(p, s, Daily.RewardItemList);
-                                        mysqlManager.updatePlayerQuest("daily3", true, p.getUniqueId().toString());
-                                        if (Daily.RewardMoneyList.get(s) != null) {
-                                            foodCategory.addMoney(p, Daily.RewardMoneyList.get(s));
-                                            p.sendMessage(" §7[§a+§7] §6" + Daily.RewardMoneyList.get(s) + "€");
-                                        }
-                                    } else {
-                                        QuestListener.playtimeMap.replace(p.getUniqueId(), QuestListener.playtimeMap.get(p.getUniqueId()) + 10);
-                                        getMysqlManager().updatePlayerTempQuest("daily3", p.getUniqueId().toString(), QuestListener.playtimeMap.get(p.getUniqueId()));
-                                        dungeonCrusher.saveConfig();
-                                    }
-                                }
-                            }
-                        }
-                        //Weekly
-                        for (String s : Weekly.PlayQuestList.keySet()) {
-                            if (s.equals(weeklyQuest1)) {
-                                if (!Weekly.isDone(1, p)) {
-                                    if (mysqlManager.getPlayerTempQuest("weekly1", p.getUniqueId().toString()) >= Weekly.PlayQuestList.get(s) * 60) {
-                                        p.playSound(p.getLocation(), Sound.ENTITY_ARROW_HIT_PLAYER, 100, 1);
-                                        QuestBuilder.openRewardmenü(p, s, Weekly.RewardItemList);
-                                        mysqlManager.updatePlayerQuest("weekly1", true, p.getUniqueId().toString());
-                                        if (Weekly.RewardMoneyList.get(s) != null) {
-                                            foodCategory.addMoney(p, Weekly.RewardMoneyList.get(s));
-                                            p.sendMessage(" §7[§a+§7] §6" + Weekly.RewardMoneyList.get(s) + "€");
-                                        }
-                                    } else {
-                                        QuestListener.playtimeMap.replace(p.getUniqueId(), QuestListener.playtimeMap.get(p.getUniqueId()) + 10);
-                                        getMysqlManager().updatePlayerTempQuest("weekly1", p.getUniqueId().toString(), QuestListener.playtimeMap.get(p.getUniqueId()));
-                                        dungeonCrusher.saveConfig();
-                                    }
-                                }
-                            } else if (s.equals(weeklyQuest2)) {
-                                if (!Weekly.isDone(2, p)) {
-                                    if (mysqlManager.getPlayerTempQuest("weekly2", p.getUniqueId().toString()) >= Weekly.PlayQuestList.get(s) * 60) {
-                                        p.playSound(p.getLocation(), Sound.ENTITY_ARROW_HIT_PLAYER, 100, 1);
-                                        QuestBuilder.openRewardmenü(p, s, Weekly.RewardItemList);
-                                        mysqlManager.updatePlayerQuest("weekly2", true, p.getUniqueId().toString());
-                                        if (Weekly.RewardMoneyList.get(s) != null) {
-                                            foodCategory.addMoney(p, Weekly.RewardMoneyList.get(s));
-                                            p.sendMessage(" §7[§a+§7] §6" + Weekly.RewardMoneyList.get(s) + "€");
-                                        }
-                                    } else {
-                                        QuestListener.playtimeMap.replace(p.getUniqueId(), QuestListener.playtimeMap.get(p.getUniqueId()) + 10);
-                                        getMysqlManager().updatePlayerTempQuest("weekly2", p.getUniqueId().toString(), QuestListener.playtimeMap.get(p.getUniqueId()));
-                                        dungeonCrusher.saveConfig();
-                                    }
-                                }
-                            } else if (s.equals(weeklyQuest3)) {
-                                if (!Weekly.isDone(3, p)) {
-                                    if (mysqlManager.getPlayerTempQuest("weekly3", p.getUniqueId().toString()) >= Weekly.PlayQuestList.get(s) * 60) {
-                                        p.playSound(p.getLocation(), Sound.ENTITY_ARROW_HIT_PLAYER, 100, 1);
-                                        QuestBuilder.openRewardmenü(p, s, Weekly.RewardItemList);
-                                        mysqlManager.updatePlayerQuest("weekly3", true, p.getUniqueId().toString());
-                                        if (Weekly.RewardMoneyList.get(s) != null) {
-                                            foodCategory.addMoney(p, Weekly.RewardMoneyList.get(s));
-                                            p.sendMessage(" §7[§a+§7] §6" + Weekly.RewardMoneyList.get(s) + "€");
-                                        }
-                                    } else {
-                                        QuestListener.playtimeMap.replace(p.getUniqueId(), QuestListener.playtimeMap.get(p.getUniqueId()) + 10);
-                                        getMysqlManager().updatePlayerTempQuest("weekly3", p.getUniqueId().toString(), QuestListener.playtimeMap.get(p.getUniqueId()));
-                                        dungeonCrusher.saveConfig();
-                                    }
-                                }
-                            }
-                        }
-                    //Monthly
-                        for (String s : Monthly.PlayQuestList.keySet()) {
-                            if (s.equals(monthlyQuest1)) {
-                                if (!Monthly.isDone(1, p)) {
-                                    if (mysqlManager.getPlayerTempQuest("weekly1", p.getUniqueId().toString()) >= Monthly.PlayQuestList.get(s) * 60) {
-                                        p.playSound(p.getLocation(), Sound.ENTITY_ARROW_HIT_PLAYER, 100, 1);
-                                        QuestBuilder.openRewardmenü(p, s, Monthly.RewardItemList);
-                                        mysqlManager.updatePlayerQuest("monthly1", true, p.getUniqueId().toString());
-                                        if (Monthly.RewardMoneyList.get(s) != null) {
-                                            foodCategory.addMoney(p, Monthly.RewardMoneyList.get(s));
-                                            p.sendMessage(" §7[§a+§7] §6" + Monthly.RewardMoneyList.get(s) + "€");
-                                        }
-                                    } else {
-                                        QuestListener.playtimeMap.replace(p.getUniqueId(), QuestListener.playtimeMap.get(p.getUniqueId()) + 10);
-                                        getMysqlManager().updatePlayerTempQuest("monthly1", p.getUniqueId().toString(), QuestListener.playtimeMap.get(p.getUniqueId()));
-                                        dungeonCrusher.saveConfig();
-                                    }
-                                }
-                            } else if (s.equals(monthlyQuest2)) {
-                                if (!Monthly.isDone(2, p)) {
-                                    if (mysqlManager.getPlayerTempQuest("monthly2", p.getUniqueId().toString()) >= Monthly.PlayQuestList.get(s) * 60) {
-                                        p.playSound(p.getLocation(), Sound.ENTITY_ARROW_HIT_PLAYER, 100, 1);
-                                        QuestBuilder.openRewardmenü(p, s, Monthly.RewardItemList);
-                                        mysqlManager.updatePlayerQuest("monthly2", true, p.getUniqueId().toString());
-                                        if (Monthly.RewardMoneyList.get(s) != null) {
-                                            foodCategory.addMoney(p, Monthly.RewardMoneyList.get(s));
-                                            p.sendMessage(" §7[§a+§7] §6" + Monthly.RewardMoneyList.get(s) + "€");
-                                        }
-                                    } else {
-                                        QuestListener.playtimeMap.replace(p.getUniqueId(), QuestListener.playtimeMap.get(p.getUniqueId()) + 10);
-                                        getMysqlManager().updatePlayerTempQuest("monthly2", p.getUniqueId().toString(), QuestListener.playtimeMap.get(p.getUniqueId()));
-                                        dungeonCrusher.saveConfig();
-                                    }
-                                }
-                            } else if (s.equals(monthlyQuest3)) {
-                                if (!Monthly.isDone(3, p)) {
-                                    if (mysqlManager.getPlayerTempQuest("monthly3", p.getUniqueId().toString()) >= Monthly.PlayQuestList.get(s) * 60) {
-                                        p.playSound(p.getLocation(), Sound.ENTITY_ARROW_HIT_PLAYER, 100, 1);
-                                        QuestBuilder.openRewardmenü(p, s, Monthly.RewardItemList);
-                                        mysqlManager.updatePlayerQuest("monthly3", true, p.getUniqueId().toString());
-                                        if (Monthly.RewardMoneyList.get(s) != null) {
-                                            foodCategory.addMoney(p, Monthly.RewardMoneyList.get(s));
-                                            p.sendMessage(" §7[§a+§7] §6" + Monthly.RewardMoneyList.get(s) + "€");
-                                        }
-                                    } else {
-                                        QuestListener.playtimeMap.replace(p.getUniqueId(), QuestListener.playtimeMap.get(p.getUniqueId()) + 10);
-                                        getMysqlManager().updatePlayerTempQuest("monthly3", p.getUniqueId().toString(), QuestListener.playtimeMap.get(p.getUniqueId()));
-                                        dungeonCrusher.saveConfig();
-                                    }
-                                }
-                            }
-                        }
+                        // MySQL-Abfragen asynchron ausführen
+                        CompletableFuture.supplyAsync(() -> mysqlManager.getOrginQuest("daily1")).thenAccept(dailyQuest1 -> {
+                            CompletableFuture.supplyAsync(() -> mysqlManager.getOrginQuest("daily2")).thenAccept(dailyQuest2 -> {
+                                CompletableFuture.supplyAsync(() -> mysqlManager.getOrginQuest("daily3")).thenAccept(dailyQuest3 -> {
+                                    CompletableFuture.supplyAsync(() -> mysqlManager.getOrginQuest("weekly1")).thenAccept(weeklyQuest1 -> {
+                                        CompletableFuture.supplyAsync(() -> mysqlManager.getOrginQuest("weekly2")).thenAccept(weeklyQuest2 -> {
+                                            CompletableFuture.supplyAsync(() -> mysqlManager.getOrginQuest("weekly3")).thenAccept(weeklyQuest3 -> {
+                                                CompletableFuture.supplyAsync(() -> mysqlManager.getOrginQuest("monthly1")).thenAccept(monthlyQuest1 -> {
+                                                    CompletableFuture.supplyAsync(() -> mysqlManager.getOrginQuest("monthly2")).thenAccept(monthlyQuest2 -> {
+                                                        CompletableFuture.supplyAsync(() -> mysqlManager.getOrginQuest("monthly3")).thenAccept(monthlyQuest3 -> {
+                                                            // Hier kannst du die Logik nach den Abfragen weiter fortsetzen
+                                                            // Daily Quests
+                                                            processDailyQuests(p, dailyQuest1, dailyQuest2, dailyQuest3, mysqlManager, foodCategory, dungeonCrusher);
+                                                            // Weekly Quests
+                                                            processWeeklyQuests(p, weeklyQuest1, weeklyQuest2, weeklyQuest3, mysqlManager, foodCategory, dungeonCrusher);
+                                                            // Monthly Quests
+                                                            processMonthlyQuests(p, monthlyQuest1, monthlyQuest2, monthlyQuest3, mysqlManager, foodCategory, dungeonCrusher);
+                                                        });
+                                                    });
+                                                });
+                                            });
+                                        });
+                                    });
+                                });
+                            });
+                        });
                     }
                 }
             }
-        }.runTaskTimer(dungeonCrusher, 0L, 10*20L);
+        }.runTaskTimer(dungeonCrusher, 0L, 10 * 20L);
+    }
+
+    private static void processDailyQuests(Player p, String dailyQuest1, String dailyQuest2, String dailyQuest3, MYSQLManager mysqlManager, FoodCategory foodCategory, DungeonCrusher dungeonCrusher) {
+        for (String s : Daily.PlayQuestList.keySet()) {
+            if (s.equals(dailyQuest1)) {
+                handleDailyQuest(p, 1, dailyQuest1, mysqlManager, foodCategory, dungeonCrusher);
+            } else if (s.equals(dailyQuest2)) {
+                handleDailyQuest(p, 2, dailyQuest2, mysqlManager, foodCategory, dungeonCrusher);
+            } else if (s.equals(dailyQuest3)) {
+                handleDailyQuest(p, 3, dailyQuest3, mysqlManager, foodCategory, dungeonCrusher);
+            }
+        }
+    }
+
+    private static void handleDailyQuest(Player p, int questNumber, String quest, MYSQLManager mysqlManager, FoodCategory foodCategory, DungeonCrusher dungeonCrusher) {
+        if (!Daily.isDone(questNumber, p)) {
+            CompletableFuture.supplyAsync(() -> mysqlManager.getPlayerTempQuest("daily" + questNumber, p.getUniqueId().toString())).thenAccept(tempQuest -> {
+                if (tempQuest >= Daily.PlayQuestList.get(quest) * 60) {
+                    p.playSound(p.getLocation(), Sound.ENTITY_ARROW_HIT_PLAYER, 100, 1);
+                    QuestBuilder.openRewardmenü(p, quest, Daily.RewardItemList);
+                    mysqlManager.updatePlayerQuest("daily" + questNumber, true, p.getUniqueId().toString());
+                    if (Daily.RewardMoneyList.get(quest) != null) {
+                        foodCategory.addMoney(p, Daily.RewardMoneyList.get(quest));
+                        p.sendMessage(" §7[§a+§7] §6" + Daily.RewardMoneyList.get(quest) + "€");
+                    }
+                } else {
+                    QuestListener.playtimeMap.replace(p.getUniqueId(), QuestListener.playtimeMap.get(p.getUniqueId()) + 10);
+                    mysqlManager.updatePlayerTempQuest("daily" + questNumber, p.getUniqueId().toString(), QuestListener.playtimeMap.get(p.getUniqueId()));
+                    dungeonCrusher.saveConfig();
+                }
+            });
+        }
+    }
+
+    private static void processWeeklyQuests(Player p, String weeklyQuest1, String weeklyQuest2, String weeklyQuest3, MYSQLManager mysqlManager, FoodCategory foodCategory, DungeonCrusher dungeonCrusher) {
+        for (String s : Weekly.PlayQuestList.keySet()) {
+            if (s.equals(weeklyQuest1)) {
+                handleWeeklyQuest(p, 1, weeklyQuest1, mysqlManager, foodCategory, dungeonCrusher);
+            } else if (s.equals(weeklyQuest2)) {
+                handleWeeklyQuest(p, 2, weeklyQuest2, mysqlManager, foodCategory, dungeonCrusher);
+            } else if (s.equals(weeklyQuest3)) {
+                handleWeeklyQuest(p, 3, weeklyQuest3, mysqlManager, foodCategory, dungeonCrusher);
+            }
+        }
+    }
+
+    private static void handleWeeklyQuest(Player p, int questNumber, String quest, MYSQLManager mysqlManager, FoodCategory foodCategory, DungeonCrusher dungeonCrusher) {
+        if (!Weekly.isDone(questNumber, p)) {
+            CompletableFuture.supplyAsync(() -> mysqlManager.getPlayerTempQuest("weekly" + questNumber, p.getUniqueId().toString())).thenAccept(tempQuest -> {
+                if (tempQuest >= Weekly.PlayQuestList.get(quest) * 60) {
+                    p.playSound(p.getLocation(), Sound.ENTITY_ARROW_HIT_PLAYER, 100, 1);
+                    QuestBuilder.openRewardmenü(p, quest, Weekly.RewardItemList);
+                    mysqlManager.updatePlayerQuest("weekly" + questNumber, true, p.getUniqueId().toString());
+                    if (Weekly.RewardMoneyList.get(quest) != null) {
+                        foodCategory.addMoney(p, Weekly.RewardMoneyList.get(quest));
+                        p.sendMessage(" §7[§a+§7] §6" + Weekly.RewardMoneyList.get(quest) + "€");
+                    }
+                } else {
+                    QuestListener.playtimeMap.replace(p.getUniqueId(), QuestListener.playtimeMap.get(p.getUniqueId()) + 10);
+                    mysqlManager.updatePlayerTempQuest("weekly" + questNumber, p.getUniqueId().toString(), QuestListener.playtimeMap.get(p.getUniqueId()));
+                    dungeonCrusher.saveConfig();
+                }
+            });
+        }
+    }
+
+    private static void processMonthlyQuests(Player p, String monthlyQuest1, String monthlyQuest2, String monthlyQuest3, MYSQLManager mysqlManager, FoodCategory foodCategory, DungeonCrusher dungeonCrusher) {
+        for (String s : Monthly.PlayQuestList.keySet()) {
+            if (s.equals(monthlyQuest1)) {
+                handleMonthlyQuest(p, 1, monthlyQuest1, mysqlManager, foodCategory, dungeonCrusher);
+            } else if (s.equals(monthlyQuest2)) {
+                handleMonthlyQuest(p, 2, monthlyQuest2, mysqlManager, foodCategory, dungeonCrusher);
+            } else if (s.equals(monthlyQuest3)) {
+                handleMonthlyQuest(p, 3, monthlyQuest3, mysqlManager, foodCategory, dungeonCrusher);
+            }
+        }
+    }
+
+    private static void handleMonthlyQuest(Player p, int questNumber, String quest, MYSQLManager mysqlManager, FoodCategory foodCategory, DungeonCrusher dungeonCrusher) {
+        if (!Monthly.isDone(questNumber, p)) {
+            CompletableFuture.supplyAsync(() -> mysqlManager.getPlayerTempQuest("monthly" + questNumber, p.getUniqueId().toString())).thenAccept(tempQuest -> {
+                if (tempQuest >= Monthly.PlayQuestList.get(quest) * 60) {
+                    p.playSound(p.getLocation(), Sound.ENTITY_ARROW_HIT_PLAYER, 100, 1);
+                    QuestBuilder.openRewardmenü(p, quest, Monthly.RewardItemList);
+                    mysqlManager.updatePlayerQuest("monthly" + questNumber, true, p.getUniqueId().toString());
+                    if (Monthly.RewardMoneyList.get(quest) != null) {
+                        foodCategory.addMoney(p, Monthly.RewardMoneyList.get(quest));
+                        p.sendMessage(" §7[§a+§7] §6" + Monthly.RewardMoneyList.get(quest) + "€");
+                    }
+                } else {
+                    QuestListener.playtimeMap.replace(p.getUniqueId(), QuestListener.playtimeMap.get(p.getUniqueId()) + 10);
+                    mysqlManager.updatePlayerTempQuest("monthly" + questNumber, p.getUniqueId().toString(), QuestListener.playtimeMap.get(p.getUniqueId()));
+                    dungeonCrusher.saveConfig();
+                }
+            });
+        }
     }
 }
