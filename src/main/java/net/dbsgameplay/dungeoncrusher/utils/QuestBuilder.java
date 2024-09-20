@@ -62,6 +62,27 @@ public class QuestBuilder {
             dailyList1.add("§aAbgeschlossen!");
             dailylMeta1.setEnchantmentGlintOverride(true);
         } else {
+            Bukkit.getLogger().info(mysqlManager.getOrginQuest("daily1"));
+            Bukkit.getLogger().info(String.valueOf(Daily.getQuestAim(mysqlManager.getOrginQuest("daily1"))));
+
+            int percentage = mysqlManager.getPlayerTempQuest("daily1", player.getUniqueId().toString())*100/Daily.getQuestAim(mysqlManager.getOrginQuest("daily1"));
+            String progress = null;
+            if (percentage <= 20) {
+                progress = percentage + "% □□□□□"; //■□□□□
+            }
+            if (percentage >= 20) {
+                progress = percentage + "% ■□□□□";
+            }
+            if (percentage >= 40) {
+                progress = percentage + "% ■■□□□";
+            }
+            if (percentage >= 60) {
+                progress = percentage + "% ■■■□□";
+            }
+            if (percentage >= 80) {
+                progress = percentage + "% ■■■■□";
+            }
+            dailyList1.add(progress);
             dailylMeta1.setEnchantmentGlintOverride(false);
         }
         dailylMeta1.setLore(dailyList1);
@@ -80,6 +101,24 @@ public class QuestBuilder {
             dailyList2.add("§aAbgeschlossen!");
             dailylMeta2.setEnchantmentGlintOverride(true);
         } else {
+            int percentage = mysqlManager.getPlayerTempQuest("daily2", player.getUniqueId().toString())*100/Daily.getQuestAim(mysqlManager.getOrginQuest("daily2"));
+            String progress = null;
+            if (percentage <= 20) {
+                progress = percentage + "% □□□□□"; //■□□□□
+            }
+            if (percentage >= 20) {
+                progress = percentage + "% ■□□□□";
+            }
+            if (percentage >= 40) {
+                progress = percentage + "% ■■□□□";
+            }
+            if (percentage >= 60) {
+                progress = percentage + "% ■■■□□";
+            }
+            if (percentage >= 80) {
+                progress = percentage + "% ■■■■□";
+            }
+            dailyList2.add(progress);
             dailylMeta2.setEnchantmentGlintOverride(false);
         }
         dailylMeta2.setLore(dailyList2);
@@ -98,6 +137,24 @@ public class QuestBuilder {
             dailyList3.add("§aAbgeschlossen!");
             dailylMeta3.setEnchantmentGlintOverride(true);
         } else {
+            int percentage = mysqlManager.getPlayerTempQuest("daily3", player.getUniqueId().toString())*100/Daily.getQuestAim(mysqlManager.getOrginQuest("daily3"));
+            String progress = null;
+            if (percentage <= 20) {
+                progress = percentage + "% □□□□□"; //■□□□□
+            }
+            if (percentage >= 20) {
+                progress = percentage + "% ■□□□□";
+            }
+            if (percentage >= 40) {
+                progress = percentage + "% ■■□□□";
+            }
+            if (percentage >= 60) {
+                progress = percentage + "% ■■■□□";
+            }
+            if (percentage >= 80) {
+                progress = percentage + "% ■■■■□";
+            }
+            dailyList3.add(progress);
             dailylMeta3.setEnchantmentGlintOverride(false);
         }
         dailylMeta3.setLore(dailyList3);
@@ -122,6 +179,24 @@ public class QuestBuilder {
             weeklyList1.add("§aAbgeschlossen!");
             weeklylMeta1.setEnchantmentGlintOverride(true);
         } else {
+            int percentage = mysqlManager.getPlayerTempQuest("weekly1", player.getUniqueId().toString())*100/Weekly.getQuestAim(mysqlManager.getOrginQuest("weekly1"));
+            String progress = null;
+            if (percentage <= 20) {
+                progress = percentage + "% □□□□□"; //■□□□□
+            }
+            if (percentage >= 20) {
+                progress = percentage + "% ■□□□□";
+            }
+            if (percentage >= 40) {
+                progress = percentage + "% ■■□□□";
+            }
+            if (percentage >= 60) {
+                progress = percentage + "% ■■■□□";
+            }
+            if (percentage >= 80) {
+                progress = percentage + "% ■■■■□";
+            }
+            weeklyList1.add(progress);
             weeklylMeta1.setEnchantmentGlintOverride(false);
         }
         weeklylMeta1.setLore(weeklyList1);
@@ -140,6 +215,24 @@ public class QuestBuilder {
             weeklyList2.add("§aAbgeschlossen!");
             weeklylMeta2.setEnchantmentGlintOverride(true);
         } else {
+            int percentage = mysqlManager.getPlayerTempQuest("weekly2", player.getUniqueId().toString())*100/Weekly.getQuestAim(mysqlManager.getOrginQuest("weekly2"));
+            String progress = null;
+            if (percentage <= 20) {
+                progress = percentage + "% □□□□□"; //■□□□□
+            }
+            if (percentage >= 20) {
+                progress = percentage + "% ■□□□□";
+            }
+            if (percentage >= 40) {
+                progress = percentage + "% ■■□□□";
+            }
+            if (percentage >= 60) {
+                progress = percentage + "% ■■■□□";
+            }
+            if (percentage >= 80) {
+                progress = percentage + "% ■■■■□";
+            }
+            weeklyList2.add(progress);
             weeklylMeta2.setEnchantmentGlintOverride(false);
         }
         weeklylMeta2.setLore(weeklyList2);
@@ -158,6 +251,24 @@ public class QuestBuilder {
             weeklyList3.add("§aAbgeschlossen!");
             weeklylMeta3.setEnchantmentGlintOverride(true);
         } else {
+            int percentage = mysqlManager.getPlayerTempQuest("weekly3", player.getUniqueId().toString())*100/Weekly.getQuestAim(mysqlManager.getOrginQuest("weekly3"));
+            String progress = null;
+            if (percentage <= 20) {
+                progress = percentage + "% □□□□□"; //■□□□□
+            }
+            if (percentage >= 20) {
+                progress = percentage + "% ■□□□□";
+            }
+            if (percentage >= 40) {
+                progress = percentage + "% ■■□□□";
+            }
+            if (percentage >= 60) {
+                progress = percentage + "% ■■■□□";
+            }
+            if (percentage >= 80) {
+                progress = percentage + "% ■■■■□";
+            }
+            weeklyList3.add(progress);
             weeklylMeta3.setEnchantmentGlintOverride(false);
         }
         weeklylMeta3.setLore(weeklyList3);
@@ -182,6 +293,24 @@ public class QuestBuilder {
             monthlyList1.add("§aAbgeschlossen!");
             monthlylMeta1.setEnchantmentGlintOverride(true);
         } else {
+            int percentage = mysqlManager.getPlayerTempQuest("monthly1", player.getUniqueId().toString())*100/Monthly.getQuestAim(mysqlManager.getOrginQuest("monthly1"));
+            String progress = null;
+            if (percentage <= 20) {
+                progress = percentage + "% □□□□□"; //■□□□□
+            }
+            if (percentage >= 20) {
+                progress = percentage + "% ■□□□□";
+            }
+            if (percentage >= 40) {
+                progress = percentage + "% ■■□□□";
+            }
+            if (percentage >= 60) {
+                progress = percentage + "% ■■■□□";
+            }
+            if (percentage >= 80) {
+                progress = percentage + "% ■■■■□";
+            }
+            monthlyList1.add(progress);
             monthlylMeta1.setEnchantmentGlintOverride(false);
         }
         monthlylMeta1.setLore(monthlyList1);
@@ -200,6 +329,24 @@ public class QuestBuilder {
             monthlyList2.add("§aAbgeschlossen!");
             monthlylMeta2.setEnchantmentGlintOverride(true);
         } else {
+            int percentage = mysqlManager.getPlayerTempQuest("monthly2", player.getUniqueId().toString())*100/Monthly.getQuestAim(mysqlManager.getOrginQuest("monthly2"));
+            String progress = null;
+            if (percentage <= 20) {
+                progress = percentage + "% □□□□□"; //■□□□□
+            }
+            if (percentage >= 20) {
+                progress = percentage + "% ■□□□□";
+            }
+            if (percentage >= 40) {
+                progress = percentage + "% ■■□□□";
+            }
+            if (percentage >= 60) {
+                progress = percentage + "% ■■■□□";
+            }
+            if (percentage >= 80) {
+                progress = percentage + "% ■■■■□";
+            }
+            monthlyList2.add(progress);
             monthlylMeta2.setEnchantmentGlintOverride(false);
         }
         monthlylMeta2.setLore(monthlyList2);
@@ -218,6 +365,24 @@ public class QuestBuilder {
             monthlyList3.add("§aAbgeschlossen!");
             monthlylMeta3.setEnchantmentGlintOverride(true);
         } else {
+            int percentage = mysqlManager.getPlayerTempQuest("monthly3", player.getUniqueId().toString())*100/Monthly.getQuestAim(mysqlManager.getOrginQuest("monthly3"));
+            String progress = null;
+            if (percentage <= 20) {
+                progress = percentage + "% □□□□□"; //■□□□□
+            }
+            if (percentage >= 20) {
+                progress = percentage + "% ■□□□□";
+            }
+            if (percentage >= 40) {
+                progress = percentage + "% ■■□□□";
+            }
+            if (percentage >= 60) {
+                progress = percentage + "% ■■■□□";
+            }
+            if (percentage >= 80) {
+                progress = percentage + "% ■■■■□";
+            }
+            monthlyList3.add(progress);
             monthlylMeta3.setEnchantmentGlintOverride(false);
         }
         monthlylMeta3.setLore(monthlyList3);
@@ -356,6 +521,7 @@ public class QuestBuilder {
         netheriteScrap.setItemMeta(netheriteScrapMeta);
         rewardMenu.setItem(26, netheriteScrap);
 
+        p.playSound(p.getLocation(), Sound.ENTITY_ARROW_HIT_PLAYER, 100, 1);
         p.openInventory(rewardMenu);
     }
 

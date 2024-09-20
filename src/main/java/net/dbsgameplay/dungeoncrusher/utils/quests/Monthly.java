@@ -147,26 +147,34 @@ public class Monthly {
 
     public static String getQuestTitle(String questID) {
         String title = null;
+        if (PlayQuestList.containsKey(questID)) {
+            title = "Spiele " + PlayQuestList.get(questID) + " Minuten.";
+        }
+        if (KillQuestList.containsKey(questID)) {
+            title = "Töte " + KillQuestList.get(questID) + " Kreaturen.";
+        }
+        if (MoveQuestList.containsKey(questID)) {
+            title = "Lege " + MoveQuestList.get(questID) + " Meter zurück.";
+        }
+        if (GetQuestList.containsKey(questID)) {
+            title = "Sammle " + GetQuestList.get(questID) + " Materialien.";
+        }
+        return title;
+    }
 
-        for (String s : PlayQuestList.keySet()) {
-            if (s.equals(questID)) {
-                title = "Spiele " + PlayQuestList.get(questID) + " Minuten.";
-            }
+    public static int getQuestAim(String questID) {
+        int title = 0;
+        if (PlayQuestList.containsKey(questID)) {
+            title = PlayQuestList.get(questID);
         }
-        for (String s : KillQuestList.keySet()) {
-            if (s.equals(questID)) {
-                title = "Töte " + KillQuestList.get(questID) + " Kreaturen.";
-            }
+        if (KillQuestList.containsKey(questID)) {
+            title = KillQuestList.get(questID);
         }
-        for (String s : MoveQuestList.keySet()) {
-            if (s.equals(questID)) {
-                title = "Lege " + MoveQuestList.get(questID) + " Meter zurück.";
-            }
+        if (MoveQuestList.containsKey(questID)) {
+            title = MoveQuestList.get(questID);
         }
-        for (String s : GetQuestList.keySet()) {
-            if (s.equals(questID)) {
-                title = "Sammle " + GetQuestList.get(questID) + " Materialien.";
-            }
+        if (GetQuestList.containsKey(questID)) {
+            title = GetQuestList.get(questID);
         }
         return title;
     }
