@@ -9,6 +9,7 @@ import org.bukkit.OfflinePlayer;
 import org.bukkit.Sound;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
+import org.joml.QuaterniondInterpolator;
 
 import java.io.IOException;
 import java.text.SimpleDateFormat;
@@ -213,6 +214,8 @@ public class Daily {
                                 p.playSound(p.getLocation(), Sound.ENTITY_ARROW_HIT_PLAYER, 100, 1);
                                 QuestBuilder.unclaimedQuestRewards.put(p.getUniqueId().toString(), Daily.RewardItemList);
                                 mysqlManager.updatePlayerQuest("daily1", true, p.getUniqueId().toString());
+                                mysqlManager.updatePlayerTempQuest("daily1", p.getUniqueId().toString(), 0);
+                                p.sendActionBar("§6Du hast eine Quest abgeschlossen hol dir deine Belohnung §d/quest");
                                 if (Daily.RewardMoneyList.get(s) != null) {
                                     foodCategory.addMoney(p, Daily.RewardMoneyList.get(s));
                                     p.sendMessage(" §7[§a+§7] §6" + Daily.RewardMoneyList.get(s) + "€");
@@ -227,6 +230,9 @@ public class Daily {
                                 p.playSound(p.getLocation(), Sound.ENTITY_ARROW_HIT_PLAYER, 100, 1);
                                 QuestBuilder.unclaimedQuestRewards.put(p.getUniqueId().toString(), Daily.RewardItemList);
                                 mysqlManager.updatePlayerQuest("daily2", true, p.getUniqueId().toString());
+                                mysqlManager.updatePlayerTempQuest("daily2", p.getUniqueId().toString(), 0);
+                                p.sendActionBar("§6Du hast eine Quest abgeschlossen hol dir deine Belohnung §d/quest");
+                                p.sendMessage(QuestBuilder.unclaimedQuestRewards.toString());
                                 if (Daily.RewardMoneyList.get(s) != null) {
                                     foodCategory.addMoney(p, Daily.RewardMoneyList.get(s));
                                     p.sendMessage(" §7[§a+§7] §6" + Daily.RewardMoneyList.get(s) + "€");
@@ -241,6 +247,9 @@ public class Daily {
                                 p.playSound(p.getLocation(), Sound.ENTITY_ARROW_HIT_PLAYER, 100, 1);
                                 QuestBuilder.unclaimedQuestRewards.put(p.getUniqueId().toString(), Daily.RewardItemList);
                                 mysqlManager.updatePlayerQuest("daily3", true, p.getUniqueId().toString());
+                                mysqlManager.updatePlayerTempQuest("daily3", p.getUniqueId().toString(), 0);
+                                p.sendActionBar("§6Du hast eine Quest abgeschlossen hol dir deine Belohnung §d/quest");
+                                p.sendMessage(QuestBuilder.unclaimedQuestRewards.toString());
                                 if (Daily.RewardMoneyList.get(s) != null) {
                                     foodCategory.addMoney(p, Daily.RewardMoneyList.get(s));
                                     p.sendMessage(" §7[§a+§7] §6" + Daily.RewardMoneyList.get(s) + "€");

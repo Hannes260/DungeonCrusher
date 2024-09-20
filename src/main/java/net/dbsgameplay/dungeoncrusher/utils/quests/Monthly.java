@@ -211,6 +211,8 @@ public class Monthly {
                                 p.playSound(p.getLocation(), Sound.ENTITY_ARROW_HIT_PLAYER, 100, 1);
                                 QuestBuilder.unclaimedQuestRewards.put(p.getUniqueId().toString(), Daily.RewardItemList);
                                 mysqlManager.updatePlayerQuest("monthly1", true, p.getUniqueId().toString());
+                                mysqlManager.updatePlayerTempQuest("monthly1", p.getUniqueId().toString(), 0);
+                                p.sendActionBar("§6Du hast eine Quest abgeschlossen hol dir deine Belohnung §d/quest");
                                 if (Monthly.RewardMoneyList.get(s) != null) {
                                     foodCategory.addMoney(p, Monthly.RewardMoneyList.get(s));
                                     p.sendMessage(" §7[§a+§7] §6" + Monthly.RewardMoneyList.get(s) + "€");
@@ -225,6 +227,8 @@ public class Monthly {
                                 p.playSound(p.getLocation(), Sound.ENTITY_ARROW_HIT_PLAYER, 100, 1);
                                 QuestBuilder.unclaimedQuestRewards.put(p.getUniqueId().toString(), Daily.RewardItemList);
                                 mysqlManager.updatePlayerQuest("monthly2", true, p.getUniqueId().toString());
+                                mysqlManager.updatePlayerTempQuest("monthly2", p.getUniqueId().toString(), 0);
+                                p.sendActionBar("§6Du hast eine Quest abgeschlossen hol dir deine Belohnung §d/quest");
                                 if (Monthly.RewardMoneyList.get(s) != null) {
                                     foodCategory.addMoney(p, Monthly.RewardMoneyList.get(s));
                                     p.sendMessage(" §7[§a+§7] §6" + Monthly.RewardMoneyList.get(s) + "€");
@@ -239,6 +243,8 @@ public class Monthly {
                                 p.playSound(p.getLocation(), Sound.ENTITY_ARROW_HIT_PLAYER, 100, 1);
                                 QuestBuilder.unclaimedQuestRewards.put(p.getUniqueId().toString(), Daily.RewardItemList);
                                 mysqlManager.updatePlayerQuest("monthly3", true, p.getUniqueId().toString());
+                                mysqlManager.updatePlayerTempQuest("monthly3", p.getUniqueId().toString(), 0);
+                                p.sendActionBar("§6Du hast eine Quest abgeschlossen hol dir deine Belohnung §d/quest");
                                 if (Monthly.RewardMoneyList.get(s) != null) {
                                     foodCategory.addMoney(p, Monthly.RewardMoneyList.get(s));
                                     p.sendMessage(" §7[§a+§7] §6" + Monthly.RewardMoneyList.get(s) + "€");

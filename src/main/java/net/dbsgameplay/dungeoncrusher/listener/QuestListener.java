@@ -25,7 +25,9 @@ import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.PotionMeta;
+import org.bukkit.potion.PotionEffectType;
 import org.bukkit.potion.PotionType;
+import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.HashMap;
 import java.util.UUID;
@@ -189,14 +191,18 @@ public class QuestListener implements Listener {
         HashMap<String, String> tutorialQuestMap = QuestBuilder.tutorialQuestMap;
 
         if (e.getItem() != null && e.getItem().hasItemMeta()) {
-            if (e.getItem().getItemMeta() instanceof PotionMeta potion && mysqlManager.getTutorialQuest(p.getUniqueId().toString()).equalsIgnoreCase("t1")) {
-                Bukkit.getLogger().info(potion.getBasePotionType().toString());
-                if (potion.getBasePotionType() == PotionType.STRENGTH || potion.getBasePotionType() == PotionType.STRONG_STRENGTH || potion.getBasePotionType() == PotionType.LONG_STRENGTH) {
-                    mysqlManager.updateTutorialQuest(p.getUniqueId().toString(), "t0");
-                    BossBar bossBar1 = QuestBuilder.bossBar;
-                    bossBar1.removePlayer(p);
-                    p.sendMessage("§6Du hast das Tutorial abgeschlossen. Viel spaß dir noch auf dem DungeonCrusher!");
-                }
+            if (e.getItem().getItemMeta() instanceof PotionMeta potion  && mysqlManager.getTutorialQuest(p.getUniqueId().toString()).equalsIgnoreCase("t1")) {
+                new BukkitRunnable() {
+                    @Override
+                    public void run() {
+                        if (p.hasPotionEffect(PotionEffectType.STRENGTH)) {
+                            mysqlManager.updateTutorialQuest(p.getUniqueId().toString(), "t0");
+                            BossBar bossBar1 = QuestBuilder.bossBar;
+                            bossBar1.removePlayer(p);
+                            p.sendMessage("§6Du hast das Tutorial abgeschlossen. Viel spaß dir noch auf dem DungeonCrusher!");
+                        }
+                    }
+                }.runTaskLater(dungeonCrusher, 1L);
             }
         }
 

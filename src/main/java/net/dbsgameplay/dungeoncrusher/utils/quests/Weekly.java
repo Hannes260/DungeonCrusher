@@ -212,6 +212,8 @@ public class Weekly {
                                 p.playSound(p.getLocation(), Sound.ENTITY_ARROW_HIT_PLAYER, 100, 1);
                                 QuestBuilder.unclaimedQuestRewards.put(p.getUniqueId().toString(), Daily.RewardItemList);
                                 mysqlManager.updatePlayerQuest("weekly1", true, p.getUniqueId().toString());
+                                mysqlManager.updatePlayerTempQuest("weekly1", p.getUniqueId().toString(), 0);
+                                p.sendActionBar("§6Du hast eine Quest abgeschlossen hol dir deine Belohnung §d/quest");
                                 if (Weekly.RewardMoneyList.get(s) != null) {
                                     foodCategory.addMoney(p, Weekly.RewardMoneyList.get(s));
                                     p.sendMessage(" §7[§a+§7] §6" + Weekly.RewardMoneyList.get(s) + "€");
@@ -226,6 +228,8 @@ public class Weekly {
                                 p.playSound(p.getLocation(), Sound.ENTITY_ARROW_HIT_PLAYER, 100, 1);
                                 QuestBuilder.unclaimedQuestRewards.put(p.getUniqueId().toString(), Daily.RewardItemList);
                                 mysqlManager.updatePlayerQuest("weekly2", true, p.getUniqueId().toString());
+                                mysqlManager.updatePlayerTempQuest("weekly2", p.getUniqueId().toString(), 0);
+                                p.sendActionBar("§6Du hast eine Quest abgeschlossen hol dir deine Belohnung §d/quest");
                                 if (Weekly.RewardMoneyList.get(s) != null) {
                                     foodCategory.addMoney(p, Weekly.RewardMoneyList.get(s));
                                     p.sendMessage(" §7[§a+§7] §6" + Weekly.RewardMoneyList.get(s) + "€");
@@ -241,6 +245,8 @@ public class Weekly {
                                 p.playSound(p.getLocation(), Sound.ENTITY_ARROW_HIT_PLAYER, 100, 1);
                                 QuestBuilder.unclaimedQuestRewards.put(p.getUniqueId().toString(), Daily.RewardItemList);
                                 mysqlManager.updatePlayerQuest("weekly3", true, p.getUniqueId().toString());
+                                mysqlManager.updatePlayerTempQuest("weekly3", p.getUniqueId().toString(), 0);
+                                p.sendActionBar("§6Du hast eine Quest abgeschlossen hol dir deine Belohnung §d/quest");
                                 if (Weekly.RewardMoneyList.get(s) != null) {
                                     foodCategory.addMoney(p, Weekly.RewardMoneyList.get(s));
                                     p.sendMessage(" §7[§a+§7] §6" + Weekly.RewardMoneyList.get(s) + "€");

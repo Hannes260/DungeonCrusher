@@ -28,7 +28,8 @@ public class QuestCommand implements CommandExecutor {
             if (QuestBuilder.unclaimedQuestRewards.containsKey(p.getUniqueId().toString())) {
                 String[] questIDs = QuestBuilder.unclaimedQuestRewards.get(p.getUniqueId().toString()).keySet().toArray(new String[0]);
                 String questID = questIDs[0];
-                QuestBuilder.openRewardmenü(p, questID, QuestBuilder.unclaimedQuestRewards.get(p.getUniqueId()));
+                QuestBuilder.openRewardmenü(p, questID, QuestBuilder.unclaimedQuestRewards.get(p.getUniqueId().toString()));
+                QuestBuilder.unclaimedQuestRewards.remove(p.getUniqueId().toString());
                 return true;
             }
             QuestBuilder.fillQuestmenü(p);
