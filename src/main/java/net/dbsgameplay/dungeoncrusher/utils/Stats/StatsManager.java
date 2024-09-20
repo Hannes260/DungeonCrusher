@@ -2,6 +2,7 @@ package net.dbsgameplay.dungeoncrusher.utils.Stats;
 
 import me.clip.placeholderapi.PlaceholderAPI;
 import net.dbsgameplay.dungeoncrusher.Commands.interfaces.StatsCategory;
+import net.dbsgameplay.dungeoncrusher.enums.Stats.GeneralStatsCategory;
 import net.dbsgameplay.dungeoncrusher.enums.Stats.KillsCategory;
 import net.dbsgameplay.dungeoncrusher.sql.MYSQLManager;
 import org.bukkit.Bukkit;
@@ -29,6 +30,7 @@ public class StatsManager {
     private static Map<String, StatsCategory> categories = new HashMap<>();
     private void initializeCategories(MYSQLManager mysqlManager) {
         categories.put("§7➢ kills", new KillsCategory(mysqlManager));
+        categories.put("§7➢ stats", new GeneralStatsCategory(mysqlManager));
     }
 
     public static void openMainShopMenu(Player player) {
@@ -48,6 +50,19 @@ public class StatsManager {
         int[] killslots = {10,11,12,19,20,21,28,29,30};
         for (int slot : killslots) {
             inv.setItem(slot, killsItem);
+        }
+
+        ItemStack statsItem = new ItemStack(Material.PAPER);
+        ItemMeta statsMeta = statsItem.getItemMeta();
+        statsMeta.setCustomModelData(100);
+        statsMeta.setDisplayName("§7➢ Stats");
+        statsItem.setItemMeta(statsMeta);
+
+        addCloseButton(player, inv);
+
+        int[] statslots = {14,15,16,23,24,25,32,33,34};
+        for (int slot : statslots) {
+            inv.setItem(slot, statsItem);
         }
         player.openInventory(inv);
     }
