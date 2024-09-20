@@ -114,7 +114,10 @@ public class MYSQLManager {
                     + "chestplate_lvl INT DEFAULT 0 NOT NULL,"
                     + "leggings_lvl INT DEFAULT 0 NOT NULL,"
                     + "boots_lvl INT DEFAULT 0 NOT NULL,"
-                    + "armor_lvl INT DEFAULT 0 NOT NULL"
+                    + "armor_lvl INT DEFAULT 0 NOT NULL,"
+                    + "playtime INT DEFAULT 0 NOT NULL,"
+                    + "damage_dealt INT DEFAULT 0 NOT NULL,"
+                    + "damage_absorbed INT DEFAULT 0 NOT NULL"
                     + ")";
             statement.execute(createStatsTableQuery);
             String createItemsTableQuery = "CREATE TABLE IF NOT EXISTS player_items ("
@@ -1359,6 +1362,99 @@ public class MYSQLManager {
         return result;
     }
 
+    public int getDamageDealt(String uuid) {
+        int damageDealt = 0;
+
+        try (Connection connection = dataSource.getConnection()){
+        String query = "SELECT damage_dealt FROM player_stats WHERE uuid =?";
+        try (PreparedStatement statement = connection.prepareStatement(query)){
+            statement.setString(1, uuid);
+            try (ResultSet resultSet = statement.executeQuery()){
+                if (resultSet.next()) {
+                    damageDealt = resultSet.getInt("damage_dealt");
+                }
+            }
+        }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return damageDealt;
+    }
+    public int getDamageAbsorbed(String uuid) {
+        int damageAbsorbed = 0;
+
+        try (Connection connection = dataSource.getConnection()) {
+            String query = "SELECT damage_absorbed FROM player_stats WHERE uuid = ?";
+            try (PreparedStatement statement = connection.prepareStatement(query)) {
+                statement.setString(1, uuid);
+                try (ResultSet resultSet = statement.executeQuery()) {
+                    if (resultSet.next()) {
+                        damageAbsorbed = resultSet.getInt("damage_absorbed");
+                    }
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return damageAbsorbed;
+    }
+    public void updateDamageDealt(String uuid, int newDamageDealt) {
+        try (Connection connection = dataSource.getConnection()) {
+            String updateQuery = "UPDATE player_stats SET damage_dealt = ? WHERE uuid = ?";
+            try (PreparedStatement updateStatement = connection.prepareStatement(updateQuery)) {
+                updateStatement.setInt(1, newDamageDealt);
+                updateStatement.setString(2, uuid);
+                updateStatement.executeUpdate();
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+    public void updateDamageAbsorbed(String uuid, int newDamageAbsorbed) {
+        try (Connection connection = dataSource.getConnection()) {
+            String updateQuery = "UPDATE player_stats SET damage_absorbed = ? WHERE uuid = ?";
+            try (PreparedStatement updateStatement = connection.prepareStatement(updateQuery)) {
+                updateStatement.setInt(1, newDamageAbsorbed);
+                updateStatement.setString(2, uuid);
+                updateStatement.executeUpdate();
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public int getPlayTime(String uuid) {
+        int playTime = 0;
+
+        try (Connection connection = dataSource.getConnection()) {
+            String query = "SELECT playtime FROM player_stats WHERE uuid = ?";
+            try (PreparedStatement statement = connection.prepareStatement(query)) {
+                statement.setString(1, uuid);
+                try (ResultSet resultSet = statement.executeQuery()) {
+                    if (resultSet.next()) {
+                        playTime = resultSet.getInt("playtime");
+                    }
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return playTime;
+    }
+    public void updatePlayTime(String uuid, int ticks) {
+        int playTimeInSeconds = ticks / 20;
+
+        try (Connection connection = dataSource.getConnection()) {
+            String updateQuery = "UPDATE player_stats SET playtime = ? WHERE uuid = ?";
+            try (PreparedStatement updateStatement = connection.prepareStatement(updateQuery)) {
+                updateStatement.setInt(1, playTimeInSeconds);
+                updateStatement.setString(2, uuid);
+                updateStatement.executeUpdate();
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
     public String getPlayerRankAndKills(String playerUUID) {
         String result = "N/A";
         try (Connection connection = dataSource.getConnection()) {

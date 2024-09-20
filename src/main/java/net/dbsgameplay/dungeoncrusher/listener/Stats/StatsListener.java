@@ -3,6 +3,7 @@ package net.dbsgameplay.dungeoncrusher.listener.Stats;
 import me.clip.placeholderapi.PlaceholderAPI;
 import net.dbsgameplay.dungeoncrusher.Commands.interfaces.StatsCategory;
 import net.dbsgameplay.dungeoncrusher.DungeonCrusher;
+import net.dbsgameplay.dungeoncrusher.enums.Stats.GeneralStatsCategory;
 import net.dbsgameplay.dungeoncrusher.enums.Stats.KillsCategory;
 import net.dbsgameplay.dungeoncrusher.listener.Navigator.NavigatorListener;
 import net.dbsgameplay.dungeoncrusher.sql.MYSQLManager;
@@ -56,6 +57,8 @@ public class StatsListener implements Listener {
 
         String displayNameKills = "§f<shift:-8>%oraxen_kills_gui%";
         displayNameKills = PlaceholderAPI.setPlaceholders(player, displayNameKills);
+        String displayNameGeneralStats = "§f<shift:-8>%oraxen_general_stats_gui%";
+        displayNameGeneralStats = PlaceholderAPI.setPlaceholders(player, displayNameGeneralStats);
 
         if (event.getAction() == InventoryAction.HOTBAR_MOVE_AND_READD || event.getClick() == ClickType.NUMBER_KEY) {
             event.setCancelled(true);
@@ -66,22 +69,26 @@ public class StatsListener implements Listener {
         if (title.equalsIgnoreCase(displayName)) {
             event.setCancelled(true);
 
-                // Klick auf andere Kategorien wie "Kills"
-                String categoryName = clickedItem.getItemMeta().getDisplayName().toLowerCase();
-                StatsCategory category = StatsManager.getCategory(categoryName);
-                if (category != null) {
-                    category.openMenu(player);
-                    player.playSound(player.getLocation(), Sound.BLOCK_LEVER_CLICK, 1.0f, 1.0f);
-                } else if ("§cZurück".equals(clickedItem.getItemMeta().getDisplayName())) {
-                    NavigatorListener navigatorListener = new NavigatorListener(dungeonCrusher, locationConfigManager, mysqlManager);
-                    navigatorListener.openNavigator(player);
-                    player.playSound(player.getLocation(), Sound.BLOCK_BARREL_CLOSE, 1.0f, 1.0f);
-                }
+            // Klick auf andere Kategorien wie "Kills"
+            String categoryName = clickedItem.getItemMeta().getDisplayName().toLowerCase();
+            StatsCategory category = StatsManager.getCategory(categoryName);
+            if (category != null) {
+                category.openMenu(player);
+                player.playSound(player.getLocation(), Sound.BLOCK_LEVER_CLICK, 1.0f, 1.0f);
+            } else if ("§cZurück".equals(clickedItem.getItemMeta().getDisplayName())) {
+                NavigatorListener navigatorListener = new NavigatorListener(dungeonCrusher, locationConfigManager, mysqlManager);
+                navigatorListener.openNavigator(player);
+                player.playSound(player.getLocation(), Sound.BLOCK_BARREL_CLOSE, 1.0f, 1.0f);
+            }
 
         } else if (title.equalsIgnoreCase(displayNameKills)) {
             event.setCancelled(true);
             KillsCategory killsCategory = new KillsCategory(mysqlManager);
             killsCategory.handleItemClick(player, clickedItem);
+        } else if (title.equalsIgnoreCase(displayNameGeneralStats)) {
+            event.setCancelled(true);
+            GeneralStatsCategory generalStatsCategory = new GeneralStatsCategory(mysqlManager);
+            generalStatsCategory.handleItemClick(player, clickedItem);
         }
     }
 }

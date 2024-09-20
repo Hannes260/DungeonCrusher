@@ -37,8 +37,10 @@ net\dbsgameplay\dungeoncrusher\DungeonCrusher.class
 net\dbsgameplay\dungeoncrusher\listener\Damage\CustomDropListener.class
 net\dbsgameplay\dungeoncrusher\Commands\Admin\HealCommand.class
 net\dbsgameplay\dungeoncrusher\listener\Damage\CustomDropListener$1.class
+net\dbsgameplay\dungeoncrusher\enums\Stats\GeneralStatsCategory$1$1.class
 net\dbsgameplay\dungeoncrusher\Commands\Admin\Gamemode.class
 net\dbsgameplay\dungeoncrusher\utils\ScoreboardBuilder.class
+net\dbsgameplay\dungeoncrusher\enums\Stats\GeneralStatsCategory$1.class
 net\dbsgameplay\dungeoncrusher\utils\Configs\ConfigManager.class
 net\dbsgameplay\dungeoncrusher\Commands\Admin\ResetCommand.class
 net\dbsgameplay\dungeoncrusher\Commands\Admin\SetupCommand.class

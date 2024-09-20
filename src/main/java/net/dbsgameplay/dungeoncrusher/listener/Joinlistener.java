@@ -152,6 +152,13 @@ public class Joinlistener implements Listener {
         String message = "Hat das Spiel verlassen!";
         String fullMessage = playerName + ": " + message;
         DungeonCrusher.getInstance().sendToDiscord(fullMessage, 16711680);
+
+        int PlayTime = player.getStatistic(Statistic.PLAY_ONE_MINUTE);
+        int DamageDealt = player.getStatistic(Statistic.DAMAGE_DEALT);
+        int DamageAbsorbed = player.getStatistic(Statistic.DAMAGE_TAKEN);
+        mysqlManager.updatePlayTime(player.getUniqueId().toString(), PlayTime);
+        mysqlManager.updateDamageDealt(player.getUniqueId().toString(), DamageDealt);
+        mysqlManager.updateDamageAbsorbed(player.getUniqueId().toString(), DamageAbsorbed);
     }
 
 }
