@@ -70,32 +70,40 @@ public class CustomDropListener implements Listener {
         }
     }
     private void giveItem(Player player, Material material, Integer slot, String item, EntityDeathEvent event) {
-        int[] itemDropRange = dropsConfigManager.loadItemDropRange(event.getEntityType().name(), material.name());
-        int minAmount = itemDropRange[0];
-        int maxAmount = itemDropRange[1];
+        // Async Task für MySQL und Berechnungen
+        Bukkit.getScheduler().runTaskAsynchronously(dungeonCrusher, () -> {
+            int[] itemDropRange = dropsConfigManager.loadItemDropRange(event.getEntityType().name(), material.name());
+            int minAmount = itemDropRange[0];
+            int maxAmount = itemDropRange[1];
 
-        int amountToDrop = (int) (Math.random() * (maxAmount - minAmount + 1)) + minAmount;
-        if (amountToDrop <= 0) return; // Wenn die Menge <= 0 ist, wird kein Gegenstand fallen gelassen
+            int amountToDrop = (int) (Math.random() * (maxAmount - minAmount + 1)) + minAmount;
+            if (amountToDrop <= 0) return; // Wenn die Menge <= 0 ist, wird kein Gegenstand fallen gelassen
 
-        ItemStack items = new ItemStack(material, 1);
-        String playerUUID = player.getUniqueId().toString();
-        int currentItem = mysqlManager.getItemAmount(playerUUID, item);
-        mysqlManager.updateItemAmount(playerUUID, items.getType().toString(), currentItem + amountToDrop); // Anzahl gemäß der zufälligen Menge aktualisieren
+            String playerUUID = player.getUniqueId().toString();
+            int currentItem = mysqlManager.getItemAmount(playerUUID, item);
+            mysqlManager.updateItemAmount(playerUUID, material.name(), currentItem + amountToDrop);
+            // Quests nach dem Hinzufügen der Items abschließen
+            Daily.doQuest(player, Daily.GetQuestList);
+            Weekly.doQuest(player, Weekly.GetQuestList);
+            Monthly.doQuest(player, Monthly.GetQuestList);// Anzahl aktualisieren
 
-        ItemMeta itemMeta = items.getItemMeta();
-        itemMeta.setDisplayName("§bAnzahl ➝ §6" + mysqlManager.getItemAmount(player.getUniqueId().toString(), item));
-        itemMeta.addEnchant(Enchantment.KNOCKBACK, 1, true);
-        itemMeta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
-        items.setItemMeta(itemMeta);
-        player.getInventory().setItem(slot, items);
-        String itemName = translateMaterialName(material);
-        player.sendMessage(ConfigManager.getConfigMessage("message.additem", "%item%", itemName, "%amount%", String.valueOf(amountToDrop)));
-        Location hologramLocation = event.getEntity().getLocation(); // Position des getöteten Mobs
-        HologramManager.spawnItemHologram(hologramLocation, itemName);
+            // Sync Task für Inventaroperationen und Hologramme
+            Bukkit.getScheduler().runTask(dungeonCrusher, () -> {
+                ItemStack items = new ItemStack(material, 1);
+                ItemMeta itemMeta = items.getItemMeta();
+                itemMeta.setDisplayName("§bAnzahl ➝ §6" + mysqlManager.getItemAmount(playerUUID, item));
+                itemMeta.addEnchant(Enchantment.KNOCKBACK, 1, true);
+                itemMeta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
+                items.setItemMeta(itemMeta);
+                player.getInventory().setItem(slot, items);
 
-        Daily.doQuest(player, Daily.GetQuestList);
-        Weekly.doQuest(player, Weekly.GetQuestList);
-        Monthly.doQuest(player, Monthly.GetQuestList);
+                String itemName = translateMaterialName(material);
+                player.sendMessage(ConfigManager.getConfigMessage("message.additem", "%item%", itemName, "%amount%", String.valueOf(amountToDrop)));
+
+                Location hologramLocation = event.getEntity().getLocation();
+                HologramManager.spawnItemHologram(hologramLocation, itemName);
+            });
+        });
     }
     public static String translateMaterialName(Material material) {
         switch (material) {
