@@ -119,6 +119,8 @@ public class KillsCategory implements StatsCategory {
             String dungeonName = sortedDungeonNames.get(i);
             String mobType = getMobTypeForDungeon(dungeonName);
             if (mobType != null && mobTextures.containsKey(mobType)) {
+                Integer requiredKills = locationConfigManager.getKills(dungeonName);
+                if (requiredKills != null && hasRequiredKills(player.getUniqueId().toString(), dungeonName)) {
                     Integer customModelData = mobTextures.get(mobType);
                     ItemStack mobHead = createCustomMobHead(dungeonName, customModelData);
                     if (mobHead != null) {
@@ -131,6 +133,18 @@ public class KillsCategory implements StatsCategory {
                             mobHead.setItemMeta(meta);
                             inv.setItem(i - startIndex, mobHead);
                         }
+                    }
+                }else {
+                    if (requiredKills != null) {
+                        ItemStack barrierItem = new ItemStack(Material.PAPER);
+                        ItemMeta meta = barrierItem.getItemMeta();
+                        meta.setCustomModelData(202);
+                        if (meta != null) {
+                            meta.setDisplayName("§c§lNicht Verfügbar.");
+                            barrierItem.setItemMeta(meta);
+                            inv.setItem(i - startIndex, barrierItem);
+                        }
+                    }
                 }
             }
         }
@@ -191,17 +205,31 @@ public class KillsCategory implements StatsCategory {
             String dungeonName = sortedDungeonNames.get(i);
             String mobType = getMobTypeForDungeon(dungeonName);
             if (mobType != null && mobTextures.containsKey(mobType)) {
-                Integer customModelData = mobTextures.get(mobType);
-                ItemStack mobHead = createCustomMobHead(dungeonName, customModelData);
-                if (mobHead != null) {
-                    ItemMeta meta = mobHead.getItemMeta();
-                    if (meta != null) {
-                        String germanMobType = MobNameTranslator.translateToGerman(mobType);
-                        meta.setDisplayName("§6" + dungeonName);
-                        int kills = mysqlManager.getPlayerMobKills(founduuid, germanMobType);
-                        meta.setLore(Collections.singletonList("§aDeine Kills: §6" + String.valueOf(kills)));
-                        mobHead.setItemMeta(meta);
-                        inv.setItem(i - startIndex, mobHead);
+                Integer requiredKills = locationConfigManager.getKills(dungeonName);
+                if (requiredKills != null && hasRequiredKills(founduuid, dungeonName)) {
+                    Integer customModelData = mobTextures.get(mobType);
+                    ItemStack mobHead = createCustomMobHead(dungeonName, customModelData);
+                    if (mobHead != null) {
+                        ItemMeta meta = mobHead.getItemMeta();
+                        if (meta != null) {
+                            String germanMobType = MobNameTranslator.translateToGerman(mobType);
+                            meta.setDisplayName("§6" + dungeonName);
+                            int kills = mysqlManager.getPlayerMobKills(founduuid, germanMobType);
+                            meta.setLore(Collections.singletonList("§aDeine Kills: §6" + String.valueOf(kills)));
+                            mobHead.setItemMeta(meta);
+                            inv.setItem(i - startIndex, mobHead);
+                        }
+                    }
+                }else {
+                    if (requiredKills != null) {
+                        ItemStack barrierItem = new ItemStack(Material.PAPER);
+                        ItemMeta meta = barrierItem.getItemMeta();
+                        meta.setCustomModelData(202);
+                        if (meta != null) {
+                            meta.setDisplayName("§c§lNicht Verfügbar.");
+                            barrierItem.setItemMeta(meta);
+                            inv.setItem(i - startIndex, barrierItem);
+                        }
                     }
                 }
             }
@@ -296,6 +324,34 @@ public class KillsCategory implements StatsCategory {
         itemmeta.setDisplayName(dungeonname);
         item.setItemMeta(itemmeta);
         return item;
+    }
+    private boolean hasRequiredKills(String uuid, String currentDungeonName) {
+        // Prüfe, ob es sich um Dungeon 1 handelt
+        LocationConfigManager locationConfigManager = new LocationConfigManager(DungeonCrusher.getInstance());
+        if ("dungeon1".equals(currentDungeonName)) {
+            // Dungeon 1 ist immer freigeschaltet
+            return true;
+        }
+        // Hole den Namen des vorherigen Dungeons
+        String previousDungeonName = locationConfigManager.getPreviousDungeon(currentDungeonName);
+        if (previousDungeonName == null) {
+            return false; // Kein vorheriger Dungeon gefunden
+        }
+
+        // Hole den Mob-Typ für den vorherigen Dungeon
+        String previousDungeonMobType = String.valueOf(locationConfigManager.getMobTypesForDungeon(previousDungeonName));
+        String germanMobType = MobNameTranslator.translateToGerman(previousDungeonMobType);
+
+        // Hole die Kills des Spielers für den Mob-Typ des vorherigen Dungeons
+        int kills = mysqlManager.getPlayerMobKills(String.valueOf(uuid), germanMobType);
+
+        // Hole die erforderlichen Kills für den aktuellen Dungeon
+        Integer requiredKills = locationConfigManager.getKills(currentDungeonName);
+        if (requiredKills == null) {
+            requiredKills = 0;
+        }
+
+        return kills >= requiredKills;
     }
     private int extractDungeonNumber(String dungeonName) {
         try {
