@@ -61,7 +61,7 @@ public class GeneralStatsCategory implements StatsCategory {
         ItemStack damageItem = new ItemStack(Material.PAPER);
         ItemMeta damageMeta = damageItem.getItemMeta();
         damageMeta.setDisplayName("§7➢ Ausgerichteter Schaden");
-        damageMeta.setLore(Collections.singletonList("§a" +String.valueOf(player.getStatistic(Statistic.DAMAGE_DEALT))));
+        damageMeta.setLore(Collections.singletonList("§a" + (player.getStatistic(Statistic.DAMAGE_DEALT) + " Schaden")));
         damageMeta.setCustomModelData(100);
         damageItem.setItemMeta(damageMeta);
 
@@ -72,7 +72,7 @@ public class GeneralStatsCategory implements StatsCategory {
         ItemStack takeddamageItem = new ItemStack(Material.PAPER);
         ItemMeta takeddamageMeta = takeddamageItem.getItemMeta();
         takeddamageMeta.setDisplayName("§7➢ Erlittener Schaden");
-        takeddamageMeta.setLore(Collections.singletonList("§a" +String.valueOf(player.getStatistic(Statistic.DAMAGE_TAKEN))));
+        takeddamageMeta.setLore(Collections.singletonList("§a" + (player.getStatistic(Statistic.DAMAGE_TAKEN) + " Erlitten")));
         takeddamageMeta.setCustomModelData(100);
         takeddamageItem.setItemMeta(takeddamageMeta);
         int[] takedamageslots = {15,16,24,25};
@@ -83,7 +83,7 @@ public class GeneralStatsCategory implements StatsCategory {
         ItemStack deathItem = new ItemStack(Material.PAPER);
         ItemMeta deatItemMeta = deathItem.getItemMeta();
         deatItemMeta.setDisplayName("§7➢ Tode");
-        deatItemMeta.setLore(Collections.singletonList("§a" +String.valueOf(mysqlManager.getDeaths(player.getUniqueId().toString()))));
+        deatItemMeta.setLore(Collections.singletonList("§a" + (mysqlManager.getDeaths(player.getUniqueId().toString())) + " Tode"));
         deatItemMeta.setCustomModelData(100);
         deathItem.setItemMeta(deatItemMeta);
         int[] deathslots = {29,30,38,39};
@@ -94,7 +94,7 @@ public class GeneralStatsCategory implements StatsCategory {
         ItemStack swordlvl = new ItemStack(Material.PAPER);
         ItemMeta swordlvlMeta = swordlvl.getItemMeta();
         swordlvlMeta.setDisplayName("§7➢ Schwert Level");
-        swordlvlMeta.setLore(Collections.singletonList("§a" +String.valueOf(mysqlManager.getSwordLevel(player.getUniqueId().toString()))));
+        swordlvlMeta.setLore(Collections.singletonList("§a" + (mysqlManager.getSwordLevel(player.getUniqueId().toString() + " Level"))));
         swordlvlMeta.setCustomModelData(100);
         swordlvl.setItemMeta(swordlvlMeta);
         int[] swordlvlslots = {31,32,40,41};
@@ -104,7 +104,7 @@ public class GeneralStatsCategory implements StatsCategory {
         ItemStack armorlvl = new ItemStack(Material.PAPER);
         ItemMeta armorlvlMeta = armorlvl.getItemMeta();
         armorlvlMeta.setDisplayName("§7➢ Rüstungs Level");
-        armorlvlMeta.setLore(Collections.singletonList("§a" +String.valueOf(mysqlManager.getArmorLvl(player.getUniqueId().toString()))));
+        armorlvlMeta.setLore(Collections.singletonList("§a" +String.valueOf(mysqlManager.getArmorLvl(player.getUniqueId().toString())) + " Level"));
         armorlvlMeta.setCustomModelData(100);
         armorlvl.setItemMeta(armorlvlMeta);
         int[] armorslots = {33,34,42,43};
@@ -158,7 +158,7 @@ public class GeneralStatsCategory implements StatsCategory {
         ItemStack damageItem = new ItemStack(Material.PAPER);
         ItemMeta damageMeta = damageItem.getItemMeta();
         damageMeta.setDisplayName("§7➢ Ausgerichteter Schaden");
-        damageMeta.setLore(Collections.singletonList("§a" + mysqlManager.getDamageDealt(founduuid)));
+        damageMeta.setLore(Collections.singletonList("§a" + mysqlManager.getDamageDealt(founduuid) + " Schaden"));
         damageMeta.setCustomModelData(100);
         damageItem.setItemMeta(damageMeta);
 
@@ -169,7 +169,7 @@ public class GeneralStatsCategory implements StatsCategory {
         ItemStack takeddamageItem = new ItemStack(Material.PAPER);
         ItemMeta takeddamageMeta = takeddamageItem.getItemMeta();
         takeddamageMeta.setDisplayName("§7➢ Erlittener Schaden");
-        takeddamageMeta.setLore(Collections.singletonList("§a" + mysqlManager.getDamageAbsorbed(founduuid)));
+        takeddamageMeta.setLore(Collections.singletonList("§a" + mysqlManager.getDamageAbsorbed(founduuid) + " Erlitten"));
         takeddamageMeta.setCustomModelData(100);
         takeddamageItem.setItemMeta(takeddamageMeta);
         int[] takedamageslots = {15,16,24,25};
@@ -180,7 +180,7 @@ public class GeneralStatsCategory implements StatsCategory {
         ItemStack deathItem = new ItemStack(Material.PAPER);
         ItemMeta deatItemMeta = deathItem.getItemMeta();
         deatItemMeta.setDisplayName("§7➢ Tode");
-        deatItemMeta.setLore(Collections.singletonList("§a" + (mysqlManager.getDeaths(founduuid))));
+        deatItemMeta.setLore(Collections.singletonList("§a" + (mysqlManager.getDeaths(founduuid)) + " Tode"));
         deatItemMeta.setCustomModelData(100);
         deathItem.setItemMeta(deatItemMeta);
         int[] deathslots = {29,30,38,39};
@@ -191,7 +191,7 @@ public class GeneralStatsCategory implements StatsCategory {
         ItemStack swordlvl = new ItemStack(Material.PAPER);
         ItemMeta swordlvlMeta = swordlvl.getItemMeta();
         swordlvlMeta.setDisplayName("§7➢ Schwert Level");
-        swordlvlMeta.setLore(Collections.singletonList("§a" + (mysqlManager.getSwordLevel(founduuid))));
+        swordlvlMeta.setLore(Collections.singletonList("§a" + (mysqlManager.getSwordLevel(founduuid)) + " Level"));
         swordlvlMeta.setCustomModelData(100);
         swordlvl.setItemMeta(swordlvlMeta);
         int[] swordlvlslots = {31,32,40,41};
@@ -201,7 +201,7 @@ public class GeneralStatsCategory implements StatsCategory {
         ItemStack armorlvl = new ItemStack(Material.PAPER);
         ItemMeta armorlvlMeta = armorlvl.getItemMeta();
         armorlvlMeta.setDisplayName("§7➢ Rüstungs Level");
-        armorlvlMeta.setLore(Collections.singletonList("§a" + (mysqlManager.getArmorLvl(founduuid))));
+        armorlvlMeta.setLore(Collections.singletonList("§a" + (mysqlManager.getArmorLvl(founduuid)) + " Level"));
         armorlvlMeta.setCustomModelData(100);
         armorlvl.setItemMeta(armorlvlMeta);
         int[] armorslots = {33,34,42,43};
