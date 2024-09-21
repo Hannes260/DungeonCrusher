@@ -67,4 +67,7 @@ commands:
     aliases: [fliegen]
   test:
   quest:
+    aliases: [aufgaben]
   invsee:
+  dc:
+    aliases: [discord]
