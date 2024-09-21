@@ -16,6 +16,7 @@ net\dbsgameplay\dungeoncrusher\utils\Manager\MarkingsManager$Markierungsschritt.
 net\dbsgameplay\dungeoncrusher\Commands\Admin\InvseeCommand.class
 net\dbsgameplay\dungeoncrusher\utils\Stats\StatsManager.class
 net\dbsgameplay\dungeoncrusher\enums\Stats\KillsCategory.class
+net\dbsgameplay\dungeoncrusher\Commands\DiscordCommand.class
 net\dbsgameplay\dungeoncrusher\utils\QuestBuilder.class
 net\dbsgameplay\dungeoncrusher\sql\MYSQLManager.class
 net\dbsgameplay\dungeoncrusher\listener\DungeonListener$1.class
@@ -63,6 +64,7 @@ net\dbsgameplay\dungeoncrusher\enums\MobNameTranslator.class
 net\dbsgameplay\dungeoncrusher\utils\quests\Daily.class
 net\dbsgameplay\dungeoncrusher\utils\Manager\SavezoneManager.class
 net\dbsgameplay\dungeoncrusher\utils\shops\ShopManager.class
+net\dbsgameplay\dungeoncrusher\listener\QuestListener$2.class
 net\dbsgameplay\dungeoncrusher\Commands\test$1.class
 net\dbsgameplay\dungeoncrusher\utils\Configs\RewardConfigManager.class
 net\dbsgameplay\dungeoncrusher\listener\Navigator\NavigatorListener.class

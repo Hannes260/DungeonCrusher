@@ -242,6 +242,7 @@ public final class DungeonCrusher extends JavaPlugin {
         getCommand("quest").setExecutor(new QuestCommand(mysqlManager));
         getCommand("test").setExecutor(new test());
         getCommand("invsee").setExecutor(new InvseeCommand());
+        getCommand("dc").setExecutor(new DiscordCommand());
 
         // Tab Completers
         getCommand("config").setTabCompleter(this);
