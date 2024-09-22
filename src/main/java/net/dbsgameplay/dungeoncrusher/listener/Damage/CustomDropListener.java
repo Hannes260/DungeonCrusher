@@ -91,25 +91,6 @@ public class CustomDropListener implements Listener {
 //                Weekly.doQuest(player, Weekly.GetQuestList);
 //                Monthly.doQuest(player, Monthly.GetQuestList);
 //            }
-            SwordCategory swordCategory = new SwordCategory(mysqlManager);
-            int currentLevel = mysqlManager.getSwordLevel(player.getUniqueId().toString());
-            if (swordCategory.hasEnoughResourcesForVisuals(player, currentLevel)) {
-                new BukkitRunnable() {
-                    int timeLeft = 3 * 20; // 20 Ticks pro Sekunde
-
-                    @Override
-                    public void run() {
-                        if (timeLeft > 0) {
-                            // Sende die Nachricht über der Hotbar direkt mit der Player-Methode
-                            player.sendActionBar("§aDu kannst dein Schwert upgraden benutze §6[/upgrade]!");
-                            timeLeft -= 20; // Reduziere die verbleibende Zeit um 1 Sekunde (20 Ticks)
-                        } else {
-                            // Stoppe das Wiederholen, wenn die Zeit abgelaufen ist
-                            this.cancel();
-                        }
-                    }
-                }.runTaskTimer(DungeonCrusher.getInstance(), 0L, 20L);
-            }
 
             // Sync Task für Inventaroperationen und Hologramme
             Bukkit.getScheduler().runTask(dungeonCrusher, () -> {
@@ -120,12 +101,30 @@ public class CustomDropListener implements Listener {
                 itemMeta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
                 items.setItemMeta(itemMeta);
                 player.getInventory().setItem(slot, items);
-
                 String itemName = translateMaterialName(material);
                 player.sendMessage(ConfigManager.getConfigMessage("message.additem", "%item%", itemName, "%amount%", String.valueOf(amountToDrop)));
 
                 Location hologramLocation = event.getEntity().getLocation();
                 HologramManager.spawnItemHologram(hologramLocation, itemName);
+                SwordCategory swordCategory = new SwordCategory(mysqlManager);
+                int currentLevel = mysqlManager.getSwordLevel(player.getUniqueId().toString());
+                if (swordCategory.hasEnoughResourcesForVisuals(player, currentLevel)) {
+                    new BukkitRunnable() {
+                        int timeLeft = 3 * 20; // 20 Ticks pro Sekunde
+
+                        @Override
+                        public void run() {
+                            if (timeLeft > 0) {
+                                // Sende die Nachricht über der Hotbar direkt mit der Player-Methode
+                                player.sendActionBar("§aDu kannst dein Schwert upgraden benutze §6[/upgrade]!");
+                                timeLeft -= 20; // Reduziere die verbleibende Zeit um 1 Sekunde (20 Ticks)
+                            } else {
+                                // Stoppe das Wiederholen, wenn die Zeit abgelaufen ist
+                                this.cancel();
+                            }
+                        }
+                    }.runTaskTimer(DungeonCrusher.getInstance(), 0L, 20L);
+                }
             });
         });
     }
