@@ -94,7 +94,7 @@ public class GeneralStatsCategory implements StatsCategory {
         ItemStack swordlvl = new ItemStack(Material.PAPER);
         ItemMeta swordlvlMeta = swordlvl.getItemMeta();
         swordlvlMeta.setDisplayName("§7➢ Schwert Level");
-        swordlvlMeta.setLore(Collections.singletonList("§a" + (mysqlManager.getSwordLevel(player.getUniqueId().toString() + " Level"))));
+        swordlvlMeta.setLore(Collections.singletonList("§a" +String.valueOf(mysqlManager.getSwordLevel(player.getUniqueId().toString())) + " Level"));
         swordlvlMeta.setCustomModelData(100);
         swordlvl.setItemMeta(swordlvlMeta);
         int[] swordlvlslots = {31,32,40,41};

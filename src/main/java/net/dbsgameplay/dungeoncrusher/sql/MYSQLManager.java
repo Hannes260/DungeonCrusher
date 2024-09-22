@@ -761,7 +761,6 @@ public class MYSQLManager {
                     if (resultSet.next()) {
                         swordLevel = resultSet.getInt("sword_lvl");
                         statement.close();
-                        resultSet.close();
                     }
                 }
             }
