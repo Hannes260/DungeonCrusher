@@ -12,13 +12,14 @@ commands:
   pay:
     tab-completer: true
     description: Überweise anderen Spieler geld
+    permission: dc.command.pay
     aliases: [überweisen]
   money:
     tab-completer: true
     description: Geld Managment
     aliases: eco
   stats:
-    description: Sehe deine Stats
+    description: Sehe deine Stats ein
     aliases: [statistik, statistiken]
   setup:
     tab-completer: true
@@ -43,6 +44,7 @@ commands:
     permission: dc.command.flyspeed
     description: Setzte deine Fluggeschwindigkeit nach oben
   help:
+    description: Coming Soon...
   daily:
     description: Hole deine DailyBelohnung ab
   cc:
@@ -50,11 +52,14 @@ commands:
     description: Lösche den Chat
     aliases: [clearchat]
   erfolge:
+    description: Zeige dir deine Erfolge an
   gm:
     permission: dc.command.gm
+    description: Gehe in einen Gamemode
     aliases: [gamemode]
   heal:
     permission: dc.command.heal
+    description: Heale dich oder andere
     aliases: [heilen]
   ping:
     description: Sehe deinen Ping ein
@@ -64,10 +69,13 @@ commands:
     permission: dc.command.reset
   fly:
     permission: dc.command.fly
+    description: Lerne Fliegen
     aliases: [fliegen]
-  test:
   quest:
     aliases: [aufgaben]
   invsee:
+    description: Schaue in ein Spieler Inventar
   dc:
+    description: Betritt den Discord
     aliases: [discord]
+  test:
