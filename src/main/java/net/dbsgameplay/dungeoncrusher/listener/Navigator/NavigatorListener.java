@@ -251,11 +251,10 @@ public class NavigatorListener implements Listener {
         navigatorInventory.setItem(51, upgrade);
 
         // Shop Item hinzufügen
-        PlayerProfile shopprofile = TexturedHeads.getProfile("https://textures.minecraft.net/texture/67505cb45a0dfc4ec0b741adbce6b5056ed51aba63fea9b2d66d758cac0f2412");
-        ItemStack shop = new ItemStack(Material.PLAYER_HEAD);
-        SkullMeta shopmeta = (SkullMeta) shop.getItemMeta();
-        shopmeta.setOwnerProfile(shopprofile);
+        ItemStack shop = new ItemStack(Material.PAPER);
+        ItemMeta shopmeta =  shop.getItemMeta();
         shopmeta.setDisplayName("§7➢ §bShop");
+        shopmeta.setCustomModelData(208);
         shop.setItemMeta(shopmeta);
         navigatorInventory.setItem(47, shop);
 
