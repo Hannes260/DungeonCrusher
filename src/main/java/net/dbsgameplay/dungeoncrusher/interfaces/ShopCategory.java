@@ -1,4 +1,4 @@
-package net.dbsgameplay.dungeoncrusher.Commands.interfaces;
+package net.dbsgameplay.dungeoncrusher.interfaces;
 
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;

@@ -1,20 +1,17 @@
 package net.dbsgameplay.dungeoncrusher.utils.upgrades;
 
 import me.clip.placeholderapi.PlaceholderAPI;
-import net.dbsgameplay.dungeoncrusher.Commands.interfaces.UpgradeCategory;
+import net.dbsgameplay.dungeoncrusher.interfaces.UpgradeCategory;
 import net.dbsgameplay.dungeoncrusher.enums.Upgrades.ArmorCategory;
 import net.dbsgameplay.dungeoncrusher.enums.Upgrades.SwordCategory;
 import net.dbsgameplay.dungeoncrusher.sql.MYSQLManager;
-import net.dbsgameplay.dungeoncrusher.utils.Configs.LocationConfigManager;
-import net.dbsgameplay.dungeoncrusher.utils.TexturedHeads;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
-import org.bukkit.inventory.meta.SkullMeta;
-import org.bukkit.profile.PlayerProfile;
+
 import java.util.HashMap;
 import java.util.Map;
 

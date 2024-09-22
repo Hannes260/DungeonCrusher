@@ -1,7 +1,7 @@
 package net.dbsgameplay.dungeoncrusher.listener.shops;
 
 import me.clip.placeholderapi.PlaceholderAPI;
-import net.dbsgameplay.dungeoncrusher.Commands.interfaces.ShopCategory;
+import net.dbsgameplay.dungeoncrusher.interfaces.ShopCategory;
 import net.dbsgameplay.dungeoncrusher.DungeonCrusher;
 import net.dbsgameplay.dungeoncrusher.enums.Shop.ExchangeCategory;
 import net.dbsgameplay.dungeoncrusher.enums.Shop.FoodCategory;

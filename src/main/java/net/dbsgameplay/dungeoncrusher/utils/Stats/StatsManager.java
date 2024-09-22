@@ -1,7 +1,7 @@
 package net.dbsgameplay.dungeoncrusher.utils.Stats;
 
 import me.clip.placeholderapi.PlaceholderAPI;
-import net.dbsgameplay.dungeoncrusher.Commands.interfaces.StatsCategory;
+import net.dbsgameplay.dungeoncrusher.interfaces.StatsCategory;
 import net.dbsgameplay.dungeoncrusher.enums.Stats.GeneralStatsCategory;
 import net.dbsgameplay.dungeoncrusher.enums.Stats.KillsCategory;
 import net.dbsgameplay.dungeoncrusher.sql.MYSQLManager;
@@ -12,13 +12,7 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
-import javax.annotation.Nullable;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 public class StatsManager {

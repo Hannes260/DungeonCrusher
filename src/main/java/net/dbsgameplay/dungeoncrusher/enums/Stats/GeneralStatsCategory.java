@@ -1,7 +1,7 @@
 package net.dbsgameplay.dungeoncrusher.enums.Stats;
 
 import me.clip.placeholderapi.PlaceholderAPI;
-import net.dbsgameplay.dungeoncrusher.Commands.interfaces.StatsCategory;
+import net.dbsgameplay.dungeoncrusher.interfaces.StatsCategory;
 import net.dbsgameplay.dungeoncrusher.DungeonCrusher;
 import net.dbsgameplay.dungeoncrusher.sql.MYSQLManager;
 import net.dbsgameplay.dungeoncrusher.utils.Configs.ConfigManager;
