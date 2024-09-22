@@ -1,6 +1,6 @@
 package net.dbsgameplay.dungeoncrusher.listener.Upgrades;
 import me.clip.placeholderapi.PlaceholderAPI;
-import net.dbsgameplay.dungeoncrusher.Commands.interfaces.UpgradeCategory;
+import net.dbsgameplay.dungeoncrusher.interfaces.UpgradeCategory;
 import net.dbsgameplay.dungeoncrusher.DungeonCrusher;
 import net.dbsgameplay.dungeoncrusher.listener.Navigator.NavigatorListener;
 import net.dbsgameplay.dungeoncrusher.sql.MYSQLManager;

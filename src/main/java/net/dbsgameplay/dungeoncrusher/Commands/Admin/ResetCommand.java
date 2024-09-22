@@ -66,7 +66,7 @@ public class ResetCommand implements CommandExecutor {
         mysqlManager.updateChestplateLevel(playerUUID, 0);
         mysqlManager.updateLeggingsLevel(playerUUID, 0);
         mysqlManager.updateBootsLevel(playerUUID, 0);
-        mysqlManager.updateArmorLvl(playerUUID, 0);
+        mysqlManager.updateArmorLvl(playerUUID, 1);
         mysqlManager.updateDungeonCount(playerUUID, 1);
         mysqlManager.deletePlayerfromItems(playerUUID);
         mysqlManager.deletePlayerfromMobKills(playerUUID);

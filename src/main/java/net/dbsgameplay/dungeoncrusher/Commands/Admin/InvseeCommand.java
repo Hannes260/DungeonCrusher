@@ -23,9 +23,9 @@ public class InvseeCommand implements CommandExecutor {
                         sender.sendMessage(ConfigManager.getPrefix() + "§cDer angegebene Spieler ist nicht online.");
                         return true;
                     }
-                            if (player.hasPermission("citybuild.invsee.admin")) {
+                            if (player.hasPermission("dc.command.invsee.admin")) {
                             player.openInventory(target.getInventory());
-                        }else if (player.hasPermission("citybuild.invsee.view")) {
+                        }else if (player.hasPermission("dc.command.invsee.view")) {
                                 targetName = target.getName();
                             Inventory inventory = Bukkit.createInventory(null, InventoryType.PLAYER, "SpielerInventar: " + target.getName());
                             inventory.setContents(target.getInventory().getContents());
