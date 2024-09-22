@@ -86,11 +86,11 @@ public class CustomDropListener implements Listener {
             int currentItem = mysqlManager.getItemAmount(playerUUID, item);
             mysqlManager.updateItemAmount(playerUUID, material.name(), currentItem + amountToDrop);
 
-            for (int i = 0; i != amountToDrop; i++) {
-                Daily.doQuest(player, Daily.GetQuestList);
-                Weekly.doQuest(player, Weekly.GetQuestList);
-                Monthly.doQuest(player, Monthly.GetQuestList);
-            }
+//            for (int i = 0; i != amountToDrop; i++) {
+//                Daily.doQuest(player, Daily.GetQuestList);
+//                Weekly.doQuest(player, Weekly.GetQuestList);
+//                Monthly.doQuest(player, Monthly.GetQuestList);
+//            }
             SwordCategory swordCategory = new SwordCategory(mysqlManager);
             int currentLevel = mysqlManager.getSwordLevel(player.getUniqueId().toString());
             if (swordCategory.hasEnoughResourcesForVisuals(player, currentLevel)) {

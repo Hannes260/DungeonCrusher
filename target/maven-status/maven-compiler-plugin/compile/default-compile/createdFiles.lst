@@ -33,7 +33,6 @@ net\dbsgameplay\dungeoncrusher\listener\Damage\MobDamageListener$1.class
 net\dbsgameplay\dungeoncrusher\Commands\Admin\BuildCommand.class
 net\dbsgameplay\dungeoncrusher\utils\TexturedHeads.class
 net\dbsgameplay\dungeoncrusher\interfaces\UpgradeCategory.class
-net\dbsgameplay\dungeoncrusher\listener\Damage\CustomDropListener$2.class
 net\dbsgameplay\dungeoncrusher\listener\SavezoneListener.class
 net\dbsgameplay\dungeoncrusher\Commands\Upgrades\UpgradeCommand.class
 net\dbsgameplay\dungeoncrusher\listener\Stats\StatsListener.class
