@@ -221,6 +221,7 @@ public class Weekly {
                             } else {
                                 mysqlManager.updatePlayerTempQuest("weekly1", p.getUniqueId().toString(), mysqlManager.getPlayerTempQuest("weekly1", p.getUniqueId().toString())+1);
                             }
+                            break;
                     }
                 } else if (s.equals(Quest2)) {
                     if (!Weekly.isDone(2, p)) {
@@ -238,6 +239,7 @@ public class Weekly {
                                 mysqlManager.updatePlayerTempQuest("weekly2", p.getUniqueId().toString(), mysqlManager.getPlayerTempQuest("weekly2", p.getUniqueId().toString())+1);
 
                             }
+                            break;
                     }
                 } else if (s.equals(Quest3)) {
                     if (!Weekly.isDone(3, p)) {
@@ -255,6 +257,7 @@ public class Weekly {
                                 mysqlManager.updatePlayerTempQuest("weekly3", p.getUniqueId().toString(), mysqlManager.getPlayerTempQuest("weekly3", p.getUniqueId().toString())+1);
 
                             }
+                            break;
                     }
                 }
             }

@@ -63,6 +63,7 @@ net\dbsgameplay\dungeoncrusher\enums\MobNameTranslator.class
 net\dbsgameplay\dungeoncrusher\utils\quests\Daily.class
 net\dbsgameplay\dungeoncrusher\utils\Manager\SavezoneManager.class
 net\dbsgameplay\dungeoncrusher\utils\shops\ShopManager.class
+net\dbsgameplay\dungeoncrusher\listener\QuestListener$2.class
 net\dbsgameplay\dungeoncrusher\Commands\test$1.class
 net\dbsgameplay\dungeoncrusher\utils\Configs\RewardConfigManager.class
 net\dbsgameplay\dungeoncrusher\listener\Navigator\NavigatorListener.class
