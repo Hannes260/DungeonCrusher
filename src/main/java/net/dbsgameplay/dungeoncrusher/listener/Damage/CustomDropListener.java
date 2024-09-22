@@ -1,6 +1,7 @@
 package net.dbsgameplay.dungeoncrusher.listener.Damage;
 
 import net.dbsgameplay.dungeoncrusher.DungeonCrusher;
+import net.dbsgameplay.dungeoncrusher.enums.Upgrades.SwordCategory;
 import net.dbsgameplay.dungeoncrusher.sql.MYSQLManager;
 import net.dbsgameplay.dungeoncrusher.utils.Configs.ConfigManager;
 import net.dbsgameplay.dungeoncrusher.utils.Configs.DropsConfigManager;
@@ -9,6 +10,8 @@ import net.dbsgameplay.dungeoncrusher.utils.ScoreboardBuilder;
 import net.dbsgameplay.dungeoncrusher.utils.quests.Daily;
 import net.dbsgameplay.dungeoncrusher.utils.quests.Monthly;
 import net.dbsgameplay.dungeoncrusher.utils.quests.Weekly;
+import net.md_5.bungee.api.ChatMessageType;
+import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.*;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.EntityType;
@@ -19,6 +22,8 @@ import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.scheduler.BukkitRunnable;
+
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
@@ -86,7 +91,25 @@ public class CustomDropListener implements Listener {
             Daily.doQuest(player, Daily.GetQuestList);
             Weekly.doQuest(player, Weekly.GetQuestList);
             Monthly.doQuest(player, Monthly.GetQuestList);// Anzahl aktualisieren
+            SwordCategory swordCategory = new SwordCategory(mysqlManager);
+            int currentLevel = mysqlManager.getSwordLevel(player.getUniqueId().toString());
+            if (swordCategory.hasEnoughResourcesForVisuals(player, currentLevel)) {
+                new BukkitRunnable() {
+                int timeLeft = 3 * 20; // 20 Ticks pro Sekunde
 
+                @Override
+                public void run() {
+                    if (timeLeft > 0) {
+                        // Sende die Nachricht über der Hotbar direkt mit der Player-Methode
+                        player.sendActionBar("§aDu kannst dein Schwert upgraden benutze §6[/upgrade]!");
+                        timeLeft -= 20; // Reduziere die verbleibende Zeit um 1 Sekunde (20 Ticks)
+                    } else {
+                        // Stoppe das Wiederholen, wenn die Zeit abgelaufen ist
+                        this.cancel();
+                    }
+                }
+            }.runTaskTimer(DungeonCrusher.getInstance(), 0L, 20L);
+            }
             // Sync Task für Inventaroperationen und Hologramme
             Bukkit.getScheduler().runTask(dungeonCrusher, () -> {
                 ItemStack items = new ItemStack(material, 1);

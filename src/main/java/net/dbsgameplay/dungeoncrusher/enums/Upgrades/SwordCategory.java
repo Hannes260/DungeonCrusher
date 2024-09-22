@@ -124,7 +124,7 @@ public class SwordCategory implements UpgradeCategory {
     }
 
 
-    private boolean hasEnoughResourcesForVisuals(Player player, int currentLevel) {
+    public boolean hasEnoughResourcesForVisuals(Player player, int currentLevel) {
         String uuid = player.getUniqueId().toString();
 
         // Erforderliches Geld und Materialien berechnen
