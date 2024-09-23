@@ -125,11 +125,11 @@ public class FoodCategory implements ShopCategory {
             if (leftOverItems.isEmpty()) {
                 p.sendMessage(ConfigManager.getPrefix() + ConfigManager.getConfigMessage("message.buyshop", "%amount%", String.valueOf(amount), "%material%", material.toString()));
 
-                if (mysqlManager.getTutorialQuest(p.getUniqueId().toString()).equalsIgnoreCase("t2")) {
-                    mysqlManager.updateTutorialQuest(p.getUniqueId().toString(), "t1");
-                    BossBar bossBar1 = QuestBuilder.bossBar;
-                    bossBar1.setTitle(QuestBuilder.tutorialQuestMap.get("t1"));
-                    bossBar1.addPlayer(p);
+                if (mysqlManager.getTutorialQuest(p.getUniqueId().toString()).equalsIgnoreCase("t3")) {
+                    mysqlManager.updateTutorialQuest(p.getUniqueId().toString(), "t2");
+                    BossBar bossBar2 = QuestBuilder.bossBar;
+                    bossBar2.setTitle(QuestBuilder.tutorialQuestMap.get("t2"));
+                    bossBar2.addPlayer(p);
                 }
 
             } else {
