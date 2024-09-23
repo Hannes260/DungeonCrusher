@@ -48,21 +48,27 @@ public class Weekly {
     }
 
     public static void checkForOrginQuest() {
-        Bukkit.getLogger().info(Quests.toString());
+        String k1;
+        String k2;
+        String k3;
+        
         if (mysqlManager.getOrginQuest("weekly1") == null) {
             Random random = new Random();
             int rdmNum = random.nextInt(0, Quests.size());
             String key = Quests.get(rdmNum);
+            k1 = Weekly.getQuestKategorie(key);
             mysqlManager.updateOrginQuest("weekly1", key);
         }
         if (mysqlManager.getOrginQuest("weekly2") == null) {
             Random random = new Random();
             int rdmNum = random.nextInt(0, Quests.size());
             String key = Quests.get(rdmNum);
-            if (key == mysqlManager.getOrginQuest("weekly1")) {
+            k2 = Weekly.getQuestKategorie(key);
+            if (key == mysqlManager.getOrginQuest("weekly1") && k1 == k2) {
                 while (key == mysqlManager.getOrginQuest("weekly1")) {
                     rdmNum = random.nextInt(0, Quests.size());
                     key = Quests.get(rdmNum);
+                    k2 = Weekly.getQuestKategorie(key);
                 }
                 mysqlManager.updateOrginQuest("weekly2", key);
             }else {
@@ -73,10 +79,12 @@ public class Weekly {
             Random random = new Random();
             int rdmNum = random.nextInt(0, Quests.size());
             String key = Quests.get(rdmNum);
-            if (key == mysqlManager.getOrginQuest("weekly1") || key == mysqlManager.getOrginQuest("weekly2")) {
+            k3 = Weekly.getQuestKategorie(key);
+            if (key == mysqlManager.getOrginQuest("weekly1") && k3 == k1 || key == mysqlManager.getOrginQuest("weekly2") && k3 == k2) {
                 while (key == mysqlManager.getOrginQuest("weekly1") || key == mysqlManager.getOrginQuest("weekly2")) {
                     rdmNum = random.nextInt(0, Quests.size());
                     key = Quests.get(rdmNum);
+                    k3 = Weekly.getQuestKategorie(key);
                 }
                 mysqlManager.updateOrginQuest("weekly3", key);
             }else {
