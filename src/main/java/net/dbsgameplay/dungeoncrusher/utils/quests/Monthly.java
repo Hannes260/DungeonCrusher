@@ -48,21 +48,27 @@ public class Monthly {
     }
 
     public static void checkForOrginQuest() {
-        //
+        String k1;
+        String k2;
+        String k3;
+        
         if (mysqlManager.getOrginQuest("monthly1") == null) {
             Random random = new Random();
             int rdmNum = random.nextInt(0, Quests.size());
             String key = Quests.get(rdmNum);
+            k1 = Monthly.getQuestKategorie(key);
             mysqlManager.updateOrginQuest("monthly1", key);
         }
         if (mysqlManager.getOrginQuest("monthly2") == null) {
             Random random = new Random();
             int rdmNum = random.nextInt(0, Quests.size());
             String key = Quests.get(rdmNum);
-            if (key == mysqlManager.getOrginQuest("monthly1")) {
+            k2 = Monthly.getQuestKategorie(key);
+            if (key == mysqlManager.getOrginQuest("monthly1") && k1 == k2) {
                 while (key == mysqlManager.getOrginQuest("monthly1")) {
                     rdmNum = random.nextInt(0, Quests.size());
                     key = Quests.get(rdmNum);
+                    k2 = Monthly.getQuestKategorie(key);
                 }
                 mysqlManager.updateOrginQuest("monthly2", key);
             }else {
@@ -73,10 +79,12 @@ public class Monthly {
             Random random = new Random();
             int rdmNum = random.nextInt(0, Quests.size());
             String key = Quests.get(rdmNum);
-            if (key == mysqlManager.getOrginQuest("monthly1") || key == mysqlManager.getOrginQuest("monthly2")) {
+            k3 = Monthly.getQuestKategorie(key);
+            if (key == mysqlManager.getOrginQuest("monthly1") && k3 == k1 || key == mysqlManager.getOrginQuest("monthly2") && k3 == k2) {
                 while (key == mysqlManager.getOrginQuest("monthly1") || key == mysqlManager.getOrginQuest("monthly2")) {
                     rdmNum = random.nextInt(0, Quests.size());
                     key = Quests.get(rdmNum);
+                    k3 = Monthly.getQuestKategorie(key);
                 }
                 mysqlManager.updateOrginQuest("monthly3", key);
             }else {
@@ -91,41 +99,49 @@ public class Monthly {
         SimpleDateFormat format = new SimpleDateFormat("WW");
 
         if (format.format(now).equalsIgnoreCase("01")) {
-            //
-            if (mysqlManager.getOrginQuest("monthly1") == null) {
-                Random random = new Random();
-                int rdmNum = random.nextInt(0, Quests.size());
-                String key = Quests.get(rdmNum);
-                mysqlManager.updateOrginQuest("monthly1", key);
-            }
-            if (mysqlManager.getOrginQuest("monthly2") == null) {
-                Random random = new Random();
-                int rdmNum = random.nextInt(0, Quests.size());
-                String key = Quests.get(rdmNum);
-                if (key == mysqlManager.getOrginQuest("monthly1")) {
-                    while (key == mysqlManager.getOrginQuest("monthly1")) {
-                        rdmNum = random.nextInt(0, Quests.size());
-                        key = Quests.get(rdmNum);
-                    }
-                    mysqlManager.updateOrginQuest("monthly2", key);
-                } else {
-                    mysqlManager.updateOrginQuest("monthly2", key);
+            String k1;
+        String k2;
+        String k3;
+        
+        if (mysqlManager.getOrginQuest("monthly1") == null) {
+            Random random = new Random();
+            int rdmNum = random.nextInt(0, Quests.size());
+            String key = Quests.get(rdmNum);
+            k1 = Monthly.getQuestKategorie(key);
+            mysqlManager.updateOrginQuest("monthly1", key);
+        }
+        if (mysqlManager.getOrginQuest("monthly2") == null) {
+            Random random = new Random();
+            int rdmNum = random.nextInt(0, Quests.size());
+            String key = Quests.get(rdmNum);
+            k2 = Monthly.getQuestKategorie(key);
+            if (key == mysqlManager.getOrginQuest("monthly1") && k1 == k2) {
+                while (key == mysqlManager.getOrginQuest("monthly1")) {
+                    rdmNum = random.nextInt(0, Quests.size());
+                    key = Quests.get(rdmNum);
+                    k2 = Monthly.getQuestKategorie(key);
                 }
+                mysqlManager.updateOrginQuest("monthly2", key);
+            }else {
+                mysqlManager.updateOrginQuest("monthly2", key);
             }
-            if (mysqlManager.getOrginQuest("monthly3") == null) {
-                Random random = new Random();
-                int rdmNum = random.nextInt(0, Quests.size());
-                String key = Quests.get(rdmNum);
-                if (key == mysqlManager.getOrginQuest("monthly1") || key == mysqlManager.getOrginQuest("monthly2")) {
-                    while (key == mysqlManager.getOrginQuest("monthly1") || key == mysqlManager.getOrginQuest("monthly2")) {
-                        rdmNum = random.nextInt(0, Quests.size());
-                        key = Quests.get(rdmNum);
-                    }
-                    mysqlManager.updateOrginQuest("monthly3", key);
-                } else {
-                    mysqlManager.updateOrginQuest("monthly3", key);
+        }
+        if (mysqlManager.getOrginQuest("monthly3") == null) {
+            Random random = new Random();
+            int rdmNum = random.nextInt(0, Quests.size());
+            String key = Quests.get(rdmNum);
+            k3 = Monthly.getQuestKategorie(key);
+            if (key == mysqlManager.getOrginQuest("monthly1") && k3 == k1 || key == mysqlManager.getOrginQuest("monthly2") && k3 == k2) {
+                while (key == mysqlManager.getOrginQuest("monthly1") || key == mysqlManager.getOrginQuest("monthly2")) {
+                    rdmNum = random.nextInt(0, Quests.size());
+                    key = Quests.get(rdmNum);
+                    k3 = Monthly.getQuestKategorie(key);
                 }
+                mysqlManager.updateOrginQuest("monthly3", key);
+            }else {
+                mysqlManager.updateOrginQuest("monthly3", key);
             }
+        }
             for (OfflinePlayer p : Bukkit.getServer().getOfflinePlayers()) {
                 mysqlManager.updatePlayerQuest("monthly1", false, p.getUniqueId().toString());
                 mysqlManager.updatePlayerQuest("monthly2", false, p.getUniqueId().toString());
