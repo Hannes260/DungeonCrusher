@@ -103,12 +103,12 @@ public class QuestListener implements Listener {
         Player p = (Player) e.getWhoClicked();
         HashMap<String, String> tutorialQuestMap = QuestBuilder.tutorialQuestMap;
 
-        if (mysqlManager.getTutorialQuest(p.getUniqueId().toString()).equalsIgnoreCase("t3")) {
+        if (mysqlManager.getTutorialQuest(p.getUniqueId().toString()).equalsIgnoreCase("t4")) {
             if (mysqlManager.getSwordLevel(p.getUniqueId().toString()) >= 2) {
-                mysqlManager.updateTutorialQuest(p.getUniqueId().toString(), "t2");
-                BossBar bossBar2 = QuestBuilder.bossBar;
-                bossBar2.setTitle(tutorialQuestMap.get("t2"));
-                bossBar2.addPlayer(p);
+                mysqlManager.updateTutorialQuest(p.getUniqueId().toString(), "t3");
+                BossBar bossBar3 = QuestBuilder.bossBar;
+                bossBar3.setTitle(tutorialQuestMap.get("t3"));
+                bossBar3.addPlayer(p);
             }
         }
 
@@ -197,15 +197,14 @@ public class QuestListener implements Listener {
         HashMap<String, String> tutorialQuestMap = QuestBuilder.tutorialQuestMap;
 
         if (e.getItem() != null && e.getItem().hasItemMeta()) {
-            if (e.getItem().getItemMeta() instanceof PotionMeta potion  && mysqlManager.getTutorialQuest(p.getUniqueId().toString()).equalsIgnoreCase("t1")) {
+            if (e.getItem().getItemMeta() instanceof PotionMeta potion  && mysqlManager.getTutorialQuest(p.getUniqueId().toString()).equalsIgnoreCase("t2")) {
                 new BukkitRunnable() {
                     @Override
                     public void run() {
                         if (p.hasPotionEffect(PotionEffectType.STRENGTH)) {
-                            mysqlManager.updateTutorialQuest(p.getUniqueId().toString(), "t0");
-                            BossBar bossBar1 = QuestBuilder.bossBar;
-                            bossBar1.removePlayer(p);
-                            p.sendMessage("§6Du hast das Tutorial abgeschlossen. Viel spaß dir noch auf dem DungeonCrusher!");
+                            mysqlManager.updateTutorialQuest(p.getUniqueId().toString(), "t1");
+                            BossBar bossBar2 = QuestBuilder.bossBar;
+                            bossBar2.removePlayer(p);
                         }
                     }
                 }.runTaskLater(dungeonCrusher, 1L);
