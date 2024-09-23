@@ -56,12 +56,17 @@ public class QuestListener implements Listener {
         }
         if (tutorialQuest == null) {
             // Spieler existiert noch nicht, daher neuen Eintrag hinzufügen
-            tutorialQuest = "t3";  // Standardwert für neue Spieler
+            tutorialQuest = "t4";  // Standardwert für neue Spieler
             mysqlManager.updateTutorialQuest(p.getUniqueId().toString(), tutorialQuest);
         }
 
         // Null-Check ist jetzt unnötig, da wir tutorialQuest initialisieren
         switch (tutorialQuest) {
+            case "t4":
+                BossBar bossBar4 = QuestBuilder.bossBar;
+                bossBar4.setTitle(tutorialQuestMap.get("t4"));
+                bossBar4.addPlayer(p);
+                break;
             case "t3":
                 BossBar bossBar3 = QuestBuilder.bossBar;
                 bossBar3.setTitle(tutorialQuestMap.get("t3"));
@@ -76,10 +81,11 @@ public class QuestListener implements Listener {
                 BossBar bossBar1 = QuestBuilder.bossBar;
                 bossBar1.setTitle(tutorialQuestMap.get("t1"));
                 bossBar1.addPlayer(p);
-                break;
+                break
         }
 
-        if (dungeonCrusher.getConfig().contains("quest." + p.getUniqueId().toString() + "." + "daily")) {
+         //ersetzen
+        if (dungeonCrusher.getConfig().contains("quest." + p.getUniqueId().toString() + "." + "daily") {
             playtimeMap.put(p.getUniqueId(), dungeonCrusher.getConfig().getInt("quest." + p.getUniqueId().toString() + "." + "daily"));
         }else {
             playtimeMap.put(p.getUniqueId(), 0);
