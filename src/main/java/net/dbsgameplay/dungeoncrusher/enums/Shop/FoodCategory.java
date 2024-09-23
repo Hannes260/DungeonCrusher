@@ -130,6 +130,7 @@ public class FoodCategory implements ShopCategory {
                     BossBar bossBar2 = QuestBuilder.bossBar;
                     bossBar2.setTitle(QuestBuilder.tutorialQuestMap.get("t2"));
                     bossBar2.addPlayer(p);
+                    p.playSound(p.getLocation(), Sound.ENTITY_ARROW_HIT_PLAYER, 100, 1);
                 }
 
             } else {
