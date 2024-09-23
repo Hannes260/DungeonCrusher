@@ -101,41 +101,49 @@ public class Daily {
         SimpleDateFormat format = new SimpleDateFormat("FF");
 
         if (format.format(now).equalsIgnoreCase("01")) {
-            //
-            if (mysqlManager.getOrginQuest("daily1") == null) {
-                Random random = new Random();
-                int rdmNum = random.nextInt(0, Quests.size());
-                String key = Quests.get(rdmNum);
-                mysqlManager.updateOrginQuest("daily1", key);
-            }
-            if (mysqlManager.getOrginQuest("daily2") == null) {
-                Random random = new Random();
-                int rdmNum = random.nextInt(0, Quests.size());
-                String key = Quests.get(rdmNum);
-                if (key == mysqlManager.getOrginQuest("daily1")) {
-                    while (key == mysqlManager.getOrginQuest("daily1")) {
-                        rdmNum = random.nextInt(0, Quests.size());
-                        key = Quests.get(rdmNum);
-                    }
-                    mysqlManager.updateOrginQuest("daily2", key);
-                }else {
-                    mysqlManager.updateOrginQuest("daily2", key);
+        String k1;
+        String k2;
+        String k3;
+        
+        if (mysqlManager.getOrginQuest("daily1") == null) {
+            Random random = new Random();
+            int rdmNum = random.nextInt(0, Quests.size());
+            String key = Quests.get(rdmNum);
+            k1 = Daily.getQuestKategorie(key);
+            mysqlManager.updateOrginQuest("daily1", key);
+        }
+        if (mysqlManager.getOrginQuest("daily2") == null) {
+            Random random = new Random();
+            int rdmNum = random.nextInt(0, Quests.size());
+            String key = Quests.get(rdmNum);
+            k2 = Daily.getQuestKategorie(key);
+            if (key == mysqlManager.getOrginQuest("daily1") && k1 == k2) {
+                while (key == mysqlManager.getOrginQuest("daily1")) {
+                    rdmNum = random.nextInt(0, Quests.size());
+                    key = Quests.get(rdmNum);
+                    k2 = Daily.getQuestKategorie(key);
                 }
+                mysqlManager.updateOrginQuest("daily2", key);
+            }else {
+                mysqlManager.updateOrginQuest("daily2", key);
             }
-            if (mysqlManager.getOrginQuest("daily3") == null) {
-                Random random = new Random();
-                int rdmNum = random.nextInt(0, Quests.size());
-                String key = Quests.get(rdmNum);
-                if (key == mysqlManager.getOrginQuest("daily1") || key == mysqlManager.getOrginQuest("daily2")) {
-                    while (key == mysqlManager.getOrginQuest("daily1") || key == mysqlManager.getOrginQuest("daily2")) {
-                        rdmNum = random.nextInt(0, Quests.size());
-                        key = Quests.get(rdmNum);
-                    }
-                    mysqlManager.updateOrginQuest("daily3", key);
-                }else {
-                    mysqlManager.updateOrginQuest("daily3", key);
+        }
+        if (mysqlManager.getOrginQuest("daily3") == null) {
+            Random random = new Random();
+            int rdmNum = random.nextInt(0, Quests.size());
+            String key = Quests.get(rdmNum);
+            k3 = Daily.getQuestKategorie(key);
+            if (key == mysqlManager.getOrginQuest("daily1") && k3 == k1 || key == mysqlManager.getOrginQuest("daily2") && k3 == k2) {
+                while (key == mysqlManager.getOrginQuest("daily1") || key == mysqlManager.getOrginQuest("daily2")) {
+                    rdmNum = random.nextInt(0, Quests.size());
+                    key = Quests.get(rdmNum);
+                    k3 = Daily.getQuestKategorie(key);
                 }
+                mysqlManager.updateOrginQuest("daily3", key);
+            }else {
+                mysqlManager.updateOrginQuest("daily3", key);
             }
+        }
             for (OfflinePlayer p : Bukkit.getServer().getOfflinePlayers()) {
                 mysqlManager.updatePlayerQuest( "daily1",false, p.getUniqueId().toString());
                 mysqlManager.updatePlayerQuest( "daily2",false, p.getUniqueId().toString());
