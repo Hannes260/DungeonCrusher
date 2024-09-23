@@ -219,6 +219,14 @@ public class QuestListener implements Listener {
             Daily.doQuest(p, Daily.KillQuestList);
             Weekly.doQuest(p, Weekly.KillQuestList);
             Monthly.doQuest(p, Monthly.KillQuestList);
+
+            if (mysqlManager.getDungeonCountForPlayer(p.getUniqueId().toString()) >= 2 && mysqlManager.getTutorialQuest(p.getUniqueID.toString()).equalsIgnoreCase("t1")) {
+                mysqlManager.updateTutorialQuest(p.getUniqueId().toString(), "t0");
+                BossBar bossBar1 = QuestBuilder.bossBar;
+                bossBar1.removePlayer(p);
+                p.sendMessage("§6Du hast das Tutorial anbgeschlossen! Viel spaß dir noch auf dem Dungeoncrusher!");
+
+            }
         }
     }
 
