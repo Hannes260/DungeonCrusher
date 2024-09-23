@@ -145,6 +145,22 @@ public class Monthly {
         }
     }
 
+    public static String getQuestKategorie(String questID) {
+        String kategorie = null;
+        if (PlayQuestList.containsKey(questID)) {
+            kategorie = "Play";
+        }
+        if (KillQuestList.containsKey(questID)) {
+            kategorie = "Kill";
+        }
+        if (MoveQuestList.containsKey(questID)) {
+            kategorie = "Move";
+        }
+        if (GetQuestList.containsKey(questID)) {
+            kategorie = "Get";
+        }
+    }
+    
     public static String getQuestTitle(String questID) {
         String title = null;
         if (PlayQuestList.containsKey(questID)) {
