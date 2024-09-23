@@ -109,6 +109,7 @@ public class QuestListener implements Listener {
                 BossBar bossBar3 = QuestBuilder.bossBar;
                 bossBar3.setTitle(tutorialQuestMap.get("t3"));
                 bossBar3.addPlayer(p);
+                p.playSound(p.getLocation(), Sound.ENTITY_ARROW_HIT_PLAYER, 100, 1);
             }
         }
 
@@ -205,6 +206,7 @@ public class QuestListener implements Listener {
                             mysqlManager.updateTutorialQuest(p.getUniqueId().toString(), "t1");
                             BossBar bossBar2 = QuestBuilder.bossBar;
                             bossBar2.removePlayer(p);
+                            p.playSound(p.getLocation(), Sound.ENTITY_ARROW_HIT_PLAYER, 100, 1);
                         }
                     }
                 }.runTaskLater(dungeonCrusher, 1L);
@@ -225,6 +227,7 @@ public class QuestListener implements Listener {
                 BossBar bossBar1 = QuestBuilder.bossBar;
                 bossBar1.removePlayer(p);
                 p.sendMessage("§6Du hast das Tutorial anbgeschlossen! Viel spaß dir noch auf dem Dungeoncrusher!");
+                p.playSound(p.getLocation(), Sound.ENTITY_ARROW_HIT_PLAYER, 100, 1);
 
             }
         }
