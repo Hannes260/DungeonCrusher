@@ -31,6 +31,12 @@ public class KillListener implements Listener {
 
             if (event.getEntityType().equals(EntityType.SHEEP)) {
                 mysqlManager.updateMobKillsForPlayer(playeruuid, "Schaf", 1);
+                int currentKillCount = mysqlManager.getPlayerMobKills(p.getUniqueId().toString(), "Schaf");
+                    for (int i = 0; i != 22) {
+                        if (currentKillCount == i*150) {
+                            ErfolgeBuilders.reward(i*100, p);
+                        }
+                    }
             }
             if (event.getEntityType().equals(EntityType.PIG)) {
                 mysqlManager.updateMobKillsForPlayer(playeruuid, "Schweine", 1);
