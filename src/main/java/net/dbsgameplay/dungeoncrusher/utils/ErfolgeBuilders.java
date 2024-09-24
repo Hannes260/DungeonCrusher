@@ -420,25 +420,17 @@ public class ErfolgeBuilders {
     }
 
     public static void checkPlayerKills() {
-            for (Player p : Bukkit.getServer().getOnlinePlayers()) {
-                String[] moblist ={"Schaf","Schweine","Kuh","Pferd","Esel","Kamel","Dorfbewohner","Ziegen", "Lama","Mooshroom","Maultier","Schnüffler","Panda","Schildkröten","Ozelot","Axolotl","Fuchs", "Katzen","Huhn","Frosch","Kaninchen","Silberfisch","Diener","Eisbären","Zombiepferd","Wolf", "Zombiedorfbewohner","Schneegolem","Skelett","Ertrunkenen","Wüstenzombie","Spinnen","Zombie","Eiswanderer","Creeper", "Höhlenspinnen","Endermiten","Schreiter","Lohen","Skelettpferde","Hexen","Schleim","Magmawürfel","Enderman", "Piglin","Zombiefizierter_Piglin", "Piglin_Barbaren","Plünderer","Hoglin","Magier","Ghast","Wither_Skelett","Zoglin","Verwüster","Eisengolem", "Wärter",};
-                for (String s : moblist) {
-
-                    for (int i = 1; i != 21; i++) {
-                        if (mysqlManager.getPlayerMobKills(p.getUniqueId().toString(), s) == i*500) {
-                            //locationconfigmanager
-                            for (int i1 = 0; i1 != moblist.length+1; i1++) {
-                                if (moblist[i1].equals(s)) {
-                                    reward(i*100 + (i1*1000), p);
-                                    p.sendMessage(i1 + ", " + mysqlManager.getPlayerMobKills(p.getUniqueId().toString(), s));
-                                }
-                            }
-
-                        }
+            String[] moblist ={"Schaf","Schweine","Kuh","Pferd","Esel","Kamel","Dorfbewohner","Ziegen", "Lama","Mooshroom","Maultier","Schnüffler","Panda","Schildkröten","Ozelot","Axolotl","Fuchs", "Katzen","Huhn","Frosch","Kaninchen","Silberfisch","Diener","Eisbären","Zombiepferd","Wolf", "Zombiedorfbewohner","Schneegolem","Skelett","Ertrunkenen","Wüstenzombie","Spinnen","Zombie","Eiswanderer","Creeper", "Höhlenspinnen","Endermiten","Schreiter","Lohen","Skelettpferde","Hexen","Schleim","Magmawürfel","Enderman", "Piglin","Zombiefizierter_Piglin", "Piglin_Barbaren","Plünderer","Hoglin","Magier","Ghast","Wither_Skelett","Zoglin","Verwüster","Eisengolem", "Wärter",};
+            for (String s : moblist) {
+                for (int i = 1; i != 21; i++) {
+                    if (mysqlManager.getPlayerMobKills(p.getUniqueId().toString(), s) == i*150) {
+                            reward(i*100 + (1*1000), p);
+                            p.sendMessage(1 + ", " + mysqlManager.getPlayerMobKills(p.getUniqueId().toString(), s));
                     }
                 }
-            }
 
+                
+            }
     }
 
     public static void reward(int value, Player p) {
