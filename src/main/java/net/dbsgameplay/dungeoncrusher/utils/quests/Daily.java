@@ -244,13 +244,19 @@ public class Daily {
                     if (!Daily.isDone(1, p)) {
                             if (mysqlManager.getPlayerTempQuest("daily1", p.getUniqueId().toString()) == questMap.get(s)) {
                                 p.playSound(p.getLocation(), Sound.ENTITY_ARROW_HIT_PLAYER, 100, 1);
-                                QuestBuilder.unclaimedQuestRewards.put(p.getUniqueId().toString(), Daily.RewardItemList);
                                 mysqlManager.updatePlayerQuest("daily1", true, p.getUniqueId().toString());
                                 mysqlManager.updatePlayerTempQuest("daily1", p.getUniqueId().toString(), 0);
                                 p.sendActionBar("§6Du hast eine Quest abgeschlossen hol dir deine Belohnung §d/quest");
                                 if (Daily.RewardMoneyList.get(s) != null) {
                                     foodCategory.addMoney(p, Daily.RewardMoneyList.get(s));
                                     p.sendMessage(" §7[§a+§7] §6" + Daily.RewardMoneyList.get(s) + "€");
+                                }
+                                for (int i = 0; i!= 10; i++) {
+                                    if (!QuestBuilder.unclaimedQuestRewards.containsKey(p.getUniqueId().toString()+i)) {
+                                       QuestBuilder.unclaimedQuestRewards.put(p.getUniquedId().toString()+i, Daily.RewardItemList);
+                                    }else {
+                                        continue;
+                                    }
                                 }
                             } else {
                                 mysqlManager.updatePlayerTempQuest("daily1", p.getUniqueId().toString(), mysqlManager.getPlayerTempQuest("daily1", p.getUniqueId().toString())+1);
