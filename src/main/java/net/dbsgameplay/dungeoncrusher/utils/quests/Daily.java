@@ -254,6 +254,7 @@ public class Daily {
                                 for (int i = 0; i!= 10; i++) {
                                     if (!QuestBuilder.unclaimedQuestRewards.containsKey(p.getUniqueId().toString()+i)) {
                                        QuestBuilder.unclaimedQuestRewards.put(p.getUniquedId().toString()+i, Daily.RewardItemList);
+                                        break;
                                     }else {
                                         continue;
                                     }
@@ -267,13 +268,20 @@ public class Daily {
                     if (!Daily.isDone(2, p)) {
                             if (mysqlManager.getPlayerTempQuest("daily2", p.getUniqueId().toString()) == questMap.get(s)) {
                                 p.playSound(p.getLocation(), Sound.ENTITY_ARROW_HIT_PLAYER, 100, 1);
-                                QuestBuilder.unclaimedQuestRewards.put(p.getUniqueId().toString(), Daily.RewardItemList);
                                 mysqlManager.updatePlayerQuest("daily2", true, p.getUniqueId().toString());
                                 mysqlManager.updatePlayerTempQuest("daily2", p.getUniqueId().toString(), 0);
                                 p.sendActionBar("§6Du hast eine Quest abgeschlossen hol dir deine Belohnung §d/quest");
                                 if (Daily.RewardMoneyList.get(s) != null) {
                                     foodCategory.addMoney(p, Daily.RewardMoneyList.get(s));
                                     p.sendMessage(" §7[§a+§7] §6" + Daily.RewardMoneyList.get(s) + "€");
+                                }
+                                for (int i = 0; i!= 10; i++) {
+                                    if (!QuestBuilder.unclaimedQuestRewards.containsKey(p.getUniqueId().toString()+i)) {
+                                       QuestBuilder.unclaimedQuestRewards.put(p.getUniquedId().toString()+i, Daily.RewardItemList);
+                                        break;
+                                    }else {
+                                        continue;
+                                    }
                                 }
                             } else {
                                 mysqlManager.updatePlayerTempQuest("daily2", p.getUniqueId().toString(), mysqlManager.getPlayerTempQuest("daily2", p.getUniqueId().toString())+1);
@@ -284,13 +292,20 @@ public class Daily {
                     if (!Daily.isDone(3, p)) {
                             if (mysqlManager.getPlayerTempQuest("daily3", p.getUniqueId().toString()) == questMap.get(s)) {
                                 p.playSound(p.getLocation(), Sound.ENTITY_ARROW_HIT_PLAYER, 100, 1);
-                                QuestBuilder.unclaimedQuestRewards.put(p.getUniqueId().toString(), Daily.RewardItemList);
                                 mysqlManager.updatePlayerQuest("daily3", true, p.getUniqueId().toString());
                                 mysqlManager.updatePlayerTempQuest("daily3", p.getUniqueId().toString(), 0);
                                 p.sendActionBar("§6Du hast eine Quest abgeschlossen hol dir deine Belohnung §d/quest");
                                 if (Daily.RewardMoneyList.get(s) != null) {
                                     foodCategory.addMoney(p, Daily.RewardMoneyList.get(s));
                                     p.sendMessage(" §7[§a+§7] §6" + Daily.RewardMoneyList.get(s) + "€");
+                                }
+                                for (int i = 0; i!= 10; i++) {
+                                    if (!QuestBuilder.unclaimedQuestRewards.containsKey(p.getUniqueId().toString()+i)) {
+                                       QuestBuilder.unclaimedQuestRewards.put(p.getUniquedId().toString()+i, Daily.RewardItemList);
+                                        break;
+                                    }else {
+                                        continue;
+                                    }
                                 }
                             } else {
                                 mysqlManager.updatePlayerTempQuest("daily3", p.getUniqueId().toString(), mysqlManager.getPlayerTempQuest("daily3", p.getUniqueId().toString())+1);
