@@ -83,34 +83,7 @@ public class QuestListener implements Listener {
                 bossBar1.addPlayer(p);
                 break
         }
-
-        if (Daily.getQuestKategorie(mysqlManager.getOrginQuest("daily1")).equalsIgnoreCase("Play")) {
-            playtimeMap.put(p.getUniqueId().toString(), mysqlManager.getPlayerTempQuest("daily1", p.getUniquedId().toString()));
-        }
-        if (Daily.getQuestKategorie(mysqlManager.getOrginQuest("daily2")).equalsIgnoreCase("Play")) {
-            playtimeMap.put(p.getUniqueId().toString(), mysqlManager.getPlayerTempQuest("daily2", p.getUniquedId().toString()));
-        }
-        if (Daily.getQuestKategorie(mysqlManager.getOrginQuest("daily3")).equalsIgnoreCase("Play")) {
-            playtimeMap.put(p.getUniqueId().toString(), mysqlManager.getPlayerTempQuest("daily3", p.getUniquedId().toString()));
-        }
-        if (Weekly.getQuestKategorie(mysqlManager.getOrginQuest("weekly1")).equalsIgnoreCase("Play")) {
-            playtimeMap.put(p.getUniqueId().toString(), mysqlManager.getPlayerTempQuest("weekly1", p.getUniquedId().toString()));
-        }
-        if (Weekly.getQuestKategorie(mysqlManager.getOrginQuest("weekly2")).equalsIgnoreCase("Play")) {
-            playtimeMap.put(p.getUniqueId().toString(), mysqlManager.getPlayerTempQuest("weekly2", p.getUniquedId().toString()));
-        }
-        if (Weekly.getQuestKategorie(mysqlManager.getOrginQuest("weekly3")).equalsIgnoreCase("Play")) {
-            playtimeMap.put(p.getUniqueId().toString(), mysqlManager.getPlayerTempQuest("weekly3", p.getUniquedId().toString()));
-        }
-        if (Monthly.getQuestKategorie(mysqlManager.getOrginQuest("monthly1")).equalsIgnoreCase("Play")) {
-            playtimeMap.put(p.getUniqueId().toString(), mysqlManager.getPlayerTempQuest("monthly1", p.getUniquedId().toString()));
-        }
-        if (Monthly.getQuestKategorie(mysqlManager.getOrginQuest("monthly2")).equalsIgnoreCase("Play")) {
-            playtimeMap.put(p.getUniqueId().toString(), mysqlManager.getPlayerTempQuest("monthly2", p.getUniquedId().toString()));
-        }
-        if (Monthly.getQuestKategorie(mysqlManager.getOrginQuest("monthly3")).equalsIgnoreCase("Play")) {
-            playtimeMap.put(p.getUniqueId().toString(), mysqlManager.getPlayerTempQuest("monthly3", p.getUniquedId().toString()));
-        }
+        loadPlaytime();
     }
 
     @EventHandler
@@ -377,5 +350,36 @@ public class QuestListener implements Listener {
         netheritescrapmeta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
         netheritescrap.setItemMeta(netheritescrapmeta);
         player.getInventory().setItem(35, netheritescrap);
+    }
+
+    public static void loadPlaytime() {
+        
+        if (Daily.getQuestKategorie(mysqlManager.getOrginQuest("daily1")).equalsIgnoreCase("Play")) {
+            playtimeMap.put(p.getUniqueId().toString(), mysqlManager.getPlayerTempQuest("daily1", p.getUniquedId().toString()));
+        }
+        if (Daily.getQuestKategorie(mysqlManager.getOrginQuest("daily2")).equalsIgnoreCase("Play")) {
+            playtimeMap.put(p.getUniqueId().toString(), mysqlManager.getPlayerTempQuest("daily2", p.getUniquedId().toString()));
+        }
+        if (Daily.getQuestKategorie(mysqlManager.getOrginQuest("daily3")).equalsIgnoreCase("Play")) {
+            playtimeMap.put(p.getUniqueId().toString(), mysqlManager.getPlayerTempQuest("daily3", p.getUniquedId().toString()));
+        }
+        if (Weekly.getQuestKategorie(mysqlManager.getOrginQuest("weekly1")).equalsIgnoreCase("Play")) {
+            playtimeMap.put(p.getUniqueId().toString(), mysqlManager.getPlayerTempQuest("weekly1", p.getUniquedId().toString()));
+        }
+        if (Weekly.getQuestKategorie(mysqlManager.getOrginQuest("weekly2")).equalsIgnoreCase("Play")) {
+            playtimeMap.put(p.getUniqueId().toString(), mysqlManager.getPlayerTempQuest("weekly2", p.getUniquedId().toString()));
+        }
+        if (Weekly.getQuestKategorie(mysqlManager.getOrginQuest("weekly3")).equalsIgnoreCase("Play")) {
+            playtimeMap.put(p.getUniqueId().toString(), mysqlManager.getPlayerTempQuest("weekly3", p.getUniquedId().toString()));
+        }
+        if (Monthly.getQuestKategorie(mysqlManager.getOrginQuest("monthly1")).equalsIgnoreCase("Play")) {
+            playtimeMap.put(p.getUniqueId().toString(), mysqlManager.getPlayerTempQuest("monthly1", p.getUniquedId().toString()));
+        }
+        if (Monthly.getQuestKategorie(mysqlManager.getOrginQuest("monthly2")).equalsIgnoreCase("Play")) {
+            playtimeMap.put(p.getUniqueId().toString(), mysqlManager.getPlayerTempQuest("monthly2", p.getUniquedId().toString()));
+        }
+        if (Monthly.getQuestKategorie(mysqlManager.getOrginQuest("monthly3")).equalsIgnoreCase("Play")) {
+            playtimeMap.put(p.getUniqueId().toString(), mysqlManager.getPlayerTempQuest("monthly3", p.getUniquedId().toString()));
+        }
     }
 }
