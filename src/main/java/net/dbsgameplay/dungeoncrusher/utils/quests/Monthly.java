@@ -241,13 +241,20 @@ public class Monthly {
                     if (!Monthly.isDone(1, p)) {
                             if (mysqlManager.getPlayerTempQuest("monthly1", p.getUniqueId().toString()) == questMap.get(s)) {
                                 p.playSound(p.getLocation(), Sound.ENTITY_ARROW_HIT_PLAYER, 100, 1);
-                                QuestBuilder.unclaimedQuestRewards.put(p.getUniqueId().toString(), Daily.RewardItemList);
                                 mysqlManager.updatePlayerQuest("monthly1", true, p.getUniqueId().toString());
                                 mysqlManager.updatePlayerTempQuest("monthly1", p.getUniqueId().toString(), 0);
                                 p.sendActionBar("§6Du hast eine Quest abgeschlossen hol dir deine Belohnung §d/quest");
                                 if (Monthly.RewardMoneyList.get(s) != null) {
                                     foodCategory.addMoney(p, Monthly.RewardMoneyList.get(s));
                                     p.sendMessage(" §7[§a+§7] §6" + Monthly.RewardMoneyList.get(s) + "€");
+                                }
+                                for (int i = 0; i!= 10; i++) {
+                                    if (!QuestBuilder.unclaimedQuestRewards.containsKey(p.getUniqueId().toString()+i)) {
+                                       QuestBuilder.unclaimedQuestRewards.put(p.getUniquedId().toString()+i, Monthly.RewardItemList);
+                                        break;
+                                    }else {
+                                        continue;
+                                    }
                                 }
                             } else {
                                 mysqlManager.updatePlayerTempQuest("monthly1", p.getUniqueId().toString(), mysqlManager.getPlayerTempQuest("monthly1", p.getUniqueId().toString())+1);
@@ -258,13 +265,20 @@ public class Monthly {
                     if (!Monthly.isDone(2, p)) {
                             if (mysqlManager.getPlayerTempQuest("monthly2", p.getUniqueId().toString()) == questMap.get(s)) {
                                 p.playSound(p.getLocation(), Sound.ENTITY_ARROW_HIT_PLAYER, 100, 1);
-                                QuestBuilder.unclaimedQuestRewards.put(p.getUniqueId().toString(), Daily.RewardItemList);
                                 mysqlManager.updatePlayerQuest("monthly2", true, p.getUniqueId().toString());
                                 mysqlManager.updatePlayerTempQuest("monthly2", p.getUniqueId().toString(), 0);
                                 p.sendActionBar("§6Du hast eine Quest abgeschlossen hol dir deine Belohnung §d/quest");
                                 if (Monthly.RewardMoneyList.get(s) != null) {
                                     foodCategory.addMoney(p, Monthly.RewardMoneyList.get(s));
                                     p.sendMessage(" §7[§a+§7] §6" + Monthly.RewardMoneyList.get(s) + "€");
+                                }
+                                for (int i = 0; i!= 10; i++) {
+                                    if (!QuestBuilder.unclaimedQuestRewards.containsKey(p.getUniqueId().toString()+i)) {
+                                       QuestBuilder.unclaimedQuestRewards.put(p.getUniquedId().toString()+i, Monthly.RewardItemList);
+                                        break;
+                                    }else {
+                                        continue;
+                                    }
                                 }
                             } else {
                                 mysqlManager.updatePlayerTempQuest("monthly2", p.getUniqueId().toString(), mysqlManager.getPlayerTempQuest("monthly2", p.getUniqueId().toString())+1);
@@ -275,13 +289,20 @@ public class Monthly {
                     if (!Monthly.isDone(3, p)) {
                             if (mysqlManager.getPlayerTempQuest("monthly3", p.getUniqueId().toString()) == questMap.get(s)) {
                                 p.playSound(p.getLocation(), Sound.ENTITY_ARROW_HIT_PLAYER, 100, 1);
-                                QuestBuilder.unclaimedQuestRewards.put(p.getUniqueId().toString(), Daily.RewardItemList);
                                 mysqlManager.updatePlayerQuest("monthly3", true, p.getUniqueId().toString());
                                 mysqlManager.updatePlayerTempQuest("monthly3", p.getUniqueId().toString(), 0);
                                 p.sendActionBar("§6Du hast eine Quest abgeschlossen hol dir deine Belohnung §d/quest");
                                 if (Monthly.RewardMoneyList.get(s) != null) {
                                     foodCategory.addMoney(p, Monthly.RewardMoneyList.get(s));
                                     p.sendMessage(" §7[§a+§7] §6" + Monthly.RewardMoneyList.get(s) + "€");
+                                }
+                                for (int i = 0; i!= 10; i++) {
+                                    if (!QuestBuilder.unclaimedQuestRewards.containsKey(p.getUniqueId().toString()+i)) {
+                                       QuestBuilder.unclaimedQuestRewards.put(p.getUniquedId().toString()+i, Monthly.RewardItemList);
+                                        break;
+                                    }else {
+                                        continue;
+                                    }
                                 }
                             } else {
                                 mysqlManager.updatePlayerTempQuest("monthly3", p.getUniqueId().toString(), mysqlManager.getPlayerTempQuest("monthly3", p.getUniqueId().toString())+1);
