@@ -28,7 +28,7 @@ public class ErfolgeBuilders {
     private static final UUID RANDOM_UUID = UUID.fromString("92864445-51c5-4c3b-9039-517c9927d1b4");
     public static Inventory inv;
     public static HashMap<String, String> titlesHashmap = new HashMap<String, String>();
-    public static List<String> mobnameList = new List<>();
+    public static List<String> moblist = new List<>();
         private static MYSQLManager mysqlManager;
 
         public ErfolgeBuilders(MYSQLManager mysqlManager) {
