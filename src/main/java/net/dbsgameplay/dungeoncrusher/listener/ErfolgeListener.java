@@ -3472,13 +3472,6 @@ public class ErfolgeListener implements Listener {
         e.setCancelled(true);
     }
 
-    @EventHandler
-    public void EnitiyDeathEvent(EntityDeathEvent e) {
-        if (e.getEntity().getKiller() instanceof Player p) {
-            ErfolgeBuilders.checkPlayerKills();
-        }
-    }
-
     public void setSuffix(String suffix, Player player) {
         // Load, modify, then save
         DungeonCrusher.api.getUserManager().modifyUser(player.getUniqueId(), user -> {
