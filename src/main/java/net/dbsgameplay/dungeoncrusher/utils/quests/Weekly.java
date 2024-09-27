@@ -48,9 +48,9 @@ public class Weekly {
     }
 
     public static void checkForOrginQuest() {
-        String k1;
-        String k2;
-        String k3;
+        String k1 = null;
+        String k2 = null;
+        String k3 = null;
         
         if (mysqlManager.getOrginQuest("weekly1") == null) {
             Random random = new Random();
@@ -64,7 +64,7 @@ public class Weekly {
             int rdmNum = random.nextInt(0, Quests.size());
             String key = Quests.get(rdmNum);
             k2 = Weekly.getQuestKategorie(key);
-            if (key == mysqlManager.getOrginQuest("weekly1") && k1 == k2) {
+            if (key == mysqlManager.getOrginQuest("weekly1") || k1 == k2) {
                 while (key == mysqlManager.getOrginQuest("weekly1")) {
                     rdmNum = random.nextInt(0, Quests.size());
                     key = Quests.get(rdmNum);
@@ -80,7 +80,7 @@ public class Weekly {
             int rdmNum = random.nextInt(0, Quests.size());
             String key = Quests.get(rdmNum);
             k3 = Weekly.getQuestKategorie(key);
-            if (key == mysqlManager.getOrginQuest("weekly1") && k3 == k1 || key == mysqlManager.getOrginQuest("weekly2") && k3 == k2) {
+            if ((key == mysqlManager.getOrginQuest("weekly1") || k3 == k1) || (key == mysqlManager.getOrginQuest("weekly2") || k3 == k2)) {
                 while (key == mysqlManager.getOrginQuest("weekly1") || key == mysqlManager.getOrginQuest("weekly2")) {
                     rdmNum = random.nextInt(0, Quests.size());
                     key = Quests.get(rdmNum);
@@ -99,9 +99,9 @@ public class Weekly {
         SimpleDateFormat format = new SimpleDateFormat("FF");
 
         if (format.format(now).equalsIgnoreCase("01")) {
-        String k1;
-        String k2;
-        String k3;
+        String k1 = null;
+        String k2 = null;
+        String k3 = null;
         
         if (mysqlManager.getOrginQuest("weekly1") == null) {
             Random random = new Random();
@@ -115,7 +115,7 @@ public class Weekly {
             int rdmNum = random.nextInt(0, Quests.size());
             String key = Quests.get(rdmNum);
             k2 = Weekly.getQuestKategorie(key);
-            if (key == mysqlManager.getOrginQuest("weekly1") && k1 == k2) {
+            if (key == mysqlManager.getOrginQuest("weekly1") || k1 == k2) {
                 while (key == mysqlManager.getOrginQuest("weekly1")) {
                     rdmNum = random.nextInt(0, Quests.size());
                     key = Quests.get(rdmNum);
@@ -131,7 +131,7 @@ public class Weekly {
             int rdmNum = random.nextInt(0, Quests.size());
             String key = Quests.get(rdmNum);
             k3 = Weekly.getQuestKategorie(key);
-            if (key == mysqlManager.getOrginQuest("weekly1") && k3 == k1 || key == mysqlManager.getOrginQuest("weekly2") && k3 == k2) {
+            if ((key == mysqlManager.getOrginQuest("weekly1") || k3 == k1) || (key == mysqlManager.getOrginQuest("weekly2") || k3 == k2)) {
                 while (key == mysqlManager.getOrginQuest("weekly1") || key == mysqlManager.getOrginQuest("weekly2")) {
                     rdmNum = random.nextInt(0, Quests.size());
                     key = Quests.get(rdmNum);
@@ -165,16 +165,22 @@ public class Weekly {
         String kategorie = null;
         if (PlayQuestList.containsKey(questID)) {
             kategorie = "Play";
+            return kategorie;
         }
         if (KillQuestList.containsKey(questID)) {
             kategorie = "Kill";
+            return kategorie;
         }
         if (MoveQuestList.containsKey(questID)) {
             kategorie = "Move";
+            return kategorie;
         }
         if (GetQuestList.containsKey(questID)) {
             kategorie = "Get";
+            return kategorie;
         }
+
+        return kategorie;
     }
 
     public static String getQuestTitle(String questID) {
@@ -250,7 +256,7 @@ public class Weekly {
                                 }
                                 for (int i = 0; i!= 10; i++) {
                                     if (!QuestBuilder.unclaimedQuestRewards.containsKey(p.getUniqueId().toString()+i)) {
-                                       QuestBuilder.unclaimedQuestRewards.put(p.getUniquedId().toString()+i, Weekly.RewardItemList);
+                                        QuestBuilder.unclaimedQuestRewards.put(p.getUniqueId().toString()+i, RewardItemList.get(mysqlManager.getOrginQuest("weekly1")));
                                         break;
                                     }else {
                                         continue;
@@ -274,7 +280,7 @@ public class Weekly {
                                 }
                                 for (int i = 0; i!= 10; i++) {
                                     if (!QuestBuilder.unclaimedQuestRewards.containsKey(p.getUniqueId().toString()+i)) {
-                                       QuestBuilder.unclaimedQuestRewards.put(p.getUniquedId().toString()+i, Weekly.RewardItemList);
+                                        QuestBuilder.unclaimedQuestRewards.put(p.getUniqueId().toString()+i, RewardItemList.get(mysqlManager.getOrginQuest("weekly2")));
                                         break;
                                     }else {
                                         continue;
@@ -299,7 +305,7 @@ public class Weekly {
                                 }
                                 for (int i = 0; i!= 10; i++) {
                                     if (!QuestBuilder.unclaimedQuestRewards.containsKey(p.getUniqueId().toString()+i)) {
-                                       QuestBuilder.unclaimedQuestRewards.put(p.getUniquedId().toString()+i, Weekly.RewardItemList);
+                                        QuestBuilder.unclaimedQuestRewards.put(p.getUniqueId().toString()+i, RewardItemList.get(mysqlManager.getOrginQuest("weekly3")));
                                         break;
                                     }else {
                                         continue;

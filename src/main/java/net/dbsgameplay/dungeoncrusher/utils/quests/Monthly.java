@@ -48,9 +48,9 @@ public class Monthly {
     }
 
     public static void checkForOrginQuest() {
-        String k1;
-        String k2;
-        String k3;
+        String k1 = null;
+        String k2 = null;
+        String k3 = null;
         
         if (mysqlManager.getOrginQuest("monthly1") == null) {
             Random random = new Random();
@@ -64,7 +64,7 @@ public class Monthly {
             int rdmNum = random.nextInt(0, Quests.size());
             String key = Quests.get(rdmNum);
             k2 = Monthly.getQuestKategorie(key);
-            if (key == mysqlManager.getOrginQuest("monthly1") && k1 == k2) {
+            if (key == mysqlManager.getOrginQuest("monthly1") || k1 == k2) {
                 while (key == mysqlManager.getOrginQuest("monthly1")) {
                     rdmNum = random.nextInt(0, Quests.size());
                     key = Quests.get(rdmNum);
@@ -80,7 +80,7 @@ public class Monthly {
             int rdmNum = random.nextInt(0, Quests.size());
             String key = Quests.get(rdmNum);
             k3 = Monthly.getQuestKategorie(key);
-            if (key == mysqlManager.getOrginQuest("monthly1") && k3 == k1 || key == mysqlManager.getOrginQuest("monthly2") && k3 == k2) {
+            if ((key == mysqlManager.getOrginQuest("monthly1") || k3 == k1) || (key == mysqlManager.getOrginQuest("monthly2") || k3 == k2)) {
                 while (key == mysqlManager.getOrginQuest("monthly1") || key == mysqlManager.getOrginQuest("monthly2")) {
                     rdmNum = random.nextInt(0, Quests.size());
                     key = Quests.get(rdmNum);
@@ -99,49 +99,49 @@ public class Monthly {
         SimpleDateFormat format = new SimpleDateFormat("WW");
 
         if (format.format(now).equalsIgnoreCase("01")) {
-            String k1;
-        String k2;
-        String k3;
-        
-        if (mysqlManager.getOrginQuest("monthly1") == null) {
-            Random random = new Random();
-            int rdmNum = random.nextInt(0, Quests.size());
-            String key = Quests.get(rdmNum);
-            k1 = Monthly.getQuestKategorie(key);
-            mysqlManager.updateOrginQuest("monthly1", key);
-        }
-        if (mysqlManager.getOrginQuest("monthly2") == null) {
-            Random random = new Random();
-            int rdmNum = random.nextInt(0, Quests.size());
-            String key = Quests.get(rdmNum);
-            k2 = Monthly.getQuestKategorie(key);
-            if (key == mysqlManager.getOrginQuest("monthly1") && k1 == k2) {
-                while (key == mysqlManager.getOrginQuest("monthly1")) {
-                    rdmNum = random.nextInt(0, Quests.size());
-                    key = Quests.get(rdmNum);
-                    k2 = Monthly.getQuestKategorie(key);
-                }
-                mysqlManager.updateOrginQuest("monthly2", key);
-            }else {
-                mysqlManager.updateOrginQuest("monthly2", key);
+            String k1 = null;
+            String k2 = null;
+            String k3 = null;
+
+            if (mysqlManager.getOrginQuest("monthly1") == null) {
+                Random random = new Random();
+                int rdmNum = random.nextInt(0, Quests.size());
+                String key = Quests.get(rdmNum);
+                k1 = Monthly.getQuestKategorie(key);
+                mysqlManager.updateOrginQuest("monthly1", key);
             }
-        }
-        if (mysqlManager.getOrginQuest("monthly3") == null) {
-            Random random = new Random();
-            int rdmNum = random.nextInt(0, Quests.size());
-            String key = Quests.get(rdmNum);
-            k3 = Monthly.getQuestKategorie(key);
-            if (key == mysqlManager.getOrginQuest("monthly1") && k3 == k1 || key == mysqlManager.getOrginQuest("monthly2") && k3 == k2) {
-                while (key == mysqlManager.getOrginQuest("monthly1") || key == mysqlManager.getOrginQuest("monthly2")) {
-                    rdmNum = random.nextInt(0, Quests.size());
-                    key = Quests.get(rdmNum);
-                    k3 = Monthly.getQuestKategorie(key);
+            if (mysqlManager.getOrginQuest("monthly2") == null) {
+                Random random = new Random();
+                int rdmNum = random.nextInt(0, Quests.size());
+                String key = Quests.get(rdmNum);
+                k2 = Monthly.getQuestKategorie(key);
+                if (key == mysqlManager.getOrginQuest("monthly1") || k1 == k2) {
+                    while (key == mysqlManager.getOrginQuest("monthly1")) {
+                        rdmNum = random.nextInt(0, Quests.size());
+                        key = Quests.get(rdmNum);
+                        k2 = Monthly.getQuestKategorie(key);
+                    }
+                    mysqlManager.updateOrginQuest("monthly2", key);
+                }else {
+                    mysqlManager.updateOrginQuest("monthly2", key);
                 }
-                mysqlManager.updateOrginQuest("monthly3", key);
-            }else {
-                mysqlManager.updateOrginQuest("monthly3", key);
             }
-        }
+            if (mysqlManager.getOrginQuest("monthly3") == null) {
+                Random random = new Random();
+                int rdmNum = random.nextInt(0, Quests.size());
+                String key = Quests.get(rdmNum);
+                k3 = Monthly.getQuestKategorie(key);
+                if ((key == mysqlManager.getOrginQuest("monthly1") || k3 == k1) || (key == mysqlManager.getOrginQuest("monthly2") || k3 == k2)) {
+                    while (key == mysqlManager.getOrginQuest("monthly1") || key == mysqlManager.getOrginQuest("monthly2")) {
+                        rdmNum = random.nextInt(0, Quests.size());
+                        key = Quests.get(rdmNum);
+                        k3 = Monthly.getQuestKategorie(key);
+                    }
+                    mysqlManager.updateOrginQuest("monthly3", key);
+                }else {
+                    mysqlManager.updateOrginQuest("monthly3", key);
+                }
+            }
             for (OfflinePlayer p : Bukkit.getServer().getOfflinePlayers()) {
                 mysqlManager.updatePlayerQuest("monthly1", false, p.getUniqueId().toString());
                 mysqlManager.updatePlayerQuest("monthly2", false, p.getUniqueId().toString());
@@ -165,16 +165,22 @@ public class Monthly {
         String kategorie = null;
         if (PlayQuestList.containsKey(questID)) {
             kategorie = "Play";
+            return kategorie;
         }
         if (KillQuestList.containsKey(questID)) {
             kategorie = "Kill";
+            return kategorie;
         }
         if (MoveQuestList.containsKey(questID)) {
             kategorie = "Move";
+            return kategorie;
         }
         if (GetQuestList.containsKey(questID)) {
             kategorie = "Get";
+            return kategorie;
         }
+
+        return kategorie;
     }
     
     public static String getQuestTitle(String questID) {
@@ -250,7 +256,7 @@ public class Monthly {
                                 }
                                 for (int i = 0; i!= 10; i++) {
                                     if (!QuestBuilder.unclaimedQuestRewards.containsKey(p.getUniqueId().toString()+i)) {
-                                       QuestBuilder.unclaimedQuestRewards.put(p.getUniquedId().toString()+i, Monthly.RewardItemList);
+                                        QuestBuilder.unclaimedQuestRewards.put(p.getUniqueId().toString()+i, RewardItemList.get(mysqlManager.getOrginQuest("monthly1")));
                                         break;
                                     }else {
                                         continue;
@@ -274,7 +280,7 @@ public class Monthly {
                                 }
                                 for (int i = 0; i!= 10; i++) {
                                     if (!QuestBuilder.unclaimedQuestRewards.containsKey(p.getUniqueId().toString()+i)) {
-                                       QuestBuilder.unclaimedQuestRewards.put(p.getUniquedId().toString()+i, Monthly.RewardItemList);
+                                        QuestBuilder.unclaimedQuestRewards.put(p.getUniqueId().toString()+i, RewardItemList.get(mysqlManager.getOrginQuest("monthly1")));
                                         break;
                                     }else {
                                         continue;
@@ -298,7 +304,7 @@ public class Monthly {
                                 }
                                 for (int i = 0; i!= 10; i++) {
                                     if (!QuestBuilder.unclaimedQuestRewards.containsKey(p.getUniqueId().toString()+i)) {
-                                       QuestBuilder.unclaimedQuestRewards.put(p.getUniquedId().toString()+i, Monthly.RewardItemList);
+                                        QuestBuilder.unclaimedQuestRewards.put(p.getUniqueId().toString()+i, RewardItemList.get(mysqlManager.getOrginQuest("monthly1")));
                                         break;
                                     }else {
                                         continue;

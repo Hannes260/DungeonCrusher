@@ -26,14 +26,11 @@ public class QuestCommand implements CommandExecutor {
         if (mysqlManager.getTutorialQuest(p.getUniqueId().toString()).equalsIgnoreCase("t0")) {
             for (int i = 0; i != 10; i++) {
               if (QuestBuilder.unclaimedQuestRewards.containsKey(p.getUniqueId().toString()+i)) {
-                  String questID = Questbuilder.unclaimedQuestRewards.containsKey(p.getUniqueId().toString()+i);
-                  QuestBuilder.openRewardmenü(p, questID, QuestBuilder.unclaimedQuestRewards.get(p.getUniqueId().toString()));
-                  QuestBuilder.unclaimedQuestRewards.remove(p.getUnqueId().toString());
-                  break;
+                  QuestBuilder.openRewardmenü(p, QuestBuilder.unclaimedQuestRewards.get(p.getUniqueId().toString()+i));
+                  QuestBuilder.unclaimedQuestRewards.remove(p.getUniqueId().toString()+i);
                   return true;
               }
             }
-        }
             
             QuestBuilder.fillQuestmenü(p);
             p.openInventory(QuestBuilder.getQuestmenü());

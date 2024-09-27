@@ -10,6 +10,7 @@ import net.dbsgameplay.dungeoncrusher.utils.ScoreboardBuilder;
 import net.dbsgameplay.dungeoncrusher.utils.shops.ShopManager;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
+import org.bukkit.Sound;
 import org.bukkit.boss.BossBar;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;

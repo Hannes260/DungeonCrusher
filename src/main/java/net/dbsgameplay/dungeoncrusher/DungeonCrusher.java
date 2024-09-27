@@ -425,16 +425,23 @@ public final class DungeonCrusher extends JavaPlugin {
             CompletableFuture.supplyAsync(() -> mysqlManager.getPlayerTempQuest("daily" + questNumber, p.getUniqueId().toString())).thenAccept(tempQuest -> {
                 if (tempQuest >= Daily.PlayQuestList.get(quest) * 60) {
                     p.playSound(p.getLocation(), Sound.ENTITY_ARROW_HIT_PLAYER, 100, 1);
-                    QuestBuilder.openRewardmenü(p, quest, Daily.RewardItemList);
                     mysqlManager.updatePlayerQuest("daily" + questNumber, true, p.getUniqueId().toString());
                     if (Daily.RewardMoneyList.get(quest) != null) {
                         foodCategory.addMoney(p, Daily.RewardMoneyList.get(quest));
                         p.sendMessage(" §7[§a+§7] §6" + Daily.RewardMoneyList.get(quest) + "€");
                     }
+                    p.sendActionBar("§6Du hast eine Quest abgeschlossen hol dir deine Belohnung §d/quest");
+                    for (int i = 0; i!= 10; i++) {
+                        if (!QuestBuilder.unclaimedQuestRewards.containsKey(p.getUniqueId().toString()+i)) {
+                            QuestBuilder.unclaimedQuestRewards.put(p.getUniqueId().toString()+i, Daily.RewardItemList.get(mysqlManager.getOrginQuest("daily" + questNumber)));
+                            break;
+                        }else {
+                            continue;
+                        }
+                    }
                 } else {
                     QuestListener.playtimeMap.replace(p.getUniqueId(), QuestListener.playtimeMap.get(p.getUniqueId()) + 10);
                     mysqlManager.updatePlayerTempQuest("daily" + questNumber, p.getUniqueId().toString(), QuestListener.playtimeMap.get(p.getUniqueId()));
-                    dungeonCrusher.saveConfig();
                 }
             });
         }
@@ -457,16 +464,23 @@ public final class DungeonCrusher extends JavaPlugin {
             CompletableFuture.supplyAsync(() -> mysqlManager.getPlayerTempQuest("weekly" + questNumber, p.getUniqueId().toString())).thenAccept(tempQuest -> {
                 if (tempQuest >= Weekly.PlayQuestList.get(quest) * 60) {
                     p.playSound(p.getLocation(), Sound.ENTITY_ARROW_HIT_PLAYER, 100, 1);
-                    QuestBuilder.openRewardmenü(p, quest, Weekly.RewardItemList);
                     mysqlManager.updatePlayerQuest("weekly" + questNumber, true, p.getUniqueId().toString());
                     if (Weekly.RewardMoneyList.get(quest) != null) {
                         foodCategory.addMoney(p, Weekly.RewardMoneyList.get(quest));
                         p.sendMessage(" §7[§a+§7] §6" + Weekly.RewardMoneyList.get(quest) + "€");
                     }
+                    p.sendActionBar("§6Du hast eine Quest abgeschlossen hol dir deine Belohnung §d/quest");
+                    for (int i = 0; i!= 10; i++) {
+                        if (!QuestBuilder.unclaimedQuestRewards.containsKey(p.getUniqueId().toString()+i)) {
+                            QuestBuilder.unclaimedQuestRewards.put(p.getUniqueId().toString()+i, Daily.RewardItemList.get(mysqlManager.getOrginQuest("weekly" + questNumber)));
+                            break;
+                        }else {
+                            continue;
+                        }
+                    }
                 } else {
                     QuestListener.playtimeMap.replace(p.getUniqueId(), QuestListener.playtimeMap.get(p.getUniqueId()) + 10);
                     mysqlManager.updatePlayerTempQuest("weekly" + questNumber, p.getUniqueId().toString(), QuestListener.playtimeMap.get(p.getUniqueId()));
-                    dungeonCrusher.saveConfig();
                 }
             });
         }
@@ -489,16 +503,23 @@ public final class DungeonCrusher extends JavaPlugin {
             CompletableFuture.supplyAsync(() -> mysqlManager.getPlayerTempQuest("monthly" + questNumber, p.getUniqueId().toString())).thenAccept(tempQuest -> {
                 if (tempQuest >= Monthly.PlayQuestList.get(quest) * 60) {
                     p.playSound(p.getLocation(), Sound.ENTITY_ARROW_HIT_PLAYER, 100, 1);
-                    QuestBuilder.openRewardmenü(p, quest, Monthly.RewardItemList);
                     mysqlManager.updatePlayerQuest("monthly" + questNumber, true, p.getUniqueId().toString());
                     if (Monthly.RewardMoneyList.get(quest) != null) {
                         foodCategory.addMoney(p, Monthly.RewardMoneyList.get(quest));
                         p.sendMessage(" §7[§a+§7] §6" + Monthly.RewardMoneyList.get(quest) + "€");
                     }
+                    p.sendActionBar("§6Du hast eine Quest abgeschlossen hol dir deine Belohnung §d/quest");
+                    for (int i = 0; i!= 10; i++) {
+                        if (!QuestBuilder.unclaimedQuestRewards.containsKey(p.getUniqueId().toString()+i)) {
+                            QuestBuilder.unclaimedQuestRewards.put(p.getUniqueId().toString()+i, Daily.RewardItemList.get(mysqlManager.getOrginQuest("monthly" + questNumber)));
+                            break;
+                        }else {
+                            continue;
+                        }
+                    }
                 } else {
                     QuestListener.playtimeMap.replace(p.getUniqueId(), QuestListener.playtimeMap.get(p.getUniqueId()) + 10);
                     mysqlManager.updatePlayerTempQuest("monthly" + questNumber, p.getUniqueId().toString(), QuestListener.playtimeMap.get(p.getUniqueId()));
-                    dungeonCrusher.saveConfig();
                 }
             });
         }
