@@ -67,7 +67,7 @@ public class Daily {
             String key = Quests.get(rdmNum);
             k2 = Daily.getQuestKategorie(key);
             if (key == mysqlManager.getOrginQuest("daily1") || k1 == k2) {
-                while (key == mysqlManager.getOrginQuest("daily1")) {
+                while (key == mysqlManager.getOrginQuest("daily1") || k1 == k2) {
                     rdmNum = random.nextInt(0, Quests.size());
                     key = Quests.get(rdmNum);
                     k2 = Daily.getQuestKategorie(key);
@@ -83,7 +83,7 @@ public class Daily {
             String key = Quests.get(rdmNum);
             k3 = Daily.getQuestKategorie(key);
             if ((key == mysqlManager.getOrginQuest("daily1") || k3 == k1) || (key == mysqlManager.getOrginQuest("daily2") || k3 == k2)) {
-                while (key == mysqlManager.getOrginQuest("daily1") || key == mysqlManager.getOrginQuest("daily2")) {
+                while ((key == mysqlManager.getOrginQuest("daily1") || k3 == k1) || (key == mysqlManager.getOrginQuest("daily2") || k3 == k2)) {
                     rdmNum = random.nextInt(0, Quests.size());
                     key = Quests.get(rdmNum);
                     k3 = Daily.getQuestKategorie(key);
@@ -98,13 +98,12 @@ public class Daily {
     public static void checkForOrginQuestUpdate() {
         //
         Date now = new Date(System.currentTimeMillis());
-        SimpleDateFormat format = new SimpleDateFormat("FF");
+        SimpleDateFormat format = new SimpleDateFormat("HH");
 
-        if (format.format(now).equalsIgnoreCase("01")) {
-        String k1 = null;
-        String k2 = null;
-        String k3 = null;
-
+        if (format.format(now).equalsIgnoreCase("00")) {
+            String k1 = null;
+            String k2 = null;
+            String k3 = null;
 
             if (mysqlManager.getOrginQuest("daily1") == null) {
                 Random random = new Random();
@@ -119,7 +118,7 @@ public class Daily {
                 String key = Quests.get(rdmNum);
                 k2 = Daily.getQuestKategorie(key);
                 if (key == mysqlManager.getOrginQuest("daily1") || k1 == k2) {
-                    while (key == mysqlManager.getOrginQuest("daily1")) {
+                    while (key == mysqlManager.getOrginQuest("daily1") || k1 == k2) {
                         rdmNum = random.nextInt(0, Quests.size());
                         key = Quests.get(rdmNum);
                         k2 = Daily.getQuestKategorie(key);
@@ -135,7 +134,7 @@ public class Daily {
                 String key = Quests.get(rdmNum);
                 k3 = Daily.getQuestKategorie(key);
                 if ((key == mysqlManager.getOrginQuest("daily1") || k3 == k1) || (key == mysqlManager.getOrginQuest("daily2") || k3 == k2)) {
-                    while (key == mysqlManager.getOrginQuest("daily1") || key == mysqlManager.getOrginQuest("daily2")) {
+                    while ((key == mysqlManager.getOrginQuest("daily1") || k3 == k1) || (key == mysqlManager.getOrginQuest("daily2") || k3 == k2)) {
                         rdmNum = random.nextInt(0, Quests.size());
                         key = Quests.get(rdmNum);
                         k3 = Daily.getQuestKategorie(key);

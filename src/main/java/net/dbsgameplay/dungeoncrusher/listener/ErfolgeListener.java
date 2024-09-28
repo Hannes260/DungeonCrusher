@@ -97,10 +97,10 @@ public class ErfolgeListener implements Listener {
                 meta.setEnchantmentGlintOverride(true);
                 e.getCurrentItem().setItemMeta(meta);
 
-                p.sendMessage("§6Du hast deinen Titel auf " + e.getCurrentItem().getItemMeta().getItemName() + " §6gewechselt!");
-                p.playSound(p.getLocation(), Sound.ENTITY_ARROW_HIT_PLAYER, 10, 1);
-
                 String itemName = e.getCurrentItem().getItemMeta().getItemName();
+
+                p.sendMessage("§6Du hast deinen Titel auf " +ErfolgeBuilders.titlesHashmap.get(itemName) + " §6gewechselt!");
+                p.playSound(p.getLocation(), Sound.ENTITY_ARROW_HIT_PLAYER, 10, 1);
 
                 setSuffix(itemName, p);
             }

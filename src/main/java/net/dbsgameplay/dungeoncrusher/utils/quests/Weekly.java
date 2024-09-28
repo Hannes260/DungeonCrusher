@@ -65,7 +65,7 @@ public class Weekly {
             String key = Quests.get(rdmNum);
             k2 = Weekly.getQuestKategorie(key);
             if (key == mysqlManager.getOrginQuest("weekly1") || k1 == k2) {
-                while (key == mysqlManager.getOrginQuest("weekly1")) {
+                while (key == mysqlManager.getOrginQuest("weekly1") || k1 == k2) {
                     rdmNum = random.nextInt(0, Quests.size());
                     key = Quests.get(rdmNum);
                     k2 = Weekly.getQuestKategorie(key);
@@ -81,7 +81,7 @@ public class Weekly {
             String key = Quests.get(rdmNum);
             k3 = Weekly.getQuestKategorie(key);
             if ((key == mysqlManager.getOrginQuest("weekly1") || k3 == k1) || (key == mysqlManager.getOrginQuest("weekly2") || k3 == k2)) {
-                while (key == mysqlManager.getOrginQuest("weekly1") || key == mysqlManager.getOrginQuest("weekly2")) {
+                while ((key == mysqlManager.getOrginQuest("weekly1") || k3 == k1) || (key == mysqlManager.getOrginQuest("weekly2") || k3 == k2)) {
                     rdmNum = random.nextInt(0, Quests.size());
                     key = Quests.get(rdmNum);
                     k3 = Weekly.getQuestKategorie(key);
@@ -99,49 +99,49 @@ public class Weekly {
         SimpleDateFormat format = new SimpleDateFormat("FF");
 
         if (format.format(now).equalsIgnoreCase("01")) {
-        String k1 = null;
-        String k2 = null;
-        String k3 = null;
-        
-        if (mysqlManager.getOrginQuest("weekly1") == null) {
-            Random random = new Random();
-            int rdmNum = random.nextInt(0, Quests.size());
-            String key = Quests.get(rdmNum);
-            k1 = Weekly.getQuestKategorie(key);
-            mysqlManager.updateOrginQuest("weekly1", key);
-        }
-        if (mysqlManager.getOrginQuest("weekly2") == null) {
-            Random random = new Random();
-            int rdmNum = random.nextInt(0, Quests.size());
-            String key = Quests.get(rdmNum);
-            k2 = Weekly.getQuestKategorie(key);
-            if (key == mysqlManager.getOrginQuest("weekly1") || k1 == k2) {
-                while (key == mysqlManager.getOrginQuest("weekly1")) {
-                    rdmNum = random.nextInt(0, Quests.size());
-                    key = Quests.get(rdmNum);
-                    k2 = Weekly.getQuestKategorie(key);
-                }
-                mysqlManager.updateOrginQuest("weekly2", key);
-            }else {
-                mysqlManager.updateOrginQuest("weekly2", key);
+            String k1 = null;
+            String k2 = null;
+            String k3 = null;
+
+            if (mysqlManager.getOrginQuest("weekly1") == null) {
+                Random random = new Random();
+                int rdmNum = random.nextInt(0, Quests.size());
+                String key = Quests.get(rdmNum);
+                k1 = Weekly.getQuestKategorie(key);
+                mysqlManager.updateOrginQuest("weekly1", key);
             }
-        }
-        if (mysqlManager.getOrginQuest("weekly3") == null) {
-            Random random = new Random();
-            int rdmNum = random.nextInt(0, Quests.size());
-            String key = Quests.get(rdmNum);
-            k3 = Weekly.getQuestKategorie(key);
-            if ((key == mysqlManager.getOrginQuest("weekly1") || k3 == k1) || (key == mysqlManager.getOrginQuest("weekly2") || k3 == k2)) {
-                while (key == mysqlManager.getOrginQuest("weekly1") || key == mysqlManager.getOrginQuest("weekly2")) {
-                    rdmNum = random.nextInt(0, Quests.size());
-                    key = Quests.get(rdmNum);
-                    k3 = Weekly.getQuestKategorie(key);
+            if (mysqlManager.getOrginQuest("weekly2") == null) {
+                Random random = new Random();
+                int rdmNum = random.nextInt(0, Quests.size());
+                String key = Quests.get(rdmNum);
+                k2 = Weekly.getQuestKategorie(key);
+                if (key == mysqlManager.getOrginQuest("weekly1") || k1 == k2) {
+                    while (key == mysqlManager.getOrginQuest("weekly1") || k1 == k2) {
+                        rdmNum = random.nextInt(0, Quests.size());
+                        key = Quests.get(rdmNum);
+                        k2 = Weekly.getQuestKategorie(key);
+                    }
+                    mysqlManager.updateOrginQuest("weekly2", key);
+                }else {
+                    mysqlManager.updateOrginQuest("weekly2", key);
                 }
-                mysqlManager.updateOrginQuest("weekly3", key);
-            }else {
-                mysqlManager.updateOrginQuest("weekly3", key);
             }
-        }
+            if (mysqlManager.getOrginQuest("weekly3") == null) {
+                Random random = new Random();
+                int rdmNum = random.nextInt(0, Quests.size());
+                String key = Quests.get(rdmNum);
+                k3 = Weekly.getQuestKategorie(key);
+                if ((key == mysqlManager.getOrginQuest("weekly1") || k3 == k1) || (key == mysqlManager.getOrginQuest("weekly2") || k3 == k2)) {
+                    while ((key == mysqlManager.getOrginQuest("weekly1") || k3 == k1) || (key == mysqlManager.getOrginQuest("weekly2") || k3 == k2)) {
+                        rdmNum = random.nextInt(0, Quests.size());
+                        key = Quests.get(rdmNum);
+                        k3 = Weekly.getQuestKategorie(key);
+                    }
+                    mysqlManager.updateOrginQuest("weekly3", key);
+                }else {
+                    mysqlManager.updateOrginQuest("weekly3", key);
+                }
+            }
             for (OfflinePlayer p : Bukkit.getServer().getOfflinePlayers()) {
                 mysqlManager.updatePlayerQuest( "weekly1",false, p.getUniqueId().toString());
                 mysqlManager.updatePlayerQuest( "weekly2",false, p.getUniqueId().toString());

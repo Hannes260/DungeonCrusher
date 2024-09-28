@@ -10,7 +10,7 @@ public class ErfolgeMapBuilder {
 
     public static void buildErfolgeMap() {
         HashMap<String, String> hashMap = ErfolgeBuilders.titlesHashmap;
-        List<String> moblist = Arrays.asList(ErfolgeBuilders.moblist);
+        List<String> moblist = ErfolgeBuilders.moblist;
 
         hashMap.put("Erfolg_Schaf_1", "Schaffänger");
         hashMap.put("Erfolg_Schaf_2", "Schafvernichter");
