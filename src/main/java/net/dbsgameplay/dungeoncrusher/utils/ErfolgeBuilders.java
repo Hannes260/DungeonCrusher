@@ -31,10 +31,10 @@ public class ErfolgeBuilders {
     private static final UUID RANDOM_UUID = UUID.fromString("92864445-51c5-4c3b-9039-517c9927d1b4");
     public static Inventory inv;
     public static HashMap<String, String> titlesHashmap = new HashMap<String, String>();
-
     public static List<String> moblist = new ArrayList<>();
-
     private static MYSQLManager mysqlManager;
+    public static int killAmount = 0;
+    public static int rewardAmount = 0;
 
     public ErfolgeBuilders(MYSQLManager mysqlManager) {
             this.mysqlManager = mysqlManager;
@@ -94,7 +94,7 @@ public class ErfolgeBuilders {
         setOperators(inv);
 
         for (int i = 1; i != 21; i++) {
-            int neededKillsForComplete = 150*i;
+            int neededKillsForComplete = killAmount*i;
 
             ItemStack itemStack = new ItemStack(Material.NAME_TAG);
             ItemMeta itemMeta = itemStack.getItemMeta();
@@ -146,11 +146,11 @@ public class ErfolgeBuilders {
         foodCategory.addMoney(p, value);
         p.sendMessage(" §7[§a+§7] §6" + value + "€");
         mysqlManager.updateItemAmount(p.getUniqueId().toString(), "raw_copper", mysqlManager.getItemAmount(p.getUniqueId().toString(), "raw_copper")+value/10);
-        p.sendMessage(" §7[§a+§7] §6RohKupfer §7[§a" + value + "x§7]");
-        mysqlManager.updateItemAmount(p.getUniqueId().toString(), "copper_ingot", mysqlManager.getItemAmount(p.getUniqueId().toString(), "copper")+value/10);
-        p.sendMessage(" §7[§a+§7] §6Kupferbarren §7[§a" + value + "x§7]");
+        p.sendMessage(" §7[§a+§7] §6RohKupfer §7[§a" + value/10 + "x§7]");
+        mysqlManager.updateItemAmount(p.getUniqueId().toString(), "copper_ingot", mysqlManager.getItemAmount(p.getUniqueId().toString(), "copper_ingot")+value/10);
+        p.sendMessage(" §7[§a+§7] §6Kupferbarren §7[§a" + value/10 + "x§7]");
         mysqlManager.updateItemAmount(p.getUniqueId().toString(), "coal", mysqlManager.getItemAmount(p.getUniqueId().toString(), "coal")+value/10);
-        p.sendMessage(" §7[§a+§7] §6Kohle §7[§a" + value + "x§7]");
+        p.sendMessage(" §7[§a+§7] §6Kohle §7[§a" + value/10 + "x§7]");
     }
 
 }

@@ -36,6 +36,12 @@ public class ErfolgeConfigManager {
                     mobList.add(s);
                 }
             }
+            if (config.contains("erfolge." + "killAmount")) {
+                ErfolgeBuilders.killAmount = config.getInt("erfolge." + "killAmount");
+            }
+            if (config.contains("erfolge." + "rewardAmount")) {
+                ErfolgeBuilders.rewardAmount = config.getInt("erfolge." + "rewardAmount");
+            }
         }
     }
 }

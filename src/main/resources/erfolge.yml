@@ -55,3 +55,5 @@ erfolge:
     - Verwüster
     - Eisengolem
     - Wärter
+  killAmount: 150
+  rewardAmount: 100
