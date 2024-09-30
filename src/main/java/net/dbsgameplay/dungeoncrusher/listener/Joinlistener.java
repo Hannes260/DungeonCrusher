@@ -36,8 +36,8 @@ public class Joinlistener implements Listener {
     }
     @EventHandler
     public void onJoin(PlayerJoinEvent event) {
-        Player player = event.getPlayer();
 
+        Player player = event.getPlayer();
         event.setJoinMessage(ChatColor.GREEN + "[+]" + " " + ChatColor.GRAY + player.getDisplayName());
         mysqlManager.updatePlayerUUIDByName(player.getName(), player.getUniqueId().toString());
         player.teleport(locationConfigManager.getSpawn());

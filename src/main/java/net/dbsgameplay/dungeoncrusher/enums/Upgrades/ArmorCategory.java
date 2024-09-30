@@ -1,5 +1,6 @@
 package net.dbsgameplay.dungeoncrusher.enums.Upgrades;
 
+import me.clip.placeholderapi.PlaceholderAPI;
 import net.dbsgameplay.dungeoncrusher.interfaces.UpgradeCategory;
 import net.dbsgameplay.dungeoncrusher.DungeonCrusher;
 import net.dbsgameplay.dungeoncrusher.sql.MYSQLManager;
@@ -33,18 +34,29 @@ public class ArmorCategory implements UpgradeCategory {
         this.scoreboardBuilder = new ScoreboardBuilder(DungeonCrusher.getInstance());
 
         this.upgradeItems = new HashMap<>();
-        upgradeItems.put(20, new ShopItem("§7➢ Rüstung Upgrade", Material.DIAMOND_CHESTPLATE, 25, Arrays.asList("")));
+        upgradeItems.put(10, new ShopItem("§7➢ Rüstung Upgrade", Material.PAPER, 25, Arrays.asList("")));
+        upgradeItems.put(11, new ShopItem("§7➢ Rüstung Upgrade", Material.PAPER, 25, Arrays.asList("")));
+        upgradeItems.put(12, new ShopItem("§7➢ Rüstung Upgrade", Material.PAPER, 25, Arrays.asList("")));
+        upgradeItems.put(19, new ShopItem("§7➢ Rüstung Upgrade", Material.PAPER, 25, Arrays.asList("")));
+        upgradeItems.put(20, new ShopItem("§7➢ Rüstung Upgrade", Material.PAPER, 25, Arrays.asList("")));
+        upgradeItems.put(21, new ShopItem("§7➢ Rüstung Upgrade", Material.PAPER, 25, Arrays.asList("")));
+        upgradeItems.put(28, new ShopItem("§7➢ Rüstung Upgrade", Material.PAPER, 25, Arrays.asList("")));
+        upgradeItems.put(29, new ShopItem("§7➢ Rüstung Upgrade", Material.PAPER, 25, Arrays.asList("")));
+        upgradeItems.put(30, new ShopItem("§7➢ Rüstung Upgrade", Material.PAPER, 25, Arrays.asList("")));
     }
 
     @Override
     public void openMenu(Player player) {
-        Inventory inv = Bukkit.createInventory(null, 9 * 6, "§7➢ Rüstung");
+        String DisplayName = "§f<shift:-8>%oraxen_upgrade_armor%";
+        DisplayName = PlaceholderAPI.setPlaceholders(player, DisplayName);
+        Inventory inv = Bukkit.createInventory(null, 9 * 6, DisplayName);
 
         for (int slot : upgradeItems.keySet()) {
             ShopItem shopItem = upgradeItems.get(slot);
             ItemStack itemStack = new ItemStack(shopItem.material);
             ItemMeta meta = itemStack.getItemMeta();
             meta.setDisplayName(shopItem.displayName);
+            meta.setCustomModelData(100);
 
             // Details zu benötigten Materialien und aktueller Menge hinzufügen
             String uuid = player.getUniqueId().toString();
@@ -437,11 +449,10 @@ public class ArmorCategory implements UpgradeCategory {
     }
 
     private void addBackButton(Player player, Inventory inventory) {
-        PlayerProfile backheadprofile = TexturedHeads.getProfile("https://textures.minecraft.net/texture/f7aacad193e2226971ed95302dba433438be4644fbab5ebf818054061667fbe2");
-        ItemStack backhead = new ItemStack(Material.PLAYER_HEAD);
-        SkullMeta headmeta = (SkullMeta) backhead.getItemMeta();
-        headmeta.setOwnerProfile(backheadprofile);
+        ItemStack backhead = new ItemStack(Material.PAPER);
+        ItemMeta headmeta =  backhead.getItemMeta();
         headmeta.setDisplayName("§7➢ Zurück");
+        headmeta.setCustomModelData(100);
         backhead.setItemMeta(headmeta);
         inventory.setItem(45, backhead);
     }
