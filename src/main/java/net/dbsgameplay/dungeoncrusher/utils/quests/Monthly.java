@@ -65,7 +65,7 @@ public class Monthly {
             String key = Quests.get(rdmNum);
             k2 = Monthly.getQuestKategorie(key);
             if (key == mysqlManager.getOrginQuest("monthly1") || k1 == k2) {
-                while (key == mysqlManager.getOrginQuest("monthly1")) {
+                while (key == mysqlManager.getOrginQuest("monthly1") || k1 == k2) {
                     rdmNum = random.nextInt(0, Quests.size());
                     key = Quests.get(rdmNum);
                     k2 = Monthly.getQuestKategorie(key);
@@ -81,7 +81,7 @@ public class Monthly {
             String key = Quests.get(rdmNum);
             k3 = Monthly.getQuestKategorie(key);
             if ((key == mysqlManager.getOrginQuest("monthly1") || k3 == k1) || (key == mysqlManager.getOrginQuest("monthly2") || k3 == k2)) {
-                while (key == mysqlManager.getOrginQuest("monthly1") || key == mysqlManager.getOrginQuest("monthly2")) {
+                while ((key == mysqlManager.getOrginQuest("monthly1") || k3 == k1) || (key == mysqlManager.getOrginQuest("monthly2") || k3 == k2)) {
                     rdmNum = random.nextInt(0, Quests.size());
                     key = Quests.get(rdmNum);
                     k3 = Monthly.getQuestKategorie(key);
@@ -96,7 +96,7 @@ public class Monthly {
     public static void checkForOrginQuestUpdate() {
         //
         Date now = new Date(System.currentTimeMillis());
-        SimpleDateFormat format = new SimpleDateFormat("WW");
+        SimpleDateFormat format = new SimpleDateFormat("dd");
 
         if (format.format(now).equalsIgnoreCase("01")) {
             String k1 = null;
@@ -116,7 +116,7 @@ public class Monthly {
                 String key = Quests.get(rdmNum);
                 k2 = Monthly.getQuestKategorie(key);
                 if (key == mysqlManager.getOrginQuest("monthly1") || k1 == k2) {
-                    while (key == mysqlManager.getOrginQuest("monthly1")) {
+                    while (key == mysqlManager.getOrginQuest("monthly1") || k1 == k2) {
                         rdmNum = random.nextInt(0, Quests.size());
                         key = Quests.get(rdmNum);
                         k2 = Monthly.getQuestKategorie(key);
@@ -132,7 +132,7 @@ public class Monthly {
                 String key = Quests.get(rdmNum);
                 k3 = Monthly.getQuestKategorie(key);
                 if ((key == mysqlManager.getOrginQuest("monthly1") || k3 == k1) || (key == mysqlManager.getOrginQuest("monthly2") || k3 == k2)) {
-                    while (key == mysqlManager.getOrginQuest("monthly1") || key == mysqlManager.getOrginQuest("monthly2")) {
+                    while ((key == mysqlManager.getOrginQuest("monthly1") || k3 == k1) || (key == mysqlManager.getOrginQuest("monthly2") || k3 == k2)) {
                         rdmNum = random.nextInt(0, Quests.size());
                         key = Quests.get(rdmNum);
                         k3 = Monthly.getQuestKategorie(key);

@@ -12,6 +12,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryCloseEvent;
+import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
@@ -97,12 +98,20 @@ public class ErfolgeListener implements Listener {
                 meta.setEnchantmentGlintOverride(true);
                 e.getCurrentItem().setItemMeta(meta);
 
-                p.sendMessage("§6Du hast deinen Titel auf " + e.getCurrentItem().getItemMeta().getItemName() + " §6gewechselt!");
-                p.playSound(p.getLocation(), Sound.ENTITY_ARROW_HIT_PLAYER, 10, 1);
-
                 String itemName = e.getCurrentItem().getItemMeta().getItemName();
 
+                p.sendMessage("§6Du hast deinen Titel auf " +ErfolgeBuilders.titlesHashmap.get(itemName) + " §6gewechselt!");
+                p.playSound(p.getLocation(), Sound.ENTITY_ARROW_HIT_PLAYER, 10, 1);
+
                 setSuffix(itemName, p);
+
+                Inventory inventory = ErfolgeBuilders.getInventory(locationConfigManager.getEbene(p), p);
+
+                if (inventory == null) {
+                    inventory = ErfolgeBuilders.getInventory(1, p);
+                }
+
+                p.openInventory(inventory);
             }
 
         }

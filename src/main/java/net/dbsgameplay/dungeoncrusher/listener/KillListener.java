@@ -37,7 +37,7 @@ public class KillListener implements Listener {
                     int currentKillCount = mysqlManager.getPlayerMobKills(p.getUniqueId().toString(), name);
                     for (int i = 0; i != 22; i++) {
                         if (currentKillCount == i*150) {
-                            ErfolgeBuilders.reward(i*100, p);
+                            ErfolgeBuilders.reward(i*ErfolgeBuilders.rewardAmount, p);
                             break;
                         }
                     }

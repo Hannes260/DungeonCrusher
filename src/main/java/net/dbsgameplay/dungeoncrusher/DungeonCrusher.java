@@ -62,6 +62,7 @@ public final class DungeonCrusher extends JavaPlugin {
     private DropsConfigManager dropsConfigManager;
     private RewardConfigManager rewardConfigManager;
     private QuestConfigManager questConfigManager;
+    private ErfolgeConfigManager erfolgeConfigManager;
     private MYSQLManager mysqlManager;
     private MarkingsManager markierungsManager;
     public static final String ANSI_BLUE = "\u001B[34m";
@@ -81,6 +82,7 @@ public final class DungeonCrusher extends JavaPlugin {
         dropsConfigManager = new DropsConfigManager(this);
         rewardConfigManager = new RewardConfigManager(this);
         questConfigManager = new QuestConfigManager(this);
+        erfolgeConfigManager = new ErfolgeConfigManager(this);
         mysqlManager = MYSQLManager.getInstance(getDataFolder());
         markierungsManager = new MarkingsManager(locationConfigManager);
         ErfolgeBuilders erfolgeBuilders = new ErfolgeBuilders(mysqlManager);
@@ -108,11 +110,13 @@ public final class DungeonCrusher extends JavaPlugin {
         UpgradeManager upgradeManager = new UpgradeManager(mysqlManager);
         StatsManager statsManager = new StatsManager(mysqlManager);
 
+        ErfolgeConfigManager.loadMap();
         ErfolgeMapBuilder.buildErfolgeMap();
         QuestMapBuilder.BuildMap();
         Daily daily = new Daily(mysqlManager, this);
         Weekly weekly = new Weekly(mysqlManager, this);
         Monthly monthly = new Monthly(mysqlManager, this);
+
 
         startPlaytimer(mysqlManager, getConfig(), this);
 
