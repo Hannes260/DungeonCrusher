@@ -75,7 +75,7 @@ public class ConfigManager {
             setDefaultIfNotSet("message.textureurlfail","&cMobType oder Texture URL wurde nicht gefunden für Dungeon: ");
             setDefaultIfNotSet("message.savekills", "&aKills wurden gesetzt auf %kills%.");
             setDefaultIfNotSet("message.savekillsusage", "&cBenutze: /setup setkills (Anzahl).");
-            setDefaultIfNotSet("message.requiredkillsforupgrade","&cNicht genügend Kills du benötigst: &6%required_kills%.");
+            setDefaultIfNotSet("message.requiredkillsforupgrade","&cNicht genügend Kills du benötigst: &6%required_kills% %required_mob%.");
             setDefaultIfNotSet("message.notenoughkills", "&cNicht genügend Kills.");
             setDefaultIfNotSet("message.navigatorheadlore","&aMob: &6%mob_type%");
             setDefaultIfNotSet("message.blockedcommand", "&cDieser Command ist gesperrt");

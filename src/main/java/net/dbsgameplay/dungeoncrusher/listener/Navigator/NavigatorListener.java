@@ -193,7 +193,7 @@ public class NavigatorListener implements Listener {
                                     int kills = mysqlManager.getPlayerMobKills(player.getUniqueId().toString(), germanMobType);
                                     int finalKills = requiredKills - kills;
                                     String requiredKillsString = String.valueOf(finalKills);
-                                    meta.setLore(Collections.singletonList(ConfigManager.getConfigMessage("message.requiredkillsforupgrade", "%required_kills%", requiredKillsString)));
+                                    meta.setLore(Collections.singletonList(ConfigManager.getConfigMessage("message.requiredkillsforupgrade", "%required_kills%", requiredKillsString, "%required_mob%", germanMobType)));
 
 
                                 }
