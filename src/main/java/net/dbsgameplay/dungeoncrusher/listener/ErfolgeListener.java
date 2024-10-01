@@ -18,6 +18,7 @@ import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.UUID;
 
@@ -74,19 +75,23 @@ public class ErfolgeListener implements Listener {
 
         if (e.getCurrentItem().getType().equals(Material.NAME_TAG)) {
             if (e.getCurrentItem().getItemMeta().getDisplayName().endsWith("✅")) {
-                ItemStack item = e.getCurrentItem();
+                ItemStack currentItem = e.getCurrentItem();
 
-                if  (item.getItemMeta().hasEnchant(Enchantment.KNOCKBACK)) {
-                    ItemMeta meta = item.getItemMeta();
+                if  (currentItem.containsEnchantment(Enchantment.KNOCKBACK)) {
+                    ItemMeta meta = currentItem.getItemMeta();
                     meta.removeEnchant(Enchantment.KNOCKBACK);
-                    meta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES, ItemFlag.HIDE_ITEM_SPECIFICS, ItemFlag.HIDE_ENCHANTS, ItemFlag.HIDE_ADDITIONAL_TOOLTIP);
-                    item.setItemMeta(meta);
+                    meta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
+                    ArrayList<String> arrayList = new ArrayList<String>();
+                    arrayList.addAll(meta.getLore());
+                    arrayList.set(0, meta.getLore().get(0).replace("§a", "§8"));
+                    meta.setLore(arrayList);
+                    currentItem.setItemMeta(meta);
 
                     p.sendMessage("§6Du hast deinen Titel entfernt.");
                     p.playSound(p.getLocation(), Sound.ENTITY_ARROW_HIT_PLAYER, 10, 1);
 
                     removeSuffix(p);
-                    p.openInventory(ErfolgeBuilders.getInventory(locationConfigManager.getEbene(p),p));
+
                     e.setCancelled(true);
                     return;
                 }
@@ -94,19 +99,28 @@ public class ErfolgeListener implements Listener {
                 for (ItemStack items : e.getClickedInventory().getContents()) {
                     if (items == null) continue;
 
-                    if (items.getItemMeta().hasEnchant(Enchantment.KNOCKBACK)) {
+                    if (items.containsEnchantment(Enchantment.KNOCKBACK)) {
                         ItemMeta meta = items.getItemMeta();
+                        meta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
                         meta.removeEnchant(Enchantment.KNOCKBACK);
+                        ArrayList<String> arrayList = new ArrayList<String>();
+                        arrayList.addAll(meta.getLore());
+                        arrayList.set(0, meta.getLore().get(0).replace("§a", "§8"));
+                        meta.setLore(arrayList);
                         items.setItemMeta(meta);
                     }
                 }
 
-                ItemMeta meta = item.getItemMeta();
+                ItemMeta meta = currentItem.getItemMeta();
                 meta.addEnchant(Enchantment.KNOCKBACK, 1, true);
-                meta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES, ItemFlag.HIDE_ITEM_SPECIFICS, ItemFlag.HIDE_ENCHANTS, ItemFlag.HIDE_ADDITIONAL_TOOLTIP);
-                item.setItemMeta(meta);
+                meta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
+                ArrayList<String> arrayList = new ArrayList<String>();
+                arrayList.addAll(meta.getLore());
+                arrayList.set(0, meta.getLore().get(0).replace("§a", "§8"));
+                meta.setLore(arrayList);
+                currentItem.setItemMeta(meta);
 
-                String itemName = item.getItemMeta().getItemName();
+                String itemName = currentItem.getItemMeta().getItemName();
 
                 p.sendMessage("§6Du hast deinen Titel auf " +ErfolgeBuilders.titlesHashmap.get(itemName) + " §6gewechselt!");
                 p.playSound(p.getLocation(), Sound.ENTITY_ARROW_HIT_PLAYER, 10, 1);

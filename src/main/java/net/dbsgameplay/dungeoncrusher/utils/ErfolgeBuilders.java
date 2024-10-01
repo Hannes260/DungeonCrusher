@@ -107,6 +107,19 @@ public class ErfolgeBuilders {
                 }else {
                     itemMeta.setDisplayName("§fKill §d" + neededKillsForComplete + " §f" + mob + "e.§a" + " ✅");
                 }
+
+                String mobID = "Erfolg_" + mob + "_" + i;
+
+                if (DungeonCrusher.api.getPlayerAdapter(Player.class).getUser(p).getCachedData().getMetaData().getSuffix() != null) {
+                    String suffix = DungeonCrusher.api.getPlayerAdapter(Player.class).getUser(p).getCachedData().getMetaData().getSuffix();
+                    if (suffix.substring(0, suffix.length() -3 ).substring(6).equalsIgnoreCase(titlesHashmap.get(itemMeta.getItemName()))) {
+                        itemMeta.addEnchant(Enchantment.KNOCKBACK, 1, true);
+                        arrayList.add("§7[" + "§a" + titlesHashmap.get(mobID) + "§7]");
+                    }else {
+                        itemMeta.removeEnchant(Enchantment.KNOCKBACK);
+                        arrayList.add("§7[" + "§8" + titlesHashmap.get(mobID) + "§7]");
+                    }
+                }
             }else {
                 if (mob.endsWith("e")) {
                     itemMeta.setDisplayName("§fKill §d" + neededKillsForComplete + " §f" + mob + ".");
@@ -116,19 +129,8 @@ public class ErfolgeBuilders {
                 arrayList.add("§7Du brauchst noch §6" + (neededKillsForComplete-kills) + " §7Kills.");
             }
 
-            String mobID = "Erfolg_" + mob + "_" + i;
             itemMeta.setItemName("Erfolg_" + mob + "_"+i);
 
-            if (DungeonCrusher.api.getPlayerAdapter(Player.class).getUser(p).getCachedData().getMetaData().getSuffix() != null) {
-                String suffix = DungeonCrusher.api.getPlayerAdapter(Player.class).getUser(p).getCachedData().getMetaData().getSuffix();
-                if (suffix.substring(0, suffix.length() -3 ).substring(6).equalsIgnoreCase(titlesHashmap.get(itemMeta.getItemName()))) {
-                    itemMeta.addEnchant(Enchantment.KNOCKBACK, 1, true);
-                    arrayList.add("§7[" + "§a" + titlesHashmap.get(mobID) + "§7]");
-                }else {
-                    itemMeta.removeEnchant(Enchantment.KNOCKBACK);
-                    arrayList.add("§7[" + "§8" + titlesHashmap.get(mobID) + "§7]");
-                }
-            }
             itemMeta.setLore(arrayList);
             itemMeta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES, ItemFlag.HIDE_ITEM_SPECIFICS, ItemFlag.HIDE_ENCHANTS, ItemFlag.HIDE_ADDITIONAL_TOOLTIP);
             itemStack.setItemMeta(itemMeta);
