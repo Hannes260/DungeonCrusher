@@ -78,47 +78,36 @@ public class ErfolgeListener implements Listener {
                 ItemStack currentItem = e.getCurrentItem();
 
                 if  (currentItem.containsEnchantment(Enchantment.KNOCKBACK)) {
-                    ItemMeta meta = currentItem.getItemMeta();
-                    meta.removeEnchant(Enchantment.KNOCKBACK);
-                    meta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
-                    ArrayList<String> arrayList = new ArrayList<String>();
-                    arrayList.addAll(meta.getLore());
-                    arrayList.set(0, meta.getLore().get(0).replace("§a", "§8"));
-                    meta.setLore(arrayList);
-                    currentItem.setItemMeta(meta);
+//                    ItemMeta meta = currentItem.getItemMeta();
+//                    meta.removeEnchant(Enchantment.KNOCKBACK);
+//                    meta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
+//                    currentItem.setItemMeta(meta);
 
                     p.sendMessage("§6Du hast deinen Titel entfernt.");
                     p.playSound(p.getLocation(), Sound.ENTITY_ARROW_HIT_PLAYER, 10, 1);
 
                     removeSuffix(p);
 
+                    p.openInventory(ErfolgeBuilders.getInventory(locationConfigManager.getEbene(p),p));
                     e.setCancelled(true);
                     return;
                 }
 
-                for (ItemStack items : e.getClickedInventory().getContents()) {
-                    if (items == null) continue;
-
-                    if (items.containsEnchantment(Enchantment.KNOCKBACK)) {
-                        ItemMeta meta = items.getItemMeta();
-                        meta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
-                        meta.removeEnchant(Enchantment.KNOCKBACK);
-                        ArrayList<String> arrayList = new ArrayList<String>();
-                        arrayList.addAll(meta.getLore());
-                        arrayList.set(0, meta.getLore().get(0).replace("§a", "§8"));
-                        meta.setLore(arrayList);
-                        items.setItemMeta(meta);
-                    }
-                }
-
-                ItemMeta meta = currentItem.getItemMeta();
-                meta.addEnchant(Enchantment.KNOCKBACK, 1, true);
-                meta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
-                ArrayList<String> arrayList = new ArrayList<String>();
-                arrayList.addAll(meta.getLore());
-                arrayList.set(0, meta.getLore().get(0).replace("§a", "§8"));
-                meta.setLore(arrayList);
-                currentItem.setItemMeta(meta);
+//                for (ItemStack items : e.getClickedInventory().getContents()) {
+//                    if (items == null) continue;
+//
+//                    if (items.containsEnchantment(Enchantment.KNOCKBACK)) {
+//                        ItemMeta meta = items.getItemMeta();
+//                        meta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
+//                        meta.removeEnchant(Enchantment.KNOCKBACK);
+//                        items.setItemMeta(meta);
+//                    }
+//                }
+//
+//                ItemMeta meta = currentItem.getItemMeta();
+//                meta.addEnchant(Enchantment.KNOCKBACK, 1, true);
+//                meta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
+//                currentItem.setItemMeta(meta);
 
                 String itemName = currentItem.getItemMeta().getItemName();
 
@@ -128,11 +117,11 @@ public class ErfolgeListener implements Listener {
                 setSuffix(itemName, p);
 
                 p.openInventory(ErfolgeBuilders.getInventory(locationConfigManager.getEbene(p),p));
+                e.setCancelled(true);
+                return;
             }
 
         }
-
-        e.setCancelled(true);
     }
 
     public void setSuffix(String suffix, Player player) {
