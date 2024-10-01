@@ -25,7 +25,7 @@ public class StatsCommand implements CommandExecutor {
                 if (args.length == 0) {
                     StatsManager.openMainShopMenu(player);
             }else
-                player.sendMessage(ConfigManager.getConfigMessage("message.statsusage","",""));
+                player.sendMessage(ConfigManager.getPrefix() + ConfigManager.getConfigMessage("message.statsusage","",""));
         }else
                 ConfigManager.getConfigMessage("message.noplayer","");
         return false;
