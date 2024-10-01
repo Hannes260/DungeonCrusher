@@ -49,7 +49,6 @@ public class CustomDropListener implements Listener {
         Player player = (Player) event.getEntity().getKiller();
         EntityType entityType = event.getEntityType();
         String mobName = entityType.name();
-
         // Laden der Geld-Drops
         double moneyDropChance = dropsConfigManager.loadMoneyDropChance(mobName);
         double random = Math.random();
