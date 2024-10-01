@@ -163,6 +163,19 @@ public class DungeonProtectionListener implements Listener {
         }
     }
     @EventHandler
+    public void onPlayerInteractArmorStand(PlayerInteractEvent event) {
+        if (event.getClickedBlock() instanceof ArmorStand) {
+            event.setCancelled(true);
+        }
+    }
+
+    @EventHandler
+    public void onEntityInteract(EntityInteractEvent event) {
+        if (event.getEntity() instanceof ArmorStand) {
+            event.setCancelled(true);
+        }
+    }
+    @EventHandler
     public void onPlayerRide(EntityDamageEvent event) {
         if (event.getEntity() instanceof Player) {
             Player player = (Player) event.getEntity();
