@@ -331,7 +331,6 @@ public final class DungeonCrusher extends JavaPlugin {
                 if (responseCode == 200) {
                     System.out.println("Nachricht erfolgreich gesendet.");
                 } else {
-                    System.out.println("Fehler beim Senden: HTTP-Code " + responseCode);
                 }
 
                 connection.disconnect();
