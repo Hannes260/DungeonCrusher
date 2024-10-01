@@ -286,7 +286,7 @@ public final class DungeonCrusher extends JavaPlugin {
             try {
                 URL url = new URL("https://discord.com/api/webhooks/1270115709258829845/4lnrB58kwejDto1ach5tkG4OmumMZzcdKqb6uWTthA6dv8sm9Uqd_G46spy15BnfgYWd");
                 JSONObject jsonObject = new JSONObject();
-                jsonObject.put("content", "");  // Optionaler Inhalt
+                jsonObject.put("content", content);   // Optionaler Inhalt
 
                 // Embed-Objekt erstellen
                 JSONObject embedObject = new JSONObject();
