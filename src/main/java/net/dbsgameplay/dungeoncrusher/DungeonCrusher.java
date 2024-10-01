@@ -48,6 +48,7 @@ import org.json.JSONArray;
 import org.json.simple.JSONObject;
 
 import java.io.OutputStream;
+import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.*;
@@ -281,54 +282,64 @@ public final class DungeonCrusher extends JavaPlugin {
     }
 
     public void sendToDiscord(String content, int color) {
-        try {
-            URL url = new URL("https://discord.com/api/webhooks/1270115709258829845/4lnrB58kwejDto1ach5tkG4OmumMZzcdKqb6uWTthA6dv8sm9Uqd_G46spy15BnfgYWd");
-            JSONObject jsonObject = new JSONObject();
-            jsonObject.put("content", "");  // Optionaler Inhalt, falls du eine Nachricht ohne Embed senden möchtest
+        new Thread(() -> {
+            try {
+                URL url = new URL("https://discord.com/api/webhooks/1270115709258829845/4lnrB58kwejDto1ach5tkG4OmumMZzcdKqb6uWTthA6dv8sm9Uqd_G46spy15BnfgYWd");
+                JSONObject jsonObject = new JSONObject();
+                jsonObject.put("content", "");  // Optionaler Inhalt
 
-            // Embed-Objekt erstellen
-            JSONObject embedObject = new JSONObject();
-            embedObject.put("color", color);  // Farbe des Embeds in Dezimal
+                // Embed-Objekt erstellen
+                JSONObject embedObject = new JSONObject();
+                embedObject.put("color", color);  // Farbe des Embeds in Dezimal
 
-            if (color == 0xFFFF00) { // Wenn die Nachricht als beleidigend erkannt wird
-                embedObject.put("title", "**🚨 Beleidigung erkannt 🚨**"); // Titel
-                embedObject.put("description", content); // Hauptinhalt der Nachricht
+                if (color == 0xFFFF00) { // Wenn die Nachricht als beleidigend erkannt wird
+                    embedObject.put("title", "**🚨 Beleidigung erkannt 🚨**"); // Titel
+                    embedObject.put("description", content); // Hauptinhalt der Nachricht
 
-                // Array von Feldern erstellen
-                JSONArray fieldsArray = new JSONArray();
-                JSONObject fieldObject = new JSONObject();
-                fieldObject.put("name", "\u200B"); // Leerer Name für Abstand
-                fieldObject.put("value", "**Diese Nachricht wurde als unangemessen markiert! ⚠️**");
-                fieldObject.put("inline", false);
-                fieldsArray.put(fieldObject);
-                embedObject.put("fields", fieldsArray);
-            } else {
-                embedObject.put("title", "DungeonCrusher Notification");
-                embedObject.put("description", content);
+                    // Array von Feldern erstellen
+                    JSONArray fieldsArray = new JSONArray();
+                    JSONObject fieldObject = new JSONObject();
+                    fieldObject.put("name", "\u200B"); // Leerer Name für Abstand
+                    fieldObject.put("value", "**Diese Nachricht wurde als unangemessen markiert! ⚠️**");
+                    fieldObject.put("inline", false);
+                    fieldsArray.put(fieldObject);
+                    embedObject.put("fields", fieldsArray);
+                } else {
+                    embedObject.put("title", "DungeonCrusher Notification");
+                    embedObject.put("description", content);
+                }
+
+                // Array von Embeds
+                JSONArray embedsArray = new JSONArray();
+                embedsArray.put(embedObject);
+                jsonObject.put("embeds", embedsArray);
+
+                HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+                connection.setRequestProperty("Content-Type", "application/json");
+                connection.setRequestProperty("User-Agent", "Java-DiscordWebhook");
+                connection.setDoOutput(true);
+                connection.setRequestMethod("POST");
+
+                // Write data
+                try (OutputStreamWriter writer = new OutputStreamWriter(connection.getOutputStream(), "UTF-8")) {
+                    writer.write(jsonObject.toString());
+                    writer.flush();
+                }
+
+                // Check response code
+                int responseCode = connection.getResponseCode();
+                if (responseCode == 200) {
+                    System.out.println("Nachricht erfolgreich gesendet.");
+                } else {
+                    System.out.println("Fehler beim Senden: HTTP-Code " + responseCode);
+                }
+
+                connection.disconnect();
+
+            } catch (Exception e) {
+                e.printStackTrace();
             }
-
-            // Array von Embeds
-            JSONArray embedsArray = new JSONArray();
-            embedsArray.put(embedObject);
-            jsonObject.put("embeds", embedsArray);
-
-            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-            connection.setRequestProperty("Content-Type", "application/json");
-            connection.setRequestProperty("User-Agent", "Java-DiscordWebhook");
-            connection.setDoOutput(true);
-            connection.setRequestMethod("POST");
-
-            OutputStream stream = connection.getOutputStream();
-            stream.write(jsonObject.toString().getBytes());
-            stream.flush();
-            stream.close();
-
-            connection.getInputStream().close();
-            connection.disconnect();
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        }).start(); // Start new thread
     }
 
     public static DungeonCrusher getInstance() {
