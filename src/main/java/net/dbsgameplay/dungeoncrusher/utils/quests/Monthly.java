@@ -265,7 +265,6 @@ public class Monthly {
                             } else {
                                 mysqlManager.updatePlayerTempQuest("monthly1", p.getUniqueId().toString(), mysqlManager.getPlayerTempQuest("monthly1", p.getUniqueId().toString())+1);
                             }
-                            break;
                     }
                 } else if (s.equals(Quest2)) {
                     if (!Monthly.isDone(2, p)) {
@@ -289,7 +288,6 @@ public class Monthly {
                             } else {
                                 mysqlManager.updatePlayerTempQuest("monthly2", p.getUniqueId().toString(), mysqlManager.getPlayerTempQuest("monthly2", p.getUniqueId().toString())+1);
                             }
-                            break;
                     }
                 } else if (s.equals(Quest3)) {
                     if (!Monthly.isDone(3, p)) {
@@ -313,7 +311,6 @@ public class Monthly {
                             } else {
                                 mysqlManager.updatePlayerTempQuest("monthly3", p.getUniqueId().toString(), mysqlManager.getPlayerTempQuest("monthly3", p.getUniqueId().toString())+1);
                             }
-                            break;
                     }
                 }
             }

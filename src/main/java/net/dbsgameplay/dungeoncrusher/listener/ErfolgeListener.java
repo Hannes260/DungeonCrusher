@@ -6,6 +6,7 @@ import net.dbsgameplay.dungeoncrusher.utils.ErfolgeBuilders;
 import net.luckperms.api.node.types.SuffixNode;
 import org.bukkit.Material;
 import org.bukkit.Sound;
+import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -13,6 +14,7 @@ import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.bukkit.inventory.Inventory;
+import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
@@ -72,14 +74,19 @@ public class ErfolgeListener implements Listener {
 
         if (e.getCurrentItem().getType().equals(Material.NAME_TAG)) {
             if (e.getCurrentItem().getItemMeta().getDisplayName().endsWith("✅")) {
+                ItemStack item = e.getCurrentItem();
 
-                if  (e.getCurrentItem().getItemMeta().getEnchantmentGlintOverride()) {
+                if  (item.getItemMeta().hasEnchant(Enchantment.KNOCKBACK)) {
+                    ItemMeta meta = item.getItemMeta();
+                    meta.removeEnchant(Enchantment.KNOCKBACK);
+                    meta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES, ItemFlag.HIDE_ITEM_SPECIFICS, ItemFlag.HIDE_ENCHANTS, ItemFlag.HIDE_ADDITIONAL_TOOLTIP);
+                    item.setItemMeta(meta);
+
                     p.sendMessage("§6Du hast deinen Titel entfernt.");
                     p.playSound(p.getLocation(), Sound.ENTITY_ARROW_HIT_PLAYER, 10, 1);
-                    ItemMeta meta = e.getCurrentItem().getItemMeta();
-                    meta.setEnchantmentGlintOverride(false);
-                    e.getCurrentItem().setItemMeta(meta);
+
                     removeSuffix(p);
+                    p.openInventory(ErfolgeBuilders.getInventory(locationConfigManager.getEbene(p),p));
                     e.setCancelled(true);
                     return;
                 }
@@ -87,31 +94,26 @@ public class ErfolgeListener implements Listener {
                 for (ItemStack items : e.getClickedInventory().getContents()) {
                     if (items == null) continue;
 
-                    if (items.getItemMeta().hasEnchantmentGlintOverride()) {
+                    if (items.getItemMeta().hasEnchant(Enchantment.KNOCKBACK)) {
                         ItemMeta meta = items.getItemMeta();
-                        meta.setEnchantmentGlintOverride(false);
+                        meta.removeEnchant(Enchantment.KNOCKBACK);
                         items.setItemMeta(meta);
                     }
                 }
 
-                ItemMeta meta = e.getCurrentItem().getItemMeta();
-                meta.setEnchantmentGlintOverride(true);
-                e.getCurrentItem().setItemMeta(meta);
+                ItemMeta meta = item.getItemMeta();
+                meta.addEnchant(Enchantment.KNOCKBACK, 1, true);
+                meta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES, ItemFlag.HIDE_ITEM_SPECIFICS, ItemFlag.HIDE_ENCHANTS, ItemFlag.HIDE_ADDITIONAL_TOOLTIP);
+                item.setItemMeta(meta);
 
-                String itemName = e.getCurrentItem().getItemMeta().getItemName();
+                String itemName = item.getItemMeta().getItemName();
 
                 p.sendMessage("§6Du hast deinen Titel auf " +ErfolgeBuilders.titlesHashmap.get(itemName) + " §6gewechselt!");
                 p.playSound(p.getLocation(), Sound.ENTITY_ARROW_HIT_PLAYER, 10, 1);
 
                 setSuffix(itemName, p);
 
-                Inventory inventory = ErfolgeBuilders.getInventory(locationConfigManager.getEbene(p), p);
-
-                if (inventory == null) {
-                    inventory = ErfolgeBuilders.getInventory(1, p);
-                }
-
-                p.openInventory(inventory);
+                p.openInventory(ErfolgeBuilders.getInventory(locationConfigManager.getEbene(p),p));
             }
 
         }

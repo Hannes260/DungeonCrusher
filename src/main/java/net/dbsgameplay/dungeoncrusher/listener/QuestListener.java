@@ -63,24 +63,16 @@ public class QuestListener implements Listener {
         // Null-Check ist jetzt unnötig, da wir tutorialQuest initialisieren
         switch (tutorialQuest) {
             case "t4":
-                BossBar bossBar4 = QuestBuilder.bossBar;
-                bossBar4.setTitle(tutorialQuestMap.get("t4"));
-                bossBar4.addPlayer(p);
+                QuestBuilder.questBar_t4.addPlayer(p);
                 break;
             case "t3":
-                BossBar bossBar3 = QuestBuilder.bossBar;
-                bossBar3.setTitle(tutorialQuestMap.get("t3"));
-                bossBar3.addPlayer(p);
+                QuestBuilder.questBar_t3.addPlayer(p);
                 break;
             case "t2":
-                BossBar bossBar2 = QuestBuilder.bossBar;
-                bossBar2.setTitle(tutorialQuestMap.get("t2"));
-                bossBar2.addPlayer(p);
+                QuestBuilder.questBar_t2.addPlayer(p);
                 break;
             case "t1":
-                BossBar bossBar1 = QuestBuilder.bossBar;
-                bossBar1.setTitle(tutorialQuestMap.get("t1"));
-                bossBar1.addPlayer(p);
+                QuestBuilder.questBar_t1.addPlayer(p);
                 break;
         }
         loadPlaytime(p);
@@ -99,9 +91,8 @@ public class QuestListener implements Listener {
         if (mysqlManager.getTutorialQuest(p.getUniqueId().toString()).equalsIgnoreCase("t4")) {
             if (mysqlManager.getSwordLevel(p.getUniqueId().toString()) >= 2) {
                 mysqlManager.updateTutorialQuest(p.getUniqueId().toString(), "t3");
-                BossBar bossBar3 = QuestBuilder.bossBar;
-                bossBar3.setTitle(tutorialQuestMap.get("t3"));
-                bossBar3.addPlayer(p);
+                QuestBuilder.questBar_t4.removePlayer(p);
+                QuestBuilder.questBar_t3.addPlayer(p);
                 p.playSound(p.getLocation(), Sound.ENTITY_ARROW_HIT_PLAYER, 100, 1);
             }
         }
@@ -202,11 +193,12 @@ public class QuestListener implements Listener {
                     public void run() {
                         if (p.hasPotionEffect(PotionEffectType.STRENGTH)) {
                             mysqlManager.updateTutorialQuest(p.getUniqueId().toString(), "t1");
-                            BossBar bossBar2 = QuestBuilder.bossBar;
+                            QuestBuilder.questBar_t2.removePlayer(p);
+                            QuestBuilder.questBar_t1.addPlayer(p);
                             p.playSound(p.getLocation(), Sound.ENTITY_ARROW_HIT_PLAYER, 100, 1);
                         }
                     }
-                }.runTaskLater(dungeonCrusher, 1L);
+                }.runTaskLater(dungeonCrusher, 20L);
             }
         }
 
@@ -215,17 +207,17 @@ public class QuestListener implements Listener {
     @EventHandler
     public void EntityDeathEvent(EntityDeathEvent e) {
         if (e.getEntity().getKiller() instanceof Player p) {
-            Daily.doQuest(p, Daily.KillQuestList);
-            Weekly.doQuest(p, Weekly.KillQuestList);
-            Monthly.doQuest(p, Monthly.KillQuestList);
+            if (QuestBuilder.isTutorialDone(p)) {
+                Daily.doQuest(p, Daily.KillQuestList);
+                Weekly.doQuest(p, Weekly.KillQuestList);
+                Monthly.doQuest(p, Monthly.KillQuestList);
+            }
 
             if (mysqlManager.getDungeonCountForPlayer(p.getUniqueId().toString()) >= 2 && mysqlManager.getTutorialQuest(p.getUniqueId().toString()).equalsIgnoreCase("t1")) {
                 mysqlManager.updateTutorialQuest(p.getUniqueId().toString(), "t0");
-                BossBar bossBar1 = QuestBuilder.bossBar;
-                bossBar1.removePlayer(p);
+                QuestBuilder.questBar_t1.removePlayer(p);
                 p.sendMessage("§6Du hast das Tutorial anbgeschlossen! Viel spaß dir noch auf dem Dungeoncrusher!");
                 p.playSound(p.getLocation(), Sound.ENTITY_ARROW_HIT_PLAYER, 100, 1);
-
             }
         }
     }
@@ -243,10 +235,12 @@ public class QuestListener implements Listener {
     public void PlayerMoveEvent(PlayerMoveEvent e) {
         Player p = e.getPlayer();
 
-        if(e.getFrom().getBlockX() != e.getTo().getBlockX() || e.getFrom().getBlockZ() != e.getTo().getBlockZ()) {
-            Daily.doQuest(p, Daily.MoveQuestList);
-            Weekly.doQuest(p, Weekly.MoveQuestList);
-            Monthly.doQuest(p, Monthly.MoveQuestList);
+        if (QuestBuilder.isTutorialDone(p)) {
+            if(e.getFrom().getBlockX() != e.getTo().getBlockX() || e.getFrom().getBlockZ() != e.getTo().getBlockZ()) {
+                Daily.doQuest(p, Daily.MoveQuestList);
+                Weekly.doQuest(p, Weekly.MoveQuestList);
+                Monthly.doQuest(p, Monthly.MoveQuestList);
+            }
         }
     }
 

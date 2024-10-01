@@ -38,7 +38,10 @@ public class QuestBuilder {
     public static HashMap<String, String> tutorialQuestMap = new HashMap<>();
     public static List<String> dailyQuestList = new ArrayList<>();
 
-    public static BossBar bossBar = Bukkit.createBossBar(tutorialQuestMap.get("t3"), BarColor.BLUE, BarStyle.SOLID);
+    public static BossBar questBar_t4 = Bukkit.createBossBar(tutorialQuestMap.get("t4"), BarColor.BLUE, BarStyle.SOLID);
+    public static BossBar questBar_t3 = Bukkit.createBossBar(tutorialQuestMap.get("t3"), BarColor.BLUE, BarStyle.SOLID);
+    public static BossBar questBar_t2 = Bukkit.createBossBar(tutorialQuestMap.get("t2"), BarColor.BLUE, BarStyle.SOLID);
+    public static BossBar questBar_t1 = Bukkit.createBossBar(tutorialQuestMap.get("t1"), BarColor.BLUE, BarStyle.SOLID);
 
     public static Inventory getQuestmenü() {
         return questMenu;

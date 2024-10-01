@@ -128,9 +128,8 @@ public class FoodCategory implements ShopCategory {
 
                 if (mysqlManager.getTutorialQuest(p.getUniqueId().toString()).equalsIgnoreCase("t3")) {
                     mysqlManager.updateTutorialQuest(p.getUniqueId().toString(), "t2");
-                    BossBar bossBar2 = QuestBuilder.bossBar;
-                    bossBar2.setTitle(QuestBuilder.tutorialQuestMap.get("t2"));
-                    bossBar2.addPlayer(p);
+                    QuestBuilder.questBar_t3.removePlayer(p);
+                    QuestBuilder.questBar_t2.addPlayer(p);
                     p.playSound(p.getLocation(), Sound.ENTITY_ARROW_HIT_PLAYER, 100, 1);
                 }
 

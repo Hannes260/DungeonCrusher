@@ -270,7 +270,6 @@ public class Daily {
                             } else {
                                 mysqlManager.updatePlayerTempQuest("daily1", p.getUniqueId().toString(), mysqlManager.getPlayerTempQuest("daily1", p.getUniqueId().toString())+1);
                             }
-                            break;
                     }
                 } else if (s.equals(Quest2)) {
                     if (!Daily.isDone(2, p)) {
@@ -294,7 +293,6 @@ public class Daily {
                             } else {
                                 mysqlManager.updatePlayerTempQuest("daily2", p.getUniqueId().toString(), mysqlManager.getPlayerTempQuest("daily2", p.getUniqueId().toString())+1);
                             }
-                            break;
                     }
                 } else if (s.equals(Quest3)) {
                     if (!Daily.isDone(3, p)) {
@@ -318,7 +316,6 @@ public class Daily {
                             } else {
                                 mysqlManager.updatePlayerTempQuest("daily3", p.getUniqueId().toString(), mysqlManager.getPlayerTempQuest("daily3", p.getUniqueId().toString())+1);
                             }
-                            break;
                     }
                 }
             }

@@ -6,6 +6,7 @@ import net.dbsgameplay.dungeoncrusher.sql.MYSQLManager;
 import net.dbsgameplay.dungeoncrusher.utils.Configs.ConfigManager;
 import net.dbsgameplay.dungeoncrusher.utils.Configs.DropsConfigManager;
 import net.dbsgameplay.dungeoncrusher.utils.Manager.HologramManager;
+import net.dbsgameplay.dungeoncrusher.utils.QuestBuilder;
 import net.dbsgameplay.dungeoncrusher.utils.ScoreboardBuilder;
 import net.dbsgameplay.dungeoncrusher.utils.quests.Daily;
 import net.dbsgameplay.dungeoncrusher.utils.quests.Monthly;
@@ -86,10 +87,12 @@ public class CustomDropListener implements Listener {
             int currentItem = mysqlManager.getItemAmount(playerUUID, item);
             mysqlManager.updateItemAmount(playerUUID, material.name(), currentItem + amountToDrop);
 
-            for (int i = 0; i != amountToDrop; i++) {
-                Daily.doQuest(player, Daily.GetQuestList);
-                Weekly.doQuest(player, Weekly.GetQuestList);
-                Monthly.doQuest(player, Monthly.GetQuestList);
+            if (QuestBuilder.isTutorialDone(player)) {
+                for (int i = 0; i != amountToDrop; i++) {
+                    Daily.doQuest(player, Daily.GetQuestList);
+                    Weekly.doQuest(player, Weekly.GetQuestList);
+                    Monthly.doQuest(player, Monthly.GetQuestList);
+                }
             }
 
             // Sync Task für Inventaroperationen und Hologramme

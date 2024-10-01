@@ -9,6 +9,7 @@ import net.dbsgameplay.dungeoncrusher.utils.Manager.DungeonManager;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.Sound;
+import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemFlag;
@@ -121,15 +122,15 @@ public class ErfolgeBuilders {
             if (DungeonCrusher.api.getPlayerAdapter(Player.class).getUser(p).getCachedData().getMetaData().getSuffix() != null) {
                 String suffix = DungeonCrusher.api.getPlayerAdapter(Player.class).getUser(p).getCachedData().getMetaData().getSuffix();
                 if (suffix.substring(0, suffix.length() -3 ).substring(6).equalsIgnoreCase(titlesHashmap.get(itemMeta.getItemName()))) {
-                    itemMeta.setEnchantmentGlintOverride(true);
+                    itemMeta.addEnchant(Enchantment.KNOCKBACK, 1, true);
                     arrayList.add("§7[" + "§a" + titlesHashmap.get(mobID) + "§7]");
                 }else {
-                    itemMeta.setEnchantmentGlintOverride(false);
+                    itemMeta.removeEnchant(Enchantment.KNOCKBACK);
                     arrayList.add("§7[" + "§8" + titlesHashmap.get(mobID) + "§7]");
                 }
             }
             itemMeta.setLore(arrayList);
-            itemMeta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES, ItemFlag.HIDE_ITEM_SPECIFICS, ItemFlag.HIDE_ENCHANTS, ItemFlag.HIDE_ADDITIONAL_TOOLTIP, ItemFlag.HIDE_STORED_ENCHANTS);
+            itemMeta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES, ItemFlag.HIDE_ITEM_SPECIFICS, ItemFlag.HIDE_ENCHANTS, ItemFlag.HIDE_ADDITIONAL_TOOLTIP);
             itemStack.setItemMeta(itemMeta);
 
             int[] slots = {0,9,18,27,28,29,20,11,2,3,4,13,22,31,32,33,24,15,6,7};
