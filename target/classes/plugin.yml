@@ -79,3 +79,4 @@ commands:
     description: Betritt den Discord
     aliases: [discord]
   test:
+    permission: dc.command.test
