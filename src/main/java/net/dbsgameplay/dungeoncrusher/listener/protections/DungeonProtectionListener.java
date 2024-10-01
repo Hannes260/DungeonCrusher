@@ -2,6 +2,7 @@ package net.dbsgameplay.dungeoncrusher.listener.protections;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
+import org.bukkit.entity.ArmorStand;
 import org.bukkit.entity.Player;
 import org.bukkit.entity.Projectile;
 import org.bukkit.event.EventHandler;
@@ -13,6 +14,7 @@ import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.entity.*;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.player.PlayerDropItemEvent;
+import org.bukkit.event.player.PlayerInteractEntityEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerSwapHandItemsEvent;
 
@@ -148,6 +150,28 @@ public class DungeonProtectionListener implements Listener {
         Player player = event.getPlayer();
         if (!isBuildModeEnabled(player) && event.getAction() == Action.RIGHT_CLICK_BLOCK) {
             event.setCancelled(true);
+        }
+    }
+    @EventHandler
+    public void onPlayerInteractWithArmorStand(PlayerInteractEntityEvent event) {
+        if (event.getRightClicked() instanceof ArmorStand) {
+            Player player = event.getPlayer();
+            // Überprüfen, ob der Spieler im Build-Modus ist
+            if (!isBuildModeEnabled(player)) {
+                event.setCancelled(true); // Verhindert die Interaktion// Optional: Nachricht an den Spieler
+            }
+        }
+    }
+    @EventHandler
+    public void onPlayerRide(EntityDamageEvent event) {
+        if (event.getEntity() instanceof Player) {
+            Player player = (Player) event.getEntity();
+            if (!isBuildModeEnabled(player)) {
+                // Verhindert das Reiten auf Tieren
+                if (player.getVehicle() != null) {
+                    player.leaveVehicle(); // Spieler verlässt das Fahrzeug
+                }
+            }
         }
     }
 }

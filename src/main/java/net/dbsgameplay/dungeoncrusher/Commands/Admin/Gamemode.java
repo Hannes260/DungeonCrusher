@@ -52,7 +52,7 @@ public class Gamemode implements CommandExecutor {
                     } else if (args.length == 2) {
                         Player target = Bukkit.getPlayer(args[1]);
                         if (target != null) {
-                            target.setGameMode(GameMode.CREATIVE);
+                            target.setGameMode(GameMode.ADVENTURE);
                             target.sendMessage(ConfigManager.getPrefix() + "§aDu wurdest in den Adventure  gesetzt");
                             player.sendMessage(ConfigManager.getPrefix() + "§aDu hast §e" + target.getName() + " §ain den Adventure  gesetzt");
                         } else
