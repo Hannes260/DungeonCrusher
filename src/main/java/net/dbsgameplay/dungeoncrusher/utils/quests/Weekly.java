@@ -45,6 +45,7 @@ public class Weekly {
         String k3 = null;
         
         if (mysqlManager.getOrginQuest("weekly1") == null) {
+            Bukkit.getLogger().info("Weekly1 is missing... fixing...");
             Random random = new Random();
             int rdmNum = random.nextInt(0, Quests.size());
             String key = Quests.get(rdmNum);
@@ -52,6 +53,7 @@ public class Weekly {
             mysqlManager.updateOrginQuest("weekly1", key);
         }
         if (mysqlManager.getOrginQuest("weekly2") == null) {
+            Bukkit.getLogger().info("Weekly2 is missing... fixing...");
             Random random = new Random();
             int rdmNum = random.nextInt(0, Quests.size());
             String key = Quests.get(rdmNum);
@@ -68,6 +70,7 @@ public class Weekly {
             }
         }
         if (mysqlManager.getOrginQuest("weekly3") == null) {
+            Bukkit.getLogger().info("Weekly3 is missing... fixing...");
             Random random = new Random();
             int rdmNum = random.nextInt(0, Quests.size());
             String key = Quests.get(rdmNum);
@@ -87,14 +90,15 @@ public class Weekly {
 
     public static void checkForOrginQuestUpdate() {
         Date now = new Date(System.currentTimeMillis());
-        SimpleDateFormat format = new SimpleDateFormat("FF");
+        SimpleDateFormat format = new SimpleDateFormat("FF:HH");
 
-        if (format.format(now).equalsIgnoreCase("01")) {
+        if (format.format(now).equalsIgnoreCase("01:00")) {
             String k1 = null;
             String k2 = null;
             String k3 = null;
 
             if (mysqlManager.getOrginQuest("weekly1") == null) {
+                Bukkit.getLogger().info("Weekly1 is updating...");
                 Random random = new Random();
                 int rdmNum = random.nextInt(0, Quests.size());
                 String key = Quests.get(rdmNum);
@@ -102,6 +106,7 @@ public class Weekly {
                 mysqlManager.updateOrginQuest("weekly1", key);
             }
             if (mysqlManager.getOrginQuest("weekly2") == null) {
+                Bukkit.getLogger().info("Weekly2 is updating...");
                 Random random = new Random();
                 int rdmNum = random.nextInt(0, Quests.size());
                 String key = Quests.get(rdmNum);
@@ -118,6 +123,7 @@ public class Weekly {
                 }
             }
             if (mysqlManager.getOrginQuest("weekly3") == null) {
+                Bukkit.getLogger().info("Weekly3 is updating...");
                 Random random = new Random();
                 int rdmNum = random.nextInt(0, Quests.size());
                 String key = Quests.get(rdmNum);
@@ -133,6 +139,7 @@ public class Weekly {
                     mysqlManager.updateOrginQuest("weekly3", key);
                 }
             }
+            Bukkit.getLogger().info("Reseting Weekly PlayerTempQuests...");
             for (OfflinePlayer p : Bukkit.getServer().getOfflinePlayers()) {
                 mysqlManager.updatePlayerQuest( "weekly1",false, p.getUniqueId().toString());
                 mysqlManager.updatePlayerQuest( "weekly2",false, p.getUniqueId().toString());
@@ -225,6 +232,7 @@ public class Weekly {
                 mysqlManager.getPlayerTempQuest("weekly2", p.getUniqueId().toString());
                 mysqlManager.getPlayerTempQuest("weekly3", p.getUniqueId().toString());
             }catch (Exception e) {
+                Bukkit.getLogger().info("Weekly temps reseting... ");
                 mysqlManager.updatePlayerTempQuest("weekly1", p.getUniqueId().toString(), 0);
                 mysqlManager.updatePlayerTempQuest("weekly2", p.getUniqueId().toString(), 0);
                 mysqlManager.updatePlayerTempQuest("weekly3", p.getUniqueId().toString(), 0);

@@ -45,6 +45,7 @@ public class Daily {
         String k3 = null;
         
         if (mysqlManager.getOrginQuest("daily1") == null) {
+            Bukkit.getLogger().info("Daily1 is missing... fixing...");
             Random random = new Random();
             int rdmNum = random.nextInt(0, Quests.size());
             String key = Quests.get(rdmNum);
@@ -52,6 +53,7 @@ public class Daily {
             mysqlManager.updateOrginQuest("daily1", key);
         }
         if (mysqlManager.getOrginQuest("daily2") == null) {
+            Bukkit.getLogger().info("Daily2 is missing... fixing...");
             Random random = new Random();
             int rdmNum = random.nextInt(0, Quests.size());
             String key = Quests.get(rdmNum);
@@ -68,6 +70,7 @@ public class Daily {
             }
         }
         if (mysqlManager.getOrginQuest("daily3") == null) {
+            Bukkit.getLogger().info("Daily3 is missing... fixing...");
             Random random = new Random();
             int rdmNum = random.nextInt(0, Quests.size());
             String key = Quests.get(rdmNum);
@@ -95,6 +98,7 @@ public class Daily {
             String k3 = null;
 
             if (mysqlManager.getOrginQuest("daily1") == null) {
+                Bukkit.getLogger().info("Daily1 is updating... ");
                 Random random = new Random();
                 int rdmNum = random.nextInt(0, Quests.size());
                 String key = Quests.get(rdmNum);
@@ -102,6 +106,7 @@ public class Daily {
                 mysqlManager.updateOrginQuest("daily1", key);
             }
             if (mysqlManager.getOrginQuest("daily2") == null) {
+                Bukkit.getLogger().info("Daily2 is updating... ");
                 Random random = new Random();
                 int rdmNum = random.nextInt(0, Quests.size());
                 String key = Quests.get(rdmNum);
@@ -118,6 +123,7 @@ public class Daily {
                 }
             }
             if (mysqlManager.getOrginQuest("daily3") == null) {
+                Bukkit.getLogger().info("Daily3 is updating... ");
                 Random random = new Random();
                 int rdmNum = random.nextInt(0, Quests.size());
                 String key = Quests.get(rdmNum);
@@ -133,6 +139,7 @@ public class Daily {
                     mysqlManager.updateOrginQuest("daily3", key);
                 }
             }
+            Bukkit.getLogger().info("Reseting Daily PlayerTempQuests... ");
             for (OfflinePlayer p : Bukkit.getServer().getOfflinePlayers()) {
                 mysqlManager.updatePlayerQuest( "daily1",false, p.getUniqueId().toString());
                 mysqlManager.updatePlayerQuest( "daily2",false, p.getUniqueId().toString());
@@ -175,8 +182,6 @@ public class Daily {
         return kategorie;
     }
 
-
-    
     public static String getQuestTitle(String questID) {
         String title = null;
         if (PlayQuestList.containsKey(questID)) {
@@ -228,6 +233,7 @@ public class Daily {
                 mysqlManager.getPlayerTempQuest("daily2", p.getUniqueId().toString());
                 mysqlManager.getPlayerTempQuest("daily3", p.getUniqueId().toString());
             }catch (Exception e) {
+                Bukkit.getLogger().info("Daily temps reseting... ");
                 mysqlManager.updatePlayerTempQuest("daily1", p.getUniqueId().toString(), 0);
                 mysqlManager.updatePlayerTempQuest("daily2", p.getUniqueId().toString(), 0);
                 mysqlManager.updatePlayerTempQuest("daily3", p.getUniqueId().toString(), 0);

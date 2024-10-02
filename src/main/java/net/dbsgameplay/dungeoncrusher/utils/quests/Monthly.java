@@ -45,6 +45,7 @@ public class Monthly {
         String k3 = null;
         
         if (mysqlManager.getOrginQuest("monthly1") == null) {
+            Bukkit.getLogger().info("Monthly1 is missing... fixing...");
             Random random = new Random();
             int rdmNum = random.nextInt(0, Quests.size());
             String key = Quests.get(rdmNum);
@@ -52,6 +53,7 @@ public class Monthly {
             mysqlManager.updateOrginQuest("monthly1", key);
         }
         if (mysqlManager.getOrginQuest("monthly2") == null) {
+            Bukkit.getLogger().info("Monthly2 is missing... fixing...");
             Random random = new Random();
             int rdmNum = random.nextInt(0, Quests.size());
             String key = Quests.get(rdmNum);
@@ -68,6 +70,7 @@ public class Monthly {
             }
         }
         if (mysqlManager.getOrginQuest("monthly3") == null) {
+            Bukkit.getLogger().info("Monthly3 is missing... fixing...");
             Random random = new Random();
             int rdmNum = random.nextInt(0, Quests.size());
             String key = Quests.get(rdmNum);
@@ -87,14 +90,15 @@ public class Monthly {
 
     public static void checkForOrginQuestUpdate() {
         Date now = new Date(System.currentTimeMillis());
-        SimpleDateFormat format = new SimpleDateFormat("dd");
+        SimpleDateFormat format = new SimpleDateFormat("dd:HH");
 
-        if (format.format(now).equalsIgnoreCase("01")) {
+        if (format.format(now).equalsIgnoreCase("01:00")) {
             String k1 = null;
             String k2 = null;
             String k3 = null;
 
             if (mysqlManager.getOrginQuest("monthly1") == null) {
+                Bukkit.getLogger().info("Monthly1 is updating...");
                 Random random = new Random();
                 int rdmNum = random.nextInt(0, Quests.size());
                 String key = Quests.get(rdmNum);
@@ -102,6 +106,7 @@ public class Monthly {
                 mysqlManager.updateOrginQuest("monthly1", key);
             }
             if (mysqlManager.getOrginQuest("monthly2") == null) {
+                Bukkit.getLogger().info("Monthly2 is updating...");
                 Random random = new Random();
                 int rdmNum = random.nextInt(0, Quests.size());
                 String key = Quests.get(rdmNum);
@@ -118,6 +123,7 @@ public class Monthly {
                 }
             }
             if (mysqlManager.getOrginQuest("monthly3") == null) {
+                Bukkit.getLogger().info("Monthly3 is updating...");
                 Random random = new Random();
                 int rdmNum = random.nextInt(0, Quests.size());
                 String key = Quests.get(rdmNum);
@@ -133,6 +139,7 @@ public class Monthly {
                     mysqlManager.updateOrginQuest("monthly3", key);
                 }
             }
+            Bukkit.getLogger().info("Reseting Monthly PlayerTempQuests...");
             for (OfflinePlayer p : Bukkit.getServer().getOfflinePlayers()) {
                 mysqlManager.updatePlayerQuest("monthly1", false, p.getUniqueId().toString());
                 mysqlManager.updatePlayerQuest("monthly2", false, p.getUniqueId().toString());
@@ -225,6 +232,7 @@ public class Monthly {
                 mysqlManager.getPlayerTempQuest("monthly2", p.getUniqueId().toString());
                 mysqlManager.getPlayerTempQuest("monthly3", p.getUniqueId().toString());
             }catch (Exception e) {
+                Bukkit.getLogger().info("Monthly temps reseting... ");
                 mysqlManager.updatePlayerTempQuest("monthly1", p.getUniqueId().toString(), 0);
                 mysqlManager.updatePlayerTempQuest("monthly2", p.getUniqueId().toString(), 0);
                 mysqlManager.updatePlayerTempQuest("monthly3", p.getUniqueId().toString(), 0);

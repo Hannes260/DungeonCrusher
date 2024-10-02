@@ -1,15 +1,11 @@
 package net.dbsgameplay.dungeoncrusher.Commands.Quests;
 
-import com.destroystokyo.paper.Title;
-import net.dbsgameplay.dungeoncrusher.DungeonCrusher;
 import net.dbsgameplay.dungeoncrusher.sql.MYSQLManager;
 import net.dbsgameplay.dungeoncrusher.utils.QuestBuilder;
-import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-import org.bukkit.inventory.Inventory;
 
 public class QuestCommand implements CommandExecutor {
 

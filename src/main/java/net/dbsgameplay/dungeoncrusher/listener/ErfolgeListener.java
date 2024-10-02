@@ -5,22 +5,19 @@ import net.dbsgameplay.dungeoncrusher.utils.Configs.LocationConfigManager;
 import net.dbsgameplay.dungeoncrusher.utils.ErfolgeBuilders;
 import net.luckperms.api.model.user.User;
 import net.luckperms.api.node.types.SuffixNode;
-import org.apache.commons.lang3.ObjectUtils;
 import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.event.entity.EntityDeathEvent;
+import org.bukkit.event.inventory.ClickType;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryCloseEvent;
-import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.UUID;
 
@@ -33,7 +30,7 @@ public class ErfolgeListener implements Listener {
         this.locationConfigManager = locationConfigManager;
     }
 
-    public static HashMap<UUID, Integer> ebeneHashMap = new HashMap<UUID, Integer>();
+    public static HashMap<UUID, Integer> ebeneHashMap = new HashMap<>();
 
     @EventHandler
     public void PlayerCloseInvEvent(InventoryCloseEvent e) {
@@ -48,6 +45,11 @@ public class ErfolgeListener implements Listener {
     public void InventoryClickEvent(InventoryClickEvent e) {
         Player p = (Player) e.getWhoClicked();
         User user = DungeonCrusher.api.getUserManager().getUser(p.getUniqueId());
+
+        if (e.getClick() == ClickType.NUMBER_KEY) {
+            e.setCancelled(true);
+            return;
+        }
 
         if  (e.getClickedInventory() == null) return;
         if  (!e.getClickedInventory().equals(ErfolgeBuilders.inv)) return;
