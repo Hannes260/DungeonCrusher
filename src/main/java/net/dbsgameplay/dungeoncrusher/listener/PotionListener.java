@@ -15,9 +15,16 @@ public class PotionListener implements Listener {
         final Player player = e.getPlayer();
 
         if (e.getItem().getType() == Material.POTION) {
-            Bukkit.getServer().getScheduler().runTaskLaterAsynchronously(DungeonCrusher.getInstance(), new Runnable() {
+            Bukkit.getServer().getScheduler().runTaskLater(DungeonCrusher.getInstance(), new Runnable() {
+                @Override
                 public void run() {
-                    player.setItemInHand(new ItemStack(Material.AIR));
+                    // Entferne die leere Flasche aus dem Inventar
+                    for (ItemStack item : player.getInventory().getContents()) {
+                        if (item != null && item.getType() == Material.GLASS_BOTTLE) {
+                            player.getInventory().remove(item);
+                            break; // Nur eine leere Flasche entfernen
+                        }
+                    }
                 }
             }, 1L);
         }
