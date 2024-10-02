@@ -39,7 +39,9 @@ public class UpgradeListener implements Listener {
         }
 
         // Verhindere Hotkey-Aktionen mit der Nummerntaste
-        if (event.getAction() == InventoryAction.HOTBAR_MOVE_AND_READD || event.getClick() == ClickType.NUMBER_KEY) {
+        if (event.getAction() == InventoryAction.HOTBAR_MOVE_AND_READD ||
+                event.getAction() == InventoryAction.HOTBAR_SWAP ||
+                event.getClick() == ClickType.NUMBER_KEY) {
             event.setCancelled(true);
             player.updateInventory(); // Verhindert visuelle Bugs
             return;
