@@ -95,6 +95,7 @@ public class ErfolgeListener implements Listener {
                         p.sendMessage("§6Du hast deinen Titel entfernt.");
                         p.playSound(p.getLocation(), Sound.ENTITY_ARROW_HIT_PLAYER, 10, 1);
 
+                        currentItem.setItemMeta(itemMeta);
                         e.setCancelled(true);
                         return;
                     }
@@ -105,19 +106,23 @@ public class ErfolgeListener implements Listener {
                 for (ItemStack item : e.getClickedInventory().getContents()) {
                     if (item != null) {
                         if (item.containsEnchantment(Enchantment.KNOCKBACK)) {
-                            itemMeta.removeEnchant(Enchantment.KNOCKBACK);
+                            ItemMeta itemMeta1 = item.getItemMeta();
+                            itemMeta1.removeEnchant(Enchantment.KNOCKBACK);
+                            item.setItemMeta(itemMeta1);
                         }
                     }
                 }
 
                 itemMeta.addEnchant(Enchantment.KNOCKBACK,1,true);
+                itemMeta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
 
                 p.sendMessage("§6Du hast deinen Titel auf " +ErfolgeBuilders.titlesHashmap.get(itemName) + " §6gewechselt!");
                 p.playSound(p.getLocation(), Sound.ENTITY_ARROW_HIT_PLAYER, 10, 1);
 
+                currentItem.setItemMeta(itemMeta);
                 e.setCancelled(true);
             }
-
+            e.setCancelled(true);
         }
     }
 

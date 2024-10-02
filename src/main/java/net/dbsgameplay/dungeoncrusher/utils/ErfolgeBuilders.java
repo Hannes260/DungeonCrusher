@@ -112,7 +112,7 @@ public class ErfolgeBuilders {
                     itemMeta.setDisplayName("§fKill §d" + neededKills + " §f" + mob + "e.§a" + " ✅");
                 }
 
-                arrayList.add("§7[" + "§a" + titlesHashmap.get(itemName) + "§7]");
+                arrayList.add("§7[" + "§8" + titlesHashmap.get(itemName) + "§7]");
 
             }else {
                 if (mob.endsWith("e") || mob.endsWith("l")) {
