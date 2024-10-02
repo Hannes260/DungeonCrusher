@@ -19,7 +19,7 @@ public class DiscordCommand implements CommandExecutor {
 
         Player player = (Player) sender;
         if (sender instanceof Player){
-            TextComponent c = new TextComponent("§9System &f● §9Unser Discord: ");
+            TextComponent c = new TextComponent("§9System §f● §9Unser Discord: ");
             TextComponent clickMe = new TextComponent("§e§nKlicke hier");
             clickMe.setClickEvent(new ClickEvent(ClickEvent.Action.OPEN_URL, "https://discord.gg/KFdJtJ5pZD"));
             clickMe.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, TextComponent.fromLegacyText("§aBesuche unseren Discord")));
