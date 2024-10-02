@@ -39,16 +39,8 @@ public class UpgradeListener implements Listener {
             return;
         }
 
-        // Verhindere Hotkey-Aktionen mit der Nummerntaste
-        if (event.getClick() == ClickType.NUMBER_KEY) {
-            // Abbrechen der Aktion
-            event.setCancelled(true);
-
-            // Überprüfen, ob der Slot ein Slot im Spielerinventar ist (nicht nur Slot 1, sondern das ganze Inventar)
-            if (event.getClickedInventory() != null && event.getClickedInventory().getType() == InventoryType.PLAYER) {
-                // Verhindern, dass Gegenstände per Hotkey verschoben werden
-                event.setCancelled(true);
-            }
+        if (clickedItem == null || clickedItem.getItemMeta() == null || clickedItem.getItemMeta().getDisplayName() == null) {
+            return; // Kein gültiges Item, also nichts tun
         }
         String title = event.getView().getTitle();
         String DisplayNameSwordUpgrade = "§f<shift:-8>%oraxen_upgrade_sword%";

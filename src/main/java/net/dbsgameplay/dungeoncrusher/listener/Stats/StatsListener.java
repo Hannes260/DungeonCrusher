@@ -17,6 +17,7 @@ import org.bukkit.event.inventory.ClickType;
 import org.bukkit.event.inventory.InventoryAction;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryType;
+import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
@@ -41,16 +42,8 @@ public class StatsListener implements Listener {
             return;
         }
 
-        // Verhindere Hotkey-Aktionen mit der Nummerntaste
-        if (event.getClick() == ClickType.NUMBER_KEY) {
-            // Abbrechen der Aktion
-            event.setCancelled(true);
-
-            // Überprüfen, ob der Slot ein Slot im Spielerinventar ist (nicht nur Slot 1, sondern das ganze Inventar)
-            if (event.getClickedInventory() != null && event.getClickedInventory().getType() == InventoryType.PLAYER) {
-                // Verhindern, dass Gegenstände per Hotkey verschoben werden
-                event.setCancelled(true);
-            }
+        if (clickedItem == null || clickedItem.getItemMeta() == null || clickedItem.getItemMeta().getDisplayName() == null) {
+            return; // Kein gültiges Item, also nichts tun
         }
         String displayName = "§f<shift:-8>%oraxen_stats_gui%";
         displayName = PlaceholderAPI.setPlaceholders(player, displayName);
