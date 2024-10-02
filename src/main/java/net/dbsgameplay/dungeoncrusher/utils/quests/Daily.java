@@ -97,7 +97,7 @@ public class Daily {
             String k2 = null;
             String k3 = null;
 
-            if (mysqlManager.getOrginQuest("daily1") == null) {
+            if (mysqlManager.getOrginQuest("daily1") != null) {
                 Bukkit.getLogger().info("Daily1 is updating... ");
                 Random random = new Random();
                 int rdmNum = random.nextInt(0, Quests.size());
@@ -105,7 +105,7 @@ public class Daily {
                 k1 = Daily.getQuestKategorie(key);
                 mysqlManager.updateOrginQuest("daily1", key);
             }
-            if (mysqlManager.getOrginQuest("daily2") == null) {
+            if (mysqlManager.getOrginQuest("daily2") != null) {
                 Bukkit.getLogger().info("Daily2 is updating... ");
                 Random random = new Random();
                 int rdmNum = random.nextInt(0, Quests.size());
@@ -122,7 +122,7 @@ public class Daily {
                     mysqlManager.updateOrginQuest("daily2", key);
                 }
             }
-            if (mysqlManager.getOrginQuest("daily3") == null) {
+            if (mysqlManager.getOrginQuest("daily3") != null) {
                 Bukkit.getLogger().info("Daily3 is updating... ");
                 Random random = new Random();
                 int rdmNum = random.nextInt(0, Quests.size());

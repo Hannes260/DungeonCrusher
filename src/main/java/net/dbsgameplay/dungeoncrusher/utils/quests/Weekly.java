@@ -97,7 +97,7 @@ public class Weekly {
             String k2 = null;
             String k3 = null;
 
-            if (mysqlManager.getOrginQuest("weekly1") == null) {
+            if (mysqlManager.getOrginQuest("weekly1") != null) {
                 Bukkit.getLogger().info("Weekly1 is updating...");
                 Random random = new Random();
                 int rdmNum = random.nextInt(0, Quests.size());
@@ -105,7 +105,7 @@ public class Weekly {
                 k1 = Weekly.getQuestKategorie(key);
                 mysqlManager.updateOrginQuest("weekly1", key);
             }
-            if (mysqlManager.getOrginQuest("weekly2") == null) {
+            if (mysqlManager.getOrginQuest("weekly2") != null) {
                 Bukkit.getLogger().info("Weekly2 is updating...");
                 Random random = new Random();
                 int rdmNum = random.nextInt(0, Quests.size());
@@ -122,7 +122,7 @@ public class Weekly {
                     mysqlManager.updateOrginQuest("weekly2", key);
                 }
             }
-            if (mysqlManager.getOrginQuest("weekly3") == null) {
+            if (mysqlManager.getOrginQuest("weekly3") != null) {
                 Bukkit.getLogger().info("Weekly3 is updating...");
                 Random random = new Random();
                 int rdmNum = random.nextInt(0, Quests.size());
