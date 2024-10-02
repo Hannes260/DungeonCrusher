@@ -39,7 +39,15 @@ public class ShopListener implements Listener {
         Inventory clickedInventory = event.getClickedInventory();
         ItemStack clickedItem = event.getCurrentItem();
 
+
         if (clickedInventory == null || clickedItem == null || clickedItem.getType().isAir()) {
+            return;
+        }
+
+        // Verhindere Hotkey-Aktionen mit der Nummerntaste
+        if (event.getAction() == InventoryAction.HOTBAR_MOVE_AND_READD || event.getClick() == ClickType.NUMBER_KEY) {
+            event.setCancelled(true);
+            player.updateInventory(); // Verhindert visuelle Bugs
             return;
         }
 
@@ -55,11 +63,6 @@ public class ShopListener implements Listener {
 
         String displayNameExchange = "§f<shift:-8>%oraxen_exchange_gui%";
         displayNameExchange = PlaceholderAPI.setPlaceholders(player, displayNameExchange);
-
-        if (event.getAction() == InventoryAction.HOTBAR_MOVE_AND_READD || event.getClick() == ClickType.NUMBER_KEY) {
-            event.setCancelled(true);
-            return;
-        }
 
         // Originales Shop-Inventar
         if (displayName.equalsIgnoreCase(title)) {

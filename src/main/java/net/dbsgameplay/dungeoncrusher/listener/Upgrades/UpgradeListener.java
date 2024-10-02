@@ -38,6 +38,13 @@ public class UpgradeListener implements Listener {
             return;
         }
 
+        // Verhindere Hotkey-Aktionen mit der Nummerntaste
+        if (event.getAction() == InventoryAction.HOTBAR_MOVE_AND_READD || event.getClick() == ClickType.NUMBER_KEY) {
+            event.setCancelled(true);
+            player.updateInventory(); // Verhindert visuelle Bugs
+            return;
+        }
+
         String title = event.getView().getTitle();
         String DisplayNameSwordUpgrade = "§f<shift:-8>%oraxen_upgrade_sword%";
         DisplayNameSwordUpgrade = PlaceholderAPI.setPlaceholders(player, DisplayNameSwordUpgrade);
@@ -47,10 +54,6 @@ public class UpgradeListener implements Listener {
 
         String DisplayName = "§f<shift:-8>%oraxen_upgrade%";
         DisplayName = PlaceholderAPI.setPlaceholders(player, DisplayName);
-        if (event.getAction() == InventoryAction.HOTBAR_MOVE_AND_READD || event.getClick() == ClickType.NUMBER_KEY) {
-            event.setCancelled(true);
-            return;
-        }
         // Prüfe, ob der Titel des Inventars mit dem Upgrade-Inventar übereinstimmt
         if (DisplayName.equalsIgnoreCase(title)) {
             event.setCancelled(true);

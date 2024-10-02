@@ -40,6 +40,13 @@ public class StatsListener implements Listener {
             return;
         }
 
+        // Verhindere Hotkey-Aktionen mit der Nummerntaste
+        if (event.getAction() == InventoryAction.HOTBAR_MOVE_AND_READD || event.getClick() == ClickType.NUMBER_KEY) {
+            event.setCancelled(true);
+            player.updateInventory(); // Verhindert visuelle Bugs
+            return;
+        }
+
         String displayName = "§f<shift:-8>%oraxen_stats_gui%";
         displayName = PlaceholderAPI.setPlaceholders(player, displayName);
         String title = event.getView().getTitle();
@@ -48,11 +55,6 @@ public class StatsListener implements Listener {
         displayNameKills = PlaceholderAPI.setPlaceholders(player, displayNameKills);
         String displayNameGeneralStats = "§f<shift:-8>%oraxen_general_stats_gui%";
         displayNameGeneralStats = PlaceholderAPI.setPlaceholders(player, displayNameGeneralStats);
-
-        if (event.getAction() == InventoryAction.HOTBAR_MOVE_AND_READD || event.getClick() == ClickType.NUMBER_KEY) {
-            event.setCancelled(true);
-            return;
-        }
 
         // Main Stats Inventory
         if (title.equalsIgnoreCase(displayName)) {
