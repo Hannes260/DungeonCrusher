@@ -9,9 +9,7 @@ import org.bukkit.OfflinePlayer;
 import org.bukkit.Sound;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
-import org.joml.QuaterniondInterpolator;
 
-import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
@@ -35,18 +33,10 @@ public class Daily {
     }
 
     public static void load() {
-        for (String s : MoveQuestList.keySet()) {
-            Quests.add(s);
-        }
-        for (String s : GetQuestList.keySet()) {
-            Quests.add(s);
-        }
-        for (String s : KillQuestList.keySet()) {
-            Quests.add(s);
-        }
-        for (String s : PlayQuestList.keySet()) {
-            Quests.add(s);
-        }
+        Quests.addAll(MoveQuestList.keySet());
+        Quests.addAll(GetQuestList.keySet());
+        Quests.addAll(KillQuestList.keySet());
+        Quests.addAll(PlayQuestList.keySet());
     }
 
     public static void checkForOrginQuest() {
@@ -66,8 +56,8 @@ public class Daily {
             int rdmNum = random.nextInt(0, Quests.size());
             String key = Quests.get(rdmNum);
             k2 = Daily.getQuestKategorie(key);
-            if (key == mysqlManager.getOrginQuest("daily1") || k1 == k2) {
-                while (key == mysqlManager.getOrginQuest("daily1") || k1 == k2) {
+            if (key.equalsIgnoreCase(mysqlManager.getOrginQuest("daily1")) || k1.equalsIgnoreCase(k2) ) {
+                while (key.equalsIgnoreCase(mysqlManager.getOrginQuest("daily1")) || k1.equalsIgnoreCase(k2)) {
                     rdmNum = random.nextInt(0, Quests.size());
                     key = Quests.get(rdmNum);
                     k2 = Daily.getQuestKategorie(key);
@@ -82,8 +72,8 @@ public class Daily {
             int rdmNum = random.nextInt(0, Quests.size());
             String key = Quests.get(rdmNum);
             k3 = Daily.getQuestKategorie(key);
-            if ((key == mysqlManager.getOrginQuest("daily1") || k3 == k1) || (key == mysqlManager.getOrginQuest("daily2") || k3 == k2)) {
-                while ((key == mysqlManager.getOrginQuest("daily1") || k3 == k1) || (key == mysqlManager.getOrginQuest("daily2") || k3 == k2)) {
+            if ((key.equalsIgnoreCase(mysqlManager.getOrginQuest("daily1")) || k3.equalsIgnoreCase(k1)) || (key.equalsIgnoreCase(mysqlManager.getOrginQuest("daily2")) || k3.equalsIgnoreCase(k2))) {
+                while ((key.equalsIgnoreCase(mysqlManager.getOrginQuest("daily1")) || k3.equalsIgnoreCase(k1)) || (key.equalsIgnoreCase(mysqlManager.getOrginQuest("daily2")) || k3.equalsIgnoreCase(k2))) {
                     rdmNum = random.nextInt(0, Quests.size());
                     key = Quests.get(rdmNum);
                     k3 = Daily.getQuestKategorie(key);
@@ -96,7 +86,6 @@ public class Daily {
     }
 
     public static void checkForOrginQuestUpdate() {
-        //
         Date now = new Date(System.currentTimeMillis());
         SimpleDateFormat format = new SimpleDateFormat("HH");
 
@@ -117,8 +106,8 @@ public class Daily {
                 int rdmNum = random.nextInt(0, Quests.size());
                 String key = Quests.get(rdmNum);
                 k2 = Daily.getQuestKategorie(key);
-                if (key == mysqlManager.getOrginQuest("daily1") || k1 == k2) {
-                    while (key == mysqlManager.getOrginQuest("daily1") || k1 == k2) {
+                if (key.equalsIgnoreCase(mysqlManager.getOrginQuest("daily1")) || k1.equalsIgnoreCase(k2) ) {
+                    while (key.equalsIgnoreCase(mysqlManager.getOrginQuest("daily1")) || k1.equalsIgnoreCase(k2)) {
                         rdmNum = random.nextInt(0, Quests.size());
                         key = Quests.get(rdmNum);
                         k2 = Daily.getQuestKategorie(key);
@@ -133,8 +122,8 @@ public class Daily {
                 int rdmNum = random.nextInt(0, Quests.size());
                 String key = Quests.get(rdmNum);
                 k3 = Daily.getQuestKategorie(key);
-                if ((key == mysqlManager.getOrginQuest("daily1") || k3 == k1) || (key == mysqlManager.getOrginQuest("daily2") || k3 == k2)) {
-                    while ((key == mysqlManager.getOrginQuest("daily1") || k3 == k1) || (key == mysqlManager.getOrginQuest("daily2") || k3 == k2)) {
+                if ((key.equalsIgnoreCase(mysqlManager.getOrginQuest("daily1")) || k3.equalsIgnoreCase(k1)) || (key.equalsIgnoreCase(mysqlManager.getOrginQuest("daily2")) || k3.equalsIgnoreCase(k2))) {
+                    while ((key.equalsIgnoreCase(mysqlManager.getOrginQuest("daily1")) || k3.equalsIgnoreCase(k1)) || (key.equalsIgnoreCase(mysqlManager.getOrginQuest("daily2")) || k3.equalsIgnoreCase(k2))) {
                         rdmNum = random.nextInt(0, Quests.size());
                         key = Quests.get(rdmNum);
                         k3 = Daily.getQuestKategorie(key);
@@ -223,10 +212,7 @@ public class Daily {
     }
 
     public static boolean isDone(int num, Player p){
-        if (mysqlManager.getPlayerQuest("daily" + num, p.getUniqueId().toString()) == true) {
-            return true;
-        }
-        return false;
+        return mysqlManager.getPlayerQuest("daily" + num, p.getUniqueId().toString());
     }
 
     public static void doQuest(Player p, HashMap<String, Integer> questMap) {
@@ -249,75 +235,39 @@ public class Daily {
 
             for (String s : questMap.keySet()) {
                 if (s.equals(Quest1)) {
-                    if (!Daily.isDone(1, p)) {
-                            if (mysqlManager.getPlayerTempQuest("daily1", p.getUniqueId().toString()) == questMap.get(s)) {
-                                p.playSound(p.getLocation(), Sound.ENTITY_ARROW_HIT_PLAYER, 100, 1);
-                                mysqlManager.updatePlayerQuest("daily1", true, p.getUniqueId().toString());
-                                mysqlManager.updatePlayerTempQuest("daily1", p.getUniqueId().toString(), 0);
-                                p.sendActionBar("§6Du hast eine Quest abgeschlossen hol dir deine Belohnung §d/quest");
-                                if (Daily.RewardMoneyList.get(s) != null) {
-                                    foodCategory.addMoney(p, Daily.RewardMoneyList.get(s));
-                                    p.sendMessage(" §7[§a+§7] §6" + Daily.RewardMoneyList.get(s) + "€");
-                                }
-                                for (int i = 0; i!= 10; i++) {
-                                    if (!QuestBuilder.unclaimedQuestRewards.containsKey(p.getUniqueId().toString()+i)) {
-                                       QuestBuilder.unclaimedQuestRewards.put(p.getUniqueId().toString()+i, RewardItemList.get(mysqlManager.getOrginQuest("daily1")));
-                                        break;
-                                    }else {
-                                        continue;
-                                    }
-                                }
-                            } else {
-                                mysqlManager.updatePlayerTempQuest("daily1", p.getUniqueId().toString(), mysqlManager.getPlayerTempQuest("daily1", p.getUniqueId().toString())+1);
-                            }
-                    }
+                    handle(1, "daily1", p, questMap, s, foodCategory);
                 } else if (s.equals(Quest2)) {
-                    if (!Daily.isDone(2, p)) {
-                            if (mysqlManager.getPlayerTempQuest("daily2", p.getUniqueId().toString()) == questMap.get(s)) {
-                                p.playSound(p.getLocation(), Sound.ENTITY_ARROW_HIT_PLAYER, 100, 1);
-                                mysqlManager.updatePlayerQuest("daily2", true, p.getUniqueId().toString());
-                                mysqlManager.updatePlayerTempQuest("daily2", p.getUniqueId().toString(), 0);
-                                p.sendActionBar("§6Du hast eine Quest abgeschlossen hol dir deine Belohnung §d/quest");
-                                if (Daily.RewardMoneyList.get(s) != null) {
-                                    foodCategory.addMoney(p, Daily.RewardMoneyList.get(s));
-                                    p.sendMessage(" §7[§a+§7] §6" + Daily.RewardMoneyList.get(s) + "€");
-                                }
-                                for (int i = 0; i!= 10; i++) {
-                                    if (!QuestBuilder.unclaimedQuestRewards.containsKey(p.getUniqueId().toString()+i)) {
-                                        QuestBuilder.unclaimedQuestRewards.put(p.getUniqueId().toString()+i, RewardItemList.get(mysqlManager.getOrginQuest("daily2")));
-                                        break;
-                                    }else {
-                                        continue;
-                                    }
-                                }
-                            } else {
-                                mysqlManager.updatePlayerTempQuest("daily2", p.getUniqueId().toString(), mysqlManager.getPlayerTempQuest("daily2", p.getUniqueId().toString())+1);
-                            }
-                    }
+                    handle(2, "daily2", p, questMap, s, foodCategory);
                 } else if (s.equals(Quest3)) {
-                    if (!Daily.isDone(3, p)) {
-                            if (mysqlManager.getPlayerTempQuest("daily3", p.getUniqueId().toString()) == questMap.get(s)) {
-                                p.playSound(p.getLocation(), Sound.ENTITY_ARROW_HIT_PLAYER, 100, 1);
-                                mysqlManager.updatePlayerQuest("daily3", true, p.getUniqueId().toString());
-                                mysqlManager.updatePlayerTempQuest("daily3", p.getUniqueId().toString(), 0);
-                                p.sendActionBar("§6Du hast eine Quest abgeschlossen hol dir deine Belohnung §d/quest");
-                                if (Daily.RewardMoneyList.get(s) != null) {
-                                    foodCategory.addMoney(p, Daily.RewardMoneyList.get(s));
-                                    p.sendMessage(" §7[§a+§7] §6" + Daily.RewardMoneyList.get(s) + "€");
-                                }
-                                for (int i = 0; i!= 10; i++) {
-                                    if (!QuestBuilder.unclaimedQuestRewards.containsKey(p.getUniqueId().toString()+i)) {
-                                        QuestBuilder.unclaimedQuestRewards.put(p.getUniqueId().toString()+i, RewardItemList.get(mysqlManager.getOrginQuest("daily3")));
-                                        break;
-                                    }else {
-                                        continue;
-                                    }
-                                }
-                            } else {
-                                mysqlManager.updatePlayerTempQuest("daily3", p.getUniqueId().toString(), mysqlManager.getPlayerTempQuest("daily3", p.getUniqueId().toString())+1);
-                            }
+                    handle(3, "daily3", p, questMap, s, foodCategory);
+                }
+            }
+        }
+    }
+
+    public static void handle(int num, String questType, Player p, HashMap<String, Integer> questMap, String s, FoodCategory foodCategory) {
+        if (!Daily.isDone(num, p)) {
+            if (mysqlManager.getPlayerTempQuest(questType, p.getUniqueId().toString()) == questMap.get(s)) {
+                p.playSound(p.getLocation(), Sound.ENTITY_ARROW_HIT_PLAYER, 100, 1);
+
+                mysqlManager.updatePlayerQuest(questType, true, p.getUniqueId().toString());
+                mysqlManager.updatePlayerTempQuest(questType, p.getUniqueId().toString(), 0);
+
+                p.sendActionBar("§6Du hast eine Quest abgeschlossen hol dir deine Belohnung §d/quest");
+
+                if (Daily.RewardMoneyList.get(s) != null) {
+                    foodCategory.addMoney(p, Daily.RewardMoneyList.get(s));
+                    p.sendMessage(" §7[§a+§7] §6" + Daily.RewardMoneyList.get(s) + "€");
+                }
+
+                for (int i = 0; i!= 10; i++) {
+                    if (!QuestBuilder.unclaimedQuestRewards.containsKey(p.getUniqueId().toString()+i)) {
+                        QuestBuilder.unclaimedQuestRewards.put(p.getUniqueId().toString()+i, RewardItemList.get(mysqlManager.getOrginQuest(questType)));
+                        break;
                     }
                 }
+            } else {
+                mysqlManager.updatePlayerTempQuest(questType, p.getUniqueId().toString(), mysqlManager.getPlayerTempQuest(questType, p.getUniqueId().toString())+1);
             }
         }
     }

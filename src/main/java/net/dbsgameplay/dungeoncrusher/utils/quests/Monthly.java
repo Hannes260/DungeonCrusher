@@ -33,18 +33,10 @@ public class Monthly {
     }
 
     public static void load() {
-        for (String s : MoveQuestList.keySet()) {
-            Quests.add(s);
-        }
-        for (String s : GetQuestList.keySet()) {
-            Quests.add(s);
-        }
-        for (String s : KillQuestList.keySet()) {
-            Quests.add(s);
-        }
-        for (String s : PlayQuestList.keySet()) {
-            Quests.add(s);
-        }
+        Quests.addAll(MoveQuestList.keySet());
+        Quests.addAll(GetQuestList.keySet());
+        Quests.addAll(KillQuestList.keySet());
+        Quests.addAll(PlayQuestList.keySet());
     }
 
     public static void checkForOrginQuest() {
@@ -64,8 +56,8 @@ public class Monthly {
             int rdmNum = random.nextInt(0, Quests.size());
             String key = Quests.get(rdmNum);
             k2 = Monthly.getQuestKategorie(key);
-            if (key == mysqlManager.getOrginQuest("monthly1") || k1 == k2) {
-                while (key == mysqlManager.getOrginQuest("monthly1") || k1 == k2) {
+            if (key.equalsIgnoreCase(mysqlManager.getOrginQuest("monthly1")) || k1.equalsIgnoreCase(k2)) {
+                while (key.equalsIgnoreCase(mysqlManager.getOrginQuest("monthly1")) || k1.equalsIgnoreCase(k2)) {
                     rdmNum = random.nextInt(0, Quests.size());
                     key = Quests.get(rdmNum);
                     k2 = Monthly.getQuestKategorie(key);
@@ -80,8 +72,8 @@ public class Monthly {
             int rdmNum = random.nextInt(0, Quests.size());
             String key = Quests.get(rdmNum);
             k3 = Monthly.getQuestKategorie(key);
-            if ((key == mysqlManager.getOrginQuest("monthly1") || k3 == k1) || (key == mysqlManager.getOrginQuest("monthly2") || k3 == k2)) {
-                while ((key == mysqlManager.getOrginQuest("monthly1") || k3 == k1) || (key == mysqlManager.getOrginQuest("monthly2") || k3 == k2)) {
+            if ((key.equalsIgnoreCase(mysqlManager.getOrginQuest("monthly1")) || k3.equalsIgnoreCase(k1)) || (key.equalsIgnoreCase(mysqlManager.getOrginQuest("monthly2")) || k3.equalsIgnoreCase(k2))) {
+                while ((key.equalsIgnoreCase(mysqlManager.getOrginQuest("monthly1")) || k3.equalsIgnoreCase(k1)) || (key.equalsIgnoreCase(mysqlManager.getOrginQuest("monthly2")) || k3.equalsIgnoreCase(k2))) {
                     rdmNum = random.nextInt(0, Quests.size());
                     key = Quests.get(rdmNum);
                     k3 = Monthly.getQuestKategorie(key);
@@ -94,7 +86,6 @@ public class Monthly {
     }
 
     public static void checkForOrginQuestUpdate() {
-        //
         Date now = new Date(System.currentTimeMillis());
         SimpleDateFormat format = new SimpleDateFormat("dd");
 
@@ -115,8 +106,8 @@ public class Monthly {
                 int rdmNum = random.nextInt(0, Quests.size());
                 String key = Quests.get(rdmNum);
                 k2 = Monthly.getQuestKategorie(key);
-                if (key == mysqlManager.getOrginQuest("monthly1") || k1 == k2) {
-                    while (key == mysqlManager.getOrginQuest("monthly1") || k1 == k2) {
+                if (key.equalsIgnoreCase(mysqlManager.getOrginQuest("monthly1")) || k1.equalsIgnoreCase(k2)) {
+                    while (key.equalsIgnoreCase(mysqlManager.getOrginQuest("monthly1")) || k1.equalsIgnoreCase(k2)) {
                         rdmNum = random.nextInt(0, Quests.size());
                         key = Quests.get(rdmNum);
                         k2 = Monthly.getQuestKategorie(key);
@@ -131,8 +122,8 @@ public class Monthly {
                 int rdmNum = random.nextInt(0, Quests.size());
                 String key = Quests.get(rdmNum);
                 k3 = Monthly.getQuestKategorie(key);
-                if ((key == mysqlManager.getOrginQuest("monthly1") || k3 == k1) || (key == mysqlManager.getOrginQuest("monthly2") || k3 == k2)) {
-                    while ((key == mysqlManager.getOrginQuest("monthly1") || k3 == k1) || (key == mysqlManager.getOrginQuest("monthly2") || k3 == k2)) {
+                if ((key.equalsIgnoreCase(mysqlManager.getOrginQuest("monthly1")) || k3.equalsIgnoreCase(k1)) || (key.equalsIgnoreCase(mysqlManager.getOrginQuest("monthly2")) || k3.equalsIgnoreCase(k2))) {
+                    while ((key.equalsIgnoreCase(mysqlManager.getOrginQuest("monthly1")) || k3.equalsIgnoreCase(k1)) || (key.equalsIgnoreCase(mysqlManager.getOrginQuest("monthly2")) || k3.equalsIgnoreCase(k2))) {
                         rdmNum = random.nextInt(0, Quests.size());
                         key = Quests.get(rdmNum);
                         k3 = Monthly.getQuestKategorie(key);
@@ -218,10 +209,7 @@ public class Monthly {
     }
 
     public static boolean isDone(int num, Player p){
-        if (mysqlManager.getPlayerQuest("monthly" + num, p.getUniqueId().toString()) == true) {
-            return true;
-        }
-        return false;
+        return mysqlManager.getPlayerQuest("monthly" + num, p.getUniqueId().toString());
     }
 
     public static void doQuest(Player p, HashMap<String, Integer> questMap) {
@@ -244,75 +232,39 @@ public class Monthly {
 
             for (String s : questMap.keySet()) {
                 if (s.equals(Quest1)) {
-                    if (!Monthly.isDone(1, p)) {
-                            if (mysqlManager.getPlayerTempQuest("monthly1", p.getUniqueId().toString()) == questMap.get(s)) {
-                                p.playSound(p.getLocation(), Sound.ENTITY_ARROW_HIT_PLAYER, 100, 1);
-                                mysqlManager.updatePlayerQuest("monthly1", true, p.getUniqueId().toString());
-                                mysqlManager.updatePlayerTempQuest("monthly1", p.getUniqueId().toString(), 0);
-                                p.sendActionBar("§6Du hast eine Quest abgeschlossen hol dir deine Belohnung §d/quest");
-                                if (Monthly.RewardMoneyList.get(s) != null) {
-                                    foodCategory.addMoney(p, Monthly.RewardMoneyList.get(s));
-                                    p.sendMessage(" §7[§a+§7] §6" + Monthly.RewardMoneyList.get(s) + "€");
-                                }
-                                for (int i = 0; i!= 10; i++) {
-                                    if (!QuestBuilder.unclaimedQuestRewards.containsKey(p.getUniqueId().toString()+i)) {
-                                        QuestBuilder.unclaimedQuestRewards.put(p.getUniqueId().toString()+i, RewardItemList.get(mysqlManager.getOrginQuest("monthly1")));
-                                        break;
-                                    }else {
-                                        continue;
-                                    }
-                                }
-                            } else {
-                                mysqlManager.updatePlayerTempQuest("monthly1", p.getUniqueId().toString(), mysqlManager.getPlayerTempQuest("monthly1", p.getUniqueId().toString())+1);
-                            }
-                    }
+                    handle(1, "monthly1", p, questMap, s, foodCategory);
                 } else if (s.equals(Quest2)) {
-                    if (!Monthly.isDone(2, p)) {
-                            if (mysqlManager.getPlayerTempQuest("monthly2", p.getUniqueId().toString()) == questMap.get(s)) {
-                                p.playSound(p.getLocation(), Sound.ENTITY_ARROW_HIT_PLAYER, 100, 1);
-                                mysqlManager.updatePlayerQuest("monthly2", true, p.getUniqueId().toString());
-                                mysqlManager.updatePlayerTempQuest("monthly2", p.getUniqueId().toString(), 0);
-                                p.sendActionBar("§6Du hast eine Quest abgeschlossen hol dir deine Belohnung §d/quest");
-                                if (Monthly.RewardMoneyList.get(s) != null) {
-                                    foodCategory.addMoney(p, Monthly.RewardMoneyList.get(s));
-                                    p.sendMessage(" §7[§a+§7] §6" + Monthly.RewardMoneyList.get(s) + "€");
-                                }
-                                for (int i = 0; i!= 10; i++) {
-                                    if (!QuestBuilder.unclaimedQuestRewards.containsKey(p.getUniqueId().toString()+i)) {
-                                        QuestBuilder.unclaimedQuestRewards.put(p.getUniqueId().toString()+i, RewardItemList.get(mysqlManager.getOrginQuest("monthly1")));
-                                        break;
-                                    }else {
-                                        continue;
-                                    }
-                                }
-                            } else {
-                                mysqlManager.updatePlayerTempQuest("monthly2", p.getUniqueId().toString(), mysqlManager.getPlayerTempQuest("monthly2", p.getUniqueId().toString())+1);
-                            }
-                    }
+                    handle(2, "monthly2", p, questMap, s, foodCategory);
                 } else if (s.equals(Quest3)) {
-                    if (!Monthly.isDone(3, p)) {
-                            if (mysqlManager.getPlayerTempQuest("monthly3", p.getUniqueId().toString()) == questMap.get(s)) {
-                                p.playSound(p.getLocation(), Sound.ENTITY_ARROW_HIT_PLAYER, 100, 1);
-                                mysqlManager.updatePlayerQuest("monthly3", true, p.getUniqueId().toString());
-                                mysqlManager.updatePlayerTempQuest("monthly3", p.getUniqueId().toString(), 0);
-                                p.sendActionBar("§6Du hast eine Quest abgeschlossen hol dir deine Belohnung §d/quest");
-                                if (Monthly.RewardMoneyList.get(s) != null) {
-                                    foodCategory.addMoney(p, Monthly.RewardMoneyList.get(s));
-                                    p.sendMessage(" §7[§a+§7] §6" + Monthly.RewardMoneyList.get(s) + "€");
-                                }
-                                for (int i = 0; i!= 10; i++) {
-                                    if (!QuestBuilder.unclaimedQuestRewards.containsKey(p.getUniqueId().toString()+i)) {
-                                        QuestBuilder.unclaimedQuestRewards.put(p.getUniqueId().toString()+i, RewardItemList.get(mysqlManager.getOrginQuest("monthly1")));
-                                        break;
-                                    }else {
-                                        continue;
-                                    }
-                                }
-                            } else {
-                                mysqlManager.updatePlayerTempQuest("monthly3", p.getUniqueId().toString(), mysqlManager.getPlayerTempQuest("monthly3", p.getUniqueId().toString())+1);
-                            }
+                    handle(3, "monthly3", p, questMap, s, foodCategory);
+                }
+            }
+        }
+    }
+
+    public static void handle(int num, String questType, Player p, HashMap<String, Integer> questMap, String s, FoodCategory foodCategory) {
+        if (!Monthly.isDone(num, p)) {
+            if (mysqlManager.getPlayerTempQuest(questType, p.getUniqueId().toString()) == questMap.get(s)) {
+                p.playSound(p.getLocation(), Sound.ENTITY_ARROW_HIT_PLAYER, 100, 1);
+
+                mysqlManager.updatePlayerQuest(questType, true, p.getUniqueId().toString());
+                mysqlManager.updatePlayerTempQuest(questType, p.getUniqueId().toString(), 0);
+
+                p.sendActionBar("§6Du hast eine Quest abgeschlossen hol dir deine Belohnung §d/quest");
+
+                if (Monthly.RewardMoneyList.get(s) != null) {
+                    foodCategory.addMoney(p, Monthly.RewardMoneyList.get(s));
+                    p.sendMessage(" §7[§a+§7] §6" + Monthly.RewardMoneyList.get(s) + "€");
+                }
+
+                for (int i = 0; i!= 10; i++) {
+                    if (!QuestBuilder.unclaimedQuestRewards.containsKey(p.getUniqueId().toString()+i)) {
+                        QuestBuilder.unclaimedQuestRewards.put(p.getUniqueId().toString()+i, RewardItemList.get(mysqlManager.getOrginQuest(questType)));
+                        break;
                     }
                 }
+            } else {
+                mysqlManager.updatePlayerTempQuest(questType, p.getUniqueId().toString(), mysqlManager.getPlayerTempQuest(questType, p.getUniqueId().toString())+1);
             }
         }
     }
