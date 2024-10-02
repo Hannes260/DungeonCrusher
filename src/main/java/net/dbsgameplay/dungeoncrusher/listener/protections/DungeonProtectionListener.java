@@ -13,10 +13,7 @@ import org.bukkit.event.block.BlockFadeEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.entity.*;
 import org.bukkit.event.inventory.InventoryClickEvent;
-import org.bukkit.event.player.PlayerDropItemEvent;
-import org.bukkit.event.player.PlayerInteractEntityEvent;
-import org.bukkit.event.player.PlayerInteractEvent;
-import org.bukkit.event.player.PlayerSwapHandItemsEvent;
+import org.bukkit.event.player.*;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -162,28 +159,20 @@ public class DungeonProtectionListener implements Listener {
             }
         }
     }
-    @EventHandler
-    public void onPlayerInteractArmorStand(PlayerInteractEvent event) {
-        if (event.getClickedBlock() instanceof ArmorStand) {
-            event.setCancelled(true);
-        }
-    }
 
     @EventHandler
-    public void onEntityInteract(EntityInteractEvent event) {
-        if (event.getEntity() instanceof ArmorStand) {
+    public void onArmorStandInteract(PlayerArmorStandManipulateEvent event) {
+        Player player = event.getPlayer();
+        if (!isBuildModeEnabled(player)) {
             event.setCancelled(true);
         }
     }
     @EventHandler
-    public void onPlayerRide(EntityDamageEvent event) {
+    public void onPlayerRide(EntityMountEvent event) {
         if (event.getEntity() instanceof Player) {
             Player player = (Player) event.getEntity();
             if (!isBuildModeEnabled(player)) {
-                // Verhindert das Reiten auf Tieren
-                if (player.getVehicle() != null) {
-                    player.leaveVehicle(); // Spieler verlässt das Fahrzeug
-                }
+                event.setCancelled(true);
             }
         }
     }
