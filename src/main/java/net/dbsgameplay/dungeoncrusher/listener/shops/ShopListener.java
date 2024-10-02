@@ -18,6 +18,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.ClickType;
 import org.bukkit.event.inventory.InventoryAction;
 import org.bukkit.event.inventory.InventoryClickEvent;
+import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -44,15 +45,16 @@ public class ShopListener implements Listener {
             return;
         }
 
-        // Verhindere Hotkey-Aktionen mit der Nummerntaste
-        if (event.getAction() == InventoryAction.HOTBAR_MOVE_AND_READD ||
-                event.getAction() == InventoryAction.HOTBAR_SWAP ||
-                event.getClick() == ClickType.NUMBER_KEY) {
+        if (event.getClick() == ClickType.NUMBER_KEY) {
+            // Abbrechen der Aktion
             event.setCancelled(true);
-            player.updateInventory(); // Verhindert visuelle Bugs
-            return;
-        }
 
+            // Überprüfen, ob der Slot ein Slot im Spielerinventar ist (nicht nur Slot 1, sondern das ganze Inventar)
+            if (event.getClickedInventory() != null && event.getClickedInventory().getType() == InventoryType.PLAYER) {
+                // Verhindern, dass Gegenstände per Hotkey verschoben werden
+                event.setCancelled(true);
+            }
+        }
         String displayName = "§f<shift:-8>%oraxen_shop%";
         displayName = PlaceholderAPI.setPlaceholders(player, displayName);
         String title = event.getView().getTitle();
