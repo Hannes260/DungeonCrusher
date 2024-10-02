@@ -6,6 +6,7 @@ import net.dbsgameplay.dungeoncrusher.listener.DungeonListener;
 import net.dbsgameplay.dungeoncrusher.sql.MYSQLManager;
 import net.dbsgameplay.dungeoncrusher.utils.Configs.LocationConfigManager;
 import net.dbsgameplay.dungeoncrusher.utils.Manager.DungeonManager;
+import net.luckperms.api.model.user.User;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.Sound;
@@ -78,7 +79,6 @@ public class ErfolgeBuilders {
         }
         inv = Bukkit.createInventory(null, 54, "§7Erfolge                    §3" + ebene + "§7. Ebene");
         fillInv(p, mob);
-        setOperators(inv);
         return inv;
     }
 
@@ -89,50 +89,54 @@ public class ErfolgeBuilders {
     }
 
     public static void fillInv(Player p, String mob) {
-        int kills =  0;
-        kills = mysqlManager.getPlayerMobKills(p.getUniqueId().toString(), mob);
+        int kills = mysqlManager.getPlayerMobKills(p.getUniqueId().toString(), mob);
+        User user = DungeonCrusher.api.getUserManager().getUser(p.getUniqueId());
+
         inv.clear();
         setOperators(inv);
 
         for (int i = 1; i != 21; i++) {
-            int neededKillsForComplete = killAmount*i;
+            int neededKills = killAmount*i;
+            String itemName = "Erfolg_" + mob + "_"+i;
+            ArrayList<String> arrayList = new ArrayList<>();
 
             ItemStack itemStack = new ItemStack(Material.NAME_TAG);
             ItemMeta itemMeta = itemStack.getItemMeta();
-            ArrayList<String> arrayList = new ArrayList<String>();
 
-            if (kills >= neededKillsForComplete) {
-                if (mob.endsWith("e")) {
-                    itemMeta.setDisplayName("§fKill §d" + neededKillsForComplete + " §f" + mob + ".§a" + " ✅");
+            itemMeta.setItemName(itemName);
+
+            if  (kills >= neededKills) {
+                if (mob.endsWith("e") || mob.endsWith("l")) {
+                    itemMeta.setDisplayName("§fKill §d" + neededKills + " §f" + mob + ".§a" + " ✅");
                 }else {
-                    itemMeta.setDisplayName("§fKill §d" + neededKillsForComplete + " §f" + mob + "e.§a" + " ✅");
+                    itemMeta.setDisplayName("§fKill §d" + neededKills + " §f" + mob + "e.§a" + " ✅");
                 }
 
-                String mobID = "Erfolg_" + mob + "_" + i;
+                arrayList.add("§7[" + "§a" + titlesHashmap.get(itemName) + "§7]");
 
-                if (DungeonCrusher.api.getPlayerAdapter(Player.class).getUser(p).getCachedData().getMetaData().getSuffix() != null) {
-                    String suffix = DungeonCrusher.api.getPlayerAdapter(Player.class).getUser(p).getCachedData().getMetaData().getSuffix();
-                    if (suffix.substring(0, suffix.length() -3 ).substring(6).equalsIgnoreCase(titlesHashmap.get(itemMeta.getItemName()))) {
-                        itemMeta.addEnchant(Enchantment.KNOCKBACK, 1, true);
-                        arrayList.add("§7[" + "§a" + titlesHashmap.get(mobID) + "§7]");
-                    }else {
-                        itemMeta.removeEnchant(Enchantment.KNOCKBACK);
-                        arrayList.add("§7[" + "§8" + titlesHashmap.get(mobID) + "§7]");
-                    }
-                }
             }else {
-                if (mob.endsWith("e")) {
-                    itemMeta.setDisplayName("§fKill §d" + neededKillsForComplete + " §f" + mob + ".");
+                if (mob.endsWith("e") || mob.endsWith("l")) {
+                    itemMeta.setDisplayName("§fKill §d" + neededKills + " §f" + mob + ".§a");
                 }else {
-                    itemMeta.setDisplayName("§fKill §d" + neededKillsForComplete + " §f" + mob + "e.");
+                    itemMeta.setDisplayName("§fKill §d" + neededKills + " §f" + mob + "e.§a");
                 }
-                arrayList.add("§7Du brauchst noch §6" + (neededKillsForComplete-kills) + " §7Kills.");
+
+                arrayList.add("§7Du brauchst noch §6" + (neededKills-kills) + " §7Kills.");
+
             }
 
-            itemMeta.setItemName("Erfolg_" + mob + "_"+i);
+
+            if (user.getCachedData().getMetaData().getSuffix() != null) {
+                String rawSuffix =user.getCachedData().getMetaData().getSuffix();
+                String suffix = user.getCachedData().getMetaData().getSuffix().substring(0, rawSuffix.length() -3 ).substring(6);
+
+                if (suffix.equalsIgnoreCase(titlesHashmap.get(itemName))) {
+                    itemMeta.addEnchant(Enchantment.KNOCKBACK,1, true);
+                }
+            }
 
             itemMeta.setLore(arrayList);
-            itemMeta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES, ItemFlag.HIDE_ITEM_SPECIFICS, ItemFlag.HIDE_ENCHANTS, ItemFlag.HIDE_ADDITIONAL_TOOLTIP);
+            itemMeta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
             itemStack.setItemMeta(itemMeta);
 
             int[] slots = {0,9,18,27,28,29,20,11,2,3,4,13,22,31,32,33,24,15,6,7};
