@@ -12,7 +12,6 @@ net\dbsgameplay\dungeoncrusher\interfaces\ShopCategory.class
 net\dbsgameplay\dungeoncrusher\utils\ScoreboardBuilder$1.class
 net\dbsgameplay\dungeoncrusher\utils\ScoreboardBuilder$4.class
 net\dbsgameplay\dungeoncrusher\listener\protections\DungeonProtectionListener.class
-net\dbsgameplay\dungeoncrusher\utils\ErfolgeMapBuilder.class
 net\dbsgameplay\dungeoncrusher\enums\Upgrades\ArmorCategory$ShopItem.class
 net\dbsgameplay\dungeoncrusher\utils\Manager\MarkingsManager$Markierungsschritt.class
 net\dbsgameplay\dungeoncrusher\Commands\Admin\InvseeCommand.class
@@ -93,7 +92,6 @@ net\dbsgameplay\dungeoncrusher\listener\InvseeListener.class
 net\dbsgameplay\dungeoncrusher\enums\Upgrades\SwordCategory.class
 net\dbsgameplay\dungeoncrusher\utils\Manager\DungeonManager.class
 net\dbsgameplay\dungeoncrusher\utils\quests\Weekly.class
-net\dbsgameplay\dungeoncrusher\utils\QuestMapBuilder.class
 net\dbsgameplay\dungeoncrusher\utils\ItemBuilder.class
 net\dbsgameplay\dungeoncrusher\enums\Stats\GeneralStatsCategory.class
 net\dbsgameplay\dungeoncrusher\utils\upgrades\UpgradeManager.class

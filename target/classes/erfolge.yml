@@ -55,5 +55,29 @@ erfolge:
     - Verwüster
     - Eisengolem
     - Wärter
-  killAmount: 150
+
+  titles:
+    - fänger
+    - vernichter
+    - bezwinger
+    - meister
+    - herscher
+    - jäger
+    - champion
+    - prinz
+    - plage
+    - lehrmeister
+    - verfolger
+    - krieger
+    - fürst
+    - legende
+    - mörder
+    - hüter
+    - königin
+    - hacker
+    - -prinzessin
+    - könig
+
+  killAmount: 250
+
   rewardAmount: 100

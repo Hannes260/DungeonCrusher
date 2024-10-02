@@ -112,8 +112,6 @@ public final class DungeonCrusher extends JavaPlugin {
         StatsManager statsManager = new StatsManager(mysqlManager);
 
         ErfolgeConfigManager.loadMap();
-        ErfolgeMapBuilder.buildErfolgeMap();
-        QuestMapBuilder.BuildMap();
         Daily daily = new Daily(mysqlManager, this);
         Weekly weekly = new Weekly(mysqlManager, this);
         Monthly monthly = new Monthly(mysqlManager, this);

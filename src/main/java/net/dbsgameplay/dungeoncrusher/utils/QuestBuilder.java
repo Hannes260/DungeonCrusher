@@ -38,10 +38,10 @@ public class QuestBuilder {
     public static HashMap<String, String> tutorialQuestMap = new HashMap<>();
     public static List<String> dailyQuestList = new ArrayList<>();
 
-    public static BossBar questBar_t4 = Bukkit.createBossBar(tutorialQuestMap.get("t4"), BarColor.BLUE, BarStyle.SOLID);
-    public static BossBar questBar_t3 = Bukkit.createBossBar(tutorialQuestMap.get("t3"), BarColor.BLUE, BarStyle.SOLID);
-    public static BossBar questBar_t2 = Bukkit.createBossBar(tutorialQuestMap.get("t2"), BarColor.BLUE, BarStyle.SOLID);
-    public static BossBar questBar_t1 = Bukkit.createBossBar(tutorialQuestMap.get("t1"), BarColor.BLUE, BarStyle.SOLID);
+    public static BossBar questBar_t4 = Bukkit.createBossBar("§6Verbessere dein Schwert auf Lvl. 2.", BarColor.BLUE, BarStyle.SOLID);
+    public static BossBar questBar_t3 = Bukkit.createBossBar("§6Kaufe dir Essen im Teleporter.", BarColor.BLUE, BarStyle.SOLID);
+    public static BossBar questBar_t2 = Bukkit.createBossBar("§6Trinke einen Stärketrank.", BarColor.BLUE, BarStyle.SOLID);
+    public static BossBar questBar_t1 = Bukkit.createBossBar("§6Erreiche Ebene 2.", BarColor.BLUE, BarStyle.SOLID);
 
     public static Inventory getQuestmenü() {
         return questMenu;

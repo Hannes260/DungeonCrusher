@@ -9,6 +9,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 public class ErfolgeConfigManager {
@@ -28,6 +29,8 @@ public class ErfolgeConfigManager {
 
     public static void loadMap() {
         List<String> mobList = ErfolgeBuilders.moblist;
+        List<String> titlesList = new ArrayList<>();
+        HashMap titlesHashmap = ErfolgeBuilders.titlesHashmap;
 
         if (config.contains("erfolge.")) {
             if (config.contains("erfolge." + "mobs")) {
@@ -41,6 +44,21 @@ public class ErfolgeConfigManager {
             }
             if (config.contains("erfolge." + "rewardAmount")) {
                 ErfolgeBuilders.rewardAmount = config.getInt("erfolge." + "rewardAmount");
+            }
+            if (config.contains("erfolge." + "titles")) {
+                List<String> list = config.getStringList("erfolge." + "titles");
+                for (String s : list) {
+                    titlesList.add(s);
+                }
+
+                for (String mob : mobList) {
+                    for (int i = 1; i != 21; i++) {
+                        String index = "Erfolg_" + mob + "_" + i;
+                        String title = mob + titlesList.get(i-1);
+
+                        titlesHashmap.put(index, title);
+                    }
+                }
             }
         }
     }
