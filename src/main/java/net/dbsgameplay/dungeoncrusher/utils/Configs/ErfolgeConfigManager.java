@@ -1,5 +1,6 @@
 package net.dbsgameplay.dungeoncrusher.utils.Configs;
 
+import net.dbsgameplay.dungeoncrusher.enums.MobNameTranslator;
 import net.dbsgameplay.dungeoncrusher.utils.ErfolgeBuilders;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.ConfigurationSection;
@@ -30,6 +31,7 @@ public class ErfolgeConfigManager {
     public static void loadMap() {
         List<String> mobList = ErfolgeBuilders.moblist;
         List<String> titlesList = new ArrayList<>();
+        List<String> enNamesList = new ArrayList<>();
         HashMap titlesHashmap = ErfolgeBuilders.titlesHashmap;
 
         if (config.contains("erfolge.")) {
@@ -58,6 +60,16 @@ public class ErfolgeConfigManager {
 
                         titlesHashmap.put(index, title);
                     }
+                }
+            }
+            if (config.contains("erfolge." + "enMobs")) {
+                List<String> list = config.getStringList("erfolge." + "enMobs");
+                for (String s : list) {
+                    enNamesList.add(s);
+                }
+
+                for (int i = 0; i != mobList.size(); i++) {
+                    MobNameTranslator.translatorMap.put(enNamesList.get(i), mobList.get(i));
                 }
             }
         }

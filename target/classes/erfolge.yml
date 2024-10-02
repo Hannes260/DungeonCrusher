@@ -15,7 +15,7 @@ erfolge:
     - Panda
     - Schildkröten
     - Ozelot
-    - Axelotl
+    - Axolotl
     - Fuchs
     - Katzen
     - Huhn
@@ -26,7 +26,7 @@ erfolge:
     - Eisbären
     - Zombiepferd
     - Wolf
-    - Zombieforgbewohner
+    - Zombiedorfbewohner
     - Schneegolem
     - Skelett
     - Ertrunkenen
@@ -77,6 +77,63 @@ erfolge:
     - hacker
     - -prinzessin
     - könig
+
+  enMobs:
+    - sheep
+    - pig
+    - cow
+    - horse
+    - donkey
+    - camel
+    - villager
+    - goat
+    - llama
+    - mooshroom
+    - mule
+    - stray
+    - panda
+    - turtle
+    - ocelot
+    - axolotl
+    - fox
+    - cat
+    - chicken
+    - frog
+    - rabbit
+    - silverfish
+    - evoker
+    - polar_bear
+    - zombie_horse
+    - wolf
+    - zombiefied_villager
+    - snow_golem
+    - skeleton
+    - drowned
+    - husk
+    - spider
+    - zombie
+    - strider
+    - creeper
+    - cave_spider
+    - endermite
+    - blaze
+    - skeleton_horse
+    - witch
+    - slime
+    - magma_cube
+    - enderman
+    - piglin
+    - zombiefied_piglin
+    - piglin_brute
+    - ravanger
+    - hoglin
+    - illusioner
+    - ghast
+    - wither_skeleton
+    - zoglin
+    - pillager
+    - iron_golem
+    - warden
 
   killAmount: 250
 

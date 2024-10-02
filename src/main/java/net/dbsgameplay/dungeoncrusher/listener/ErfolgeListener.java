@@ -58,7 +58,7 @@ public class ErfolgeListener implements Listener {
             return;
         }
         if (e.getCurrentItem().equals(ErfolgeBuilders.createCustomMobHead("ac9c67a9f1685cd1da43e841fe7ebb17f6af6ea12a7e1f2722f5e7f0898db9f3", "§7Nächste Seite"))) {
-            if (ebeneHashMap.get(p.getUniqueId())+1 >= 57) {
+            if (ebeneHashMap.get(p.getUniqueId())+1 >= 56) {
                 e.setCancelled(true);
                 return;
             }

@@ -44,14 +44,12 @@ C:\Users\deibe\Desktop\DungeonCrusher\src\main\java\net\dbsgameplay\dungeoncrush
 C:\Users\deibe\Desktop\DungeonCrusher\src\main\java\net\dbsgameplay\dungeoncrusher\Commands\test.java
 C:\Users\deibe\Desktop\DungeonCrusher\src\main\java\net\dbsgameplay\dungeoncrusher\utils\Configs\QuestConfigManager.java
 C:\Users\deibe\Desktop\DungeonCrusher\src\main\java\net\dbsgameplay\dungeoncrusher\enums\Stats\GeneralStatsCategory.java
-C:\Users\deibe\Desktop\DungeonCrusher\src\main\java\net\dbsgameplay\dungeoncrusher\utils\QuestMapBuilder.java
 C:\Users\deibe\Desktop\DungeonCrusher\src\main\java\net\dbsgameplay\dungeoncrusher\listener\QuestListener.java
 C:\Users\deibe\Desktop\DungeonCrusher\src\main\java\net\dbsgameplay\dungeoncrusher\interfaces\UpgradeCategory.java
 C:\Users\deibe\Desktop\DungeonCrusher\src\main\java\net\dbsgameplay\dungeoncrusher\enums\Shop\FoodCategory.java
 C:\Users\deibe\Desktop\DungeonCrusher\src\main\java\net\dbsgameplay\dungeoncrusher\Commands\Admin\BuildCommand.java
 C:\Users\deibe\Desktop\DungeonCrusher\src\main\java\net\dbsgameplay\dungeoncrusher\Commands\ErfolgeCommand.java
 C:\Users\deibe\Desktop\DungeonCrusher\src\main\java\net\dbsgameplay\dungeoncrusher\utils\Configs\LocationConfigManager.java
-C:\Users\deibe\Desktop\DungeonCrusher\src\main\java\net\dbsgameplay\dungeoncrusher\utils\ErfolgeMapBuilder.java
 C:\Users\deibe\Desktop\DungeonCrusher\src\main\java\net\dbsgameplay\dungeoncrusher\utils\MobHealthBuilder.java
 C:\Users\deibe\Desktop\DungeonCrusher\src\main\java\net\dbsgameplay\dungeoncrusher\listener\Damage\MobkillListener.java
 C:\Users\deibe\Desktop\DungeonCrusher\src\main\java\net\dbsgameplay\dungeoncrusher\sql\MYSQLManager.java
