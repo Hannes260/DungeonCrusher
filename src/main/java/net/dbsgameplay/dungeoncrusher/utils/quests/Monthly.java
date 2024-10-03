@@ -90,9 +90,9 @@ public class Monthly {
 
     public static void checkForOrginQuestUpdate() {
         Date now = new Date(System.currentTimeMillis());
-        SimpleDateFormat format = new SimpleDateFormat("dd:HH");
+        SimpleDateFormat format = new SimpleDateFormat("dd:HH:mm");
 
-        if (format.format(now).equalsIgnoreCase("01:00")) {
+        if (format.format(now).equalsIgnoreCase("01:00:01")) {
             String k1 = null;
             String k2 = null;
             String k3 = null;
