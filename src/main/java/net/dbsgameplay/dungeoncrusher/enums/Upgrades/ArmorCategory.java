@@ -77,12 +77,34 @@ public class ArmorCategory implements UpgradeCategory {
             lore.add("§7Material 2 (" + getMaterialDisplayName(materialTypes[1]) + "): §6" + currentMaterial2Amount + " §7von " + requiredMaterial2);
             meta.setLore(lore);
 
+            boolean hasResources = hasEnoughResourcesForVisuals(player, currentLevel);
+            if (hasResources) {
+                meta.addEnchant(Enchantment.PROTECTION, 1, true);
+                meta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
+            }
+
             itemStack.setItemMeta(meta);
             inv.setItem(slot, itemStack);
         }
 
         addBackButton(player, inv);
         player.openInventory(inv);
+    }
+    private boolean hasEnoughResourcesForVisuals(Player player, int currentLevel) {
+        String uuid = player.getUniqueId().toString();
+        // Erforderliches Geld und Materialien berechnen
+        double requiredGeld = calculateRequiredGeld(currentLevel);
+        String[] materialTypes = getMaterialTypes(currentLevel);
+        int requiredMaterial1 = calculateRequiredMaterial1(currentLevel);
+        int requiredMaterial2 = calculateRequiredMaterial2(currentLevel);
+        // Aktuelles Geld des Spielers abrufen und in eine Zahl umwandeln
+        String balanceString = mysqlManager.getBalance(uuid).replace(",", ""); // Komma entfernen
+        double currentGeld = Double.parseDouble(balanceString);
+        // Materialmengen des Spielers abrufen
+        int currentMaterial1Amount = mysqlManager.getItemAmount(uuid, materialTypes[0]);
+        int currentMaterial2Amount = mysqlManager.getItemAmount(uuid, materialTypes[1]);
+        // Überprüfen, ob der Spieler genügend Geld und Materialien hat
+        return currentGeld >= requiredGeld && currentMaterial1Amount >= requiredMaterial1 && currentMaterial2Amount >= requiredMaterial2;
     }
 
     @Override
