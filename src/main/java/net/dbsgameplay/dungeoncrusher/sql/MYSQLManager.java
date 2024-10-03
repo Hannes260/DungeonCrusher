@@ -150,7 +150,7 @@ public class MYSQLManager {
                     + "Pferd INT DEFAULT 0,"
                     + "Esel INT DEFAULT 0,"
                     + "Kamel INT DEFAULT 0,"
-                    + "Dorfbewohner INT DEFAULT 0,"
+                    + "Frosch INT DEFAULT 0,"
                     + "Ziegen INT DEFAULT 0,"
                     + "Lama INT DEFAULT 0,"
                     + "Mooshroom INT DEFAULT 0,"
@@ -163,7 +163,7 @@ public class MYSQLManager {
                     + "Fuchs INT DEFAULT 0,"
                     + "Katzen INT DEFAULT 0,"
                     + "Huhn INT DEFAULT 0,"
-                    + "Frosch INT DEFAULT 0,"
+                    + "Dorfbewohner INT DEFAULT 0,"
                     + "Kaninchen INT DEFAULT 0,"
                     + "Silberfisch INT DEFAULT 0,"
                     + "Diener INT DEFAULT 0,"
@@ -1142,6 +1142,7 @@ public class MYSQLManager {
             statement.executeUpdate();
         }
     }
+
     public int getDungeonCountForPlayer(String uuid) {
         int dungeonCount = 0;
 
@@ -1201,6 +1202,7 @@ public class MYSQLManager {
             e.printStackTrace();
         }
     }
+
     public String getPlayerUUIDByName(String playerName) {
         String uuid = null;
 
@@ -1276,6 +1278,7 @@ public class MYSQLManager {
             e.printStackTrace();
         }
     }
+
     public String getToplistKills(int rank) {
         String result = "N/A";
         try (Connection connection = dataSource.getConnection()) {
