@@ -11,6 +11,8 @@ import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 
 import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 public class Monthly {
@@ -89,10 +91,11 @@ public class Monthly {
     }
 
     public static void checkForOrginQuestUpdate() {
-        Date now = new Date(System.currentTimeMillis());
-        SimpleDateFormat format = new SimpleDateFormat("dd:HH:mm");
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd:HH:mm:ss");
+        LocalDateTime now = LocalDateTime.now();
+        String time = now.format(formatter);
 
-        if (format.format(now).equalsIgnoreCase("01:00:01")) {
+        if (time.substring(0, time.length() - 3).equalsIgnoreCase("01:00:01") && (Integer.parseInt(time.substring(9)) >= 00 && Integer.parseInt(time.substring(9)) <= 10)) {
             String k1 = null;
             String k2 = null;
             String k3 = null;
