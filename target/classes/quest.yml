@@ -1,212 +1,371 @@
 #quest:
   #daily:
     #move:
-      #d1:
-        #quest: 20
-        #money: 150
+     #d1:
+        #quest: 20000
+        #money: 1000
         #items:
-          #kupfer: 20
-          #rohKupfer: 10
-      #d2:
-        #quest: 60
-        #money: 1500
-        #items:
-          #kupfer: 200
-          #rohkupfer: 100
-          #gold: 200
-          #rohgold: 100
-          #eisen: 200
-          #roheisen: 100
-          #kohle: 200
-          #stein: 100
-          #bruchstein: 100
-          #diamant: 100
-          #diamanterz: 100
-          #netherite: 100
-          #antikerschrott: 100
-    #play:
-      #d3:
-        #quest: 60
-        #items:
-          #kupfer: 25
-      #d8:
-        #quest: 90
-        #items:
-          #kupfer: 10090
-    #kill:
-      #d4:
-        #quest: 123
-        #items:
-          #kupfer: 25
-      #d5:
-        #quest: 123
-        #items:
-          #kupfer: 25
+          #kupferbarren: 50
+          #rohkupfer: 50
+          #stein: 40
+          #bruchstein: 40
+          #goldbarren: 25
+          #rohgold: 25
+          #eisenbarren: 15
+          #roheisen: 15
+          #diamant: 5
+          #diamanterz: 5
+          #netheritebarren: 1
+          #netheriteplatten: 1
+          #kohle: 10
     #get:
-      #d6:
-        #quest: 177
-        #items:
-          #kupfer: 75
-      #d7:
-        #quest: 190
-        #items:
-          #kupfer: 25
+    #play:
+    #kill:
 #------------------------------------------------------------------
 
 quest:
   daily:
     move:
       d1:
-        quest: 20
-        money: 150
+        quest: 20000
+        money: 1000
         items:
-          kupfer: 20
-          rohKupfer: 10
+          kupferbarren: 50
+          rohkupfer: 50
+          stein: 40
+          bruchstein: 40
+          goldbarren: 25
+          rohgold: 25
+          eisenbarren: 15
+          roheisen: 15
+          diamant: 5
+          diamanterz: 5
+          netheritebarren: 1
+          netheriteplatten: 1
+          kohle: 10
       d2:
-        quest: 60
-        money: 1500
+        quest: 30000
+        money: 2000
         items:
-          kupfer: 200
-          rohkupfer: 100
-          gold: 200
-          rohgold: 100
-          eisen: 200
-          roheisen: 100
-          kohle: 200
-          stein: 100
-          bruchstein: 100
-          diamant: 100
-          diamanterz: 100
-          netherite: 100
-          antikerschrott: 100
-    play:
+          kupferbarren: 55
+          rohkupfer: 55
+          stein: 45
+          bruchstein: 45
+          goldbarren: 25
+          rohgold: 25
+          eisenbarren: 15
+          roheisen: 15
+          diamant: 5
+          diamanterz: 5
+          netheritebarren: 1
+          netheriteplatten: 1
+          kohle: 15
       d3:
-        quest: 60
+        quest: 40000
+        money: 3000
         items:
-          kupfer: 25
-      d8:
-        quest: 90
-        items:
-          kupfer: 10090
-    kill:
+          kupferbarren: 55
+          rohkupfer: 55
+          stein: 45
+          bruchstein: 45
+          goldbarren: 25
+          rohgold: 25
+          eisenbarren: 15
+          roheisen: 15
+          diamant: 5
+          diamanterz: 5
+          netheritebarren: 1
+          netheriteplatten: 1
+          kohle: 15
       d4:
-        quest: 123
+        quest: 50000
+        money: 4000
         items:
-          kupfer: 25
+          kupferbarren: 55
+          rohkupfer: 55
+          stein: 45
+          bruchstein: 45
+          goldbarren: 30
+          rohgold: 30
+          eisenbarren: 20
+          roheisen: 20
+          diamant: 5
+          diamanterz: 5
+          netheritebarren: 1
+          netheriteplatten: 1
+          kohle: 20
       d5:
-        quest: 123
+        quest: 60000
+        money: 5500
         items:
-          kupfer: 25
-    get:
+          kupferbarren: 55
+          rohkupfer: 55
+          stein: 45
+          bruchstein: 45
+          goldbarren: 35
+          rohgold: 35
+          eisenbarren: 25
+          roheisen: 25
+          diamant: 5
+          diamanterz: 5
+          netheritebarren: 1
+          netheriteplatten: 1
+          kohle: 25
+    play:
       d6:
-        quest: 177
+        quest: 60
+        money: 1500
         items:
-          kupfer: 75
+          kupferbarren: 40
+          rohkupfer: 40
+          stein: 30
+          bruchstein: 30
+          goldbarren: 20
+          rohgold: 20
+          eisenbarren: 15
+          roheisen: 15
+          diamant: 3
+          diamanterz: 3
+          netheritebarren: 1
+          netheriteplatten: 1
+          kohle: 10
       d7:
-        quest: 190
+        quest: 90
+        money: 2000
         items:
-          kupfer: 25
-  weekly:
-    move:
-      w1:
+          kupferbarren: 45
+          rohkupfer: 45
+          stein: 35
+          bruchstein: 35
+          goldbarren: 20
+          rohgold: 20
+          eisenbarren: 15
+          roheisen: 15
+          diamant: 3
+          diamanterz: 3
+          netheritebarren: 1
+          netheriteplatten: 1
+          kohle: 15
+      d8:
+        quest: 180
+        money: 3000
+        items:
+          kupferbarren: 45
+          rohkupfer: 45
+          stein: 35
+          bruchstein: 35
+          goldbarren: 20
+          rohgold: 20
+          eisenbarren: 20
+          roheisen: 20
+          diamant: 5
+          diamanterz: 5
+          netheritebarren: 2
+          netheriteplatten: 2
+          kohle: 30
+      d9:
+        quest: 270
+        money: 3500
+        items:
+          kupferbarren: 45
+          rohkupfer: 45
+          stein: 35
+          bruchstein: 35
+          goldbarren: 25
+          rohgold: 25
+          eisenbarren: 25
+          roheisen: 25
+          diamant: 5
+          diamanterz: 5
+          netheritebarren: 2
+          netheriteplatten: 2
+          kohle: 35
+      d10:
+        quest: 360
+        money: 4000
+        items:
+          kupferbarren: 50
+          rohkupfer: 50
+          stein: 40
+          bruchstein: 40
+          goldbarren: 30
+          rohgold: 30
+          eisenbarren: 30
+          roheisen: 30
+          diamant: 10
+          diamanterz: 10
+          netheritebarren: 2
+          netheriteplatten: 2
+          kohle: 40
+    kill:
+      d11:
+        quest: 100
+        money: 1000
+        items:
+          kupferbarren: 30
+          rohkupfer: 30
+          stein: 25
+          bruchstein: 25
+          goldbarren: 20
+          rohgold: 20
+          eisenbarren: 20
+          roheisen: 20
+          diamant: 3
+          diamanterz: 3
+          netheritebarren: 1
+          netheriteplatten: 1
+          kohle: 20
+      d12:
         quest: 200
-        money: 150
-        items:
-          kupfer: 20
-          rohKupfer: 10
-      w2:
-        quest: 600
         money: 1500
         items:
-          kupfer: 200
-          rohkupfer: 100
-          gold: 200
-          rohgold: 100
-          eisen: 200
-          roheisen: 100
-          kohle: 200
-          stein: 100
-          bruchstein: 100
-          diamant: 100
-          diamanterz: 100
-          netherite: 100
-          antikerschrott: 100
-    play:
-      w4:
+          kupferbarren: 30
+          rohkupfer: 30
+          stein: 25
+          bruchstein: 25
+          goldbarren: 20
+          rohgold: 20
+          eisenbarren: 20
+          roheisen: 20
+          diamant: 3
+          diamanterz: 3
+          netheritebarren: 1
+          netheriteplatten: 1
+          kohle: 20
+      d13:
+        quest: 250
+        money: 2000
+        items:
+          kupferbarren: 35
+          rohkupfer: 35
+          stein: 25
+          bruchstein: 25
+          goldbarren: 20
+          rohgold: 20
+          eisenbarren: 20
+          roheisen: 20
+          diamant: 3
+          diamanterz: 3
+          netheritebarren: 1
+          netheriteplatten: 1
+          kohle: 20
+      d14:
+        quest: 300
+        money: 2000
+        items:
+          kupferbarren: 35
+          rohkupfer: 35
+          stein: 25
+          bruchstein: 25
+          goldbarren: 25
+          rohgold: 25
+          eisenbarren: 25
+          roheisen: 20
+          diamant: 3
+          diamanterz: 3
+          netheritebarren: 1
+          netheriteplatten: 1
+          kohle: 20
+      d15:
+        quest: 400
+        money: 2200
+        items:
+          kupferbarren: 40
+          rohkupfer: 40
+          stein: 30
+          bruchstein: 30
+          goldbarren: 30
+          rohgold: 30
+          eisenbarren: 30
+          roheisen: 20
+          diamant: 3
+          diamanterz: 3
+          netheritebarren: 1
+          netheriteplatten: 1
+          kohle: 35
+    get:
+      d16:
+        quest: 400
+        money: 1200
+        items:
+          kupferbarren: 30
+          rohkupfer: 30
+          stein: 25
+          bruchstein: 25
+          goldbarren: 25
+          rohgold: 25
+          eisenbarren: 20
+          roheisen: 20
+          diamant: 1
+          diamanterz: 1
+          netheritebarren: 0
+          netheriteplatten: 0
+          kohle: 15
+      d17:
+        quest: 500
+        money: 2200
+        items:
+          kupferbarren: 30
+          rohkupfer: 30
+          stein: 25
+          bruchstein: 25
+          goldbarren: 25
+          rohgold: 25
+          eisenbarren: 20
+          roheisen: 20
+          diamant: 1
+          diamanterz: 1
+          netheritebarren: 0
+          netheriteplatten: 0
+          kohle: 15
+      d18:
         quest: 600
+        money: 2200
         items:
-          kupfer: 25
-      w8:
-        quest: 900
+          kupferbarren: 35
+          rohkupfer: 35
+          stein: 25
+          bruchstein: 25
+          goldbarren: 25
+          rohgold: 25
+          eisenbarren: 20
+          roheisen: 20
+          diamant: 1
+          diamanterz: 1
+          netheritebarren: 0
+          netheriteplatten: 0
+          kohle: 15
+      d19:
+        quest: 650
+        money: 2500
         items:
-          kupfer: 10090
-    kill:
-      w4:
-        quest: 1230
+          kupferbarren: 35
+          rohkupfer: 35
+          stein: 30
+          bruchstein: 30
+          goldbarren: 25
+          rohgold: 25
+          eisenbarren: 25
+          roheisen: 25
+          diamant: 3
+          diamanterz: 3
+          netheritebarren: 1
+          netheriteplatten: 1
+          kohle: 25
+      d20:
+        quest: 650
+        money: 2500
         items:
-          kupfer: 25
-      w5:
-        quest: 1230
-        items:
-          kupfer: 25
-    get:
-      w6:
-        quest: 1770
-        items:
-          kupfer: 75
-      w7:
-        quest: 1900
-        items:
-          kupfer: 25
-  monthly:
-    move:
-      m1:
-        quest: 999999
-        money: 150
-        items:
-          kupfer: 20
-          rohKupfer: 10
-      m2:
-        quest: 999999
-        money: 1500
-        items:
-          kupfer: 200
-          rohkupfer: 100
-          gold: 200
-          rohgold: 100
-          eisen: 200
-          roheisen: 100
-          kohle: 200
-          stein: 100
-          bruchstein: 100
-          diamant: 100
-          diamanterz: 100
-          netherite: 100
-          antikerschrott: 100
-    play:
-      m4:
-        quest: 999999
-        items:
-          kupfer: 25
-      m8:
-        quest: 999999
-        items:
-          kupfer: 10090
-    kill:
-      m4:
-        quest: 999999
-        items:
-          kupfer: 25
-      m5:
-        quest: 999999
-        items:
-          kupfer: 25
-    get:
-      m6:
-        quest: 999999
-        items:
-          kupfer: 75
-      m7:
-        quest: 999999
-        items:
-          kupfer: 25
+          kupferbarren: 35
+          rohkupfer: 35
+          stein: 30
+          bruchstein: 30
+          goldbarren: 25
+          rohgold: 25
+          eisenbarren: 25
+          roheisen: 25
+          diamant: 3
+          diamanterz: 3
+          netheritebarren: 1
+          netheriteplatten: 1
+          kohle: 25

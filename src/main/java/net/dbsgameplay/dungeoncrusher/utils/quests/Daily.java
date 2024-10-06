@@ -10,7 +10,11 @@ import org.bukkit.Sound;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 
+import java.text.Format;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 public class Daily {
@@ -89,10 +93,11 @@ public class Daily {
     }
 
     public static void checkForOrginQuestUpdate() {
-        Date now = new Date(System.currentTimeMillis());
-        SimpleDateFormat format = new SimpleDateFormat("HH:mm");
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm:ss");
+        LocalDateTime now = LocalDateTime.now();
+        String time = now.format(formatter);
 
-        if (format.format(now).equalsIgnoreCase("00:01")) {
+        if (time.substring(0, time.length() - 3).equalsIgnoreCase("00:01") && (Integer.parseInt(time.substring(6)) >= 00 && Integer.parseInt(time.substring(6)) <= 10)) {
             String k1 = null;
             String k2 = null;
             String k3 = null;
