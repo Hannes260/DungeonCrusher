@@ -32,8 +32,6 @@ public class MobkillListener implements Listener {
         if (entity.getKiller() instanceof Player) {
             Player player = entity.getKiller();
 
-            Inventory playerInventory = player.getInventory();
-            if (playerInventory.firstEmpty() != -1) {
                 for (ItemStack item : event.getDrops()) {
                     player.getInventory().addItem(item);
                 }
@@ -66,9 +64,6 @@ public class MobkillListener implements Listener {
                     mysqlManager.updateDungeonCount(String.valueOf(player.getUniqueId()), 1);
                     scoreboardBuilder.updateDungeon(player);
                 }
-            } else {
-                player.sendMessage(ConfigManager.getPrefix() + ConfigManager.getConfigMessage("message.inventoryfull","",""));
-            }
         }
     }
     private boolean hasRequiredKills(Player player, String currentDungeonName) {
