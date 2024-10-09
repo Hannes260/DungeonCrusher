@@ -91,11 +91,11 @@ public class Weekly {
     }
 
     public static void checkForOrginQuestUpdate() {
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("EE:HH:mm:ss");
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("EEEEEE:HH:mm:ss");
         LocalDateTime now = LocalDateTime.now();
         String time = now.format(formatter);
 
-        if (time.substring(0, time.length() - 3).equalsIgnoreCase("01:00:01") && (Integer.parseInt(time.substring(9)) >= 00 && Integer.parseInt(time.substring(9)) <= 10)) {
+        if (time.substring(0, time.length() - 3).equalsIgnoreCase("Monday:00:01") && (Integer.parseInt(time.substring(9)) >= 00 && Integer.parseInt(time.substring(9)) <= 10)) {
             String k1 = null;
             String k2 = null;
             String k3 = null;
