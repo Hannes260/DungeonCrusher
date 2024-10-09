@@ -286,22 +286,22 @@ public class SwordCategory implements UpgradeCategory {
 
 
     private double calculateRequiredGeld(int level) {
-        return 365 * level; // 365 * aktuelles Level
+        return 400 * level; // 365 * aktuelles Level
     }
 
     private int calculateRequiredMaterial1(int level) {
         if (level < 45) {
-            return 10 + (5 * level); // Rohkupfer
+            return 10 + (10 * level); // Rohkupfer
         } else if (level < 85) {
-            return 230 + (5 * (level - 45)); // Bruchstein
+            return 230 + (10 * (level - 45)); // Bruchstein
         } else if (level < 130) {
-            return 430 + (5 * (level - 85)); // Roheisen
+            return 430 + (10 * (level - 85)); // Roheisen
         } else if (level < 175) {
-            return 630 + (5 * (level - 130)); // Goldnugget
+            return 630 + (10 * (level - 130)); // Goldnugget
         } else if (level < 215) {
-            return 830 + (5 * (level - 175)); // Diamant
+            return 830 + (10 * (level - 175)); // Diamant
         } else {
-            return 1030 + (5 * (level - 215)); // Netheritplatten
+            return 1030 + (10 * (level - 215)); // Netheritplatten
         }
     }
 
