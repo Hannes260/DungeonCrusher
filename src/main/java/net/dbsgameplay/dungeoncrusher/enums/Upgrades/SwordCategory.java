@@ -291,7 +291,7 @@ public class SwordCategory implements UpgradeCategory {
 
     private int calculateRequiredMaterial1(int level) {
         if (level < 45) {
-            return 10 + (10 * level); // Rohkupfer
+            return 10 + (10 * (level - 1)); // Rohkupfer
         } else if (level < 85) {
             return 230 + (10 * (level - 45)); // Bruchstein
         } else if (level < 130) {
@@ -307,7 +307,7 @@ public class SwordCategory implements UpgradeCategory {
 
     private int calculateRequiredMaterial2(int level) {
         if (level < 45) {
-            return 6 + (5 * level); // Kupferbarren
+            return 5 + (5 * (level - 1)); // Kupferbarren, startet bei 5, dann +5 pro Level
         } else if (level < 85) {
             return 242 + (5 * (level - 45)); // Stein
         } else if (level < 130) {
