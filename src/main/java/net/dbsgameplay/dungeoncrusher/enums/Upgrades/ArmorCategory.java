@@ -6,7 +6,6 @@ import net.dbsgameplay.dungeoncrusher.DungeonCrusher;
 import net.dbsgameplay.dungeoncrusher.sql.MYSQLManager;
 import net.dbsgameplay.dungeoncrusher.utils.Configs.ConfigManager;
 import net.dbsgameplay.dungeoncrusher.utils.ScoreboardBuilder;
-import net.dbsgameplay.dungeoncrusher.utils.TexturedHeads;
 import net.dbsgameplay.dungeoncrusher.utils.upgrades.UpgradeManager;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
@@ -360,42 +359,41 @@ public class ArmorCategory implements UpgradeCategory {
         }
 
     }
-    private double calculateRequiredGeld(int currentLevel) {
-        return currentLevel * 365;
+    private double calculateRequiredGeld(int level) {
+        return 400 * level; // 365 * aktuelles Level
     }
 
     private int calculateRequiredMaterial1(int level) {
         if (level < 45) {
-            return 10 + (5 * level); // Rohkupfer
+            return 10 + (10 * (level - 1)); // Rohkupfer
         } else if (level < 85) {
-            return 230 + (5 * (level - 45)); // Bruchstein
+            return 230 + (10 * (level - 45)); // Bruchstein
         } else if (level < 130) {
-            return 430 + (5 * (level - 85)); // Roheisen
+            return 430 + (10 * (level - 85)); // Roheisen
         } else if (level < 175) {
-            return 630 + (5 * (level - 130)); // Goldnugget
+            return 630 + (10 * (level - 130)); // Goldnugget
         } else if (level < 215) {
-            return 830 + (5 * (level - 175)); // Diamant
+            return 830 + (10 * (level - 175)); // Diamant
         } else {
-            return 1030 + (5 * (level - 215)); // Netheritplatten
+            return 1030 + (10 * (level - 215)); // Netheritplatten
         }
     }
 
     private int calculateRequiredMaterial2(int level) {
         if (level < 45) {
-            return 6 + (5 * level);
+            return 5 + (5 * (level - 1)); // Kupferbarren, startet bei 5, dann +5 pro Level
         } else if (level < 85) {
-            return 242 + (5 * (level - 45));
+            return 242 + (5 * (level - 45)); // Stein
         } else if (level < 130) {
-            return 462 + (5 * (level - 85));
+            return 462 + (5 * (level - 85)); // Eisenbarren
         } else if (level < 175) {
-            return 682 + (5 * (level - 130));
+            return 682 + (5 * (level - 130)); // Goldbarren
         } else if (level < 215) {
-            return 902 + (5 * (level - 175));
+            return 902 + (5 * (level - 175)); // Diamantblock
         } else {
-            return 1122 + (5 * (level - 215));
+            return 1122 + (5 * (level - 215)); // Netheritbarren
         }
     }
-
     private String[] getMaterialTypes(int level) {
         if (level < 45) {
             return new String[]{"raw_copper", "copper_ingot"};
