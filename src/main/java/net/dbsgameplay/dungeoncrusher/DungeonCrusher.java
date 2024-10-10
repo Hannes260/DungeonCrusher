@@ -88,6 +88,9 @@ public final class DungeonCrusher extends JavaPlugin {
         markierungsManager = new MarkingsManager(locationConfigManager);
         ErfolgeBuilders erfolgeBuilders = new ErfolgeBuilders(mysqlManager);
         QuestBuilder questBuilder = new QuestBuilder(this, mysqlManager);
+        Daily daily = new Daily(mysqlManager, this);
+        Weekly weekly = new Weekly(mysqlManager, this);
+        Monthly monthly = new Monthly(mysqlManager, this);
 
         getLogger().info(ANSI_BLUE +" ");
         getLogger().info(ANSI_BLUE +"  ____   ____ ");
@@ -112,12 +115,18 @@ public final class DungeonCrusher extends JavaPlugin {
         StatsManager statsManager = new StatsManager(mysqlManager);
 
         ErfolgeConfigManager.loadMap();
-        Daily daily = new Daily(mysqlManager, this);
-        Weekly weekly = new Weekly(mysqlManager, this);
-        Monthly monthly = new Monthly(mysqlManager, this);
 
 
-        startPlaytimer(mysqlManager, getConfig(), this);
+        QuestConfigManager.loadMap();
+
+        Daily.load();
+        Weekly.load();
+        Monthly.load();
+
+        Daily.checkForOrginQuest();
+        Weekly.checkForOrginQuest();
+        Monthly.checkForOrginQuest();
+
 
         mobTypesToKill.add(EntityType.SHEEP);
         mobTypesToKill.add(EntityType.PIG);
@@ -177,6 +186,8 @@ public final class DungeonCrusher extends JavaPlugin {
         mobTypesToKill.add(EntityType.RAVAGER);
         mobTypesToKill.add(EntityType.IRON_GOLEM);
         mobTypesToKill.add(EntityType.WARDEN);
+
+        startPlaytimer(mysqlManager, getConfig(), this);
     }
 
     @Override
@@ -367,15 +378,6 @@ public final class DungeonCrusher extends JavaPlugin {
     }
 
     public static void startPlaytimer(MYSQLManager mysqlManager, FileConfiguration cfg, DungeonCrusher dungeonCrusher) {
-        QuestConfigManager.loadMap();
-        Daily.load();
-        Weekly.load();
-        Monthly.load();
-
-        Daily.checkForOrginQuest();
-        Weekly.checkForOrginQuest();
-        Monthly.checkForOrginQuest();
-
         new BukkitRunnable() {
             @Override
             public void run() {

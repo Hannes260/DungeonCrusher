@@ -1,6 +1,5 @@
 package net.dbsgameplay.dungeoncrusher.utils;
 
-import it.unimi.dsi.fastutil.Hash;
 import net.dbsgameplay.dungeoncrusher.DungeonCrusher;
 import net.dbsgameplay.dungeoncrusher.sql.MYSQLManager;
 import net.dbsgameplay.dungeoncrusher.utils.Configs.LocationConfigManager;
@@ -34,7 +33,6 @@ public class QuestBuilder {
     public static Inventory rewardMenu = Bukkit.createInventory(null, 27, "§7Rewardmenü - §6Such dir 2 aus!");
     public static HashMap<String, Map<String, Object>> unclaimedQuestRewards = new HashMap<>();
 
-
     public static HashMap<String, String> tutorialQuestMap = new HashMap<>();
     public static List<String> dailyQuestList = new ArrayList<>();
 
@@ -48,7 +46,7 @@ public class QuestBuilder {
     }
 
     public static void fillQuestmenü(Player player) {
-        //Daily1
+        //Daily
         ItemStack dailyTitle = new ItemStack(Material.CLOCK);
         ItemMeta dailyTitleMeta = dailyTitle.getItemMeta();
         dailyTitleMeta.setDisplayName("§dDaily Quests");
@@ -56,197 +54,88 @@ public class QuestBuilder {
         dailyTitle.setItemMeta(dailyTitleMeta);
         questMenu.setItem(11, dailyTitle);
 
-        ItemStack dailyStack1 = new ItemStack(Material.NAME_TAG);
-        ItemMeta dailylMeta1 = dailyStack1.getItemMeta();
-        dailylMeta1.setItemName(ChatColor.GOLD + Daily.getQuestTitle(mysqlManager.getOrginQuest("daily1")));
-        ArrayList<String> dailyList1 = new ArrayList<>();
-        if (mysqlManager.getPlayerQuest("daily1",player.getUniqueId().toString()) == null) {
-            mysqlManager.updatePlayerQuest("daily1",false, player.getUniqueId().toString());
-        }
-        if (mysqlManager.getPlayerQuest("daily1",player.getUniqueId().toString())) {
-            dailyList1.add("§aAbgeschlossen!");
-            dailylMeta1.setEnchantmentGlintOverride(true);
-        } else {
+        for (int i = 1; i != 4; i++) {
+            int[] slots = {20, 29, 38};
 
-            dailyList1.add(loadProgressBar(player, "daily1"));
-            dailylMeta1.setEnchantmentGlintOverride(false);
+            ItemStack Stack = new ItemStack(Material.NAME_TAG);
+            ItemMeta Meta = Stack.getItemMeta();
+            Meta.setItemName(ChatColor.GOLD + Daily.getQuestTitle(mysqlManager.getOrginQuest("daily" + i)));
+            ArrayList<String> List = new ArrayList<>();
+            if (mysqlManager.getPlayerQuest("daily" + i ,player.getUniqueId().toString()) == null) {
+                mysqlManager.updatePlayerQuest("daily" + i,false, player.getUniqueId().toString());
+            }
+            if (mysqlManager.getPlayerQuest("daily" + i, player.getUniqueId().toString())) {
+                List.add("§aAbgeschlossen!");
+                Meta.setEnchantmentGlintOverride(true);
+            } else {
+                List.add(loadProgressBar(player, "daily" + i));
+                Meta.setEnchantmentGlintOverride(false);
+            }
+            Meta.setLore(List);
+            Meta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES, ItemFlag.HIDE_ITEM_SPECIFICS, ItemFlag.HIDE_ENCHANTS, ItemFlag.HIDE_ADDITIONAL_TOOLTIP, ItemFlag.HIDE_STORED_ENCHANTS);
+            Stack.setItemMeta(Meta);
+            questMenu.setItem(slots[i-1], Stack);
         }
-        dailylMeta1.setLore(dailyList1);
-        dailylMeta1.addItemFlags(ItemFlag.HIDE_ATTRIBUTES, ItemFlag.HIDE_ITEM_SPECIFICS, ItemFlag.HIDE_ENCHANTS, ItemFlag.HIDE_ADDITIONAL_TOOLTIP, ItemFlag.HIDE_STORED_ENCHANTS);
-        dailyStack1.setItemMeta(dailylMeta1);
-        questMenu.setItem(20, dailyStack1);
 
-        //Daily2
-        ItemStack dailyStack2 = new ItemStack(Material.NAME_TAG);
-        ItemMeta dailylMeta2 = dailyStack2.getItemMeta();
-        dailylMeta2.setItemName(ChatColor.GOLD + Daily.getQuestTitle(mysqlManager.getOrginQuest("daily2")));
-        ArrayList<String> dailyList2 = new ArrayList<>();
-        if (mysqlManager.getPlayerQuest("daily2",player.getUniqueId().toString()) == null) {
-            mysqlManager.updatePlayerQuest("daily2",false, player.getUniqueId().toString());
-        }
-        if (mysqlManager.getPlayerQuest("daily2",player.getUniqueId().toString())) {
-            dailyList2.add("§aAbgeschlossen!");
-            dailylMeta2.setEnchantmentGlintOverride(true);
-        } else {
-            dailyList2.add(loadProgressBar(player, "daily2"));
-            dailylMeta2.setEnchantmentGlintOverride(false);
-        }
-        dailylMeta2.setLore(dailyList2);
-        dailylMeta2.addItemFlags(ItemFlag.HIDE_ATTRIBUTES, ItemFlag.HIDE_ITEM_SPECIFICS, ItemFlag.HIDE_ENCHANTS, ItemFlag.HIDE_ADDITIONAL_TOOLTIP, ItemFlag.HIDE_STORED_ENCHANTS);
-        dailyStack2.setItemMeta(dailylMeta2);
-        questMenu.setItem(29, dailyStack2);
-
-        //Daily3
-        ItemStack dailyStack3 = new ItemStack(Material.NAME_TAG);
-        ItemMeta dailylMeta3 = dailyStack3.getItemMeta();
-        dailylMeta3.setItemName(ChatColor.GOLD + Daily.getQuestTitle(mysqlManager.getOrginQuest("daily3")));
-        ArrayList<String> dailyList3 = new ArrayList<>();
-        if (mysqlManager.getPlayerQuest("daily3",player.getUniqueId().toString()) == null) {
-            mysqlManager.updatePlayerQuest("daily3",false, player.getUniqueId().toString());
-        }
-        if (mysqlManager.getPlayerQuest("daily3",player.getUniqueId().toString())) {
-            dailyList3.add("§aAbgeschlossen!");
-            dailylMeta3.setEnchantmentGlintOverride(true);
-        } else {
-            dailyList3.add(loadProgressBar(player, "daily3"));
-            dailylMeta3.setEnchantmentGlintOverride(false);
-        }
-        dailylMeta3.setLore(dailyList3);
-        dailylMeta3.addItemFlags(ItemFlag.HIDE_ATTRIBUTES, ItemFlag.HIDE_ITEM_SPECIFICS, ItemFlag.HIDE_ENCHANTS, ItemFlag.HIDE_ADDITIONAL_TOOLTIP, ItemFlag.HIDE_STORED_ENCHANTS);
-        dailyStack3.setItemMeta(dailylMeta3);
-        questMenu.setItem(38, dailyStack3);
-
-        //Weekly1
+        //Weekly
         ItemStack weeklyTitle = new ItemStack(Material.CLOCK);
         ItemMeta weeklyTitleMeta = weeklyTitle.getItemMeta();
         weeklyTitleMeta.setDisplayName("§dWeekly Quests");
         weeklyTitle.setItemMeta(weeklyTitleMeta);
         questMenu.setItem(13, weeklyTitle);
 
-        ItemStack weeklyStack1 = new ItemStack(Material.NAME_TAG);
-        ItemMeta weeklylMeta1 = weeklyStack1.getItemMeta();
-        weeklylMeta1.setItemName(ChatColor.GOLD + Weekly.getQuestTitle(mysqlManager.getOrginQuest("weekly1")));
-        ArrayList<String> weeklyList1 = new ArrayList<>();
-        if (mysqlManager.getPlayerQuest("weekly1",player.getUniqueId().toString()) == null) {
-            mysqlManager.updatePlayerQuest("weekly1",false, player.getUniqueId().toString());
-        }
-        if (mysqlManager.getPlayerQuest("weekly1",player.getUniqueId().toString())) {
-            weeklyList1.add("§aAbgeschlossen!");
-            weeklylMeta1.setEnchantmentGlintOverride(true);
-        } else {
-            weeklyList1.add(loadProgressBar(player, "weekly1"));
-            weeklylMeta1.setEnchantmentGlintOverride(false);
-        }
-        weeklylMeta1.setLore(weeklyList1);
-        weeklylMeta1.addItemFlags(ItemFlag.HIDE_ATTRIBUTES, ItemFlag.HIDE_ITEM_SPECIFICS, ItemFlag.HIDE_ENCHANTS, ItemFlag.HIDE_ADDITIONAL_TOOLTIP, ItemFlag.HIDE_STORED_ENCHANTS);
-        weeklyStack1.setItemMeta(weeklylMeta1);
-        questMenu.setItem(22, weeklyStack1);
+        for (int i = 1; i != 4; i++) {
+            int[] slots = {22, 31, 40};
 
-        //Weekly2
-        ItemStack weeklyStack2 = new ItemStack(Material.NAME_TAG);
-        ItemMeta weeklylMeta2 = weeklyStack2.getItemMeta();
-        weeklylMeta2.setItemName(ChatColor.GOLD + Weekly.getQuestTitle(mysqlManager.getOrginQuest("weekly2")));
-        ArrayList<String> weeklyList2 = new ArrayList<>();
-        if (mysqlManager.getPlayerQuest("weekly2",player.getUniqueId().toString()) == null) {
-            mysqlManager.updatePlayerQuest("weekly2",false, player.getUniqueId().toString());
+            ItemStack Stack = new ItemStack(Material.NAME_TAG);
+            ItemMeta Meta = Stack.getItemMeta();
+            Meta.setItemName(ChatColor.GOLD + Weekly.getQuestTitle(mysqlManager.getOrginQuest("weekly" + i)));
+            ArrayList<String> List = new ArrayList<>();
+            if (mysqlManager.getPlayerQuest("weekly" + i ,player.getUniqueId().toString()) == null) {
+                mysqlManager.updatePlayerQuest("weekly" + i,false, player.getUniqueId().toString());
+            }
+            if (mysqlManager.getPlayerQuest("weekly" + i, player.getUniqueId().toString())) {
+                List.add("§aAbgeschlossen!");
+                Meta.setEnchantmentGlintOverride(true);
+            } else {
+                List.add(loadProgressBar(player, "weekly" + i));
+                Meta.setEnchantmentGlintOverride(false);
+            }
+            Meta.setLore(List);
+            Meta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES, ItemFlag.HIDE_ITEM_SPECIFICS, ItemFlag.HIDE_ENCHANTS, ItemFlag.HIDE_ADDITIONAL_TOOLTIP, ItemFlag.HIDE_STORED_ENCHANTS);
+            Stack.setItemMeta(Meta);
+            questMenu.setItem(slots[i-1], Stack);
         }
-        if (mysqlManager.getPlayerQuest("weekly2",player.getUniqueId().toString())) {
-            weeklyList2.add("§aAbgeschlossen!");
-            weeklylMeta2.setEnchantmentGlintOverride(true);
-        } else {
-            weeklyList2.add(loadProgressBar(player, "weekly2"));
-            weeklylMeta2.setEnchantmentGlintOverride(false);
-        }
-        weeklylMeta2.setLore(weeklyList2);
-        weeklylMeta2.addItemFlags(ItemFlag.HIDE_ATTRIBUTES, ItemFlag.HIDE_ITEM_SPECIFICS, ItemFlag.HIDE_ENCHANTS, ItemFlag.HIDE_ADDITIONAL_TOOLTIP, ItemFlag.HIDE_STORED_ENCHANTS);
-        weeklyStack2.setItemMeta(weeklylMeta2);
-        questMenu.setItem(31, weeklyStack2);
 
-        //Weekly3
-        ItemStack weeklyStack3 = new ItemStack(Material.NAME_TAG);
-        ItemMeta weeklylMeta3 = weeklyStack3.getItemMeta();
-        weeklylMeta3.setItemName(ChatColor.GOLD + Weekly.getQuestTitle(mysqlManager.getOrginQuest("weekly3")));
-        ArrayList<String> weeklyList3 = new ArrayList<>();
-        if (mysqlManager.getPlayerQuest("weekly3",player.getUniqueId().toString()) == null) {
-            mysqlManager.updatePlayerQuest("weekly3",false, player.getUniqueId().toString());
-        }
-        if (mysqlManager.getPlayerQuest("weekly3",player.getUniqueId().toString())) {
-            weeklyList3.add("§aAbgeschlossen!");
-            weeklylMeta3.setEnchantmentGlintOverride(true);
-        } else {
-            weeklyList3.add(loadProgressBar(player, "weekly3"));
-            weeklylMeta3.setEnchantmentGlintOverride(false);
-        }
-        weeklylMeta3.setLore(weeklyList3);
-        weeklylMeta3.addItemFlags(ItemFlag.HIDE_ATTRIBUTES, ItemFlag.HIDE_ITEM_SPECIFICS, ItemFlag.HIDE_ENCHANTS, ItemFlag.HIDE_ADDITIONAL_TOOLTIP, ItemFlag.HIDE_STORED_ENCHANTS);
-        weeklyStack3.setItemMeta(weeklylMeta3);
-        questMenu.setItem(40, weeklyStack3);
-
-        //Monthly1
+        //Monthly
         ItemStack monthlyTitle = new ItemStack(Material.CLOCK);
         ItemMeta monthlyTitleMeta = monthlyTitle.getItemMeta();
         monthlyTitleMeta.setDisplayName("§dMonthly Quests");
         monthlyTitle.setItemMeta(monthlyTitleMeta);
         questMenu.setItem(15, monthlyTitle);
 
-        ItemStack monthlyStack1 = new ItemStack(Material.NAME_TAG);
-        ItemMeta monthlylMeta1 = monthlyStack1.getItemMeta();
-        monthlylMeta1.setItemName(ChatColor.GOLD + Monthly.getQuestTitle(mysqlManager.getOrginQuest("monthly1")));
-        ArrayList<String> monthlyList1 = new ArrayList<>();
-        if (mysqlManager.getPlayerQuest("monthly1",player.getUniqueId().toString()) == null) {
-            mysqlManager.updatePlayerQuest("monthly1",false, player.getUniqueId().toString());
-        }
-        if (mysqlManager.getPlayerQuest("monthly1",player.getUniqueId().toString())) {
-            monthlyList1.add("§aAbgeschlossen!");
-            monthlylMeta1.setEnchantmentGlintOverride(true);
-        } else {
-            monthlyList1.add(loadProgressBar(player, "monthly1"));
-            monthlylMeta1.setEnchantmentGlintOverride(false);
-        }
-        monthlylMeta1.setLore(monthlyList1);
-        monthlylMeta1.addItemFlags(ItemFlag.HIDE_ATTRIBUTES, ItemFlag.HIDE_ITEM_SPECIFICS, ItemFlag.HIDE_ENCHANTS, ItemFlag.HIDE_ADDITIONAL_TOOLTIP, ItemFlag.HIDE_STORED_ENCHANTS);
-        monthlyStack1.setItemMeta(monthlylMeta1);
-        questMenu.setItem(24, monthlyStack1);
+        for (int i = 1; i != 4; i++) {
+            int[] slots = {24, 33, 42};
 
-        //monthly2
-        ItemStack monthlyStack2 = new ItemStack(Material.NAME_TAG);
-        ItemMeta monthlylMeta2 = monthlyStack2.getItemMeta();
-        monthlylMeta2.setItemName(ChatColor.GOLD + Monthly.getQuestTitle(mysqlManager.getOrginQuest("monthly2")));
-        ArrayList<String> monthlyList2 = new ArrayList<>();
-        if (mysqlManager.getPlayerQuest("monthly2",player.getUniqueId().toString()) == null) {
-            mysqlManager.updatePlayerQuest("monthly2",false, player.getUniqueId().toString());
+            ItemStack Stack = new ItemStack(Material.NAME_TAG);
+            ItemMeta Meta = Stack.getItemMeta();
+            Meta.setItemName(ChatColor.GOLD + Monthly.getQuestTitle(mysqlManager.getOrginQuest("monthly" + i)));
+            ArrayList<String> List = new ArrayList<>();
+            if (mysqlManager.getPlayerQuest("monthly" + i ,player.getUniqueId().toString()) == null) {
+                mysqlManager.updatePlayerQuest("monthly" + i,false, player.getUniqueId().toString());
+            }
+            if (mysqlManager.getPlayerQuest("monthly" + i, player.getUniqueId().toString())) {
+                List.add("§aAbgeschlossen!");
+                Meta.setEnchantmentGlintOverride(true);
+            } else {
+                List.add(loadProgressBar(player, "monthly" + i));
+                Meta.setEnchantmentGlintOverride(false);
+            }
+            Meta.setLore(List);
+            Meta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES, ItemFlag.HIDE_ITEM_SPECIFICS, ItemFlag.HIDE_ENCHANTS, ItemFlag.HIDE_ADDITIONAL_TOOLTIP, ItemFlag.HIDE_STORED_ENCHANTS);
+            Stack.setItemMeta(Meta);
+            questMenu.setItem(slots[i-1], Stack);
         }
-        if (mysqlManager.getPlayerQuest("monthly2",player.getUniqueId().toString())) {
-            monthlyList2.add("§aAbgeschlossen!");
-            monthlylMeta2.setEnchantmentGlintOverride(true);
-        } else {
-            monthlyList2.add(loadProgressBar(player, "monthly2"));
-            monthlylMeta2.setEnchantmentGlintOverride(false);
-        }
-        monthlylMeta2.setLore(monthlyList2);
-        monthlylMeta2.addItemFlags(ItemFlag.HIDE_ATTRIBUTES, ItemFlag.HIDE_ITEM_SPECIFICS, ItemFlag.HIDE_ENCHANTS, ItemFlag.HIDE_ADDITIONAL_TOOLTIP, ItemFlag.HIDE_STORED_ENCHANTS);
-        monthlyStack2.setItemMeta(monthlylMeta2);
-        questMenu.setItem(33, monthlyStack2);
-
-        //Monthly3
-        ItemStack monthlyStack3 = new ItemStack(Material.NAME_TAG);
-        ItemMeta monthlylMeta3 = monthlyStack3.getItemMeta();
-        monthlylMeta3.setItemName(ChatColor.GOLD + Monthly.getQuestTitle(mysqlManager.getOrginQuest("monthly3")));
-        ArrayList<String> monthlyList3 = new ArrayList<>();
-        if (mysqlManager.getPlayerQuest("monthly3",player.getUniqueId().toString()) == null) {
-            mysqlManager.updatePlayerQuest("monthly3",false, player.getUniqueId().toString());
-        }
-        if (mysqlManager.getPlayerQuest("monthly3",player.getUniqueId().toString())) {
-            monthlyList3.add("§aAbgeschlossen!");
-            monthlylMeta3.setEnchantmentGlintOverride(true);
-        } else {
-            monthlyList3.add(loadProgressBar(player, "monthly3"));
-            monthlylMeta3.setEnchantmentGlintOverride(false);
-        }
-        monthlylMeta3.setLore(monthlyList3);
-        monthlylMeta3.addItemFlags(ItemFlag.HIDE_ATTRIBUTES, ItemFlag.HIDE_ITEM_SPECIFICS, ItemFlag.HIDE_ENCHANTS, ItemFlag.HIDE_ADDITIONAL_TOOLTIP, ItemFlag.HIDE_STORED_ENCHANTS);
-        monthlyStack3.setItemMeta(monthlylMeta3);
-        questMenu.setItem(42, monthlyStack3);
     }
 
     public static void openRewardmenü(Player p, Map<String, Object> rewardList) {
@@ -385,10 +274,7 @@ public class QuestBuilder {
     }
 
     public static boolean isTutorialDone(Player p) {
-        if (mysqlManager.getTutorialQuest(p.getUniqueId().toString()).equals("t0")) {
-            return true;
-        }
-        return false;
+        return mysqlManager.getTutorialQuest(p.getUniqueId().toString()).equals("t0");
     }
 
     public static String loadProgressBar(Player p, String questType) {
