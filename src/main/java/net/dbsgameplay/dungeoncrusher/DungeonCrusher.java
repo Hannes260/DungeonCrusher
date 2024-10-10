@@ -1,7 +1,5 @@
 package net.dbsgameplay.dungeoncrusher;
 
-import me.clip.placeholderapi.PlaceholderAPI;
-import me.clip.placeholderapi.expansion.PlaceholderExpansion;
 import net.dbsgameplay.dungeoncrusher.Commands.*;
 import net.dbsgameplay.dungeoncrusher.Commands.Admin.*;
 import net.dbsgameplay.dungeoncrusher.Commands.Economy.CoinsCommand;
@@ -33,13 +31,10 @@ import net.luckperms.api.LuckPerms;
 import net.luckperms.api.LuckPermsProvider;
 import org.bukkit.Bukkit;
 import org.bukkit.Sound;
-import org.bukkit.World;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.FileConfiguration;
-import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
-import org.bukkit.entity.Mob;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -47,10 +42,10 @@ import org.bukkit.scheduler.BukkitRunnable;
 import org.json.JSONArray;
 import org.json.simple.JSONObject;
 
-import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.nio.charset.StandardCharsets;
 import java.util.*;
 import java.util.concurrent.CompletableFuture;
 import java.util.stream.Collectors;
@@ -330,7 +325,7 @@ public final class DungeonCrusher extends JavaPlugin {
                 connection.setRequestMethod("POST");
 
                 // Write data
-                try (OutputStreamWriter writer = new OutputStreamWriter(connection.getOutputStream(), "UTF-8")) {
+                try (OutputStreamWriter writer = new OutputStreamWriter(connection.getOutputStream(), StandardCharsets.UTF_8)) {
                     writer.write(jsonObject.toString());
                     writer.flush();
                 }
@@ -339,7 +334,6 @@ public final class DungeonCrusher extends JavaPlugin {
                 int responseCode = connection.getResponseCode();
                 if (responseCode == 200) {
                     System.out.println("Nachricht erfolgreich gesendet.");
-                } else {
                 }
 
                 connection.disconnect();
@@ -449,8 +443,6 @@ public final class DungeonCrusher extends JavaPlugin {
                         if (!QuestBuilder.unclaimedQuestRewards.containsKey(p.getUniqueId().toString()+i)) {
                             QuestBuilder.unclaimedQuestRewards.put(p.getUniqueId().toString()+i, Daily.RewardItemList.get(mysqlManager.getOrginQuest("daily" + questNumber)));
                             break;
-                        }else {
-                            continue;
                         }
                     }
                 } else {
@@ -488,8 +480,6 @@ public final class DungeonCrusher extends JavaPlugin {
                         if (!QuestBuilder.unclaimedQuestRewards.containsKey(p.getUniqueId().toString()+i)) {
                             QuestBuilder.unclaimedQuestRewards.put(p.getUniqueId().toString()+i, Daily.RewardItemList.get(mysqlManager.getOrginQuest("weekly" + questNumber)));
                             break;
-                        }else {
-                            continue;
                         }
                     }
                 } else {
@@ -527,8 +517,6 @@ public final class DungeonCrusher extends JavaPlugin {
                         if (!QuestBuilder.unclaimedQuestRewards.containsKey(p.getUniqueId().toString()+i)) {
                             QuestBuilder.unclaimedQuestRewards.put(p.getUniqueId().toString()+i, Daily.RewardItemList.get(mysqlManager.getOrginQuest("monthly" + questNumber)));
                             break;
-                        }else {
-                            continue;
                         }
                     }
                 } else {
