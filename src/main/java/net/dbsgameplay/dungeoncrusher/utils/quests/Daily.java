@@ -10,9 +10,6 @@ import org.bukkit.Sound;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 
-import java.text.Format;
-import java.text.SimpleDateFormat;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
@@ -46,7 +43,7 @@ public class Daily {
     public static void checkForOrginQuest() {
         String k1 = null;
         String k2 = null;
-        String k3 = null;
+        String k3;
         
         if (mysqlManager.getOrginQuest("daily1") == null) {
             Bukkit.getLogger().info("Daily1 is missing... fixing...");
@@ -97,10 +94,10 @@ public class Daily {
         LocalDateTime now = LocalDateTime.now();
         String time = now.format(formatter);
 
-        if (time.substring(0, time.length() - 3).equalsIgnoreCase("00:01") && (Integer.parseInt(time.substring(6)) >= 00 && Integer.parseInt(time.substring(6)) <= 10)) {
+        if (time.substring(0, time.length() - 3).equalsIgnoreCase("00:01") && (Integer.parseInt(time.substring(6)) >= 0 && Integer.parseInt(time.substring(6)) <= 10)) {
             String k1 = null;
             String k2 = null;
-            String k3 = null;
+            String k3;
 
             if (mysqlManager.getOrginQuest("daily1") != null) {
                 Bukkit.getLogger().info("Daily1 is updating... ");

@@ -2,10 +2,7 @@ package net.dbsgameplay.dungeoncrusher.utils;
 
 import net.dbsgameplay.dungeoncrusher.DungeonCrusher;
 import net.dbsgameplay.dungeoncrusher.enums.Shop.FoodCategory;
-import net.dbsgameplay.dungeoncrusher.listener.DungeonListener;
 import net.dbsgameplay.dungeoncrusher.sql.MYSQLManager;
-import net.dbsgameplay.dungeoncrusher.utils.Configs.LocationConfigManager;
-import net.dbsgameplay.dungeoncrusher.utils.Manager.DungeonManager;
 import net.luckperms.api.model.user.User;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
@@ -20,7 +17,6 @@ import org.bukkit.inventory.meta.SkullMeta;
 import org.bukkit.profile.PlayerProfile;
 import org.bukkit.profile.PlayerTextures;
 
-import javax.swing.*;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
@@ -28,11 +24,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.UUID;
 
-@SuppressWarnings("ALL")
+
 public class ErfolgeBuilders {
     private static final UUID RANDOM_UUID = UUID.fromString("92864445-51c5-4c3b-9039-517c9927d1b4");
     public static Inventory inv;
-    public static HashMap<String, String> titlesHashmap = new HashMap<String, String>();
+    public static HashMap<String, String> titlesHashmap = new HashMap<>();
     public static List<String> moblist = new ArrayList<>();
     private static MYSQLManager mysqlManager;
     public static int killAmount = 0;
@@ -41,7 +37,6 @@ public class ErfolgeBuilders {
     public ErfolgeBuilders(MYSQLManager mysqlManager) {
             this.mysqlManager = mysqlManager;
         }
-//    public static int ebene;
 
     public static PlayerProfile getProfile(String url) {
 
@@ -71,9 +66,9 @@ public class ErfolgeBuilders {
     }
 
     public static Inventory getInventory(int ebene, Player p) {
-        String mob = null;
+        String mob;
         if (ebene == 0) {
-            mob = moblist.get(0);
+            mob = moblist.getFirst();
         }else {
             mob = moblist.get(ebene-1);
         }
