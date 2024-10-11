@@ -22,6 +22,10 @@ public class Daily {
     public static HashMap<String, Integer> PlayQuestList = new HashMap<>();
     public static HashMap<String, Integer> KillQuestList = new HashMap<>();
     public static HashMap<String, Integer> GetQuestList = new HashMap<>();
+    public static HashMap<String, Integer> DamageQuestList = new HashMap<>();
+    public static HashMap<String, Integer> EatQuestList = new HashMap<>();
+    public static HashMap<String, Integer> DrinkQuestList = new HashMap<>();
+
 
     public static List<String> Quests = new ArrayList<>();
 
@@ -38,6 +42,9 @@ public class Daily {
         Quests.addAll(GetQuestList.keySet());
         Quests.addAll(KillQuestList.keySet());
         Quests.addAll(PlayQuestList.keySet());
+        Quests.addAll(DamageQuestList.keySet());
+        Quests.addAll(EatQuestList.keySet());
+        Quests.addAll(DrinkQuestList.keySet());
     }
 
     public static void checkForOrginQuest() {
@@ -181,6 +188,18 @@ public class Daily {
             kategorie = "Get";
             return kategorie;
         }
+        if (DamageQuestList.containsKey(questID)) {
+            kategorie = "Damage";
+            return kategorie;
+        }
+        if (EatQuestList.containsKey(questID)) {
+            kategorie = "Eat";
+            return kategorie;
+        }
+        if (DrinkQuestList.containsKey(questID)) {
+            kategorie = "Drink";
+            return kategorie;
+        }
         return kategorie;
     }
 
@@ -198,6 +217,15 @@ public class Daily {
         if (GetQuestList.containsKey(questID)) {
             title = "Sammle " + GetQuestList.get(questID) + " Materialien.";
         }
+        if (DamageQuestList.containsKey(questID)) {
+            title = "Verursache " + DamageQuestList.get(questID) + " Schaden.";
+        }
+        if (EatQuestList.containsKey(questID)) {
+            title = "Esse " + EatQuestList.get(questID) + " Lebensmittel.";
+        }
+        if (DrinkQuestList.containsKey(questID)) {
+            title = "Trinke " + DrinkQuestList.get(questID) + " Getränke.";
+        }
         return title;
     }
 
@@ -214,6 +242,15 @@ public class Daily {
         }
         if (GetQuestList.containsKey(questID)) {
             title = GetQuestList.get(questID);
+        }
+        if (DamageQuestList.containsKey(questID)) {
+            title = DamageQuestList.get(questID);
+        }
+        if (EatQuestList.containsKey(questID)) {
+            title = EatQuestList.get(questID);
+        }
+        if (DrinkQuestList.containsKey(questID)) {
+            title = DrinkQuestList.get(questID);
         }
         return title;
     }

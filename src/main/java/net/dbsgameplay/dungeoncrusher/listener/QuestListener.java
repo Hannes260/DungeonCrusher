@@ -14,6 +14,7 @@ import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.event.inventory.InventoryClickEvent;
@@ -202,6 +203,12 @@ public class QuestListener implements Listener {
             }
         }
 
+        //Es gibt nur essen und potions die man konsumieren kann deswegen ist ein iff ned nötig
+        if (QuestBuilder.isTutorialDone(p)) {
+            Daily.doQuest(p, Daily.MoveQuestList);
+            Weekly.doQuest(p, Weekly.MoveQuestList);
+            Monthly.doQuest(p, Monthly.MoveQuestList);
+        }
     }
 
     @EventHandler
@@ -236,10 +243,25 @@ public class QuestListener implements Listener {
         Player p = e.getPlayer();
 
         if (QuestBuilder.isTutorialDone(p)) {
-            if(e.getFrom().getBlockX() != e.getTo().getBlockX() || e.getFrom().getBlockZ() != e.getTo().getBlockZ()) {
+            if (e.getFrom().getBlockX() != e.getTo().getBlockX() || e.getFrom().getBlockZ() != e.getTo().getBlockZ()) {
                 Daily.doQuest(p, Daily.MoveQuestList);
                 Weekly.doQuest(p, Weekly.MoveQuestList);
                 Monthly.doQuest(p, Monthly.MoveQuestList);
+            }
+        }
+    }
+
+    @EventHandler
+    public void EntityDamageE(EntityDamageByEntityEvent e) {
+        if (e.getDamager() instanceof Player p) {
+            int damage = (int) e.getDamage();
+
+            if (QuestBuilder.isTutorialDone(p)) {
+                for (int i = 0; i != damage; i++) {
+                    Daily.doQuest(p, Daily.MoveQuestList);
+                    Weekly.doQuest(p, Weekly.MoveQuestList);
+                    Monthly.doQuest(p, Monthly.MoveQuestList);
+                }
             }
         }
     }

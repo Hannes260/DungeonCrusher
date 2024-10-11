@@ -110,8 +110,6 @@ public final class DungeonCrusher extends JavaPlugin {
         StatsManager statsManager = new StatsManager(mysqlManager);
 
         ErfolgeConfigManager.loadMap();
-
-
         QuestConfigManager.loadMap();
 
         Daily.load();
