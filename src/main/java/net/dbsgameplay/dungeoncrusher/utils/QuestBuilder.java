@@ -15,6 +15,7 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.*;
 
@@ -138,9 +139,19 @@ public class QuestBuilder {
         }
     }
 
-    public static void openRewardmenü(Player p, Map<String, Object> rewardList) {
+    public static void openRewardmenü(Player p, @NotNull Map<String, Object> rewardList) {
         ItemStack rawCopper = new ItemStack(Material.RAW_COPPER);
         ItemMeta rawCopperMeta = rawCopper.getItemMeta();
+
+        if (rewardList == null) {
+            for (int i = 0; i != 10; i++) {
+                if (QuestBuilder.unclaimedQuestRewards.containsKey(p.getUniqueId().toString()+i)) {
+                    QuestBuilder.openRewardmenü(p, unclaimedQuestRewards.get(p.getUniqueId().toString()+i));
+                    QuestBuilder.unclaimedQuestRewards.remove(p.getUniqueId().toString()+i);
+                }
+            }
+        }
+
         if (rewardList.get("rohkupfer") == null) {
             rawCopperMeta.setDisplayName("§dAnzahl: 0");
         }else {

@@ -187,7 +187,9 @@ public class QuestListener implements Listener {
         Player p = e.getPlayer();
         HashMap<String, String> tutorialQuestMap = QuestBuilder.tutorialQuestMap;
 
-        if (e.getItem() != null && e.getItem().hasItemMeta()) {
+        if (e.getItem() == null) return;
+
+        if (e.getItem().hasItemMeta()) {
             if (e.getItem().getItemMeta() instanceof PotionMeta potion  && mysqlManager.getTutorialQuest(p.getUniqueId().toString()).equalsIgnoreCase("t2")) {
                 new BukkitRunnable() {
                     @Override
@@ -203,11 +205,19 @@ public class QuestListener implements Listener {
             }
         }
 
+
         //Es gibt nur essen und potions die man konsumieren kann deswegen ist ein iff ned nötig
         if (QuestBuilder.isTutorialDone(p)) {
-            Daily.doQuest(p, Daily.MoveQuestList);
-            Weekly.doQuest(p, Weekly.MoveQuestList);
-            Monthly.doQuest(p, Monthly.MoveQuestList);
+            if (e.getItem().getItemMeta() instanceof  PotionMeta) {
+                Daily.doQuest(p, Daily.DrinkQuestList);
+                Weekly.doQuest(p, Weekly.DrinkQuestList);
+                Monthly.doQuest(p, Monthly.DrinkQuestList);
+                p.sendMessage("potion");
+            }else {
+                Daily.doQuest(p, Daily.EatQuestList);
+                Weekly.doQuest(p, Weekly.EatQuestList);
+                Monthly.doQuest(p, Monthly.EatQuestList);
+            }
         }
     }
 
@@ -252,15 +262,15 @@ public class QuestListener implements Listener {
     }
 
     @EventHandler
-    public void EntityDamageE(EntityDamageByEntityEvent e) {
+    public void EntityDamageByEntityEvent(EntityDamageByEntityEvent e) {
         if (e.getDamager() instanceof Player p) {
             int damage = (int) e.getDamage();
 
             if (QuestBuilder.isTutorialDone(p)) {
                 for (int i = 0; i != damage; i++) {
-                    Daily.doQuest(p, Daily.MoveQuestList);
-                    Weekly.doQuest(p, Weekly.MoveQuestList);
-                    Monthly.doQuest(p, Monthly.MoveQuestList);
+                    Daily.doQuest(p, Daily.DamageQuestList);
+                    Weekly.doQuest(p, Weekly.DamageQuestList);
+                    Monthly.doQuest(p, Monthly.DamageQuestList);
                 }
             }
         }

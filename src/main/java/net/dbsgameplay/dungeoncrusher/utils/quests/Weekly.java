@@ -100,7 +100,7 @@ public class Weekly {
         LocalDateTime now = LocalDateTime.now();
         String time = now.format(formatter);
 
-        if (time.substring(0, time.length() - 3).equalsIgnoreCase("Mon:00:01") && (Integer.parseInt(time.substring(9)) >= 0 && Integer.parseInt(time.substring(9)) <= 10)) {
+        if (time.substring(0, time.length() - 3).equalsIgnoreCase("Mon:00:01") && (Integer.parseInt(time.substring(9)) >= 1 && Integer.parseInt(time.substring(9)) <= 10)) {
             String k1 = null;
             String k2 = null;
             String k3;
@@ -289,7 +289,9 @@ public class Weekly {
 
     public static void handle(int num, String questType, Player p, HashMap<String, Integer> questMap, String s, FoodCategory foodCategory) {
         if (!Weekly.isDone(num, p)) {
-            if (mysqlManager.getPlayerTempQuest(questType, p.getUniqueId().toString()) == questMap.get(s)) {
+            mysqlManager.updatePlayerTempQuest(questType, p.getUniqueId().toString(), mysqlManager.getPlayerTempQuest(questType, p.getUniqueId().toString())+1);
+
+            if (mysqlManager.getPlayerTempQuest(questType, p.getUniqueId().toString()) >= questMap.get(s)) {
                 p.playSound(p.getLocation(), Sound.ENTITY_ARROW_HIT_PLAYER, 100, 1);
 
                 mysqlManager.updatePlayerQuest(questType, true, p.getUniqueId().toString());
@@ -308,8 +310,6 @@ public class Weekly {
                         break;
                     }
                 }
-            } else {
-                mysqlManager.updatePlayerTempQuest(questType, p.getUniqueId().toString(), mysqlManager.getPlayerTempQuest(questType, p.getUniqueId().toString())+1);
             }
         }
     }
