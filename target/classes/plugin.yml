@@ -1,0 +1,82 @@
+name: DungeonCrusher
+version: '1.0-SNAPSHOT'
+main: net.dbsgameplay.dungeoncrusher.DungeonCrusher
+api-version: '1.20'
+author: HanneZHD
+softdepend: [PlaceholderAPI]
+commands:
+  config:
+    tab-completer: true
+    description: config funktionen
+    permissions: dc.command.config
+  pay:
+    tab-completer: true
+    description: Überweise anderen Spieler geld
+    permission: dc.command.pay
+    aliases: [überweisen]
+  money:
+    tab-completer: true
+    description: Geld Managment
+    aliases: eco
+  stats:
+    description: Sehe deine Stats ein
+    aliases: [statistik, statistiken]
+  setup:
+    tab-completer: true
+    permission: dc.command.setup
+    description: Setup Befehl
+  build:
+    description: Gehe in den Baumodus
+    permission: dc.command.build
+    aliases: [bauen]
+  setspawn:
+    description: Setzte den Spawn
+    permission: dc.command.setspawn
+  spawn:
+    description: Teleportiere dich zum Spawn
+  shop:
+    aliases: [einkauf]
+    description: Öffne den Shop
+  upgrades:
+    description: Upgrade deine Items
+    aliases: [upgrade, levelup]
+  flyspeed:
+    permission: dc.command.flyspeed
+    description: Setzte deine Fluggeschwindigkeit nach oben
+  help:
+    description: Coming Soon...
+  daily:
+    description: Hole deine DailyBelohnung ab
+  cc:
+    permission: dc.command.clearchat
+    description: Lösche den Chat
+    aliases: [clearchat]
+  erfolge:
+    description: Zeige dir deine Erfolge an
+  gm:
+    permission: dc.command.gm
+    description: Gehe in einen Gamemode
+    aliases: [gamemode]
+  heal:
+    permission: dc.command.heal
+    description: Heale dich oder andere
+    aliases: [heilen]
+  ping:
+    description: Sehe deinen Ping ein
+    aliases: [internet]
+  reset:
+    description: Setzte einen Spieler zurück
+    permission: dc.command.reset
+  fly:
+    permission: dc.command.fly
+    description: Lerne Fliegen
+    aliases: [fliegen]
+  quest:
+    aliases: [aufgaben]
+  invsee:
+    description: Schaue in ein Spieler Inventar
+  dc:
+    description: Betritt den Discord
+    aliases: [discord]
+  test:
+    permission: dc.command.test
