@@ -349,7 +349,6 @@ public class QuestBuilder {
         for (String s : materialList) {
             if (rewardList.get(s) != null) {
                 if (!rewardList.get(s).toString().equals("0")) {
-                    p.sendMessage(rewardList.get(s).toString());
                     list.add("§8" + s + ": " + rewardList.get(s));
                 }
             }
