@@ -100,7 +100,7 @@ public class Weekly {
         LocalDateTime now = LocalDateTime.now();
         String time = now.format(formatter);
 
-        if (time.substring(0, time.length() - 3).equalsIgnoreCase("Montag 00:01") && (Integer.parseInt(time.substring(9)) >= 1 && Integer.parseInt(time.substring(9)) <= 10)) {
+        if (time.substring(0, time.length() - 3).equalsIgnoreCase("Monday 00:01") && (Integer.parseInt(time.substring(9)) >= 1 && Integer.parseInt(time.substring(9)) <= 10)) {
             String k1 = null;
             String k2 = null;
             String k3;
@@ -221,7 +221,7 @@ public class Weekly {
             title = "Esse " + EatQuestList.get(questID) + " Lebensmittel.";
         }
         if (DrinkQuestList.containsKey(questID)) {
-            title = "Trinke " + DrinkQuestList.get(questID) + " Getränke.";
+            title = "Trinke " + DrinkQuestList.get(questID) + " Tränke.";
         }
         return title;
     }
@@ -301,7 +301,7 @@ public class Weekly {
 
                 if (Weekly.RewardMoneyList.get(s) != null) {
                     foodCategory.addMoney(p, Weekly.RewardMoneyList.get(s));
-                    p.sendMessage(" §7[§a+§7] §6" + Weekly.RewardMoneyList.get(s) + "€");
+                    p.sendMessage("»Quests §7[§a+§7] §6" + Weekly.RewardMoneyList.get(s) + "€");
                 }
 
                 for (int i = 0; i!= 10; i++) {

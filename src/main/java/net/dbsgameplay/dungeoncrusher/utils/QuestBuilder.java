@@ -6,10 +6,12 @@ import net.dbsgameplay.dungeoncrusher.utils.Configs.LocationConfigManager;
 import net.dbsgameplay.dungeoncrusher.utils.quests.Daily;
 import net.dbsgameplay.dungeoncrusher.utils.quests.Monthly;
 import net.dbsgameplay.dungeoncrusher.utils.quests.Weekly;
+
 import org.bukkit.*;
 import org.bukkit.boss.BarColor;
 import org.bukkit.boss.BarStyle;
 import org.bukkit.boss.BossBar;
+import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemFlag;
@@ -18,6 +20,7 @@ import org.bukkit.inventory.meta.ItemMeta;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.*;
+import java.util.List;
 
 public class QuestBuilder {
 
@@ -67,11 +70,14 @@ public class QuestBuilder {
             }
             if (mysqlManager.getPlayerQuest("daily" + i, player.getUniqueId().toString())) {
                 List.add("§aAbgeschlossen!");
-                Meta.setEnchantmentGlintOverride(true);
+                Meta.addEnchant(Enchantment.KNOCKBACK, 1, true);
             } else {
                 List.add(loadProgressBar(player, "daily" + i));
-                Meta.setEnchantmentGlintOverride(false);
+                List.add("§8");
+                List.addAll(getRewardlist(player, Daily.RewardItemList.get(mysqlManager.getOrginQuest("daily" + i))));
+                Meta.removeEnchant(Enchantment.KNOCKBACK);
             }
+
             Meta.setLore(List);
             Meta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES, ItemFlag.HIDE_ITEM_SPECIFICS, ItemFlag.HIDE_ENCHANTS, ItemFlag.HIDE_ADDITIONAL_TOOLTIP, ItemFlag.HIDE_STORED_ENCHANTS);
             Stack.setItemMeta(Meta);
@@ -97,10 +103,12 @@ public class QuestBuilder {
             }
             if (mysqlManager.getPlayerQuest("weekly" + i, player.getUniqueId().toString())) {
                 List.add("§aAbgeschlossen!");
-                Meta.setEnchantmentGlintOverride(true);
+                Meta.addEnchant(Enchantment.KNOCKBACK, 1, true);
             } else {
                 List.add(loadProgressBar(player, "weekly" + i));
-                Meta.setEnchantmentGlintOverride(false);
+                List.add("§8");
+                List.addAll(getRewardlist(player, Weekly.RewardItemList.get(mysqlManager.getOrginQuest("weekly" + i))));
+                Meta.removeEnchant(Enchantment.KNOCKBACK);
             }
             Meta.setLore(List);
             Meta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES, ItemFlag.HIDE_ITEM_SPECIFICS, ItemFlag.HIDE_ENCHANTS, ItemFlag.HIDE_ADDITIONAL_TOOLTIP, ItemFlag.HIDE_STORED_ENCHANTS);
@@ -127,10 +135,12 @@ public class QuestBuilder {
             }
             if (mysqlManager.getPlayerQuest("monthly" + i, player.getUniqueId().toString())) {
                 List.add("§aAbgeschlossen!");
-                Meta.setEnchantmentGlintOverride(true);
+                Meta.addEnchant(Enchantment.KNOCKBACK, 1, true);
             } else {
                 List.add(loadProgressBar(player, "monthly" + i));
-                Meta.setEnchantmentGlintOverride(false);
+                List.add("§8");
+                List.addAll(getRewardlist(player, Monthly.RewardItemList.get(mysqlManager.getOrginQuest("monthly" + i))));
+                Meta.removeEnchant(Enchantment.KNOCKBACK);
             }
             Meta.setLore(List);
             Meta.addItemFlags(ItemFlag.HIDE_ATTRIBUTES, ItemFlag.HIDE_ITEM_SPECIFICS, ItemFlag.HIDE_ENCHANTS, ItemFlag.HIDE_ADDITIONAL_TOOLTIP, ItemFlag.HIDE_STORED_ENCHANTS);
@@ -272,7 +282,7 @@ public class QuestBuilder {
 
         ItemStack netheriteScrap = new ItemStack(Material.NETHERITE_SCRAP);
         ItemMeta netheriteScrapMeta = netheriteScrap.getItemMeta();
-        if (rewardList.get("antikerschrott") == null) {
+        if (rewardList.get("netheriteplatten") == null) {
             netheriteScrapMeta.setDisplayName("§dAnzahl: 0");
         }else {
             netheriteScrapMeta.setDisplayName("§dAnzahl: " + rewardList.get("netheriteplatten"));
@@ -327,5 +337,24 @@ public class QuestBuilder {
         }
 
         return progress;
+    }
+
+    public static ArrayList<String> getRewardlist(Player p, @NotNull Map<String, Object> rewardList) {
+        ArrayList<String> list = new ArrayList<>();
+
+        list.add("§6Rewards:");
+
+        String[] materialList = {"rohkupfer", "kupferbarren", "rohgold", "goldbarren", "roheisen", "eisenbarren", "kohle", "stein", "bruchstein", "diamant", "diamanterz", "netheritebarren", "netheriteplatten"};
+
+        for (String s : materialList) {
+            if (rewardList.get(s) != null) {
+                if (!rewardList.get(s).toString().equals("0")) {
+                    p.sendMessage(rewardList.get(s).toString());
+                    list.add("§8" + s + ": " + rewardList.get(s));
+                }
+            }
+        }
+
+        return list;
     }
 }

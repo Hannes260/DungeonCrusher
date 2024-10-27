@@ -221,7 +221,7 @@ public class Monthly {
             title = "Esse " + EatQuestList.get(questID) + " Lebensmittel.";
         }
         if (DrinkQuestList.containsKey(questID)) {
-            title = "Trinke " + DrinkQuestList.get(questID) + " Getränke.";
+            title = "Trinke " + DrinkQuestList.get(questID) + " Tränke.";
         }
         return title;
     }
@@ -301,7 +301,7 @@ public class Monthly {
 
                 if (Monthly.RewardMoneyList.get(s) != null) {
                     foodCategory.addMoney(p, Monthly.RewardMoneyList.get(s));
-                    p.sendMessage(" §7[§a+§7] §6" + Monthly.RewardMoneyList.get(s) + "€");
+                    p.sendMessage("»Quests §7[§a+§7] §6" + Monthly.RewardMoneyList.get(s) + "€");
                 }
 
                 for (int i = 0; i!= 10; i++) {

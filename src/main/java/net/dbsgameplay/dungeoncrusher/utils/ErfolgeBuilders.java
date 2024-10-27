@@ -146,13 +146,13 @@ public class ErfolgeBuilders {
         p.playSound(p.getLocation(), Sound.ENTITY_ARROW_HIT_PLAYER, 100, 1);
         p.sendActionBar("§6Du hast einen Erfolg abgeschlossen!");
         foodCategory.addMoney(p, value);
-        p.sendMessage(" §7[§a+§7] §6" + value + "€");
+        p.sendMessage("»Erfolge §7[§a+§7] §6" + value + "€");
         mysqlManager.updateItemAmount(p.getUniqueId().toString(), "raw_copper", mysqlManager.getItemAmount(p.getUniqueId().toString(), "raw_copper")+value/10);
-        p.sendMessage(" §7[§a+§7] §6RohKupfer §7[§a" + value/10 + "x§7]");
+        p.sendMessage("»Erfolge §7[§a+§7] §6RohKupfer §7[§a" + value/10 + "x§7]");
         mysqlManager.updateItemAmount(p.getUniqueId().toString(), "copper_ingot", mysqlManager.getItemAmount(p.getUniqueId().toString(), "copper_ingot")+value/10);
-        p.sendMessage(" §7[§a+§7] §6Kupferbarren §7[§a" + value/10 + "x§7]");
+        p.sendMessage("»Erfolge §7[§a+§7] §6Kupferbarren §7[§a" + value/10 + "x§7]");
         mysqlManager.updateItemAmount(p.getUniqueId().toString(), "coal", mysqlManager.getItemAmount(p.getUniqueId().toString(), "coal")+value/10);
-        p.sendMessage(" §7[§a+§7] §6Kohle §7[§a" + value/10 + "x§7]");
+        p.sendMessage("»Erfolge §7[§a+§7] §6Kohle §7[§a" + value/10 + "x§7]");
     }
 
 }
