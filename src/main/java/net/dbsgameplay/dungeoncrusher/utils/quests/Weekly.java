@@ -3,7 +3,6 @@ package net.dbsgameplay.dungeoncrusher.utils.quests;
 import net.dbsgameplay.dungeoncrusher.DungeonCrusher;
 import net.dbsgameplay.dungeoncrusher.enums.Shop.FoodCategory;
 import net.dbsgameplay.dungeoncrusher.sql.MYSQLManager;
-import net.dbsgameplay.dungeoncrusher.utils.QuestBuilder;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.Sound;
@@ -100,69 +99,75 @@ public class Weekly {
         LocalDateTime now = LocalDateTime.now();
         String time = now.format(formatter);
 
-        if (time.substring(0, time.length() - 3).equalsIgnoreCase("Monday 00:01") && (Integer.parseInt(time.substring(9)) >= 1 && Integer.parseInt(time.substring(9)) <= 10)) {
-            String k1 = null;
-            String k2 = null;
-            String k3;
+        DateTimeFormatter formatter2 = DateTimeFormatter.ofPattern("EEEE");
+        LocalDateTime now2 = LocalDateTime.now();
+        String time2 = now.format(formatter);
 
-            if (mysqlManager.getOrginQuest("weekly1") != null) {
-                Bukkit.getLogger().info("Weekly1 is updating...");
-                Random random = new Random();
-                int rdmNum = random.nextInt(0, Quests.size());
-                String key = Quests.get(rdmNum);
-                k1 = Weekly.getQuestKategorie(key);
-                mysqlManager.updateOrginQuest("weekly1", key);
-            }
-            if (mysqlManager.getOrginQuest("weekly2") != null) {
-                Bukkit.getLogger().info("Weekly2 is updating...");
-                Random random = new Random();
-                int rdmNum = random.nextInt(0, Quests.size());
-                String key = Quests.get(rdmNum);
-                k2 = Weekly.getQuestKategorie(key);
-                if (key.equalsIgnoreCase(mysqlManager.getOrginQuest("weekly1")) || k1.equalsIgnoreCase(k2)) {
-                    while (key.equalsIgnoreCase(mysqlManager.getOrginQuest("weekly1")) || k1.equalsIgnoreCase(k2)) {
-                        rdmNum = random.nextInt(0, Quests.size());
-                        key = Quests.get(rdmNum);
-                        k2 = Weekly.getQuestKategorie(key);
-                    }
-                    mysqlManager.updateOrginQuest("weekly2", key);
-                }else {
-                    mysqlManager.updateOrginQuest("weekly2", key);
+        if (time2.equalsIgnoreCase("Monday")) {
+            if (time.substring(0, time.length() - 3).equalsIgnoreCase("00:01") && (Integer.parseInt(time.substring(6)) >= 1 && Integer.parseInt(time.substring(6)) <= 10)) {
+                String k1 = null;
+                String k2 = null;
+                String k3;
+
+                if (mysqlManager.getOrginQuest("weekly1") != null) {
+                    Bukkit.getLogger().info("Weekly1 is updating...");
+                    Random random = new Random();
+                    int rdmNum = random.nextInt(0, Quests.size());
+                    String key = Quests.get(rdmNum);
+                    k1 = Weekly.getQuestKategorie(key);
+                    mysqlManager.updateOrginQuest("weekly1", key);
                 }
-            }
-            if (mysqlManager.getOrginQuest("weekly3") != null) {
-                Bukkit.getLogger().info("Weekly3 is updating...");
-                Random random = new Random();
-                int rdmNum = random.nextInt(0, Quests.size());
-                String key = Quests.get(rdmNum);
-                k3 = Weekly.getQuestKategorie(key);
-                if ((key.equalsIgnoreCase(mysqlManager.getOrginQuest("weekly1")) || k3.equalsIgnoreCase(k1)) || (key.equalsIgnoreCase(mysqlManager.getOrginQuest("weekly2")) || k3.equalsIgnoreCase(k2))) {
-                    while ((key.equalsIgnoreCase(mysqlManager.getOrginQuest("weekly1")) || k3.equalsIgnoreCase(k1)) || (key.equalsIgnoreCase(mysqlManager.getOrginQuest("weekly2")) || k3.equalsIgnoreCase(k2))) {
-                        rdmNum = random.nextInt(0, Quests.size());
-                        key = Quests.get(rdmNum);
-                        k3 = Weekly.getQuestKategorie(key);
+                if (mysqlManager.getOrginQuest("weekly2") != null) {
+                    Bukkit.getLogger().info("Weekly2 is updating...");
+                    Random random = new Random();
+                    int rdmNum = random.nextInt(0, Quests.size());
+                    String key = Quests.get(rdmNum);
+                    k2 = Weekly.getQuestKategorie(key);
+                    if (key.equalsIgnoreCase(mysqlManager.getOrginQuest("weekly1")) || k1.equalsIgnoreCase(k2)) {
+                        while (key.equalsIgnoreCase(mysqlManager.getOrginQuest("weekly1")) || k1.equalsIgnoreCase(k2)) {
+                            rdmNum = random.nextInt(0, Quests.size());
+                            key = Quests.get(rdmNum);
+                            k2 = Weekly.getQuestKategorie(key);
+                        }
+                        mysqlManager.updateOrginQuest("weekly2", key);
+                    }else {
+                        mysqlManager.updateOrginQuest("weekly2", key);
                     }
-                    mysqlManager.updateOrginQuest("weekly3", key);
-                }else {
-                    mysqlManager.updateOrginQuest("weekly3", key);
                 }
-            }
-            Bukkit.getLogger().info("Reseting Weekly PlayerTempQuests...");
-            for (OfflinePlayer p : Bukkit.getServer().getOfflinePlayers()) {
-                mysqlManager.updatePlayerQuest( "weekly1",false, p.getUniqueId().toString());
-                mysqlManager.updatePlayerQuest( "weekly2",false, p.getUniqueId().toString());
-                mysqlManager.updatePlayerQuest( "weekly3",false, p.getUniqueId().toString());
-                mysqlManager.updatePlayerTempQuest("weekly3", p.getUniqueId().toString(), 0);
-                mysqlManager.updatePlayerTempQuest("weekly2", p.getUniqueId().toString(), 0);
-                mysqlManager.updatePlayerTempQuest("weekly1", p.getUniqueId().toString(), 0);
-            }
-            for (Player p : Bukkit.getServer().getOnlinePlayers()) {
-                mysqlManager.updatePlayerQuest( "weekly1",false, p.getUniqueId().toString());
-                mysqlManager.updatePlayerQuest( "weekly2",false, p.getUniqueId().toString());
-                mysqlManager.updatePlayerQuest( "weekly3",false, p.getUniqueId().toString());
-                mysqlManager.updatePlayerTempQuest("weekly3", p.getUniqueId().toString(), 0);
-                mysqlManager.updatePlayerTempQuest("weekly2", p.getUniqueId().toString(), 0);
-                mysqlManager.updatePlayerTempQuest("weekly1", p.getUniqueId().toString(), 0);
+                if (mysqlManager.getOrginQuest("weekly3") != null) {
+                    Bukkit.getLogger().info("Weekly3 is updating...");
+                    Random random = new Random();
+                    int rdmNum = random.nextInt(0, Quests.size());
+                    String key = Quests.get(rdmNum);
+                    k3 = Weekly.getQuestKategorie(key);
+                    if ((key.equalsIgnoreCase(mysqlManager.getOrginQuest("weekly1")) || k3.equalsIgnoreCase(k1)) || (key.equalsIgnoreCase(mysqlManager.getOrginQuest("weekly2")) || k3.equalsIgnoreCase(k2))) {
+                        while ((key.equalsIgnoreCase(mysqlManager.getOrginQuest("weekly1")) || k3.equalsIgnoreCase(k1)) || (key.equalsIgnoreCase(mysqlManager.getOrginQuest("weekly2")) || k3.equalsIgnoreCase(k2))) {
+                            rdmNum = random.nextInt(0, Quests.size());
+                            key = Quests.get(rdmNum);
+                            k3 = Weekly.getQuestKategorie(key);
+                        }
+                        mysqlManager.updateOrginQuest("weekly3", key);
+                    }else {
+                        mysqlManager.updateOrginQuest("weekly3", key);
+                    }
+                }
+                Bukkit.getLogger().info("Reseting Weekly PlayerTempQuests...");
+                for (OfflinePlayer p : Bukkit.getServer().getOfflinePlayers()) {
+                    mysqlManager.updatePlayerQuest( "weekly1",false, p.getUniqueId().toString());
+                    mysqlManager.updatePlayerQuest( "weekly2",false, p.getUniqueId().toString());
+                    mysqlManager.updatePlayerQuest( "weekly3",false, p.getUniqueId().toString());
+                    mysqlManager.updatePlayerTempQuest("weekly3", p.getUniqueId().toString(), 0);
+                    mysqlManager.updatePlayerTempQuest("weekly2", p.getUniqueId().toString(), 0);
+                    mysqlManager.updatePlayerTempQuest("weekly1", p.getUniqueId().toString(), 0);
+                }
+                for (Player p : Bukkit.getServer().getOnlinePlayers()) {
+                    mysqlManager.updatePlayerQuest( "weekly1",false, p.getUniqueId().toString());
+                    mysqlManager.updatePlayerQuest( "weekly2",false, p.getUniqueId().toString());
+                    mysqlManager.updatePlayerQuest( "weekly3",false, p.getUniqueId().toString());
+                    mysqlManager.updatePlayerTempQuest("weekly3", p.getUniqueId().toString(), 0);
+                    mysqlManager.updatePlayerTempQuest("weekly2", p.getUniqueId().toString(), 0);
+                    mysqlManager.updatePlayerTempQuest("weekly1", p.getUniqueId().toString(), 0);
+                }
             }
         }
     }

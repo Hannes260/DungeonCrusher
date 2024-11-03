@@ -3,7 +3,6 @@ package net.dbsgameplay.dungeoncrusher.utils.quests;
 import net.dbsgameplay.dungeoncrusher.DungeonCrusher;
 import net.dbsgameplay.dungeoncrusher.enums.Shop.FoodCategory;
 import net.dbsgameplay.dungeoncrusher.sql.MYSQLManager;
-import net.dbsgameplay.dungeoncrusher.utils.QuestBuilder;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.Sound;
@@ -96,73 +95,79 @@ public class Monthly {
     }
 
     public static void checkForOrginQuestUpdate() {
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd:HH:mm:ss");
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm:ss");
         LocalDateTime now = LocalDateTime.now();
         String time = now.format(formatter);
 
-        if (time.substring(0, time.length() - 3).equalsIgnoreCase("01:00:01") && (Integer.parseInt(time.substring(9)) >= 1 && Integer.parseInt(time.substring(9)) <= 10)) {
-            String k1 = null;
-            String k2 = null;
-            String k3;
+        DateTimeFormatter formatter2 = DateTimeFormatter.ofPattern("dd");
+        LocalDateTime now2 = LocalDateTime.now();
+        String time2 = now.format(formatter);
 
-            if (mysqlManager.getOrginQuest("monthly1") != null) {
-                Bukkit.getLogger().info("Monthly1 is updating...");
-                Random random = new Random();
-                int rdmNum = random.nextInt(0, Quests.size());
-                String key = Quests.get(rdmNum);
-                k1 = Monthly.getQuestKategorie(key);
-                mysqlManager.updateOrginQuest("monthly1", key);
-            }
-            if (mysqlManager.getOrginQuest("monthly2") != null) {
-                Bukkit.getLogger().info("Monthly2 is updating...");
-                Random random = new Random();
-                int rdmNum = random.nextInt(0, Quests.size());
-                String key = Quests.get(rdmNum);
-                k2 = Monthly.getQuestKategorie(key);
-                if (key.equalsIgnoreCase(mysqlManager.getOrginQuest("monthly1")) || k1.equalsIgnoreCase(k2)) {
-                    while (key.equalsIgnoreCase(mysqlManager.getOrginQuest("monthly1")) || k1.equalsIgnoreCase(k2)) {
-                        rdmNum = random.nextInt(0, Quests.size());
-                        key = Quests.get(rdmNum);
-                        k2 = Monthly.getQuestKategorie(key);
-                    }
-                    mysqlManager.updateOrginQuest("monthly2", key);
-                }else {
-                    mysqlManager.updateOrginQuest("monthly2", key);
+        if (time2.equals("01")) {
+            if (time.substring(0, time.length() - 3).equalsIgnoreCase("00:01") && (Integer.parseInt(time.substring(6)) >= 1 && Integer.parseInt(time.substring(6)) <= 10)) {
+                String k1 = null;
+                String k2 = null;
+                String k3;
+
+                if (mysqlManager.getOrginQuest("monthly1") != null) {
+                    Bukkit.getLogger().info("Monthly1 is updating...");
+                    Random random = new Random();
+                    int rdmNum = random.nextInt(0, Quests.size());
+                    String key = Quests.get(rdmNum);
+                    k1 = Monthly.getQuestKategorie(key);
+                    mysqlManager.updateOrginQuest("monthly1", key);
                 }
-            }
-            if (mysqlManager.getOrginQuest("monthly3") != null) {
-                Bukkit.getLogger().info("Monthly3 is updating...");
-                Random random = new Random();
-                int rdmNum = random.nextInt(0, Quests.size());
-                String key = Quests.get(rdmNum);
-                k3 = Monthly.getQuestKategorie(key);
-                if ((key.equalsIgnoreCase(mysqlManager.getOrginQuest("monthly1")) || k3.equalsIgnoreCase(k1)) || (key.equalsIgnoreCase(mysqlManager.getOrginQuest("monthly2")) || k3.equalsIgnoreCase(k2))) {
-                    while ((key.equalsIgnoreCase(mysqlManager.getOrginQuest("monthly1")) || k3.equalsIgnoreCase(k1)) || (key.equalsIgnoreCase(mysqlManager.getOrginQuest("monthly2")) || k3.equalsIgnoreCase(k2))) {
-                        rdmNum = random.nextInt(0, Quests.size());
-                        key = Quests.get(rdmNum);
-                        k3 = Monthly.getQuestKategorie(key);
+                if (mysqlManager.getOrginQuest("monthly2") != null) {
+                    Bukkit.getLogger().info("Monthly2 is updating...");
+                    Random random = new Random();
+                    int rdmNum = random.nextInt(0, Quests.size());
+                    String key = Quests.get(rdmNum);
+                    k2 = Monthly.getQuestKategorie(key);
+                    if (key.equalsIgnoreCase(mysqlManager.getOrginQuest("monthly1")) || k1.equalsIgnoreCase(k2)) {
+                        while (key.equalsIgnoreCase(mysqlManager.getOrginQuest("monthly1")) || k1.equalsIgnoreCase(k2)) {
+                            rdmNum = random.nextInt(0, Quests.size());
+                            key = Quests.get(rdmNum);
+                            k2 = Monthly.getQuestKategorie(key);
+                        }
+                        mysqlManager.updateOrginQuest("monthly2", key);
+                    }else {
+                        mysqlManager.updateOrginQuest("monthly2", key);
                     }
-                    mysqlManager.updateOrginQuest("monthly3", key);
-                }else {
-                    mysqlManager.updateOrginQuest("monthly3", key);
                 }
-            }
-            Bukkit.getLogger().info("Reseting Monthly PlayerTempQuests...");
-            for (OfflinePlayer p : Bukkit.getServer().getOfflinePlayers()) {
-                mysqlManager.updatePlayerQuest("monthly1", false, p.getUniqueId().toString());
-                mysqlManager.updatePlayerQuest("monthly2", false, p.getUniqueId().toString());
-                mysqlManager.updatePlayerQuest("monthly3", false, p.getUniqueId().toString());
-                mysqlManager.updatePlayerTempQuest("monthly3", p.getUniqueId().toString(), 0);
-                mysqlManager.updatePlayerTempQuest("monthly2", p.getUniqueId().toString(), 0);
-                mysqlManager.updatePlayerTempQuest("monthly1", p.getUniqueId().toString(), 0);
-            }
-            for (Player p : Bukkit.getServer().getOnlinePlayers()) {
-                mysqlManager.updatePlayerQuest("monthly1", false, p.getUniqueId().toString());
-                mysqlManager.updatePlayerQuest("monthly2", false, p.getUniqueId().toString());
-                mysqlManager.updatePlayerQuest("monthly3", false, p.getUniqueId().toString());
-                mysqlManager.updatePlayerTempQuest("monthly3", p.getUniqueId().toString(), 0);
-                mysqlManager.updatePlayerTempQuest("monthly2", p.getUniqueId().toString(), 0);
-                mysqlManager.updatePlayerTempQuest("monthly1", p.getUniqueId().toString(), 0);
+                if (mysqlManager.getOrginQuest("monthly3") != null) {
+                    Bukkit.getLogger().info("Monthly3 is updating...");
+                    Random random = new Random();
+                    int rdmNum = random.nextInt(0, Quests.size());
+                    String key = Quests.get(rdmNum);
+                    k3 = Monthly.getQuestKategorie(key);
+                    if ((key.equalsIgnoreCase(mysqlManager.getOrginQuest("monthly1")) || k3.equalsIgnoreCase(k1)) || (key.equalsIgnoreCase(mysqlManager.getOrginQuest("monthly2")) || k3.equalsIgnoreCase(k2))) {
+                        while ((key.equalsIgnoreCase(mysqlManager.getOrginQuest("monthly1")) || k3.equalsIgnoreCase(k1)) || (key.equalsIgnoreCase(mysqlManager.getOrginQuest("monthly2")) || k3.equalsIgnoreCase(k2))) {
+                            rdmNum = random.nextInt(0, Quests.size());
+                            key = Quests.get(rdmNum);
+                            k3 = Monthly.getQuestKategorie(key);
+                        }
+                        mysqlManager.updateOrginQuest("monthly3", key);
+                    }else {
+                        mysqlManager.updateOrginQuest("monthly3", key);
+                    }
+                }
+                Bukkit.getLogger().info("Reseting Monthly PlayerTempQuests...");
+                for (OfflinePlayer p : Bukkit.getServer().getOfflinePlayers()) {
+                    mysqlManager.updatePlayerQuest("monthly1", false, p.getUniqueId().toString());
+                    mysqlManager.updatePlayerQuest("monthly2", false, p.getUniqueId().toString());
+                    mysqlManager.updatePlayerQuest("monthly3", false, p.getUniqueId().toString());
+                    mysqlManager.updatePlayerTempQuest("monthly3", p.getUniqueId().toString(), 0);
+                    mysqlManager.updatePlayerTempQuest("monthly2", p.getUniqueId().toString(), 0);
+                    mysqlManager.updatePlayerTempQuest("monthly1", p.getUniqueId().toString(), 0);
+                }
+                for (Player p : Bukkit.getServer().getOnlinePlayers()) {
+                    mysqlManager.updatePlayerQuest("monthly1", false, p.getUniqueId().toString());
+                    mysqlManager.updatePlayerQuest("monthly2", false, p.getUniqueId().toString());
+                    mysqlManager.updatePlayerQuest("monthly3", false, p.getUniqueId().toString());
+                    mysqlManager.updatePlayerTempQuest("monthly3", p.getUniqueId().toString(), 0);
+                    mysqlManager.updatePlayerTempQuest("monthly2", p.getUniqueId().toString(), 0);
+                    mysqlManager.updatePlayerTempQuest("monthly1", p.getUniqueId().toString(), 0);
+                }
             }
         }
     }

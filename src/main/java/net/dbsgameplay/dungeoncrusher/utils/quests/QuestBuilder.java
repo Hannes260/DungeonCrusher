@@ -1,11 +1,8 @@
-package net.dbsgameplay.dungeoncrusher.utils;
+package net.dbsgameplay.dungeoncrusher.utils.quests;
 
 import net.dbsgameplay.dungeoncrusher.DungeonCrusher;
 import net.dbsgameplay.dungeoncrusher.sql.MYSQLManager;
 import net.dbsgameplay.dungeoncrusher.utils.Configs.LocationConfigManager;
-import net.dbsgameplay.dungeoncrusher.utils.quests.Daily;
-import net.dbsgameplay.dungeoncrusher.utils.quests.Monthly;
-import net.dbsgameplay.dungeoncrusher.utils.quests.Weekly;
 
 import org.bukkit.*;
 import org.bukkit.boss.BarColor;
