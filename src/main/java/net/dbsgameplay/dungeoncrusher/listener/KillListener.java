@@ -5,7 +5,6 @@ import net.dbsgameplay.dungeoncrusher.enums.MobNameTranslator;
 import net.dbsgameplay.dungeoncrusher.sql.MYSQLManager;
 import net.dbsgameplay.dungeoncrusher.utils.ErfolgeBuilders;
 import net.dbsgameplay.dungeoncrusher.utils.ScoreboardBuilder;
-import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -43,4 +42,6 @@ public class KillListener implements Listener {
                     }
         }
     }
+
+
 }

@@ -2,6 +2,7 @@ package net.dbsgameplay.dungeoncrusher;
 
 import net.dbsgameplay.dungeoncrusher.Commands.*;
 import net.dbsgameplay.dungeoncrusher.Commands.Admin.*;
+import net.dbsgameplay.dungeoncrusher.Commands.Begleiter.BegleiterCommand;
 import net.dbsgameplay.dungeoncrusher.Commands.Economy.CoinsCommand;
 import net.dbsgameplay.dungeoncrusher.Commands.Economy.PayCommand;
 import net.dbsgameplay.dungeoncrusher.Commands.Quests.QuestCommand;
@@ -24,6 +25,7 @@ import net.dbsgameplay.dungeoncrusher.utils.Manager.SavezoneManager;
 import net.dbsgameplay.dungeoncrusher.utils.Stats.StatsManager;
 import net.dbsgameplay.dungeoncrusher.utils.quests.Daily;
 import net.dbsgameplay.dungeoncrusher.utils.quests.Monthly;
+import net.dbsgameplay.dungeoncrusher.utils.quests.QuestBuilder;
 import net.dbsgameplay.dungeoncrusher.utils.quests.Weekly;
 import net.dbsgameplay.dungeoncrusher.utils.shops.ShopManager;
 import net.dbsgameplay.dungeoncrusher.utils.upgrades.UpgradeManager;
@@ -110,8 +112,6 @@ public final class DungeonCrusher extends JavaPlugin {
         StatsManager statsManager = new StatsManager(mysqlManager);
 
         ErfolgeConfigManager.loadMap();
-
-
         QuestConfigManager.loadMap();
 
         Daily.load();
@@ -252,6 +252,7 @@ public final class DungeonCrusher extends JavaPlugin {
         getCommand("test").setExecutor(new test());
         getCommand("invsee").setExecutor(new InvseeCommand());
         getCommand("dc").setExecutor(new DiscordCommand());
+        getCommand("begleiter").setExecutor(new BegleiterCommand());
 
         // Tab Completers
         getCommand("config").setTabCompleter(this);
@@ -283,6 +284,7 @@ public final class DungeonCrusher extends JavaPlugin {
         pluginManager.registerEvents(new StatsListener(this, locationConfigManager, mysqlManager), this);
         pluginManager.registerEvents(new InvseeListener(), this);
         pluginManager.registerEvents(new ChunkListener(this, mobTypesToKill), this);
+        pluginManager.registerEvents(new BegleiterListener(mysqlManager, this), this);
     }
 
     public void sendToDiscord(String content, int color) {

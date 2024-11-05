@@ -1,7 +1,7 @@
 package net.dbsgameplay.dungeoncrusher.Commands.Quests;
 
 import net.dbsgameplay.dungeoncrusher.sql.MYSQLManager;
-import net.dbsgameplay.dungeoncrusher.utils.QuestBuilder;
+import net.dbsgameplay.dungeoncrusher.utils.quests.QuestBuilder;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;

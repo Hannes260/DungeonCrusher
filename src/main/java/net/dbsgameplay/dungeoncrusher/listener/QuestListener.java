@@ -2,18 +2,17 @@ package net.dbsgameplay.dungeoncrusher.listener;
 
 import net.dbsgameplay.dungeoncrusher.DungeonCrusher;
 import net.dbsgameplay.dungeoncrusher.sql.MYSQLManager;
-import net.dbsgameplay.dungeoncrusher.utils.QuestBuilder;
+import net.dbsgameplay.dungeoncrusher.utils.quests.QuestBuilder;
 import net.dbsgameplay.dungeoncrusher.utils.quests.Daily;
 import net.dbsgameplay.dungeoncrusher.utils.quests.Monthly;
 import net.dbsgameplay.dungeoncrusher.utils.quests.Weekly;
-import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.Sound;
-import org.bukkit.boss.*;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.event.inventory.InventoryClickEvent;
@@ -26,7 +25,6 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.PotionMeta;
 import org.bukkit.potion.PotionEffectType;
-import org.bukkit.potion.PotionType;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.HashMap;
@@ -186,7 +184,9 @@ public class QuestListener implements Listener {
         Player p = e.getPlayer();
         HashMap<String, String> tutorialQuestMap = QuestBuilder.tutorialQuestMap;
 
-        if (e.getItem() != null && e.getItem().hasItemMeta()) {
+        if (e.getItem() == null) return;
+
+        if (e.getItem().hasItemMeta()) {
             if (e.getItem().getItemMeta() instanceof PotionMeta potion  && mysqlManager.getTutorialQuest(p.getUniqueId().toString()).equalsIgnoreCase("t2")) {
                 new BukkitRunnable() {
                     @Override
@@ -202,6 +202,20 @@ public class QuestListener implements Listener {
             }
         }
 
+
+        //Es gibt nur essen und potions die man konsumieren kann deswegen ist ein iff ned nötig
+        if (QuestBuilder.isTutorialDone(p)) {
+            if (e.getItem().getItemMeta() instanceof  PotionMeta) {
+                Daily.doQuest(p, Daily.DrinkQuestList);
+                Weekly.doQuest(p, Weekly.DrinkQuestList);
+                Monthly.doQuest(p, Monthly.DrinkQuestList);
+                p.sendMessage("potion");
+            }else {
+                Daily.doQuest(p, Daily.EatQuestList);
+                Weekly.doQuest(p, Weekly.EatQuestList);
+                Monthly.doQuest(p, Monthly.EatQuestList);
+            }
+        }
     }
 
     @EventHandler
@@ -236,10 +250,25 @@ public class QuestListener implements Listener {
         Player p = e.getPlayer();
 
         if (QuestBuilder.isTutorialDone(p)) {
-            if(e.getFrom().getBlockX() != e.getTo().getBlockX() || e.getFrom().getBlockZ() != e.getTo().getBlockZ()) {
+            if (e.getFrom().getBlockX() != e.getTo().getBlockX() || e.getFrom().getBlockZ() != e.getTo().getBlockZ()) {
                 Daily.doQuest(p, Daily.MoveQuestList);
                 Weekly.doQuest(p, Weekly.MoveQuestList);
                 Monthly.doQuest(p, Monthly.MoveQuestList);
+            }
+        }
+    }
+
+    @EventHandler
+    public void EntityDamageByEntityEvent(EntityDamageByEntityEvent e) {
+        if (e.getDamager() instanceof Player p) {
+            int damage = (int) e.getDamage();
+
+            if (QuestBuilder.isTutorialDone(p)) {
+                for (int i = 0; i != damage; i++) {
+                    Daily.doQuest(p, Daily.DamageQuestList);
+                    Weekly.doQuest(p, Weekly.DamageQuestList);
+                    Monthly.doQuest(p, Monthly.DamageQuestList);
+                }
             }
         }
     }

@@ -3,7 +3,6 @@ package net.dbsgameplay.dungeoncrusher.utils.quests;
 import net.dbsgameplay.dungeoncrusher.DungeonCrusher;
 import net.dbsgameplay.dungeoncrusher.enums.Shop.FoodCategory;
 import net.dbsgameplay.dungeoncrusher.sql.MYSQLManager;
-import net.dbsgameplay.dungeoncrusher.utils.QuestBuilder;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.Sound;
@@ -22,6 +21,10 @@ public class Daily {
     public static HashMap<String, Integer> PlayQuestList = new HashMap<>();
     public static HashMap<String, Integer> KillQuestList = new HashMap<>();
     public static HashMap<String, Integer> GetQuestList = new HashMap<>();
+    public static HashMap<String, Integer> DamageQuestList = new HashMap<>();
+    public static HashMap<String, Integer> EatQuestList = new HashMap<>();
+    public static HashMap<String, Integer> DrinkQuestList = new HashMap<>();
+
 
     public static List<String> Quests = new ArrayList<>();
 
@@ -38,6 +41,9 @@ public class Daily {
         Quests.addAll(GetQuestList.keySet());
         Quests.addAll(KillQuestList.keySet());
         Quests.addAll(PlayQuestList.keySet());
+        Quests.addAll(DamageQuestList.keySet());
+        Quests.addAll(EatQuestList.keySet());
+        Quests.addAll(DrinkQuestList.keySet());
     }
 
     public static void checkForOrginQuest() {
@@ -94,7 +100,7 @@ public class Daily {
         LocalDateTime now = LocalDateTime.now();
         String time = now.format(formatter);
 
-        if (time.substring(0, time.length() - 3).equalsIgnoreCase("00:01") && (Integer.parseInt(time.substring(6)) >= 0 && Integer.parseInt(time.substring(6)) <= 10)) {
+        if (time.substring(0, time.length() - 3).equalsIgnoreCase("00:01") && (Integer.parseInt(time.substring(6)) >= 1 && Integer.parseInt(time.substring(6)) <= 10)) {
             String k1 = null;
             String k2 = null;
             String k3;
@@ -181,6 +187,18 @@ public class Daily {
             kategorie = "Get";
             return kategorie;
         }
+        if (DamageQuestList.containsKey(questID)) {
+            kategorie = "Damage";
+            return kategorie;
+        }
+        if (EatQuestList.containsKey(questID)) {
+            kategorie = "Eat";
+            return kategorie;
+        }
+        if (DrinkQuestList.containsKey(questID)) {
+            kategorie = "Drink";
+            return kategorie;
+        }
         return kategorie;
     }
 
@@ -198,6 +216,15 @@ public class Daily {
         if (GetQuestList.containsKey(questID)) {
             title = "Sammle " + GetQuestList.get(questID) + " Materialien.";
         }
+        if (DamageQuestList.containsKey(questID)) {
+            title = "Verursache " + DamageQuestList.get(questID) + " Schaden.";
+        }
+        if (EatQuestList.containsKey(questID)) {
+            title = "Esse " + EatQuestList.get(questID) + " Lebensmittel.";
+        }
+        if (DrinkQuestList.containsKey(questID)) {
+            title = "Trinke " + DrinkQuestList.get(questID) + " Tränke.";
+        }
         return title;
     }
 
@@ -214,6 +241,15 @@ public class Daily {
         }
         if (GetQuestList.containsKey(questID)) {
             title = GetQuestList.get(questID);
+        }
+        if (DamageQuestList.containsKey(questID)) {
+            title = DamageQuestList.get(questID);
+        }
+        if (EatQuestList.containsKey(questID)) {
+            title = EatQuestList.get(questID);
+        }
+        if (DrinkQuestList.containsKey(questID)) {
+            title = DrinkQuestList.get(questID);
         }
         return title;
     }
@@ -255,7 +291,9 @@ public class Daily {
 
     public static void handle(int num, String questType, Player p, HashMap<String, Integer> questMap, String s, FoodCategory foodCategory) {
         if (!Daily.isDone(num, p)) {
-            if (mysqlManager.getPlayerTempQuest(questType, p.getUniqueId().toString()) == questMap.get(s)) {
+            mysqlManager.updatePlayerTempQuest(questType, p.getUniqueId().toString(), mysqlManager.getPlayerTempQuest(questType, p.getUniqueId().toString())+1);
+
+            if (mysqlManager.getPlayerTempQuest(questType, p.getUniqueId().toString()) >= questMap.get(s)) {
                 p.playSound(p.getLocation(), Sound.ENTITY_ARROW_HIT_PLAYER, 100, 1);
 
                 mysqlManager.updatePlayerQuest(questType, true, p.getUniqueId().toString());
@@ -265,7 +303,7 @@ public class Daily {
 
                 if (Daily.RewardMoneyList.get(s) != null) {
                     foodCategory.addMoney(p, Daily.RewardMoneyList.get(s));
-                    p.sendMessage(" §7[§a+§7] §6" + Daily.RewardMoneyList.get(s) + "€");
+                    p.sendMessage("»Quests §7[§a+§7] §6" + Daily.RewardMoneyList.get(s) + "€");
                 }
 
                 for (int i = 0; i!= 10; i++) {
@@ -274,8 +312,6 @@ public class Daily {
                         break;
                     }
                 }
-            } else {
-                mysqlManager.updatePlayerTempQuest(questType, p.getUniqueId().toString(), mysqlManager.getPlayerTempQuest(questType, p.getUniqueId().toString())+1);
             }
         }
     }

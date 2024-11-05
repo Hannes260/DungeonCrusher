@@ -80,3 +80,5 @@ commands:
     aliases: [discord]
   test:
     permission: dc.command.test
+  begleiter:
+
