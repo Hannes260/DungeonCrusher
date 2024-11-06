@@ -209,7 +209,6 @@ public class QuestListener implements Listener {
                 Daily.doQuest(p, Daily.DrinkQuestList);
                 Weekly.doQuest(p, Weekly.DrinkQuestList);
                 Monthly.doQuest(p, Monthly.DrinkQuestList);
-                p.sendMessage("potion");
             }else {
                 Daily.doQuest(p, Daily.EatQuestList);
                 Weekly.doQuest(p, Weekly.EatQuestList);

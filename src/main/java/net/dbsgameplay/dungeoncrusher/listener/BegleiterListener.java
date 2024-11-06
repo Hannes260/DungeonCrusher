@@ -4,6 +4,7 @@ import net.dbsgameplay.dungeoncrusher.DungeonCrusher;
 import net.dbsgameplay.dungeoncrusher.sql.MYSQLManager;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
+import org.bukkit.Sound;
 import org.bukkit.entity.*;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -24,7 +25,7 @@ public class BegleiterListener implements Listener {
 
     boolean isattacking = false;
     boolean attackInProgress = false;
-    Entity entity_target = null;
+    LivingEntity entity_target = null;
 
     @EventHandler
     public void Playermovevent(PlayerMoveEvent e) {
@@ -33,8 +34,7 @@ public class BegleiterListener implements Listener {
             for (Entity entity : p.getWorld().getEntities()) {
                 if (entity instanceof ArmorStand armorStand) {
                     if (armorStand.getCustomName() == null) continue;
-                    if (armorStand.getCustomName().equals("text1")) {
-
+                    if (armorStand.getCustomName().equals(p.getUniqueId().toString())) {
 
                         if (armorStand.getNearbyEntities(5,5,5).isEmpty() && !isattacking) {
                             isattacking = false;
@@ -44,7 +44,7 @@ public class BegleiterListener implements Listener {
                             while (!(entityList.getFirst() instanceof LivingEntity)) {
                                 entityList.remove(entityList.getFirst());
                             }
-                            entity_target = entityList.getFirst();
+                            entity_target = (LivingEntity) entityList.getFirst();
                         }
 
                         if (isattacking) {
@@ -56,20 +56,24 @@ public class BegleiterListener implements Listener {
                             armorStand.setVelocity(direction);
                             armorStand.setVelocity(new Vector(0,0,0));
 
-                            new BukkitRunnable() {
-                                @Override
-                                public void run() {
-                                    Vector direction2 = p.getLocation().toVector().subtract(armorStand.getLocation().toVector());
+                            while (!entity_target.isDead()) {
+                                new BukkitRunnable() {
+                                    @Override
+                                    public void run() {
+                                        entity_target.damage(2.5);
+                                        p.playSound(armorStand.getLocation(), Sound.ITEM_SHIELD_BLOCK, 10, 1);
+                                    }
+                                }.runTaskLater(dungeonCrusher, 20L);
+                            }
 
-                                    direction2.normalize();
-                                    armorStand.setVelocity(direction2);
-                                    armorStand.setVelocity(new Vector(0,0,0));
-                                    attackInProgress = false;
-                                }
-                            }.runTaskLater(dungeonCrusher, 20*2);
-//                            entity_target.remove();
+                            //Bezahle den Spieler
 
+                            Vector direction2 = p.getLocation().toVector().subtract(armorStand.getLocation().toVector());
 
+                            direction2.normalize();
+                            armorStand.setVelocity(direction2);
+                            armorStand.setVelocity(new Vector(0,0,0));
+                            attackInProgress = false;
 
                         } else if (!isattacking && !attackInProgress){
                             armorStand.teleport(p.getLocation().add(1,0,-1));

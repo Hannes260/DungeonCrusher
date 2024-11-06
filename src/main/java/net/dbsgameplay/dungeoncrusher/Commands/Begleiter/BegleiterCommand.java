@@ -14,7 +14,7 @@ public class BegleiterCommand implements CommandExecutor {
         Player p = (Player) commandSender;
 
         BegleiterBuilder begleiterBuilder = new BegleiterBuilder();
-        begleiterBuilder.setLocation(p).setName("text1").setSkin(Material.ZOMBIE_HEAD).build();
+        begleiterBuilder.setLocation(p).setName(p.getUniqueId().toString()).setSkin(Material.ZOMBIE_HEAD).build();
 
         return false;
     }
