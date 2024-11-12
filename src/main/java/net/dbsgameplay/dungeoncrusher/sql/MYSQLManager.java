@@ -237,6 +237,17 @@ public class MYSQLManager {
                     + "monthly3 INT DEFAULT 0"
                     + ")";
             statement.execute(createPlayerTempQuestTableQuery);
+
+            //Enchantments
+            String createEnchantmentsTableQuery = "CREATE TABLE IF NOT EXISTS player_enchantments ("
+                    + "uuid VARCHAR(255) PRIMARY KEY,"
+                    + "fesselschlag INT DEFAULT 0,"
+                    + "windklinge INT DEFAULT 0,"
+                    + "gifthieb INT DEFAULT 0,"
+                    + "seelenentzung INT DEFAULT 0,"
+                    + "wutenbrannt INT DEFAULT 0,"
+                    + ")";
+            statement.execute(createEnchantmentsTableQuery);
             statement.close();
         } catch (Exception e) {
             e.printStackTrace();
@@ -1512,4 +1523,51 @@ public class MYSQLManager {
         return playerName;  // Gibt den Spielernamen zurück oder null, wenn kein Spieler gefunden wurde
     }
 
+ //enchantments
+    public void updateEnchantments(String uuid, String enchantment, int level) {
+        try (Connection connection = dataSource.getConnection()) {
+            String updateQuery = "UPDATE player_enchantments SET " + enchantment + " = ? WHERE uuid = ?";
+            try (PreparedStatement updateStatment = connection.prepareStatement(updateQuery)) {
+                updateStatment.setInt(1, level);
+                updateStatment.setString(2, uuid);
+
+                int rowsUpdated = updateStatment.executeUpdate();
+
+                if (rowsUpdated == 0) {
+                    String insertQuery = "INSERTI INTO player_enchantments (uuid, " + enchantment + ") VALUES (?, ?)";
+                    try (PreparedStatement insertStatement = connection.prepareStatement(insertQuery)) {
+                        insertStatement.setString(1, uuid);
+                        insertStatement.setInt(2, level);
+                        insertStatement.executeUpdate();
+                    }
+
+                }
+            }
+
+            if (!connection.getAutoCommit()) {
+                connection.commit();
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+    public int getEnchantments(String uuid, String enchantment) {
+        int enchantmentlevel = 0;
+
+        try (Connection connection = dataSource.getConnection()) {
+            String query = "SELECT " + enchantment + " FROM player_enchantments WHERE uuid = ?";
+            try (PreparedStatement statement = connection.prepareStatement(query)) {
+                statement.setString(1, uuid);
+
+                try (ResultSet resultSet = statement.executeQuery()) {
+                    if (resultSet.next()) {
+                        enchantmentlevel = resultSet.getInt(enchantment);
+                    }
+                }
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return enchantmentlevel;
+    }
 }
