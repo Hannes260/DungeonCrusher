@@ -28,7 +28,7 @@ public class MobDamageListener implements Listener {
         Entity entity = event.getEntity();
         if (entity instanceof LivingEntity && isAllowedEntity(entity)) {
             LivingEntity livingEntity = (LivingEntity) entity;
-            healthBuilder.applyAdjustments(livingEntity);
+            healthBuilder.setMobHealth(livingEntity);
 
             String mobName = livingEntity.getType().name();
             mobNames.put(livingEntity, mobName);

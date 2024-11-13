@@ -245,9 +245,17 @@ public class MYSQLManager {
                     + "windklinge INT DEFAULT 0,"
                     + "gifthieb INT DEFAULT 0,"
                     + "seelenentzung INT DEFAULT 0,"
-                    + "wutenbrannt INT DEFAULT 0,"
+                    + "wutenbrannt INT DEFAULT 0"
                     + ")";
             statement.execute(createEnchantmentsTableQuery);
+            String createFoundedEnchantmentsTableQuery = "CREATE TABLE IF NOT EXISTS player_found_enchantments ("
+                    + "uuid VARCHAR(255) PRIMARY KEY,"
+                    + "fesselschlag BOOLEAN DEFAULT FALSE,"
+                    + "windklinge BOOLEAN DEFAULT FALSE,"
+                    + "gifthieb BOOLEAN DEFAULT FALSE,"
+                    + "seelenentzung BOOLEAN DEFAULT FALSE,"
+                    + "wutenbrannt BOOLEAN DEFAULT FALSE"
+                    + ")";
             statement.close();
         } catch (Exception e) {
             e.printStackTrace();
@@ -1523,7 +1531,7 @@ public class MYSQLManager {
         return playerName;  // Gibt den Spielernamen zurück oder null, wenn kein Spieler gefunden wurde
     }
 
- //enchantments
+    //enchantments
     public void updateEnchantments(String uuid, String enchantment, int level) {
         try (Connection connection = dataSource.getConnection()) {
             String updateQuery = "UPDATE player_enchantments SET " + enchantment + " = ? WHERE uuid = ?";
@@ -1569,5 +1577,51 @@ public class MYSQLManager {
             throw new RuntimeException(e);
         }
         return enchantmentlevel;
+    }
+
+    public void updateFoundEnchantments(String uuid, String enchantment, boolean value) {
+        try (Connection connection = dataSource.getConnection()) {
+            String updateQuery = "UPDATE player_found_enchantments SET " + enchantment + " = ? WHERE uuid = ?";
+            try (PreparedStatement updateStatement = connection.prepareStatement(updateQuery)) {
+                updateStatement.setBoolean(1, value);
+                updateStatement.setString(2, uuid);
+
+                int rowsUpdated = updateStatement.executeUpdate();
+
+                if (rowsUpdated == 0) {
+                    String insertQuery = "INSERT INTO player_found_enchantments (uuid, " + enchantment + ") VALUES (?, ?)";
+                    try (PreparedStatement insertStatement = connection.prepareStatement(insertQuery)) {
+                        insertStatement.setString(1, uuid);
+                        insertStatement.setBoolean(2, value);
+                        insertStatement.executeUpdate();
+                    }
+                }
+            }
+
+            if (!connection.getAutoCommit()) {
+                connection.commit();
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+    public boolean getFoundEnchantment(String uuid, String enchantment) {
+        boolean foundEnchantment = false;
+
+        try (Connection connection = dataSource.getConnection()) {
+            String query = "SELECT " + enchantment + " FROM player_found_enchantments WHERE uuid = ?";
+            try (PreparedStatement statement = connection.prepareStatement(query)) {
+                statement.setString(1, uuid);
+
+                try (ResultSet resultSet = statement.executeQuery()) {
+                    if (resultSet.next()) {
+                        foundEnchantment = resultSet.getBoolean(enchantment);
+                    }
+                }
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return foundEnchantment;
     }
 }

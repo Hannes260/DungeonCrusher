@@ -27,25 +27,25 @@ public class EnchantmentManager {
         categories.put("§7Schwert", new SwordEnchantments(mysqlManager));
     }
     public static void openMainShopMenu(Player player, MYSQLManager mysqlManager) {
-        String DisplayName = "§f<shift:-8>%oraxen_shop%";
+        String DisplayName = "§f<shift:-8>%oraxen_enchantment%";
         DisplayName = PlaceholderAPI.setPlaceholders(player, DisplayName);
 
         Inventory inv = Bukkit.createInventory(null, 9*6, DisplayName);
 
+        ItemStack forschen = new ItemStack(Material.PAPER);
+        ItemMeta forschenmeta = forschen.getItemMeta();
+        forschenmeta.setCustomModelData(100);
+        forschenmeta.setDisplayName("§7➢ Forscher");
+        forschen.setItemMeta(forschenmeta);
+
+        ItemStack verzaubern = new ItemStack(Material.PAPER);
+        ItemMeta verzaubernmeta = verzaubern.getItemMeta();
+        verzaubernmeta.setCustomModelData(100);
+        verzaubernmeta.setDisplayName("§7➢ Verzaubern");
+        verzaubern.setItemMeta(verzaubernmeta);
 
         addCloseButton(player, inv);
-        showBottomRightItem(player, inv, mysqlManager);
         player.openInventory(inv);
-    }
-
-    private static void showBottomRightItem(Player player, Inventory inventory, MYSQLManager mysqlManager) {
-        String currentmoney = mysqlManager.getBalance(player.getUniqueId().toString());
-        ItemStack playerItem = new ItemStack(Material.PAPER);
-        ItemMeta playerMeta = playerItem.getItemMeta();
-        playerMeta.setCustomModelData(100);
-        playerMeta.setDisplayName("§9Dein Geld: §a" + currentmoney + "§9€");
-        playerItem.setItemMeta(playerMeta);
-        inventory.setItem(53, playerItem);
     }
 
     public static void addCloseButton(Player player, Inventory inventory) {
