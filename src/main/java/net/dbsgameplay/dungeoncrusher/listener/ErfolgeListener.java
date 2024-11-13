@@ -92,6 +92,7 @@ public class ErfolgeListener implements Listener {
 
     @EventHandler
     public void InventoryClickEvent2(InventoryClickEvent e) {
+        if (!e.getClick().isRightClick()) return;
         if  (e.getClickedInventory() == null) return;
         if  (!e.getClickedInventory().equals(ErfolgeBuilders.inventory)) return;
         if  (e.getCurrentItem() == null) return;
