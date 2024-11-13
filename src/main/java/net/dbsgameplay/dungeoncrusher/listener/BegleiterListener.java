@@ -36,17 +36,26 @@ public class BegleiterListener implements Listener {
                     if (armorStand.getCustomName() == null) continue;
                     if (armorStand.getCustomName().equals(p.getUniqueId().toString())) {
 
-                        if (armorStand.getNearbyEntities(5,5,5).isEmpty() && !isattacking) {
-                            isattacking = false;
-                        }else {
+                        //Choose entity target
+                        if (!armorStand.getNearbyEntities(5,5,5).isEmpty() && !isattacking) {
                             isattacking = true;
                             List<Entity> entityList = armorStand.getNearbyEntities(5,5,5);
-                            while (!(entityList.getFirst() instanceof LivingEntity)) {
+
+                            while (!(entityList.getFirst() instanceof LivingEntity) || (entityList.getFirst() instanceof Player) || (entityList.getFirst() instanceof ArmorStand)) {
                                 entityList.remove(entityList.getFirst());
+                                if (entityList.isEmpty()) break;
                             }
-                            entity_target = (LivingEntity) entityList.getFirst();
+
+                            if (entityList.isEmpty()) {
+                                isattacking = false;
+                            }else {
+                                entity_target = (LivingEntity) entityList.getFirst();
+                                p.sendMessage(entity_target.toString());
+                            }
+
                         }
 
+                        //Deside to attack or follow
                         if (isattacking) {
                             isattacking = false;
                             attackInProgress = true;
@@ -56,15 +65,15 @@ public class BegleiterListener implements Listener {
                             armorStand.setVelocity(direction);
                             armorStand.setVelocity(new Vector(0,0,0));
 
-                            while (!entity_target.isDead()) {
-                                new BukkitRunnable() {
-                                    @Override
-                                    public void run() {
-                                        entity_target.damage(2.5);
-                                        p.playSound(armorStand.getLocation(), Sound.ITEM_SHIELD_BLOCK, 10, 1);
-                                    }
-                                }.runTaskLater(dungeonCrusher, 20L);
-                            }
+                            new BukkitRunnable() {
+                                @Override
+                                public void run() {
+                                    if (entity_target.isDead()) this.cancel();
+
+                                    entity_target.damage(2.5);
+                                    p.playSound(armorStand.getLocation(), Sound.ITEM_SHIELD_BLOCK, 10, 1);
+                                }
+                            }.runTaskTimer(dungeonCrusher, 0,20L*2);
 
                             //Bezahle den Spieler
 

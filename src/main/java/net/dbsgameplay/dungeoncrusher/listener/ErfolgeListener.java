@@ -44,7 +44,6 @@ public class ErfolgeListener implements Listener {
     @EventHandler
     public void InventoryClickEvent(InventoryClickEvent e) {
         Player p = (Player) e.getWhoClicked();
-        User user = DungeonCrusher.api.getUserManager().getUser(p.getUniqueId());
 
         if (e.getClick() == ClickType.NUMBER_KEY) {
             e.setCancelled(true);
@@ -60,21 +59,50 @@ public class ErfolgeListener implements Listener {
             return;
         }
         if (e.getCurrentItem().equals(ErfolgeBuilders.createCustomMobHead("ac9c67a9f1685cd1da43e841fe7ebb17f6af6ea12a7e1f2722f5e7f0898db9f3", "§7Nächste Seite"))) {
-            if (ebeneHashMap.get(p.getUniqueId())+1 >= 56) {
+            if (ebeneHashMap.get(p.getUniqueId())+1 >= 2) {
                 e.setCancelled(true);
                 return;
             }
             ebeneHashMap.replace(p.getUniqueId(), ebeneHashMap.get(p.getUniqueId())+1);
-            p.openInventory(ErfolgeBuilders.getInventory(ebeneHashMap.get(p.getUniqueId()), p));
+            if (ebeneHashMap.get(p.getUniqueId()) == 1) {
+                p.openInventory(ErfolgeBuilders.getInventory(p, 1));
+            }else if (ebeneHashMap.get(p.getUniqueId()) == 0) {
+                p.openInventory(ErfolgeBuilders.getInventory(p, 0));
+            }
             return;
         }
         if (e.getCurrentItem().equals(ErfolgeBuilders.createCustomMobHead("1a1ef398a17f1af7477014517f7f141d886df41a32c738cc8a83fb50297bd921", "§7Vorherige Seite"))) {
-            if (ebeneHashMap.get(p.getUniqueId())-1 <= 0) {
+            if (ebeneHashMap.get(p.getUniqueId())-1 <= -2) {
                 e.setCancelled(true);
                 return;
             }
             ebeneHashMap.replace(p.getUniqueId(), ebeneHashMap.get(p.getUniqueId())-1);
-            p.openInventory(ErfolgeBuilders.getInventory(ebeneHashMap.get(p.getUniqueId()), p));
+            if (ebeneHashMap.get(p.getUniqueId()) == -1) {
+                p.openInventory(ErfolgeBuilders.getInventory(p, -1));
+            }else if (ebeneHashMap.get(p.getUniqueId()) == 0) {
+                p.openInventory(ErfolgeBuilders.getInventory(p, 0));
+            }
+            return;
+        }
+
+        if (e.getCurrentItem().getType() == Material.GRAY_DYE || e.getCurrentItem().getType() == Material.YELLOW_DYE || e.getCurrentItem().getType() == Material.ORANGE_DYE || e.getCurrentItem().getType() == Material.GREEN_DYE || e.getCurrentItem().getType() == Material.LIME_DYE) {
+            ErfolgeBuilders.openTitleMenü(p, e.getCurrentItem().getItemMeta().getItemName());
+        }
+    }
+
+    @EventHandler
+    public void InventoryClickEvent2(InventoryClickEvent e) {
+        if  (e.getClickedInventory() == null) return;
+        if  (!e.getClickedInventory().equals(ErfolgeBuilders.inventory)) return;
+        if  (e.getCurrentItem() == null) return;
+
+        Player p = (Player) e.getWhoClicked();
+        User user = DungeonCrusher.api.getUserManager().getUser(p.getUniqueId());
+
+        if (e.getCurrentItem().equals(ErfolgeBuilders.createCustomMobHead("3ed1aba73f639f4bc42bd48196c715197be2712c3b962c97ebf9e9ed8efa025", "§cZurück"))) {
+            p.openInventory(ErfolgeBuilders.getInventory(p, 0));
+            //geht ned das untere
+            ebeneHashMap.replace(p.getUniqueId(), 0);
             return;
         }
 

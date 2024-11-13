@@ -100,8 +100,7 @@ public class Weekly {
         String time = now.format(formatter);
 
         DateTimeFormatter formatter2 = DateTimeFormatter.ofPattern("EEEE");
-        LocalDateTime now2 = LocalDateTime.now();
-        String time2 = now.format(formatter);
+        String time2 = now.format(formatter2);
 
         if (time2.equalsIgnoreCase("Monday")) {
             if (time.substring(0, time.length() - 3).equalsIgnoreCase("00:01") && (Integer.parseInt(time.substring(6)) >= 1 && Integer.parseInt(time.substring(6)) <= 10)) {

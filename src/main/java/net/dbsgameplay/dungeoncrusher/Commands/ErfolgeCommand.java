@@ -10,7 +10,6 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-import org.bukkit.inventory.Inventory;
 import org.jetbrains.annotations.NotNull;
 
 public class ErfolgeCommand implements CommandExecutor {
@@ -26,18 +25,11 @@ public class ErfolgeCommand implements CommandExecutor {
         if (!(sender instanceof Player p)) return true;
 
         if (args.length == 0) {
-            ErfolgeListener.ebeneHashMap.put(p.getUniqueId(), locationConfigManager.getEbene(p));
-            ErfolgeListener.ebeneHashMap.replace(p.getUniqueId(), locationConfigManager.getEbene(p));
+            ErfolgeListener.ebeneHashMap.put(p.getUniqueId(), 0);
 
             p.playSound(p.getLocation(), Sound.ENTITY_PLAYER_LEVELUP, 10, 1);
-            Inventory inventory = ErfolgeBuilders.getInventory(locationConfigManager.getEbene(p), p);
 
-            // Wenn das Inventar null ist, das Inventar für Ebene 1 öffnen
-            if (inventory == null) {
-                inventory = ErfolgeBuilders.getInventory(1, p); // Fallback zu Ebene 1
-            }
-
-            p.openInventory(inventory);
+            p.openInventory(ErfolgeBuilders.getInventory(p, 0));
         }else {
             p.sendMessage(ConfigManager.getPrefix() + ConfigManager.getConfigMessage("message.erfolgeusage","",""));
         }

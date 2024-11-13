@@ -28,6 +28,7 @@ import java.util.UUID;
 public class ErfolgeBuilders {
     private static final UUID RANDOM_UUID = UUID.fromString("92864445-51c5-4c3b-9039-517c9927d1b4");
     public static Inventory inv;
+    public static Inventory inventory;
     public static HashMap<String, String> titlesHashmap = new HashMap<>();
     public static List<String> moblist = new ArrayList<>();
     private static MYSQLManager mysqlManager;
@@ -65,15 +66,19 @@ public class ErfolgeBuilders {
         return mobHead;
     }
 
-    public static Inventory getInventory(int ebene, Player p) {
-        String mob;
-        if (ebene == 0) {
-            mob = moblist.getFirst();
-        }else {
-            mob = moblist.get(ebene-1);
+    public static Inventory getInventory(Player p, int invNum) {
+        inv = Bukkit.createInventory(null, 54, "§7Erfolge");
+        switch (invNum) {
+            case 0 :
+                fillInv1(p);
+                break;
+            case 1 :
+                fillInv2(p);
+                break;
+            case -1 :
+                //fillinv3
+                break;
         }
-        inv = Bukkit.createInventory(null, 54, "§7Erfolge                    §3" + ebene + "§7. Ebene");
-        fillInv(p, mob);
         return inv;
     }
 
@@ -83,43 +88,159 @@ public class ErfolgeBuilders {
         inv.setItem(53, createCustomMobHead("ac9c67a9f1685cd1da43e841fe7ebb17f6af6ea12a7e1f2722f5e7f0898db9f3", "§7Nächste Seite"));
     }
 
-    public static void fillInv(Player p, String mob) {
-        int kills = mysqlManager.getPlayerMobKills(p.getUniqueId().toString(), mob);
-        User user = DungeonCrusher.api.getUserManager().getUser(p.getUniqueId());
-
+    public static void fillInv1(Player p) {
         inv.clear();
         setOperators(inv);
 
-        for (int i = 1; i != 21; i++) {
-            int neededKills = killAmount*i;
-            String itemName = "Erfolg_" + mob + "_"+i;
-            ArrayList<String> arrayList = new ArrayList<>();
+        for (String s : moblist) {
+            if (s.equals(moblist.get(36))) break;
+            int kills = mysqlManager.getPlayerMobKills(p.getUniqueId().toString(), s);
+            double rawstufe = Math.ceil((double) kills/killAmount);
+            int stufe = (int) rawstufe;
 
+            if (stufe == 0) {
+                stufe = 1;
+            }
+
+            if (stufe*killAmount == kills && stufe != 20) {
+                stufe++;
+            }
+
+            int needed_kills = stufe*killAmount;
+            ArrayList<String> lore = new ArrayList<>();
+
+            ItemStack item = new ItemStack(Material.GRAY_DYE);;
+            ItemMeta meta = item.getItemMeta();
+
+            meta.setItemName(s);
+
+            if (stufe < 5) {
+                meta.setDisplayName("§f" + s + " - §7Stufe: " + stufe);
+                item = new ItemStack(Material.GRAY_DYE);
+            }else if (stufe < 10 && stufe > 5) {
+                meta.setDisplayName("§f" + s + " - §eStufe: " + stufe);
+                item = new ItemStack(Material.YELLOW_DYE);
+            }else if (stufe < 15 && stufe > 10) {
+                meta.setDisplayName("§f" + s + " - §6Stufe: " + stufe);
+                item = new ItemStack(Material.ORANGE_DYE);
+            }else if (stufe < 20 && stufe > 15) {
+                meta.setDisplayName("§f" + s + " - §2Stufe: " + stufe);
+                item = new ItemStack(Material.GREEN_DYE);
+            } else if (stufe == 20) {
+                meta.setDisplayName("§f" + s + " - §aStufe: " + stufe);
+                item = new ItemStack(Material.LIME_DYE);
+            }
+
+            if (stufe == 20) {
+                lore.add("§aDu hast diese Erfolgsreihe abgeschlossen!");
+            }else {
+                lore.add("§7Du brauchst noch §6" + (needed_kills-kills) + " §7Kills.");
+            }
+
+            lore.add("");
+            lore.add("§e» Rechtsklick um die Titel zu sehen.");
+
+            meta.setLore(lore);
+            item.setItemMeta(meta);
+
+            inv.addItem(item);
+        }
+    }
+
+    public static void fillInv2(Player p) {
+        inv.clear();
+        setOperators(inv);
+
+        for (int i = 37; i != moblist.size(); i++) {
+            String s = moblist.get(i);
+
+            int kills = mysqlManager.getPlayerMobKills(p.getUniqueId().toString(), s);
+            double rawstufe = Math.ceil((double) kills/killAmount);
+            int stufe = (int) rawstufe;
+
+            if (stufe == 0) {
+                stufe = 1;
+            }
+
+            if (stufe*killAmount == kills && stufe != 20) {
+                stufe++;
+            }
+
+            int needed_kills = stufe*killAmount;
+            ArrayList<String> lore = new ArrayList<>();
+
+            ItemStack item = new ItemStack(Material.GRAY_DYE);;
+            ItemMeta meta = item.getItemMeta();
+
+            meta.setItemName(s);
+
+            if (stufe < 5) {
+                meta.setDisplayName("§f" + s + " - §7Stufe: " + stufe);
+                item = new ItemStack(Material.GRAY_DYE);
+            }else if (stufe < 10 && stufe > 5) {
+                meta.setDisplayName("§f" + s + " - §eStufe: " + stufe);
+                item = new ItemStack(Material.YELLOW_DYE);
+            }else if (stufe < 15 && stufe > 10) {
+                meta.setDisplayName("§f" + s + " - §6Stufe: " + stufe);
+                item = new ItemStack(Material.ORANGE_DYE);
+            }else if (stufe < 20 && stufe > 15) {
+                meta.setDisplayName("§f" + s + " - §2Stufe: " + stufe);
+                item = new ItemStack(Material.GREEN_DYE);
+            } else if (stufe == 20) {
+                meta.setDisplayName("§f" + s + " - §aStufe: " + stufe);
+                item = new ItemStack(Material.LIME_DYE);
+            }
+
+            if (stufe == 20) {
+                lore.add("§aDu hast diese Erfolgsreihe abgeschlossen!");
+            }else {
+                lore.add("§7Du brauchst noch §6" + (needed_kills-kills) + " §7Kills.");
+            }
+
+            lore.add("");
+            lore.add("§e» Rechtsklick um die Titel zu sehen.");
+
+            meta.setLore(lore);
+            item.setItemMeta(meta);
+
+            inv.addItem(item);
+        }
+    }
+
+    public static void openTitleMenü(Player p, String mob) {
+        int kills = mysqlManager.getPlayerMobKills(p.getUniqueId().toString(), mob);
+        double rawstufe = Math.ceil((double) kills/killAmount);
+        int stufe = (int) rawstufe;
+        inventory = Bukkit.createInventory(null, 27, mob + " Titelmenü");
+        User user = DungeonCrusher.api.getUserManager().getUser(p.getUniqueId());
+
+        if (stufe == 0) {
+            stufe = 1;
+        }
+
+        if (stufe*killAmount == kills && stufe != 20) {
+            stufe++;
+        }
+
+        for (int i = 1; i != 21; i++) {
+            ArrayList<String> arrayList = new ArrayList<>();
             ItemStack itemStack = new ItemStack(Material.NAME_TAG);
             ItemMeta itemMeta = itemStack.getItemMeta();
+            String itemName = "Erfolg_" + mob + "_"+i;
+            int needed_kills = i*killAmount;
 
             itemMeta.setItemName(itemName);
-
-            if  (kills >= neededKills) {
-                if (mob.endsWith("e") || mob.endsWith("l")) {
-                    itemMeta.setDisplayName("§fKill §d" + neededKills + " §f" + mob + ".§a" + " ✅");
-                }else {
-                    itemMeta.setDisplayName("§fKill §d" + neededKills + " §f" + mob + "e.§a" + " ✅");
-                }
+            if  (kills >= needed_kills) {
+                itemMeta.setDisplayName("§fKill §d" + needed_kills + " §f" + mob + ".§a" + " ✅");
 
                 arrayList.add("§7[" + "§8" + titlesHashmap.get(itemName) + "§7]");
 
             }else {
-                if (mob.endsWith("e") || mob.endsWith("l")) {
-                    itemMeta.setDisplayName("§fKill §d" + neededKills + " §f" + mob + ".§a");
-                }else {
-                    itemMeta.setDisplayName("§fKill §d" + neededKills + " §f" + mob + "e.§a");
-                }
+                itemMeta.setDisplayName("§fKille §d" + needed_kills + " §f" + mob + ".§a");
 
-                arrayList.add("§7Du brauchst noch §6" + (neededKills-kills) + " §7Kills.");
+                arrayList.add("§7Du brauchst noch §6" + (needed_kills-kills) + " §7Kills.");
 
             }
-
 
             if (user.getCachedData().getMetaData().getSuffix() != null) {
                 String rawSuffix =user.getCachedData().getMetaData().getSuffix();
@@ -134,10 +255,10 @@ public class ErfolgeBuilders {
             itemMeta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
             itemStack.setItemMeta(itemMeta);
 
-            int[] slots = {0,9,18,27,28,29,20,11,2,3,4,13,22,31,32,33,24,15,6,7};
-            inv.setItem(slots[i-1], itemStack);
+            inventory.addItem(itemStack);
         }
-
+        inventory.setItem(26, createCustomMobHead("3ed1aba73f639f4bc42bd48196c715197be2712c3b962c97ebf9e9ed8efa025", "§cZurück"));
+        p.openInventory(inventory);
     }
 
     public static void reward(int value, Player p) {
@@ -155,4 +276,6 @@ public class ErfolgeBuilders {
         p.sendMessage("»Erfolge §7[§a+§7] §6Kohle §7[§a" + value/10 + "x§7]");
     }
 
+
+    //Geld, Schaden, Materialien, Minibosse
 }
