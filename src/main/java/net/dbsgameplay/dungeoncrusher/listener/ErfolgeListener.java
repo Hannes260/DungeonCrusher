@@ -18,6 +18,7 @@ import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
+import javax.naming.spi.DirObjectFactory;
 import java.util.HashMap;
 import java.util.UUID;
 
@@ -56,6 +57,7 @@ public class ErfolgeListener implements Listener {
 
         if (e.getCurrentItem().equals(ErfolgeBuilders.createCustomMobHead("3ed1aba73f639f4bc42bd48196c715197be2712c3b962c97ebf9e9ed8efa025", "§cSchließen"))) {
             p.closeInventory();
+            e.setCancelled(true);
             return;
         }
         if (e.getCurrentItem().equals(ErfolgeBuilders.createCustomMobHead("ac9c67a9f1685cd1da43e841fe7ebb17f6af6ea12a7e1f2722f5e7f0898db9f3", "§7Nächste Seite"))) {
@@ -69,6 +71,7 @@ public class ErfolgeListener implements Listener {
             }else if (ebeneHashMap.get(p.getUniqueId()) == 0) {
                 p.openInventory(ErfolgeBuilders.getInventory(p, 0));
             }
+            e.setCancelled(true);
             return;
         }
         if (e.getCurrentItem().equals(ErfolgeBuilders.createCustomMobHead("1a1ef398a17f1af7477014517f7f141d886df41a32c738cc8a83fb50297bd921", "§7Vorherige Seite"))) {
@@ -82,17 +85,18 @@ public class ErfolgeListener implements Listener {
             }else if (ebeneHashMap.get(p.getUniqueId()) == 0) {
                 p.openInventory(ErfolgeBuilders.getInventory(p, 0));
             }
+            e.setCancelled(true);
             return;
         }
-
+        if (!e.getClick().isRightClick()) {e.setCancelled(true); return;}
         if (e.getCurrentItem().getType() == Material.GRAY_DYE || e.getCurrentItem().getType() == Material.YELLOW_DYE || e.getCurrentItem().getType() == Material.ORANGE_DYE || e.getCurrentItem().getType() == Material.GREEN_DYE || e.getCurrentItem().getType() == Material.LIME_DYE) {
             ErfolgeBuilders.openTitleMenü(p, e.getCurrentItem().getItemMeta().getItemName());
+            e.setCancelled(true);
         }
     }
 
     @EventHandler
     public void InventoryClickEvent2(InventoryClickEvent e) {
-        if (!e.getClick().isRightClick()) return;
         if  (e.getClickedInventory() == null) return;
         if  (!e.getClickedInventory().equals(ErfolgeBuilders.inventory)) return;
         if  (e.getCurrentItem() == null) return;
@@ -103,7 +107,11 @@ public class ErfolgeListener implements Listener {
         if (e.getCurrentItem().equals(ErfolgeBuilders.createCustomMobHead("3ed1aba73f639f4bc42bd48196c715197be2712c3b962c97ebf9e9ed8efa025", "§cZurück"))) {
             p.openInventory(ErfolgeBuilders.getInventory(p, 0));
             //geht ned das untere
-            ebeneHashMap.replace(p.getUniqueId(), 0);
+            if (ebeneHashMap.containsKey(p.getUniqueId())) {
+                ebeneHashMap.remove(p.getUniqueId());
+            }
+            ebeneHashMap.put(p.getUniqueId(), 0);
+            e.setCancelled(true);
             return;
         }
 
@@ -153,7 +161,6 @@ public class ErfolgeListener implements Listener {
                 currentItem.setItemMeta(itemMeta);
                 e.setCancelled(true);
             }
-            e.setCancelled(true);
         }
     }
 
