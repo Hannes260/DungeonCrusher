@@ -100,10 +100,14 @@ public class Weekly {
         String time = now.format(formatter);
 
         DateTimeFormatter formatter2 = DateTimeFormatter.ofPattern("EEEE");
-        String time2 = now.format(formatter2);
+        LocalDateTime now2 = LocalDateTime.now();
+        String time2 = now2.format(formatter2);
+
 
         if (time2.equalsIgnoreCase("Monday")) {
+            Bukkit.getLogger().info("Went trough Mondycheck");
             if (time.substring(0, time.length() - 3).equalsIgnoreCase("00:01") && (Integer.parseInt(time.substring(6)) >= 1 && Integer.parseInt(time.substring(6)) <= 10)) {
+                Bukkit.getLogger().info("Went trough sec-check");
                 String k1 = null;
                 String k2 = null;
                 String k3;

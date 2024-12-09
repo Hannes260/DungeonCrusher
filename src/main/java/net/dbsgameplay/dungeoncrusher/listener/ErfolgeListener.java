@@ -46,7 +46,7 @@ public class ErfolgeListener implements Listener {
     public void InventoryClickEvent(InventoryClickEvent e) {
         Player p = (Player) e.getWhoClicked();
 
-        if (e.getClick() == ClickType.NUMBER_KEY) {
+        if (e.getClick() == ClickType.NUMBER_KEY && e.getInventory().getHolder() == null) {
             e.setCancelled(true);
             return;
         }

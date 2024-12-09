@@ -19,6 +19,7 @@ import net.dbsgameplay.dungeoncrusher.listener.protections.DungeonProtectionList
 import net.dbsgameplay.dungeoncrusher.listener.shops.ShopListener;
 import net.dbsgameplay.dungeoncrusher.sql.MYSQLManager;
 import net.dbsgameplay.dungeoncrusher.utils.*;
+import net.dbsgameplay.dungeoncrusher.utils.Begleiter.BegleiterBuilder;
 import net.dbsgameplay.dungeoncrusher.utils.Configs.*;
 import net.dbsgameplay.dungeoncrusher.utils.Manager.MarkingsManager;
 import net.dbsgameplay.dungeoncrusher.utils.Manager.SavezoneManager;
@@ -50,6 +51,7 @@ import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.util.*;
 import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
 public final class DungeonCrusher extends JavaPlugin {
@@ -88,6 +90,7 @@ public final class DungeonCrusher extends JavaPlugin {
         Daily daily = new Daily(mysqlManager, this);
         Weekly weekly = new Weekly(mysqlManager, this);
         Monthly monthly = new Monthly(mysqlManager, this);
+        BegleiterBuilder begleiterBuilder = new BegleiterBuilder(mysqlManager, this);
 
         getLogger().info(ANSI_BLUE +" ");
         getLogger().info(ANSI_BLUE +"  ____   ____ ");
@@ -377,9 +380,11 @@ public final class DungeonCrusher extends JavaPlugin {
         new BukkitRunnable() {
             @Override
             public void run() {
-                Daily.checkForOrginQuestUpdate();
-                Weekly.checkForOrginQuestUpdate();
-                Monthly.checkForOrginQuestUpdate();
+                Bukkit.getScheduler().runTaskAsynchronously(dungeonCrusher, () -> {
+                    Daily.checkForOrginQuestUpdate();
+                    Weekly.checkForOrginQuestUpdate();
+                    Monthly.checkForOrginQuestUpdate();
+                });
 
                 for (Player p : Bukkit.getServer().getOnlinePlayers()) {
                     if (QuestBuilder.isTutorialDone(p)) {
@@ -415,7 +420,7 @@ public final class DungeonCrusher extends JavaPlugin {
                     }
                 }
             }
-        }.runTaskTimer(dungeonCrusher, 0L, 10 * 20L);
+        }.runTaskTimer(dungeonCrusher, 0L, 10*20L);
     }
 
     private static void processDailyQuests(Player p, String dailyQuest1, String dailyQuest2, String dailyQuest3, MYSQLManager mysqlManager, FoodCategory foodCategory, DungeonCrusher dungeonCrusher) {

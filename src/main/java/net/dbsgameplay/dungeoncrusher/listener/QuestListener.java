@@ -6,6 +6,7 @@ import net.dbsgameplay.dungeoncrusher.utils.quests.QuestBuilder;
 import net.dbsgameplay.dungeoncrusher.utils.quests.Daily;
 import net.dbsgameplay.dungeoncrusher.utils.quests.Monthly;
 import net.dbsgameplay.dungeoncrusher.utils.quests.Weekly;
+import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.enchantments.Enchantment;
@@ -29,6 +30,7 @@ import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.HashMap;
 import java.util.UUID;
+import java.util.concurrent.CompletableFuture;
 
 public class QuestListener implements Listener {
 
@@ -246,13 +248,13 @@ public class QuestListener implements Listener {
 
     @EventHandler
     public void PlayerMoveEvent(PlayerMoveEvent e) {
-        Player p = e.getPlayer();
-
-        if (QuestBuilder.isTutorialDone(p)) {
+        if (QuestBuilder.isTutorialDone(e.getPlayer())) {
             if (e.getFrom().getBlockX() != e.getTo().getBlockX() || e.getFrom().getBlockZ() != e.getTo().getBlockZ()) {
-                Daily.doQuest(p, Daily.MoveQuestList);
-                Weekly.doQuest(p, Weekly.MoveQuestList);
-                Monthly.doQuest(p, Monthly.MoveQuestList);
+                Bukkit.getScheduler().runTaskAsynchronously(dungeonCrusher, () -> {
+                    Daily.doQuest(e.getPlayer(), Daily.MoveQuestList);
+                    Weekly.doQuest(e.getPlayer(), Weekly.MoveQuestList);
+                    Monthly.doQuest(e.getPlayer(), Monthly.MoveQuestList);
+                });
             }
         }
     }

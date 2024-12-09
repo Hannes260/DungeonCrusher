@@ -13,8 +13,15 @@ public class BegleiterCommand implements CommandExecutor {
     public boolean onCommand(@NotNull CommandSender commandSender, @NotNull Command command, @NotNull String s, @NotNull String[] strings) {
         Player p = (Player) commandSender;
 
-        BegleiterBuilder begleiterBuilder = new BegleiterBuilder();
-        begleiterBuilder.setLocation(p).setName(p.getUniqueId().toString()).setSkin(Material.ZOMBIE_HEAD).build();
+        if (strings.length == 0) {
+            BegleiterBuilder.openBegleiterMenü(p);
+        }else if (strings[0].equalsIgnoreCase("ziehen")) {
+            BegleiterBuilder.zieheBegleiter(p);
+        }
+
+
+//        BegleiterBuilder begleiterBuilder = new BegleiterBuilder();
+//        begleiterBuilder.setLocation(p).setName(p.getUniqueId().toString()).setSkin(Material.ZOMBIE_HEAD).addToList().build();
 
         return false;
     }
