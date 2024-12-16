@@ -5,6 +5,7 @@ import net.dbsgameplay.dungeoncrusher.Commands.Admin.*;
 import net.dbsgameplay.dungeoncrusher.Commands.Begleiter.BegleiterCommand;
 import net.dbsgameplay.dungeoncrusher.Commands.Economy.CoinsCommand;
 import net.dbsgameplay.dungeoncrusher.Commands.Economy.PayCommand;
+import net.dbsgameplay.dungeoncrusher.Commands.Enchantments.EnchantmentCommand;
 import net.dbsgameplay.dungeoncrusher.Commands.Quests.QuestCommand;
 import net.dbsgameplay.dungeoncrusher.Commands.Shops.ShopCommand;
 import net.dbsgameplay.dungeoncrusher.Commands.Upgrades.UpgradeCommand;
@@ -256,6 +257,7 @@ public final class DungeonCrusher extends JavaPlugin {
         getCommand("invsee").setExecutor(new InvseeCommand());
         getCommand("dc").setExecutor(new DiscordCommand());
         getCommand("begleiter").setExecutor(new BegleiterCommand());
+        getCommand("enchantment").setExecutor(new EnchantmentCommand(mysqlManager));
 
         // Tab Completers
         getCommand("config").setTabCompleter(this);

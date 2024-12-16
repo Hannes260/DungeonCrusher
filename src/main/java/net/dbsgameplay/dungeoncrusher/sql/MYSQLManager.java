@@ -247,7 +247,7 @@ public class MYSQLManager {
                     + "seelenentzung BOOLEAN DEFAULT FALSE,"
                     + "wutenbrannt BOOLEAN DEFAULT FALSE"
                     + ")";
-
+            statement.execute(createFoundedEnchantmentsTableQuery);
             String createEnchantmentsTableQuery = "CREATE TABLE IF NOT EXISTS player_erforscht_enchantments ("
                     + "uuid VARCHAR(255) PRIMARY KEY,"
                     + "fesselschlag INT DEFAULT 0,"
@@ -259,13 +259,13 @@ public class MYSQLManager {
             statement.execute(createEnchantmentsTableQuery);
             String createLevelEnchantmensTableQuery = "CREATE TABLE IF NOT EXISTS player_level_enchantments ("
                     + "uuid VARCHAR(255) PRIMARY KEY,"
-                    + "fesselschalg INT DEFAULT 0,"
+                    + "fesselschlag INT DEFAULT 0,"
                     + "windklinge INT DEFAULT 0,"
                     + "gifthieb INT DEFAULT 0,"
                     + "seelenentzung INT DEFAULT 0,"
                     + "wutenbrannt INT DEFAULT 0"
                     + ")";
-
+            statement.execute(createLevelEnchantmensTableQuery);
             statement.close();
         } catch (Exception e) {
             e.printStackTrace();

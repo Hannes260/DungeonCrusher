@@ -81,4 +81,5 @@ commands:
   test:
     permission: dc.command.test
   begleiter:
+  enchantment:
 

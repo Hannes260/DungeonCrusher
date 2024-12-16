@@ -71,13 +71,39 @@ public class MobDamageListener implements Listener {
     private void updateHealthBar(LivingEntity entity, String mobName) {
         double maxHealth = entity.getAttribute(Attribute.GENERIC_MAX_HEALTH).getBaseValue();
         double currentHealth = entity.getHealth();
-        int hearts = (int) Math.ceil(currentHealth);
 
-        String healthDisplay = String.format("§a%s §8|||||§c%d/%d§8|||||", mobName, hearts, (int) maxHealth);
+        // Berechnung der prozentualen Gesundheit
+        int percentage = (int) ((currentHealth / maxHealth) * 100);
+
+        // Anzahl der aktiven Striche links und rechts
+        int activeBars = percentage / 10; // Jeder 10% entspricht 1 Strich
+        int leftBars = activeBars / 2;    // Hälfte der Striche links
+        int rightBars = activeBars - leftBars; // Rest der Striche rechts
+
+        // Gesundheitsanzeige mit links und rechts 5 Strichen aufbauen
+        StringBuilder leftHealthBar = new StringBuilder("§e");
+        for (int i = 0; i < 5; i++) {
+            if (i < leftBars) {
+                leftHealthBar.append("|"); // Aktive Striche links
+            } else {
+                leftHealthBar.append("§7|"); // Ausgegraute Striche links
+            }
+        }
+
+        StringBuilder rightHealthBar = new StringBuilder("§e");
+        for (int i = 0; i < 5; i++) {
+            if (i < rightBars) {
+                rightHealthBar.append("|"); // Aktive Striche rechts
+            } else {
+                rightHealthBar.append("§7|"); // Ausgegraute Striche rechts
+            }
+        }
+
+        // Anzeige mit Mob-Namen, Gesundheitszahlen und dem symmetrischen Balken
+        String healthDisplay = String.format("§a%s %s §c%d/%d %s", mobName, leftHealthBar, (int) currentHealth, (int) maxHealth, rightHealthBar);
         entity.setCustomName(healthDisplay);
         entity.setCustomNameVisible(true);
     }
-
     private boolean isAllowedEntity(Entity entity) {
         return !(entity instanceof ArmorStand || entity instanceof ItemFrame);
     }

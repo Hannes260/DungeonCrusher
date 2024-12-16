@@ -26,20 +26,20 @@ public class SwordEnchantments implements EnchantmentCategory {
         this.scoreboardBuilder = new ScoreboardBuilder(DungeonCrusher.getInstance());
 
         this.items = new HashMap<>();
-        items.put(0, new ShopItem("", Material.BOOK, 500, Arrays.asList("")));
-        items.put(9, new ShopItem("", Material.BOOK, 500, Arrays.asList("")));
-        items.put(18, new ShopItem("", Material.BOOK, 500, Arrays.asList("")));
-        items.put(27, new ShopItem("", Material.BOOK, 500, Arrays.asList("")));
-        items.put(36, new ShopItem("", Material.BOOK, 500, Arrays.asList("")));
+        items.put(0, new ShopItem("§7§kFesselschlag", Material.BOOK, 500, Arrays.asList("")));
+        items.put(9, new ShopItem("§7§kWindklinge", Material.BOOK, 500, Arrays.asList("")));
+        items.put(18, new ShopItem("§7§kGifthieb", Material.BOOK, 500, Arrays.asList("")));
+        items.put(27, new ShopItem("§7§kSeelenentzug", Material.BOOK, 500, Arrays.asList("")));
+        items.put(36, new ShopItem("§7§kWutentbrannt", Material.BOOK, 500, Arrays.asList("")));
     }
 
     private static final Map<String, Map<Integer, Map<String, Integer>>> enchantmentRequirements = new HashMap<>();
     static {
         // Anforderungen für Fesselschlag: Level -> Mob-Typ -> Anzahl Kills
         Map<Integer, Map<String, Integer>> fesselschlag = new HashMap<>();
-        fesselschlag.put(1, Map.of("sheep", 50, "pig", 25));
-        fesselschlag.put(2, Map.of("sheep", 90, "pig", 45));
-        fesselschlag.put(3, Map.of("sheep", 180, "pig", 90, "cow", 35));
+        fesselschlag.put(1, Map.of("Schaf", 50, "Schweine", 25));
+        fesselschlag.put(2, Map.of("Schaf", 90, "Schweine", 45));
+        fesselschlag.put(3, Map.of("Schaf", 180, "Schweine", 90, "Kuh", 35));
         enchantmentRequirements.put("fesselschlag", fesselschlag);
     }
     @Override
@@ -59,20 +59,21 @@ public class SwordEnchantments implements EnchantmentCategory {
             inv.setItem(slot, itemStack);
 
         }
-        showEnchantmentItem(player, inv, playerUUID, "fesselschlag", 0);
+        showEnchantmentItem(player, inv, playerUUID, "fesselschlag", 0, "Dein Gegner wird verlangsamt", "wenn du ihn schlägst.");
         player.openInventory(inv);
     }
-    private void showEnchantmentItem(Player player, Inventory inv, String playerUUID, String enchantmentName, int slot) {
+    private void showEnchantmentItem(Player player, Inventory inv, String playerUUID, String enchantmentName, int slot, String discription, String discription2) {
         boolean hasEnchantment = mysqlManager.getFoundEnchantment(playerUUID, enchantmentName);
         int level = mysqlManager.getlevelEnchantment(playerUUID, enchantmentName);
 
         if (hasEnchantment) {
             ItemStack item = new ItemStack(Material.BOOK);
             ItemMeta meta = item.getItemMeta();
-            meta.setDisplayName("§e§n" + capitalize(enchantmentName) + " §r§e(lvl " + level + "§e/5");
+            meta.setDisplayName("§e§n" + capitalize(enchantmentName) + " §r§e(lvl " + level + "§e/5)");
 
             List<String> lore = new ArrayList<>();
-            lore.add("§6Erweitere Fähigkeit: " + enchantmentName);
+            lore.add("§6" + discription);
+            lore.add("§6" + discription2);
             lore.add("§4");
 
             if (level < 5) {
