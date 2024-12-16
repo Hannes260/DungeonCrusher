@@ -13,10 +13,7 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class SwordEnchantments implements EnchantmentCategory {
     private final MYSQLManager mysqlManager;
@@ -29,32 +26,92 @@ public class SwordEnchantments implements EnchantmentCategory {
         this.scoreboardBuilder = new ScoreboardBuilder(DungeonCrusher.getInstance());
 
         this.items = new HashMap<>();
-        items.put(0, new ShopItem("",Material.BOOK, 500, Arrays.asList("")));
-        items.put(9, new ShopItem("",Material.BOOK, 500, Arrays.asList("")));
-        items.put(18, new ShopItem("",Material.BOOK, 500, Arrays.asList("")));
-        items.put(27, new ShopItem("",Material.BOOK, 500, Arrays.asList("")));
-        items.put(36, new ShopItem("",Material.BOOK, 500, Arrays.asList("")));
+        items.put(0, new ShopItem("", Material.BOOK, 500, Arrays.asList("")));
+        items.put(9, new ShopItem("", Material.BOOK, 500, Arrays.asList("")));
+        items.put(18, new ShopItem("", Material.BOOK, 500, Arrays.asList("")));
+        items.put(27, new ShopItem("", Material.BOOK, 500, Arrays.asList("")));
+        items.put(36, new ShopItem("", Material.BOOK, 500, Arrays.asList("")));
     }
 
+    private static final Map<String, Map<Integer, Map<String, Integer>>> enchantmentRequirements = new HashMap<>();
+    static {
+        // Anforderungen für Fesselschlag: Level -> Mob-Typ -> Anzahl Kills
+        Map<Integer, Map<String, Integer>> fesselschlag = new HashMap<>();
+        fesselschlag.put(1, Map.of("sheep", 50, "pig", 25));
+        fesselschlag.put(2, Map.of("sheep", 90, "pig", 45));
+        fesselschlag.put(3, Map.of("sheep", 180, "pig", 90, "cow", 35));
+        enchantmentRequirements.put("fesselschlag", fesselschlag);
+    }
     @Override
     public void openMenu(Player player) {
-        String DisplayName = "§f<shift:-8>%oraxen_upgrade_enchantment%";
+        String DisplayName = "§f<shift:-8>%oraxen_enchantment%";
         DisplayName = PlaceholderAPI.setPlaceholders(player, DisplayName);
         Inventory inv = Bukkit.createInventory(null, 9 * 6, DisplayName);
+        String playerUUID = player.getUniqueId().toString();
+
         for (int slot : items.keySet()) {
             SwordEnchantments.ShopItem shopItem = items.get(slot);
             ItemStack itemStack = new ItemStack(shopItem.material);
             ItemMeta meta = itemStack.getItemMeta();
             meta.setDisplayName(shopItem.displayName);
             meta.setCustomModelData(500);
+            itemStack.setItemMeta(meta);
+            inv.setItem(slot, itemStack);
+
         }
-
+        showEnchantmentItem(player, inv, playerUUID, "fesselschlag", 0);
+        player.openInventory(inv);
     }
+    private void showEnchantmentItem(Player player, Inventory inv, String playerUUID, String enchantmentName, int slot) {
+        boolean hasEnchantment = mysqlManager.getFoundEnchantment(playerUUID, enchantmentName);
+        int level = mysqlManager.getlevelEnchantment(playerUUID, enchantmentName);
 
+        if (hasEnchantment) {
+            ItemStack item = new ItemStack(Material.BOOK);
+            ItemMeta meta = item.getItemMeta();
+            meta.setDisplayName("§e§n" + capitalize(enchantmentName) + " §r§e(lvl " + level + "§e/5");
+
+            List<String> lore = new ArrayList<>();
+            lore.add("§6Erweitere Fähigkeit: " + enchantmentName);
+            lore.add("§4");
+
+            if (level < 5) {
+                lore.add("§eErforschen:");
+                Map<String, Integer> requirements = getKillRequirements(enchantmentName, level + 1);
+                for (String mobType : requirements.keySet()) {
+                    int requiredKills = requirements.get(mobType);
+                    int currentKills = getPlayerKills(playerUUID, mobType);
+                    lore.add("§7 - " + mobType + ": §f" + currentKills + "§7 / §e" + requiredKills);
+                }
+            }else {
+                lore.add("§aMaximales Level Erreicht!");
+            }
+
+            meta.setLore(lore);
+            item.setItemMeta(meta);
+            inv.setItem(slot, item);
+        }
+    }
     @Override
     public void handleItemClick(Player player, ItemStack clickedItem) {
 
     }
+
+    private Map<String, Integer> getKillRequirements(String enchantment, int level) {
+        if (enchantmentRequirements.containsKey(enchantment)) {
+            return enchantmentRequirements.get(enchantment).getOrDefault(level, new HashMap<>());
+        }
+        return new HashMap<>();
+    }
+
+    private int getPlayerKills(String playerUUID, String mobType) {
+        return mysqlManager.getPlayerMobKills(playerUUID, mobType);
+    }
+
+    private String capitalize(String str) {
+        return str.substring(0,1).toUpperCase() + str.substring(1);
+    }
+
     private static class ShopItem {
         private final String displayName;
         private final Material material;
