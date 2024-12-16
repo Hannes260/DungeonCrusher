@@ -286,7 +286,6 @@ public class MYSQLManager {
                     if (resultSet.next()) {
                         tutorial = resultSet.getString("tutorial");
                         statement.close();
-                        resultSet.close();
                     }
                 }
             }
@@ -339,7 +338,6 @@ public class MYSQLManager {
                     if (resultSet.next()) {
                         quest = resultSet.getString("quest");
                         statement.close();
-                        resultSet.close();
                     }
                 }
             }
@@ -422,7 +420,6 @@ public class MYSQLManager {
                     if (resultSet.next()) {
                         quest = resultSet.getBoolean(questType);
                         statement.close();
-                        resultSet.close();
                     }
                 }
             }
@@ -476,7 +473,6 @@ public class MYSQLManager {
                     if (resultSet.next()) {
                         quest = resultSet.getInt(questType);
                         statement.close();
-                        resultSet.close();
                     }
                 }
             }
@@ -571,7 +567,6 @@ public class MYSQLManager {
                     if (resultSet.next()) {
                         balance = resultSet.getString("balance");
                         statement.close();
-                        resultSet.close();
                     }
                 }
             }
@@ -736,7 +731,6 @@ public class MYSQLManager {
                     if (resultSet.next()) {
                         kills = String.valueOf(resultSet.getInt("kills"));
                         statement.close();
-                        resultSet.close();
                     }
                 }
             }
@@ -848,7 +842,6 @@ public class MYSQLManager {
                     if (resultSet.next()) {
                         helmetLevel = resultSet.getInt("helm_lvl");
                         statement.close();
-                        resultSet.close();
                     }
                 }
             }
@@ -907,7 +900,6 @@ public class MYSQLManager {
                     if (resultSet.next()) {
                         chestplateLevel = resultSet.getInt("chestplate_lvl");
                         statement.close();
-                        resultSet.close();
                     }
                 }
             }
@@ -966,7 +958,6 @@ public class MYSQLManager {
                     if (resultSet.next()) {
                         leggingsLevel = resultSet.getInt("leggings_lvl");
                         statement.close();
-                        resultSet.close();
                     }
                 }
             }
@@ -1025,7 +1016,6 @@ public class MYSQLManager {
                     if (resultSet.next()) {
                         bootsLevel = resultSet.getInt("boots_lvl");
                         statement.close();
-                        resultSet.close();
                     }
                 }
             }
@@ -1084,7 +1074,6 @@ public class MYSQLManager {
                     if (resultSet.next()) {
                         armorLevel = resultSet.getInt("armor_lvl");
                         statement.close();
-                        resultSet.close();
                     }
                 }
             }
@@ -1184,7 +1173,6 @@ public class MYSQLManager {
                     if (resultSet.next()) {
                         dungeonCount = resultSet.getInt("dungeon");
                         statement.close();
-                        resultSet.close();
                     }
                 }
             }
