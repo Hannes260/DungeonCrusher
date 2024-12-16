@@ -38,11 +38,11 @@ public class EnchantmentManager {
         forschenmeta.setDisplayName("§7➢ Forscher");
         forschen.setItemMeta(forschenmeta);
 
-        ItemStack verzaubern = new ItemStack(Material.PAPER);
-        ItemMeta verzaubernmeta = verzaubern.getItemMeta();
-        verzaubernmeta.setCustomModelData(100);
-        verzaubernmeta.setDisplayName("§7➢ Verzaubern");
-        verzaubern.setItemMeta(verzaubernmeta);
+        ItemStack upgrade = new ItemStack(Material.PAPER);
+        ItemMeta upgrademeta = upgrade.getItemMeta();
+        upgrademeta.setCustomModelData(100);
+        upgrademeta.setDisplayName("§7➢ Upgrade");
+        upgrade.setItemMeta(upgrademeta);
 
         addCloseButton(player, inv);
         player.openInventory(inv);
