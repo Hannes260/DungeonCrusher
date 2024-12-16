@@ -13,6 +13,7 @@ import net.dbsgameplay.dungeoncrusher.enums.MyPlaceholderExpansion;
 import net.dbsgameplay.dungeoncrusher.enums.Shop.FoodCategory;
 import net.dbsgameplay.dungeoncrusher.listener.*;
 import net.dbsgameplay.dungeoncrusher.listener.Damage.*;
+import net.dbsgameplay.dungeoncrusher.listener.Enchantments.EnchantmentListener;
 import net.dbsgameplay.dungeoncrusher.listener.Navigator.NavigatorListener;
 import net.dbsgameplay.dungeoncrusher.listener.Stats.StatsListener;
 import net.dbsgameplay.dungeoncrusher.listener.Upgrades.UpgradeListener;
@@ -290,6 +291,7 @@ public final class DungeonCrusher extends JavaPlugin {
         pluginManager.registerEvents(new InvseeListener(), this);
         pluginManager.registerEvents(new ChunkListener(this, mobTypesToKill), this);
         pluginManager.registerEvents(new BegleiterListener(mysqlManager, this), this);
+        pluginManager.registerEvents(new EnchantmentListener(), this);
     }
 
     public void sendToDiscord(String content, int color) {
