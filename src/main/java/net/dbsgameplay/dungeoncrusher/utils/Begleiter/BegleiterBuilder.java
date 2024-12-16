@@ -8,6 +8,8 @@ import net.dbsgameplay.dungeoncrusher.utils.ErfolgeBuilders;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.attribute.Attribute;
+import org.bukkit.attribute.AttributeModifier;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.ArmorStand;
@@ -22,10 +24,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.SkullMeta;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Random;
+import java.util.*;
 
 public class BegleiterBuilder {
     public static MYSQLManager mysqlManager;
@@ -37,7 +36,7 @@ public class BegleiterBuilder {
     }
 
     public static void openBegleiterMenü(Player p) {
-        Inventory inv = Bukkit.createInventory(null, 27, "Begeleitermenü");
+        Inventory inv = Bukkit.createInventory(null, 27, "Begleitermenü");
 
         ItemStack levelup_item = new ItemStack(Material.NETHER_STAR);
         ItemMeta levelup_meta = levelup_item.getItemMeta();
@@ -86,9 +85,20 @@ public class BegleiterBuilder {
             if (cfg.isConfigurationSection("begleiter_ausgewählt." + p.getUniqueId())) {
                 for (String ID : cfg.getConfigurationSection("begleiter_ausgewählt." + p.getUniqueId()).getKeys(false)) {
                     int level = cfg.getInt("begleiter." + p.getUniqueId() + "." + ID + "." + "level");
+                    int maxLevel = cfg.getInt("begleiter." + p.getUniqueId() + "." + ID + "." + "maxLevel");
+                    int damage = cfg.getInt("begleiter." + p.getUniqueId() + "." + ID + "." + "damage");
+                    int xp = cfg.getInt("begleiter." + p.getUniqueId() + "." + ID + "." + "xp");
+                    int maxXp = cfg.getInt("begleiter." + p.getUniqueId() + "." + ID + "." + "maxXp");
                     Material material = Material.getMaterial(cfg.getString("begleiter." + p.getUniqueId() + "." + ID + "." + "material"));
 
-                    inv.setItem(4, build_Begleiter_Itemstack(material, ID, level));
+                    ItemStack begleiter_ItemStack = build_Begleiter_Itemstack(ID, level, maxLevel, damage, xp, maxXp, material);
+                    ItemMeta begleiter_ItemMeta = begleiter_ItemStack.getItemMeta();
+                    List<String> lore = begleiter_ItemMeta.getLore();
+                    lore.add("§e» Linksklick um Begleiter abzuwählen.");
+                    begleiter_ItemMeta.setLore(lore);
+                    begleiter_ItemStack.setItemMeta(begleiter_ItemMeta);
+
+                    inv.setItem(4, begleiter_ItemStack);
                 }
             }
 
@@ -102,9 +112,22 @@ public class BegleiterBuilder {
                 if (cfg.contains("begleiter_ausgewählt." + p.getUniqueId() + "." + ID)) continue;
 
                 int level = cfg.getInt("begleiter." + p.getUniqueId() + "." + ID + "." + "level");
+                int maxLevel = cfg.getInt("begleiter." + p.getUniqueId() + "." + ID + "." + "maxLevel");
+                int damage = cfg.getInt("begleiter." + p.getUniqueId() + "." + ID + "." + "damage");
+                int xp = cfg.getInt("begleiter." + p.getUniqueId() + "." + ID + "." + "xp");
+                int maxXp = cfg.getInt("begleiter." + p.getUniqueId() + "." + ID + "." + "maxXp");
                 Material material = Material.getMaterial(cfg.getString("begleiter." + p.getUniqueId() + "." + ID + "." + "material"));
 
-                inv.addItem(build_Begleiter_Itemstack(material, ID, level));
+
+                ItemStack begleiter_ItemStack = build_Begleiter_Itemstack(ID, level, maxLevel, damage, xp, maxXp, material);
+                ItemMeta begleiter_ItemMeta = begleiter_ItemStack.getItemMeta();
+                List<String> lore = begleiter_ItemMeta.getLore();
+                lore.add("§e» Linksklick um Begleiter auszurüsten.");
+                begleiter_ItemMeta.setLore(lore);
+                begleiter_ItemStack.setItemMeta(begleiter_ItemMeta);
+
+                inv.addItem(begleiter_ItemStack);
+
             }
         }
 
@@ -120,9 +143,13 @@ public class BegleiterBuilder {
 
             for (String ID : cfg.getConfigurationSection("begleiter." + p.getUniqueId()).getKeys(false)) {
                 int level = cfg.getInt("begleiter." + p.getUniqueId() + "." + ID + "." + "level");
+                int maxLevel = cfg.getInt("begleiter." + p.getUniqueId() + "." + ID + "." + "maxLevel");
+                int damage = cfg.getInt("begleiter." + p.getUniqueId() + "." + ID + "." + "damage");
+                int xp = cfg.getInt("begleiter." + p.getUniqueId() + "." + ID + "." + "xp");
+                int maxXp = cfg.getInt("begleiter." + p.getUniqueId() + "." + ID + "." + "maxXp");
                 Material material = Material.getMaterial(cfg.getString("begleiter." + p.getUniqueId() + "." + ID + "." + "material"));
 
-                inv.addItem(build_Begleiter_Itemstack(material, ID, level));
+                inv.addItem(build_Begleiter_Itemstack(ID, level, maxLevel, damage, xp, maxXp, material));
             }
         }
 
@@ -142,24 +169,55 @@ public class BegleiterBuilder {
 
         dungeonCrusher.getConfig().set("begleiter." + p.getUniqueId() + "." + random_ID + "." + "material", choosenBegleiter.name());
         dungeonCrusher.getConfig().set("begleiter." + p.getUniqueId() + "." + random_ID + "." + "level", 0);
+        dungeonCrusher.getConfig().set("begleiter." + p.getUniqueId() + "." + random_ID + "." + "maxLevel", 10);
+        dungeonCrusher.getConfig().set("begleiter." + p.getUniqueId() + "." + random_ID + "." + "xp", 0);
+        dungeonCrusher.getConfig().set("begleiter." + p.getUniqueId() + "." + random_ID + "." + "maxXp", 150);
+        dungeonCrusher.getConfig().set("begleiter." + p.getUniqueId() + "." + random_ID + "." + "damage", 1);
         dungeonCrusher.saveConfig();
 
         p.sendMessage("Du hast einen Begleiter gezogen [Debug: Type " + choosenBegleiter.name() + ", ID " + random_ID);
     }
 
-    public static ItemStack build_Begleiter_Itemstack(Material mat, String ID, int level) {
-        ItemStack begleiter_ItemStack = new ItemStack(mat);
+    public static ItemStack build_Begleiter_Itemstack(String ID, int level, int maxLevel, int damage, int xp, int maxXp, Material material) {
+        ItemStack begleiter_ItemStack = new ItemStack(material);
         ItemMeta begleiter_ItemMeta = begleiter_ItemStack.getItemMeta();
         begleiter_ItemMeta.setItemName(ID);
-        begleiter_ItemMeta.setDisplayName("----- Begleiter -----");
+        begleiter_ItemMeta.setDisplayName("§e----- Begleiter -----");
         ArrayList<String> lore = new ArrayList<>();
+        lore.add("§6Damage: §7" + damage);
+        lore.add("§e--------------------");
         lore.add("§6Level: §7" + level);
+        lore.add("§6XP:     §7" + xp + " " + loadXpBar(xp*100/maxXp));
         lore.add("");
-        lore.add("§e» Linksklick um Begleiter zu wechseln.");
         begleiter_ItemMeta.setLore(lore);
         begleiter_ItemStack.setItemMeta(begleiter_ItemMeta);
 
-        return  begleiter_ItemStack;
+        return begleiter_ItemStack;
+    }
+
+    private static String loadXpBar(int percentage) {
+        String progress = null;
+
+
+        if (percentage <= 20) {
+            progress = "§8||||||||||";
+        }
+        if (percentage >= 20) {
+            progress = "§a||§8||||||||";
+        }
+        if (percentage >= 40) {
+            progress = "§a||||§8||||||";
+        }
+        if (percentage >= 60) {
+            progress = "§a||||||§8||||";
+        }
+        if (percentage >= 80) {
+            progress = "§a||||||||§8||";
+        }
+        if (percentage == 100) {
+            progress = "§a||||||||||";
+        }
+        return progress;
     }
 
 

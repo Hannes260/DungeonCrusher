@@ -380,11 +380,9 @@ public final class DungeonCrusher extends JavaPlugin {
         new BukkitRunnable() {
             @Override
             public void run() {
-                Bukkit.getScheduler().runTaskAsynchronously(dungeonCrusher, () -> {
-                    Daily.checkForOrginQuestUpdate();
-                    Weekly.checkForOrginQuestUpdate();
-                    Monthly.checkForOrginQuestUpdate();
-                });
+                Daily.checkForOrginQuestUpdate();
+                Weekly.checkForOrginQuestUpdate();
+                Monthly.checkForOrginQuestUpdate();
 
                 for (Player p : Bukkit.getServer().getOnlinePlayers()) {
                     if (QuestBuilder.isTutorialDone(p)) {

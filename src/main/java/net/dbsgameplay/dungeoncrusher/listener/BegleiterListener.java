@@ -4,6 +4,9 @@ import net.dbsgameplay.dungeoncrusher.DungeonCrusher;
 import net.dbsgameplay.dungeoncrusher.sql.MYSQLManager;
 import net.dbsgameplay.dungeoncrusher.utils.Begleiter.BegleiterBuilder;
 import net.dbsgameplay.dungeoncrusher.utils.ErfolgeBuilders;
+import net.dbsgameplay.dungeoncrusher.utils.quests.Daily;
+import net.dbsgameplay.dungeoncrusher.utils.quests.Monthly;
+import net.dbsgameplay.dungeoncrusher.utils.quests.Weekly;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -21,12 +24,12 @@ import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.util.Vector;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 public class BegleiterListener implements Listener {
     public static MYSQLManager mysqlManager;
-    DungeonCrusher dungeonCrusher;
+    public static DungeonCrusher dungeonCrusher;
+    public static HashMap<UUID, String> begleiterMap = new HashMap<>();
 
     public BegleiterListener(MYSQLManager mysqlManager, DungeonCrusher dungeonCrusher) {
         this.mysqlManager = mysqlManager;
@@ -36,7 +39,7 @@ public class BegleiterListener implements Listener {
 
     @EventHandler
     public void InventoryClickEvent(InventoryClickEvent e) {
-        if (e.getInventory().getHolder() == null) {
+        if (e.getView().getTitle().equalsIgnoreCase("Begleitermenü") || e.getView().getTitle().equalsIgnoreCase("Begleiter Auswahl") || e.getView().getTitle().equalsIgnoreCase("Meine Begleiter") || e.getView().getTitle().equalsIgnoreCase("Levelupmenü")) {
             e.setCancelled(true);
             if (e.getCurrentItem() == null) return;
 
@@ -45,6 +48,7 @@ public class BegleiterListener implements Listener {
 
             if (e.getCurrentItem().equals(ErfolgeBuilders.createCustomMobHead("3ed1aba73f639f4bc42bd48196c715197be2712c3b962c97ebf9e9ed8efa025", "§cZurück"))) {
                 BegleiterBuilder.openBegleiterMenü(p);
+                e.setCancelled(true);
                 return;
             }
 
@@ -56,11 +60,12 @@ public class BegleiterListener implements Listener {
                         dungeonCrusher.saveConfig();
 
                         despawn_Begleiter(p, e.getCurrentItem().getItemMeta().getItemName());
+                        begleiterMap.remove(p.getUniqueId());
 
                     }else {
                         if (cfg.isConfigurationSection("begleiter_ausgewählt." + p.getUniqueId())) {
                             if (cfg.getConfigurationSection("begleiter_ausgewählt." + p.getUniqueId()).getKeys(false).size() == 1) {
-                                p.sendMessage("     §cDu hast bereits einen Begleiter ausgerüstet!");
+                                p.sendMessage("§cDu hast bereits einen Begleiter ausgerüstet!");
                                 return;
                             }
                         }
@@ -70,6 +75,7 @@ public class BegleiterListener implements Listener {
                         dungeonCrusher.saveConfig();
 
                         spawn_Begleiter(p, e.getCurrentItem().getType(), e.getCurrentItem().getItemMeta().getItemName());
+                        begleiterMap.put(p.getUniqueId(), e.getCurrentItem().getItemMeta().getItemName());
                     }
                     BegleiterBuilder.openBegleiterAuswahlMenü(p);
                     return;
@@ -111,6 +117,26 @@ public class BegleiterListener implements Listener {
 
             if (entity.getCustomName().equalsIgnoreCase(p.getUniqueId() + " - " + ID)) {
                 entity.remove();
+            }
+        }
+    }
+
+    @EventHandler
+    public void onPlayerMoveEvent(PlayerMoveEvent e) {
+        if (e.getFrom().getX() != e.getTo().getX() || e.getFrom().getZ() != e.getTo().getZ()) {
+            if (begleiterMap.containsKey(e.getPlayer().getUniqueId())) {
+                Player p = e.getPlayer();
+
+                for (Entity entity : p.getWorld().getEntitiesByClass(ArmorStand.class)) {
+                    if (entity.getCustomName() == null) continue;
+
+                    if (entity.getCustomName().startsWith(p.getUniqueId().toString())) {
+                        entity.teleport(p.getLocation());
+
+                        Vector differenz = e.getTo().toVector().subtract(e.getFrom().toVector());
+                        entity.getLocation().setDirection(differenz);
+                    }
+                }
             }
         }
     }

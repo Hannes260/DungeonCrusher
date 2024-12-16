@@ -40,7 +40,6 @@ public class ErfolgeBuilders {
         }
 
     public static PlayerProfile getProfile(String url) {
-
         PlayerProfile playerProfile = Bukkit.createPlayerProfile(RANDOM_UUID); // Get a new player profile
         PlayerTextures textures = playerProfile.getTextures();
         URL urlObject;

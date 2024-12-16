@@ -5,6 +5,7 @@ import net.dbsgameplay.dungeoncrusher.enums.MobNameTranslator;
 import net.dbsgameplay.dungeoncrusher.sql.MYSQLManager;
 import net.dbsgameplay.dungeoncrusher.utils.ErfolgeBuilders;
 import net.dbsgameplay.dungeoncrusher.utils.ScoreboardBuilder;
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -31,15 +32,17 @@ public class KillListener implements Listener {
             scoreboardBuilder.updateKills(event.getEntity().getKiller().getPlayer());
             scoreboardBuilder.updateDungeonKills(event.getEntity().getKiller().getPlayer());
 
-                String name = MobNameTranslator.translateToGerman(event.getEntityType().getName());
-                    mysqlManager.updateMobKillsForPlayer(playeruuid, name, 1);
-                    int currentKillCount = mysqlManager.getPlayerMobKills(p.getUniqueId().toString(), name);
-                    for (int i = 0; i != 22; i++) {
-                        if (currentKillCount == i*150) {
-                            ErfolgeBuilders.reward(i*ErfolgeBuilders.rewardAmount, p);
-                            break;
-                        }
+            String name = MobNameTranslator.translateToGerman(event.getEntityType().getName());
+            mysqlManager.updateMobKillsForPlayer(playeruuid, name, 1);
+            int currentKillCount = mysqlManager.getPlayerMobKills(p.getUniqueId().toString(), name);
+            Bukkit.getScheduler().runTaskAsynchronously(dungeonCrusher, () -> {
+                for (int i = 0; i != 22; i++) {
+                    if (currentKillCount == i*150) {
+                        ErfolgeBuilders.reward(i*ErfolgeBuilders.rewardAmount, p);
+                        break;
                     }
+                }
+            });
         }
     }
 

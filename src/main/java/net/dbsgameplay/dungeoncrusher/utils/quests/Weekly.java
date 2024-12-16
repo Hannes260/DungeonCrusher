@@ -95,7 +95,7 @@ public class Weekly {
     }
 
     public static void checkForOrginQuestUpdate() {
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("EEEE HH:mm:ss");
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm:ss");
         LocalDateTime now = LocalDateTime.now();
         String time = now.format(formatter);
 
@@ -105,9 +105,7 @@ public class Weekly {
 
 
         if (time2.equalsIgnoreCase("Monday")) {
-            Bukkit.getLogger().info("Went trough Mondycheck");
             if (time.substring(0, time.length() - 3).equalsIgnoreCase("00:01") && (Integer.parseInt(time.substring(6)) >= 1 && Integer.parseInt(time.substring(6)) <= 10)) {
-                Bukkit.getLogger().info("Went trough sec-check");
                 String k1 = null;
                 String k2 = null;
                 String k3;

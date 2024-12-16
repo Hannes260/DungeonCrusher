@@ -255,6 +255,7 @@ public class QuestListener implements Listener {
                     Weekly.doQuest(e.getPlayer(), Weekly.MoveQuestList);
                     Monthly.doQuest(e.getPlayer(), Monthly.MoveQuestList);
                 });
+
             }
         }
     }
