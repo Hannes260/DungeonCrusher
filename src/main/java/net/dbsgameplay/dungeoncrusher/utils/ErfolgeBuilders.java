@@ -24,6 +24,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.UUID;
 
+import static net.dbsgameplay.dungeoncrusher.utils.Begleiter.BegleiterBuilder.dungeonCrusher;
+
 
 public class ErfolgeBuilders {
     private static final UUID RANDOM_UUID = UUID.fromString("92864445-51c5-4c3b-9039-517c9927d1b4");
@@ -93,9 +95,9 @@ public class ErfolgeBuilders {
 
         for (String s : moblist) {
             if (s.equals(moblist.get(36))) break;
+
             int kills = mysqlManager.getPlayerMobKills(p.getUniqueId().toString(), s);
-            double rawstufe = Math.ceil((double) kills/killAmount);
-            int stufe = (int) rawstufe;
+            int stufe = (int) Math.ceil((double) kills/killAmount);
 
             if (stufe == 0) {
                 stufe = 1;

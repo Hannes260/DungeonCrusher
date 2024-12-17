@@ -1,28 +1,15 @@
 package net.dbsgameplay.dungeoncrusher.utils.Begleiter;
 
-import com.destroystokyo.paper.entity.Pathfinder;
 import net.dbsgameplay.dungeoncrusher.DungeonCrusher;
-import net.dbsgameplay.dungeoncrusher.listener.BegleiterListener;
 import net.dbsgameplay.dungeoncrusher.sql.MYSQLManager;
 import net.dbsgameplay.dungeoncrusher.utils.ErfolgeBuilders;
 import org.bukkit.Bukkit;
-import org.bukkit.Location;
 import org.bukkit.Material;
-import org.bukkit.attribute.Attribute;
-import org.bukkit.attribute.AttributeModifier;
 import org.bukkit.configuration.file.FileConfiguration;
-import org.bukkit.enchantments.Enchantment;
-import org.bukkit.entity.ArmorStand;
-import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
-import org.bukkit.event.EventHandler;
-import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.inventory.Inventory;
-import org.bukkit.inventory.InventoryHolder;
-import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
-import org.bukkit.inventory.meta.SkullMeta;
 
 import java.util.*;
 
@@ -75,6 +62,9 @@ public class BegleiterBuilder {
         p.openInventory(inv);
     }
 
+    //Playerbegleiter tabelle hat uuid und id des ausgerüsteten pets
+    //begleiter_data tabelle hat alle begleiter und ihre daten wie uuid (owner) und level, xp, maxXp
+    //für alle begleiter zum listen einfach alle begleiter auf owner checken
     public static void openBegleiterAuswahlMenü(Player p) {
         Inventory inv = Bukkit.createInventory(null, 27, "Begleiter Auswahl");
         inv.setItem(26, ErfolgeBuilders.createCustomMobHead("3ed1aba73f639f4bc42bd48196c715197be2712c3b962c97ebf9e9ed8efa025", "§cZurück"));
@@ -183,6 +173,7 @@ public class BegleiterBuilder {
         ItemMeta begleiter_ItemMeta = begleiter_ItemStack.getItemMeta();
         begleiter_ItemMeta.setItemName(ID);
         begleiter_ItemMeta.setDisplayName("§e----- Begleiter -----");
+
         ArrayList<String> lore = new ArrayList<>();
         lore.add("§6Damage: §7" + damage);
         lore.add("§e--------------------");
@@ -190,34 +181,16 @@ public class BegleiterBuilder {
         lore.add("§6XP:     §7" + xp + " " + loadXpBar(xp*100/maxXp));
         lore.add("");
         begleiter_ItemMeta.setLore(lore);
+
         begleiter_ItemStack.setItemMeta(begleiter_ItemMeta);
 
         return begleiter_ItemStack;
     }
 
     private static String loadXpBar(int percentage) {
-        String progress = null;
+        int completedBars = percentage / 10;
 
-
-        if (percentage <= 20) {
-            progress = "§8||||||||||";
-        }
-        if (percentage >= 20) {
-            progress = "§a||§8||||||||";
-        }
-        if (percentage >= 40) {
-            progress = "§a||||§8||||||";
-        }
-        if (percentage >= 60) {
-            progress = "§a||||||§8||||";
-        }
-        if (percentage >= 80) {
-            progress = "§a||||||||§8||";
-        }
-        if (percentage == 100) {
-            progress = "§a||||||||||";
-        }
-        return progress;
+        return "§a" + "|".repeat(completedBars) + "§8" + "|".repeat(10 - completedBars);
     }
 
 

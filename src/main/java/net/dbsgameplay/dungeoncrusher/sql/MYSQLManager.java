@@ -10,6 +10,7 @@ import com.zaxxer.hikari.HikariDataSource;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.UUID;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -266,6 +267,24 @@ public class MYSQLManager {
                     + "wutenbrannt INT DEFAULT 0"
                     + ")";
             statement.execute(createLevelEnchantmensTableQuery);
+
+            //Begleiter
+            String createPlayerBegleiterQuery = "CREATE TABLE IF NOT EXISTS player_begleiter ("
+                    + "uuid VARCHAR(255) PRIMARY KEY,"
+                    + "id INT DEFAULT NULL"
+                    + ")";
+            statement.execute(createPlayerBegleiterQuery);
+            String createBegleiterDataQuery = "CREATE TABLE IF NOT EXISTS player_begleiter_data ("
+                    + "id VARCHAR(255) PRIMARY KEY,"
+                    + "uuid VARCHAR(255) DEFAULT NULL,"
+                    + "material VARCHAR(255) DEFAULT NULL,"
+                    + "damage INT DEFAULT 0,"
+                    + "level INT DEFAULT 0,"
+                    + "maxLevel INT DEFAULT 10,"
+                    + "xp INT DEFAULT 0,"
+                    + "maxXp INT DEFAULT 150,"
+                    + ")";
+            statement.execute(createPlayerBegleiterQuery);
             statement.close();
         } catch (Exception e) {
             e.printStackTrace();
@@ -481,7 +500,78 @@ public class MYSQLManager {
         }
         return quest;
     }
+    public int getBegleiterID(UUID uuid) {
+        int id = 0;
 
+        try (Connection connection = dataSource.getConnection()) {
+            String query = "SELECT id FROM player_begleiter WHERE uuid = ?";
+            try (PreparedStatement statement = connection.prepareStatement(query)) {
+                statement.setString(1, uuid.toString());
+
+                try (ResultSet resultSet = statement.executeQuery()) {
+                    if (resultSet.next()) {
+                        id = resultSet.getInt("id");
+                    }
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return id;
+    }
+    public void updateBegleiterID(UUID uuid, int id) {
+        try (Connection connection = dataSource.getConnection()) {
+            String updateQuery = "UPDATE player_begleiter SET id = ? WHERE uuid = ?";
+            try (PreparedStatement updateStatement = connection.prepareStatement(updateQuery)) {
+                updateStatement.setInt(1, id);
+                updateStatement.setString(2, uuid.toString());
+                updateStatement.executeUpdate();
+            }
+
+            if (!connection.getAutoCommit()) {
+                connection.commit();
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+    public String getBegleiterData(int id, String data) {
+        String value = null;
+
+        try (Connection connection = dataSource.getConnection()) {
+            String query = "SELECT "+ data +" FROM player_begleiter_data WHERE id = ?";
+            try (PreparedStatement statement = connection.prepareStatement(query)) {
+                statement.setInt(1, id);
+
+                try (ResultSet resultSet = statement.executeQuery()) {
+                    if (resultSet.next()) {
+                        value = resultSet.getString(data);
+                    }
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return value;
+    }
+    public void updateBegleiterData(int id, String data, String value) {
+        try (Connection connection = dataSource.getConnection()) {
+            String updateQuery = "UPDATE player_begleiter_data SET "+ data +" = ? WHERE id = ?";
+            try (PreparedStatement updateStatement = connection.prepareStatement(updateQuery)) {
+                updateStatement.setString(1, value);
+                updateStatement.setInt(2, id);
+                updateStatement.executeUpdate();
+            }
+
+            if (!connection.getAutoCommit()) {
+                connection.commit();
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
 
     public boolean canClaimDailyReward(String playerUUID) {
         try (Connection connection = dataSource.getConnection()) {
