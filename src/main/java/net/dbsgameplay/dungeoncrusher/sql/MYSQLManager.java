@@ -536,6 +536,22 @@ public class MYSQLManager {
             e.printStackTrace();
         }
     }
+    public void addBegleiterID(UUID uuid, int id) {
+        try (Connection connection = dataSource.getConnection()) {
+            String updateQuery = "INSERT INTO player_begleiter (uuid, id) VALUES (?, ?)";
+            try (PreparedStatement updateStatement = connection.prepareStatement(updateQuery)) {
+                updateStatement.setString(1, uuid.toString());
+                updateStatement.setInt(2, id);
+                updateStatement.executeUpdate();
+            }
+
+            if (!connection.getAutoCommit()) {
+                connection.commit();
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
     public String getBegleiterData(int id, String data) {
         String value = null;
 
@@ -562,6 +578,22 @@ public class MYSQLManager {
             try (PreparedStatement updateStatement = connection.prepareStatement(updateQuery)) {
                 updateStatement.setString(1, value);
                 updateStatement.setInt(2, id);
+                updateStatement.executeUpdate();
+            }
+
+            if (!connection.getAutoCommit()) {
+                connection.commit();
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+    public void addEmptyBegleiterData(int id, String uuid) {
+        try (Connection connection = dataSource.getConnection()) {
+            String updateQuery = "INSERT INTO player_begleiter_data (id, uuid) VALUES (?, ?)";
+            try (PreparedStatement updateStatement = connection.prepareStatement(updateQuery)) {
+                updateStatement.setInt(1, id);
+                updateStatement.setString(2, uuid);
                 updateStatement.executeUpdate();
             }
 
