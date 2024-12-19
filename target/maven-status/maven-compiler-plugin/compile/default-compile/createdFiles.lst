@@ -6,6 +6,7 @@ net\dbsgameplay\dungeoncrusher\Commands\Admin\SetSpawnCommand.class
 net\dbsgameplay\dungeoncrusher\objects\PlayerHead.class
 net\dbsgameplay\dungeoncrusher\interfaces\HelpCategory.class
 net\dbsgameplay\dungeoncrusher\enums\Stats\KillsCategory$1$1.class
+net\dbsgameplay\dungeoncrusher\utils\Configs\MinibossConfigManager.class
 net\dbsgameplay\dungeoncrusher\utils\quests\Monthly.class
 net\dbsgameplay\dungeoncrusher\listener\KillListener.class
 net\dbsgameplay\dungeoncrusher\utils\Configs\DropsConfigManager.class

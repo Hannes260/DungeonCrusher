@@ -68,6 +68,7 @@ public final class DungeonCrusher extends JavaPlugin {
     private RewardConfigManager rewardConfigManager;
     private QuestConfigManager questConfigManager;
     private ErfolgeConfigManager erfolgeConfigManager;
+    private MinibossConfigManager configMiniboss;
     private SwordEnchantments swordEnchantments;
     private MYSQLManager mysqlManager;
     private MarkingsManager markierungsManager;
@@ -89,6 +90,7 @@ public final class DungeonCrusher extends JavaPlugin {
         rewardConfigManager = new RewardConfigManager(this);
         questConfigManager = new QuestConfigManager(this);
         erfolgeConfigManager = new ErfolgeConfigManager(this);
+        configMiniboss = new MinibossConfigManager(this);
         mysqlManager = MYSQLManager.getInstance(getDataFolder());
         markierungsManager = new MarkingsManager(locationConfigManager);
         swordEnchantments = new SwordEnchantments(mysqlManager);
