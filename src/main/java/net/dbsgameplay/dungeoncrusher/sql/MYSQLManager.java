@@ -541,7 +541,7 @@ public class MYSQLManager {
                         }
                     } else {
                         // Existiert nicht
-                        String insertQuery = "INSERT INTO player_stats (uuid, id) VALUES (?, ?)";
+                        String insertQuery = "INSERT INTO player_begleiter (uuid, id) VALUES (?, ?)";
                         try (PreparedStatement insertStatement = connection.prepareStatement(insertQuery)) {
                             insertStatement.setString(1, uuid);
                             insertStatement.setString(2, id);

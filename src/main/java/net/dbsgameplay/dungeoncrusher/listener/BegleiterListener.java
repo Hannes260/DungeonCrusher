@@ -62,10 +62,10 @@ public class BegleiterListener implements Listener {
                         begleiterMap.remove(p.getUniqueId());
 
                     }else {
-                        if (mysqlManager.getAllBegleiterIDsOfPlayer(p.getUniqueId().toString()).size() == 1) {
-                            p.sendMessage("§cDu hast bereits einen Begleiter ausgerüstet!");
-                            return;
-                        }
+//                        if (mysqlManager.getBegleiterID(p.getUniqueId().toString())) {
+//                            p.sendMessage("§cDu hast bereits einen Begleiter ausgerüstet!");
+//                            return;
+//                        }
 
                         String itemname = e.getCurrentItem().getItemMeta().getItemName();
                         mysqlManager.updateBegleiterID(p.getUniqueId().toString(), itemname);

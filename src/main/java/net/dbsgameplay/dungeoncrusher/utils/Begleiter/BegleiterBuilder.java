@@ -94,6 +94,8 @@ public class BegleiterBuilder {
         }
 
         for (String ID : mysqlManager.getAllBegleiterIDsOfPlayer(p.getUniqueId().toString())) {
+            if (ID.equals(mysqlManager.getBegleiterID(p.getUniqueId().toString()))) continue;
+
             String level = mysqlManager.getBegleiterData(ID, "level");
             String maxLevel = mysqlManager.getBegleiterData(ID, "maxLevel");
             String damage = mysqlManager.getBegleiterData(ID, "damage");
