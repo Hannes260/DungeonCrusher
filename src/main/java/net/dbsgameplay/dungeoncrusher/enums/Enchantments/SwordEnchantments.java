@@ -8,17 +8,20 @@ import net.dbsgameplay.dungeoncrusher.sql.MYSQLManager;
 import net.dbsgameplay.dungeoncrusher.utils.ScoreboardBuilder;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
+import org.bukkit.NamespacedKey;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.persistence.PersistentDataContainer;
+import org.bukkit.persistence.PersistentDataType;
 
 import java.util.*;
 
 public class SwordEnchantments implements EnchantmentCategory {
     private final MYSQLManager mysqlManager;
     private final ScoreboardBuilder scoreboardBuilder;
-    private final Map<Integer, ShopItem> items;
+    private final Map<Integer, EnchantmentItem> items;
 
     public SwordEnchantments(MYSQLManager mysqlManager) {
         this.mysqlManager = mysqlManager;
@@ -26,11 +29,11 @@ public class SwordEnchantments implements EnchantmentCategory {
         this.scoreboardBuilder = new ScoreboardBuilder(DungeonCrusher.getInstance());
 
         this.items = new HashMap<>();
-        items.put(0, new ShopItem("§7§kFesselschlag", Material.BOOK, 500, Arrays.asList("")));
-        items.put(9, new ShopItem("§7§kWindklinge", Material.BOOK, 500, Arrays.asList("")));
-        items.put(18, new ShopItem("§7§kGifthieb", Material.BOOK, 500, Arrays.asList("")));
-        items.put(27, new ShopItem("§7§kSeelenentzug", Material.BOOK, 500, Arrays.asList("")));
-        items.put(36, new ShopItem("§7§kWutentbrannt", Material.BOOK, 500, Arrays.asList("")));
+        items.put(0, new EnchantmentItem("§7§kFesselschlag", Material.BOOK, 500, Arrays.asList(""), "fesselschlag"));
+        items.put(9, new EnchantmentItem("§7§kWindklinge", Material.BOOK, 500, Arrays.asList(""), "windklinge"));
+        items.put(18, new EnchantmentItem("§7§kGifthieb", Material.BOOK, 500, Arrays.asList(""), "gifthieb"));
+        items.put(27, new EnchantmentItem("§7§kSeelenentzug", Material.BOOK, 500, Arrays.asList(""), "seelenentzug"));
+        items.put(36, new EnchantmentItem("§7§kWutentbrannt", Material.BOOK, 500, Arrays.asList(""), "wutentbrannt"));
     }
 
     private static final Map<String, Map<Integer, Map<String, Integer>>> enchantmentRequirements = new HashMap<>();
@@ -50,7 +53,7 @@ public class SwordEnchantments implements EnchantmentCategory {
         String playerUUID = player.getUniqueId().toString();
 
         for (int slot : items.keySet()) {
-            SwordEnchantments.ShopItem shopItem = items.get(slot);
+            SwordEnchantments.EnchantmentItem shopItem = items.get(slot);
             ItemStack itemStack = new ItemStack(shopItem.material);
             ItemMeta meta = itemStack.getItemMeta();
             meta.setDisplayName(shopItem.displayName);
@@ -84,9 +87,16 @@ public class SwordEnchantments implements EnchantmentCategory {
                     int currentKills = getPlayerKills(playerUUID, mobType);
                     lore.add("§7 - " + mobType + ": §f" + currentKills + "§7 / §e" + requiredKills);
                 }
-            }else {
+            } else {
                 lore.add("§aMaximales Level Erreicht!");
             }
+            lore.add("§eLinksklick §a>> Herstellen");
+            lore.add("§eRechtsklick §a>> Ausrüsten/Ablegen");
+
+            // PersistentData hinzufügen
+            NamespacedKey key = new NamespacedKey(DungeonCrusher.getInstance(), "enchantment");
+            PersistentDataContainer dataContainer = meta.getPersistentDataContainer();
+            dataContainer.set(key, PersistentDataType.STRING, enchantmentName);
 
             meta.setLore(lore);
             item.setItemMeta(meta);
@@ -95,7 +105,31 @@ public class SwordEnchantments implements EnchantmentCategory {
     }
     @Override
     public void handleItemClick(Player player, ItemStack clickedItem) {
+        if (clickedItem == null || clickedItem.getType() == Material.AIR) {
+            player.sendMessage("§cUngültiges Item.");
+            return;
+        }
 
+        ItemMeta clickedMeta = clickedItem.getItemMeta();
+        if (clickedMeta == null) {
+            player.sendMessage("§cKein ItemMeta gefunden.");
+            return;
+        }
+
+        NamespacedKey key = new NamespacedKey(DungeonCrusher.getInstance(), "enchantment");
+        PersistentDataContainer dataContainer = clickedMeta.getPersistentDataContainer();
+
+        if (dataContainer.has(key, PersistentDataType.STRING)) {
+            String enchantmentName = dataContainer.get(key, PersistentDataType.STRING);
+            if (enchantmentName != null) {
+                player.sendMessage("§aEnchantment verarbeitet: " + enchantmentName);
+                // Deine Logik hier
+            } else {
+                player.sendMessage("§cKein Enchantment zugeordnet.");
+            }
+        } else {
+            player.sendMessage("§cKein Enchantment-Tag gefunden.");
+        }
     }
 
     private Map<String, Integer> getKillRequirements(String enchantment, int level) {
@@ -113,17 +147,22 @@ public class SwordEnchantments implements EnchantmentCategory {
         return str.substring(0,1).toUpperCase() + str.substring(1);
     }
 
-    private static class ShopItem {
+    private static class EnchantmentItem {
         private final String displayName;
         private final Material material;
         private final int modeldata;
         private final List<String> lore;
+        private final String enchantmentName; // Neuer Parameter
 
-        private ShopItem(String displayName, Material material, int ModelData, List<String> lore) {
+        private EnchantmentItem(String displayName, Material material, int ModelData, List<String> lore, String enchantmentName) {
             this.displayName = displayName;
             this.material = material;
             this.modeldata = ModelData;
             this.lore = lore;
+            this.enchantmentName = enchantmentName; // Initialisierung
         }
+        public String getEnchantmentName() {
+            return enchantmentName;
+    }
     }
 }

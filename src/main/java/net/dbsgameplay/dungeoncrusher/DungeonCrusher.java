@@ -9,6 +9,7 @@ import net.dbsgameplay.dungeoncrusher.Commands.Enchantments.EnchantmentCommand;
 import net.dbsgameplay.dungeoncrusher.Commands.Quests.QuestCommand;
 import net.dbsgameplay.dungeoncrusher.Commands.Shops.ShopCommand;
 import net.dbsgameplay.dungeoncrusher.Commands.Upgrades.UpgradeCommand;
+import net.dbsgameplay.dungeoncrusher.enums.Enchantments.SwordEnchantments;
 import net.dbsgameplay.dungeoncrusher.enums.MyPlaceholderExpansion;
 import net.dbsgameplay.dungeoncrusher.enums.Shop.FoodCategory;
 import net.dbsgameplay.dungeoncrusher.listener.*;
@@ -65,6 +66,7 @@ public final class DungeonCrusher extends JavaPlugin {
     private RewardConfigManager rewardConfigManager;
     private QuestConfigManager questConfigManager;
     private ErfolgeConfigManager erfolgeConfigManager;
+    private SwordEnchantments swordEnchantments;
     private MYSQLManager mysqlManager;
     private MarkingsManager markierungsManager;
     public static final String ANSI_BLUE = "\u001B[34m";
@@ -87,6 +89,7 @@ public final class DungeonCrusher extends JavaPlugin {
         erfolgeConfigManager = new ErfolgeConfigManager(this);
         mysqlManager = MYSQLManager.getInstance(getDataFolder());
         markierungsManager = new MarkingsManager(locationConfigManager);
+        swordEnchantments = new SwordEnchantments(mysqlManager);
         ErfolgeBuilders erfolgeBuilders = new ErfolgeBuilders(mysqlManager);
         QuestBuilder questBuilder = new QuestBuilder(this, mysqlManager);
         Daily daily = new Daily(mysqlManager, this);
@@ -291,7 +294,7 @@ public final class DungeonCrusher extends JavaPlugin {
         pluginManager.registerEvents(new InvseeListener(), this);
         pluginManager.registerEvents(new ChunkListener(this, mobTypesToKill), this);
         pluginManager.registerEvents(new BegleiterListener(mysqlManager, this), this);
-        pluginManager.registerEvents(new EnchantmentListener(), this);
+        pluginManager.registerEvents(new EnchantmentListener(swordEnchantments), this);
     }
 
     public void sendToDiscord(String content, int color) {
