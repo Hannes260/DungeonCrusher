@@ -26,6 +26,7 @@ import net.dbsgameplay.dungeoncrusher.utils.Begleiter.BegleiterBuilder;
 import net.dbsgameplay.dungeoncrusher.utils.Configs.*;
 import net.dbsgameplay.dungeoncrusher.utils.Manager.MarkingsManager;
 import net.dbsgameplay.dungeoncrusher.utils.Manager.SavezoneManager;
+import net.dbsgameplay.dungeoncrusher.utils.Miniboss.Miniboss;
 import net.dbsgameplay.dungeoncrusher.utils.Stats.StatsManager;
 import net.dbsgameplay.dungeoncrusher.utils.quests.Daily;
 import net.dbsgameplay.dungeoncrusher.utils.quests.Monthly;
@@ -96,6 +97,7 @@ public final class DungeonCrusher extends JavaPlugin {
         Weekly weekly = new Weekly(mysqlManager, this);
         Monthly monthly = new Monthly(mysqlManager, this);
         BegleiterBuilder begleiterBuilder = new BegleiterBuilder(mysqlManager, this);
+        Miniboss miniboss = new Miniboss(mysqlManager, this);
 
         getLogger().info(ANSI_BLUE +" ");
         getLogger().info(ANSI_BLUE +"  ____   ____ ");
