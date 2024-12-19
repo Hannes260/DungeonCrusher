@@ -1,7 +1,7 @@
 package net.dbsgameplay.dungeoncrusher.listener;
 
 import net.dbsgameplay.dungeoncrusher.DungeonCrusher;
-import net.dbsgameplay.dungeoncrusher.utils.Configs.LocationConfigManager;
+import net.dbsgameplay.dungeoncrusher.utils.configs.LocationConfigManager;
 import net.dbsgameplay.dungeoncrusher.utils.ErfolgeBuilders;
 import net.luckperms.api.model.user.User;
 import net.luckperms.api.node.types.SuffixNode;
@@ -18,7 +18,6 @@ import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
-import javax.naming.spi.DirObjectFactory;
 import java.util.HashMap;
 import java.util.UUID;
 
