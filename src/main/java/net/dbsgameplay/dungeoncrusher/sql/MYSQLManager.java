@@ -282,11 +282,11 @@ public class MYSQLManager {
                     + "material VARCHAR(255) DEFAULT NULL,"
                     + "damage INT DEFAULT 0,"
                     + "level INT DEFAULT 0,"
-                    + "maxLevel INT DEFAULT 10,"
+                    + "maxLevel INT DEFAULT 0,"
                     + "xp INT DEFAULT 0,"
-                    + "maxXp INT DEFAULT 150,"
+                    + "maxXp INT DEFAULT 0"
                     + ")";
-            statement.execute(createPlayerBegleiterQuery);
+            statement.execute(createBegleiterDataQuery);
             statement.close();
         } catch (Exception e) {
             e.printStackTrace();
@@ -502,13 +502,13 @@ public class MYSQLManager {
         }
         return quest;
     }
-    public String getBegleiterID(UUID uuid) {
+    public String getBegleiterID(String uuid) {
         String id = null;
 
         try (Connection connection = dataSource.getConnection()) {
             String query = "SELECT id FROM player_begleiter WHERE uuid = ?";
             try (PreparedStatement statement = connection.prepareStatement(query)) {
-                statement.setString(1, uuid.toString());
+                statement.setString(1, uuid);
 
                 try (ResultSet resultSet = statement.executeQuery()) {
                     if (resultSet.next()) {
@@ -560,13 +560,13 @@ public class MYSQLManager {
             e.printStackTrace();
         }
     }
-    public String getBegleiterData(int id, String data) {
+    public String getBegleiterData(String id, String data) {
         String value = null;
 
         try (Connection connection = dataSource.getConnection()) {
             String query = "SELECT "+ data +" FROM player_begleiter_data WHERE id = ?";
             try (PreparedStatement statement = connection.prepareStatement(query)) {
-                statement.setInt(1, id);
+                statement.setString(1, id);
 
                 try (ResultSet resultSet = statement.executeQuery()) {
                     if (resultSet.next()) {
@@ -583,13 +583,13 @@ public class MYSQLManager {
     public void updateBegleiterData(String id, String data, String value) {
         try (Connection connection = dataSource.getConnection()) {
             // Überprüfen
-            String checkQuery = "SELECT"+ data +"FROM player_begleiter_data WHERE id = ?";
+            String checkQuery = "SELECT "+ data +" FROM player_begleiter_data WHERE id = ?";
             try (PreparedStatement checkStatement = connection.prepareStatement(checkQuery)) {
                 checkStatement.setString(1, id);
                 try (ResultSet resultSet = checkStatement.executeQuery()) {
                     if (resultSet.next()) {
                         // Exestiert
-                        String updateQuery = "UPDATE player_begleiter_data SET"+ data +"= ? WHERE id = ?";
+                        String updateQuery = "UPDATE player_begleiter_data SET "+ data +" = ? WHERE id = ?";
                         try (PreparedStatement updateStatement = connection.prepareStatement(updateQuery)) {
                             updateStatement.setString(1, value);
                             updateStatement.setString(2, id);

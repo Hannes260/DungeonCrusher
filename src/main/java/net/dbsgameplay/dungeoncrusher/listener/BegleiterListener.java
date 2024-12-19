@@ -54,25 +54,21 @@ public class BegleiterListener implements Listener {
 
             if (e.getView().getTitle().equalsIgnoreCase("Begleiter Auswahl")) {
                 if (Integer.parseInt(e.getCurrentItem().getItemMeta().getItemName()) >= 10000 && Integer.parseInt(e.getCurrentItem().getItemMeta().getItemName()) <= 999999) {
-                    if (cfg.contains("begleiter_ausgewählt." + p.getUniqueId() + "." + e.getCurrentItem().getItemMeta().getItemName())) {
+                    if (mysqlManager.getBegleiterID(p.getUniqueId().toString()) != null) {
                         String itemname = e.getCurrentItem().getItemMeta().getItemName();
-                        cfg.set("begleiter_ausgewählt." + p.getUniqueId(), null);
-                        dungeonCrusher.saveConfig();
+                        mysqlManager.updateBegleiterID(p.getUniqueId().toString(), null);
 
                         despawn_Begleiter(p, e.getCurrentItem().getItemMeta().getItemName());
                         begleiterMap.remove(p.getUniqueId());
 
                     }else {
-                        if (cfg.isConfigurationSection("begleiter_ausgewählt." + p.getUniqueId())) {
-                            if (cfg.getConfigurationSection("begleiter_ausgewählt." + p.getUniqueId()).getKeys(false).size() == 1) {
-                                p.sendMessage("§cDu hast bereits einen Begleiter ausgerüstet!");
-                                return;
-                            }
+                        if (mysqlManager.getAllBegleiterIDsOfPlayer(p.getUniqueId().toString()).size() == 1) {
+                            p.sendMessage("§cDu hast bereits einen Begleiter ausgerüstet!");
+                            return;
                         }
 
                         String itemname = e.getCurrentItem().getItemMeta().getItemName();
-                        cfg.set("begleiter_ausgewählt." + p.getUniqueId() + "." + itemname, "");
-                        dungeonCrusher.saveConfig();
+                        mysqlManager.updateBegleiterID(p.getUniqueId().toString(), itemname);
 
                         spawn_Begleiter(p, e.getCurrentItem().getType(), e.getCurrentItem().getItemMeta().getItemName());
                         begleiterMap.put(p.getUniqueId(), e.getCurrentItem().getItemMeta().getItemName());

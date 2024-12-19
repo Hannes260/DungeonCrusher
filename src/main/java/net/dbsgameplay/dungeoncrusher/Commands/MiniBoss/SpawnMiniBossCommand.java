@@ -23,6 +23,7 @@ public class SpawnMiniBossCommand implements CommandExecutor {
     public static MYSQLManager mysqlManager;
     public static DungeonCrusher dungeonCrusher;
 
+
     public SpawnMiniBossCommand(DungeonCrusher dungeonCrusher, MYSQLManager mysqlManager) {
         this.dungeonCrusher = dungeonCrusher;
         this.mysqlManager = mysqlManager;

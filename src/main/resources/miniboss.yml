@@ -1,10 +1,11 @@
-dungeon1:
-  lvl1:
-    preis: 1000
-    kills: 15
-  lvl2:
-    preis: 2000
-    kills: 30
-  lvl3:
-    preis: 3000
-    kills: 45
+dungeons:
+  dungeon1:
+    lvl1:
+      preis: 1000
+      kills: 15
+    lvl2:
+      preis: 2000
+      kills: 30
+    lvl3:
+      preis: 3000
+      kills: 45
