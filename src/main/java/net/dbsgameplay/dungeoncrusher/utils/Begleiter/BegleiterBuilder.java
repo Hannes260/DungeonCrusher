@@ -1,5 +1,6 @@
 package net.dbsgameplay.dungeoncrusher.utils.Begleiter;
 
+import com.zaxxer.hikari.HikariDataSource;
 import net.dbsgameplay.dungeoncrusher.DungeonCrusher;
 import net.dbsgameplay.dungeoncrusher.sql.MYSQLManager;
 import net.dbsgameplay.dungeoncrusher.utils.ErfolgeBuilders;
@@ -11,6 +12,10 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.*;
 
 public class BegleiterBuilder {
@@ -143,6 +148,7 @@ public class BegleiterBuilder {
             }
         }
 
+
         p.openInventory(inv);
     }
 
@@ -153,17 +159,29 @@ public class BegleiterBuilder {
         Material choosenBegleiter = begleiterListe[random.nextInt(0, begleiterListe.length)];
         String random_ID = String.valueOf(random.nextInt(10000, 999999));
 
-        while (dungeonCrusher.getConfig().contains("begleiter." + p.getUniqueId() + "." + random_ID)) {
+//        while (dungeonCrusher.getConfig().contains("begleiter." + p.getUniqueId() + "." + random_ID)) {
+//            random_ID = String.valueOf(random.nextInt(10000, 999999));
+//        }
+//
+//        dungeonCrusher.getConfig().set("begleiter." + p.getUniqueId() + "." + random_ID + "." + "material", choosenBegleiter.name());
+//        dungeonCrusher.getConfig().set("begleiter." + p.getUniqueId() + "." + random_ID + "." + "level", 0);
+//        dungeonCrusher.getConfig().set("begleiter." + p.getUniqueId() + "." + random_ID + "." + "maxLevel", 10);
+//        dungeonCrusher.getConfig().set("begleiter." + p.getUniqueId() + "." + random_ID + "." + "xp", 0);
+//        dungeonCrusher.getConfig().set("begleiter." + p.getUniqueId() + "." + random_ID + "." + "maxXp", 150);
+//        dungeonCrusher.getConfig().set("begleiter." + p.getUniqueId() + "." + random_ID + "." + "damage", 1);
+//        dungeonCrusher.saveConfig();
+
+        while (mysqlManager.getBegleiterData(random_ID, "id").equals(random_ID)) {
             random_ID = String.valueOf(random.nextInt(10000, 999999));
         }
 
-        dungeonCrusher.getConfig().set("begleiter." + p.getUniqueId() + "." + random_ID + "." + "material", choosenBegleiter.name());
-        dungeonCrusher.getConfig().set("begleiter." + p.getUniqueId() + "." + random_ID + "." + "level", 0);
-        dungeonCrusher.getConfig().set("begleiter." + p.getUniqueId() + "." + random_ID + "." + "maxLevel", 10);
-        dungeonCrusher.getConfig().set("begleiter." + p.getUniqueId() + "." + random_ID + "." + "xp", 0);
-        dungeonCrusher.getConfig().set("begleiter." + p.getUniqueId() + "." + random_ID + "." + "maxXp", 150);
-        dungeonCrusher.getConfig().set("begleiter." + p.getUniqueId() + "." + random_ID + "." + "damage", 1);
-        dungeonCrusher.saveConfig();
+        mysqlManager.updateBegleiterData(random_ID, "uuid", p.getUniqueId().toString());
+        mysqlManager.updateBegleiterData(random_ID, "material", choosenBegleiter.name());
+        mysqlManager.updateBegleiterData(random_ID, "level", "0");
+        mysqlManager.updateBegleiterData(random_ID, "maxlevel", "10");
+        mysqlManager.updateBegleiterData(random_ID, "xp", "0");
+        mysqlManager.updateBegleiterData(random_ID, "maxXp", "150");
+        mysqlManager.updateBegleiterData(random_ID, "damage", "1");
 
         p.sendMessage("Du hast einen Begleiter gezogen [Debug: Type " + choosenBegleiter.name() + ", ID " + random_ID);
     }
