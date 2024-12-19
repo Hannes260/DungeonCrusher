@@ -265,7 +265,7 @@ public final class DungeonCrusher extends JavaPlugin {
         getCommand("dc").setExecutor(new DiscordCommand());
         getCommand("begleiter").setExecutor(new BegleiterCommand());
         getCommand("enchantment").setExecutor(new EnchantmentCommand(mysqlManager));
-        getCommand("spawnminiboss").setExecutor(new SpawnMiniBossCommand());
+        getCommand("spawnminiboss").setExecutor(new SpawnMiniBossCommand(this, mysqlManager));
 
         // Tab Completers
         getCommand("config").setTabCompleter(this);
