@@ -82,4 +82,5 @@ commands:
     permission: dc.command.test
   begleiter:
   enchantment:
+  spawnminiboss:
 

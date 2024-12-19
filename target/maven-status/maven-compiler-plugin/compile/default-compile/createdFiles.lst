@@ -13,6 +13,7 @@ net\dbsgameplay\dungeoncrusher\utils\Configs\DropsConfigManager.class
 net\dbsgameplay\dungeoncrusher\interfaces\ShopCategory.class
 net\dbsgameplay\dungeoncrusher\utils\ScoreboardBuilder$1.class
 net\dbsgameplay\dungeoncrusher\utils\ScoreboardBuilder$4.class
+net\dbsgameplay\dungeoncrusher\Commands\MiniBoss\SpawnMiniBossCommand.class
 net\dbsgameplay\dungeoncrusher\listener\protections\DungeonProtectionListener.class
 net\dbsgameplay\dungeoncrusher\enums\Upgrades\ArmorCategory$ShopItem.class
 net\dbsgameplay\dungeoncrusher\utils\Manager\MarkingsManager$Markierungsschritt.class
@@ -100,6 +101,7 @@ net\dbsgameplay\dungeoncrusher\utils\quests\QuestBuilder.class
 net\dbsgameplay\dungeoncrusher\enums\Stats\GeneralStatsCategory.class
 net\dbsgameplay\dungeoncrusher\utils\upgrades\UpgradeManager.class
 net\dbsgameplay\dungeoncrusher\listener\DungeonListener.class
+net\dbsgameplay\dungeoncrusher\utils\Miniboss\Miniboss.class
 net\dbsgameplay\dungeoncrusher\listener\PotionListener.class
 net\dbsgameplay\dungeoncrusher\Commands\test.class
 net\dbsgameplay\dungeoncrusher\Commands\ErfolgeCommand.class

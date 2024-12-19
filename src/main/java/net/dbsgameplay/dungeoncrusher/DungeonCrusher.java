@@ -6,6 +6,7 @@ import net.dbsgameplay.dungeoncrusher.Commands.Begleiter.BegleiterCommand;
 import net.dbsgameplay.dungeoncrusher.Commands.Economy.CoinsCommand;
 import net.dbsgameplay.dungeoncrusher.Commands.Economy.PayCommand;
 import net.dbsgameplay.dungeoncrusher.Commands.Enchantments.EnchantmentCommand;
+import net.dbsgameplay.dungeoncrusher.Commands.MiniBoss.SpawnMiniBossCommand;
 import net.dbsgameplay.dungeoncrusher.Commands.Quests.QuestCommand;
 import net.dbsgameplay.dungeoncrusher.Commands.Shops.ShopCommand;
 import net.dbsgameplay.dungeoncrusher.Commands.Upgrades.UpgradeCommand;
@@ -264,6 +265,7 @@ public final class DungeonCrusher extends JavaPlugin {
         getCommand("dc").setExecutor(new DiscordCommand());
         getCommand("begleiter").setExecutor(new BegleiterCommand());
         getCommand("enchantment").setExecutor(new EnchantmentCommand(mysqlManager));
+        getCommand("spawnminiboss").setExecutor(new SpawnMiniBossCommand());
 
         // Tab Completers
         getCommand("config").setTabCompleter(this);
