@@ -4,7 +4,7 @@ import me.clip.placeholderapi.PlaceholderAPI;
 import net.dbsgameplay.dungeoncrusher.interfaces.ShopCategory;
 import net.dbsgameplay.dungeoncrusher.DungeonCrusher;
 import net.dbsgameplay.dungeoncrusher.sql.MYSQLManager;
-import net.dbsgameplay.dungeoncrusher.utils.configs.ConfigManager;
+import net.dbsgameplay.dungeoncrusher.utils.Configs.ConfigManager;
 import net.dbsgameplay.dungeoncrusher.utils.quests.QuestBuilder;
 import net.dbsgameplay.dungeoncrusher.utils.ScoreboardBuilder;
 import net.dbsgameplay.dungeoncrusher.utils.shops.ShopManager;

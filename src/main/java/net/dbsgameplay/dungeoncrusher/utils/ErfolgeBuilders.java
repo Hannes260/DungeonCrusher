@@ -24,6 +24,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.UUID;
 
+import static net.dbsgameplay.dungeoncrusher.utils.Begleiter.BegleiterBuilder.dungeonCrusher;
+
 
 public class ErfolgeBuilders {
     private static final UUID RANDOM_UUID = UUID.fromString("92864445-51c5-4c3b-9039-517c9927d1b4");

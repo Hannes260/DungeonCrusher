@@ -2,7 +2,7 @@ package net.dbsgameplay.dungeoncrusher.utils.quests;
 
 import net.dbsgameplay.dungeoncrusher.DungeonCrusher;
 import net.dbsgameplay.dungeoncrusher.sql.MYSQLManager;
-import net.dbsgameplay.dungeoncrusher.utils.configs.LocationConfigManager;
+import net.dbsgameplay.dungeoncrusher.utils.Configs.LocationConfigManager;
 
 import org.bukkit.*;
 import org.bukkit.boss.BarColor;
