@@ -1,3 +1,4 @@
+net\dbsgameplay\dungeoncrusher\enums\Enchantments\SwordEnchantments$EnchantmentItem.class
 net\dbsgameplay\dungeoncrusher\enums\Upgrades\SwordCategory$ShopItem.class
 net\dbsgameplay\dungeoncrusher\enums\Shop\FoodCategory.class
 net\dbsgameplay\dungeoncrusher\utils\Configs\QuestConfigManager.class
