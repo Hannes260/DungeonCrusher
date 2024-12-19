@@ -1,15 +1,10 @@
 package net.dbsgameplay.dungeoncrusher.utils;
 
 import net.dbsgameplay.dungeoncrusher.DungeonCrusher;
-import net.dbsgameplay.dungeoncrusher.utils.Configs.HealthConfigManager;
+import net.dbsgameplay.dungeoncrusher.utils.configs.HealthConfigManager;
 import org.bukkit.attribute.Attribute;
-import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Entity;
-import org.bukkit.entity.EntityType;
 import org.bukkit.entity.LivingEntity;
-
-import java.util.HashMap;
-import java.util.Map;
 
 public class MobHealthBuilder {
 

@@ -1,7 +1,7 @@
 package net.dbsgameplay.dungeoncrusher.listener;
 
 import net.dbsgameplay.dungeoncrusher.DungeonCrusher;
-import net.dbsgameplay.dungeoncrusher.utils.Configs.LocationConfigManager;
+import net.dbsgameplay.dungeoncrusher.utils.configs.LocationConfigManager;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.World;

@@ -1,14 +1,14 @@
 package net.dbsgameplay.dungeoncrusher;
 
-import net.dbsgameplay.dungeoncrusher.Commands.*;
-import net.dbsgameplay.dungeoncrusher.Commands.Admin.*;
-import net.dbsgameplay.dungeoncrusher.Commands.Begleiter.BegleiterCommand;
-import net.dbsgameplay.dungeoncrusher.Commands.Economy.CoinsCommand;
-import net.dbsgameplay.dungeoncrusher.Commands.Economy.PayCommand;
-import net.dbsgameplay.dungeoncrusher.Commands.Enchantments.EnchantmentCommand;
-import net.dbsgameplay.dungeoncrusher.Commands.Quests.QuestCommand;
-import net.dbsgameplay.dungeoncrusher.Commands.Shops.ShopCommand;
-import net.dbsgameplay.dungeoncrusher.Commands.Upgrades.UpgradeCommand;
+import net.dbsgameplay.dungeoncrusher.commands.*;
+import net.dbsgameplay.dungeoncrusher.commands.Admin.*;
+import net.dbsgameplay.dungeoncrusher.commands.begleiter.BegleiterCommand;
+import net.dbsgameplay.dungeoncrusher.commands.Economy.CoinsCommand;
+import net.dbsgameplay.dungeoncrusher.commands.Economy.PayCommand;
+import net.dbsgameplay.dungeoncrusher.commands.Enchantments.EnchantmentCommand;
+import net.dbsgameplay.dungeoncrusher.commands.quests.QuestCommand;
+import net.dbsgameplay.dungeoncrusher.commands.Shops.ShopCommand;
+import net.dbsgameplay.dungeoncrusher.commands.Upgrades.UpgradeCommand;
 import net.dbsgameplay.dungeoncrusher.enums.Enchantments.SwordEnchantments;
 import net.dbsgameplay.dungeoncrusher.enums.MyPlaceholderExpansion;
 import net.dbsgameplay.dungeoncrusher.enums.Shop.FoodCategory;
@@ -22,11 +22,11 @@ import net.dbsgameplay.dungeoncrusher.listener.protections.DungeonProtectionList
 import net.dbsgameplay.dungeoncrusher.listener.shops.ShopListener;
 import net.dbsgameplay.dungeoncrusher.sql.MYSQLManager;
 import net.dbsgameplay.dungeoncrusher.utils.*;
-import net.dbsgameplay.dungeoncrusher.utils.Begleiter.BegleiterBuilder;
-import net.dbsgameplay.dungeoncrusher.utils.Configs.*;
-import net.dbsgameplay.dungeoncrusher.utils.Manager.MarkingsManager;
-import net.dbsgameplay.dungeoncrusher.utils.Manager.SavezoneManager;
-import net.dbsgameplay.dungeoncrusher.utils.Stats.StatsManager;
+import net.dbsgameplay.dungeoncrusher.utils.begleiter.BegleiterBuilder;
+import net.dbsgameplay.dungeoncrusher.utils.configs.*;
+import net.dbsgameplay.dungeoncrusher.utils.manager.MarkingsManager;
+import net.dbsgameplay.dungeoncrusher.utils.manager.SavezoneManager;
+import net.dbsgameplay.dungeoncrusher.utils.stats.StatsManager;
 import net.dbsgameplay.dungeoncrusher.utils.quests.Daily;
 import net.dbsgameplay.dungeoncrusher.utils.quests.Monthly;
 import net.dbsgameplay.dungeoncrusher.utils.quests.QuestBuilder;
@@ -54,7 +54,6 @@ import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.util.*;
 import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
 public final class DungeonCrusher extends JavaPlugin {

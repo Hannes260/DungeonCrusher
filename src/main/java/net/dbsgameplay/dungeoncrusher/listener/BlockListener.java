@@ -1,6 +1,6 @@
 package net.dbsgameplay.dungeoncrusher.listener;
 
-import net.dbsgameplay.dungeoncrusher.utils.Manager.MarkingsManager;
+import net.dbsgameplay.dungeoncrusher.utils.manager.MarkingsManager;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
