@@ -56,12 +56,15 @@ public class MobkillListener implements Listener {
                     scoreboardBuilder.updateDungeon(player);
                 }else if (hasRequiredKills(player, "dungeon6")) {
                     mysqlManager.updateDungeonCount(String.valueOf(player.getUniqueId()), 6);
+                    mysqlManager.updateFoundEnchantments(player.getUniqueId().toString(), "seelenentzug", true);
                     scoreboardBuilder.updateDungeon(player);
                 }else if (hasRequiredKills(player, "dungeon5")) {
                     mysqlManager.updateDungeonCount(String.valueOf(player.getUniqueId()), 5);
+                    mysqlManager.updateFoundEnchantments(player.getUniqueId().toString(), "gifthieb", true);
                     scoreboardBuilder.updateDungeon(player);
                 }else if (hasRequiredKills(player, "dungeon4")) {
                     mysqlManager.updateDungeonCount(String.valueOf(player.getUniqueId()), 4);
+                    mysqlManager.updateFoundEnchantments(player.getUniqueId().toString(), "fesselschlag", true);
                     scoreboardBuilder.updateDungeon(player);
                 }else if (hasRequiredKills(player, "dungeon3")) {
                     mysqlManager.updateDungeonCount(String.valueOf(player.getUniqueId()), 3);
