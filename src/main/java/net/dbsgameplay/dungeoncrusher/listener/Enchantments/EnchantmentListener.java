@@ -7,6 +7,7 @@ import org.bukkit.NamespacedKey;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.inventory.ClickType;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
@@ -24,7 +25,7 @@ public class EnchantmentListener implements Listener {
         Player player = (Player) event.getWhoClicked();
         Inventory clickedInventory = event.getClickedInventory();
         ItemStack clickedItem = event.getCurrentItem();
-
+        ClickType clickType = event.getClick();
         // Debug: Klicken in ein Inventar?
         if (clickedInventory == null || clickedItem == null || clickedItem.getType().isAir()) {
             return;
@@ -55,9 +56,7 @@ public class EnchantmentListener implements Listener {
         if (dataContainer.has(key, PersistentDataType.STRING)) {
             String enchantmentName = dataContainer.get(key, PersistentDataType.STRING);
             if (enchantmentName != null) {
-                player.sendMessage("§aEnchantment erkannt: " + enchantmentName);
-                // `handleItemClick` aufrufen
-                swordEnchantments.handleItemClick(player, clickedItem);
+                swordEnchantments.handleItemClick(player, clickedItem, clickType);
             }
         }
     }

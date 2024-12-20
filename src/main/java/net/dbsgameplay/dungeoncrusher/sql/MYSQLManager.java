@@ -247,8 +247,8 @@ public class MYSQLManager {
                     + "fesselschlag BOOLEAN DEFAULT FALSE,"
                     + "windklinge BOOLEAN DEFAULT FALSE,"
                     + "gifthieb BOOLEAN DEFAULT FALSE,"
-                    + "seelenentzung BOOLEAN DEFAULT FALSE,"
-                    + "wutenbrannt BOOLEAN DEFAULT FALSE"
+                    + "seelenentzug BOOLEAN DEFAULT FALSE,"
+                    + "wutentbrannt BOOLEAN DEFAULT FALSE"
                     + ")";
             statement.execute(createFoundedEnchantmentsTableQuery);
             String createEnchantmentsTableQuery = "CREATE TABLE IF NOT EXISTS player_erforscht_enchantments ("
@@ -256,8 +256,8 @@ public class MYSQLManager {
                     + "fesselschlag INT DEFAULT 0,"
                     + "windklinge INT DEFAULT 0,"
                     + "gifthieb INT DEFAULT 0,"
-                    + "seelenentzung INT DEFAULT 0,"
-                    + "wutenbrannt INT DEFAULT 0"
+                    + "seelenentzug INT DEFAULT 0,"
+                    + "wutentbrannt INT DEFAULT 0"
                     + ")";
             statement.execute(createEnchantmentsTableQuery);
             String createLevelEnchantmensTableQuery = "CREATE TABLE IF NOT EXISTS player_level_enchantments ("
@@ -265,11 +265,20 @@ public class MYSQLManager {
                     + "fesselschlag INT DEFAULT 0,"
                     + "windklinge INT DEFAULT 0,"
                     + "gifthieb INT DEFAULT 0,"
-                    + "seelenentzung INT DEFAULT 0,"
-                    + "wutenbrannt INT DEFAULT 0"
+                    + "seelenentzug INT DEFAULT 0,"
+                    + "wutentbrannt INT DEFAULT 0"
                     + ")";
             statement.execute(createLevelEnchantmensTableQuery);
 
+            String createPlayerequipedEnchantments = "CREATE TABLE IF NOT EXISTS player_equiped_enchantments ("
+                    + "uuid VARCHAR(255) PRIMARY KEY,"
+                    + "fesselschlag INT DEFAULT 0,"
+                    + "windklinge INT DEFAULT 0,"
+                    + "gifthieb INT DEFAULT 0,"
+                    + "seelenentzug INT DEFAULT 0,"
+                    + "wutentbrannt INT DEFAULT 0"
+                    + ")";
+            statement.execute(createPlayerequipedEnchantments);
             //Begleiter
             String createPlayerBegleiterQuery = "CREATE TABLE IF NOT EXISTS player_begleiter ("
                     + "uuid VARCHAR(255) PRIMARY KEY,"
@@ -315,12 +324,13 @@ public class MYSQLManager {
         }
         return tutorial;
     }
+
     public void updateTutorialQuest(String uuid, String value) {
         try (Connection connection = dataSource.getConnection()) {
             String checkQuery = "SELECT uuid FROM player_quest WHERE uuid = ?";
-            try (PreparedStatement chechStatement = connection.prepareStatement(checkQuery)){
+            try (PreparedStatement chechStatement = connection.prepareStatement(checkQuery)) {
                 chechStatement.setString(1, uuid);
-                try (ResultSet resultSet = chechStatement.executeQuery()){
+                try (ResultSet resultSet = chechStatement.executeQuery()) {
                     if (resultSet.next()) {
                         String updateQuery = "UPDATE player_quest SET tutorial = ? WHERE uuid= ?";
                         try (PreparedStatement updateStatement = connection.prepareStatement(updateQuery)) {
@@ -328,9 +338,9 @@ public class MYSQLManager {
                             updateStatement.setString(2, uuid);
                             updateStatement.executeUpdate();
                         }
-                    }else {
+                    } else {
                         String insertQuery = "INSERT INTO player_quest (uuid, tutorial) VALUES (?,?)";
-                        try (PreparedStatement insertStatement = connection.prepareStatement(insertQuery)){
+                        try (PreparedStatement insertStatement = connection.prepareStatement(insertQuery)) {
                             insertStatement.setString(1, uuid);
                             insertStatement.setString(2, value);
                             insertStatement.executeUpdate();
@@ -345,6 +355,7 @@ public class MYSQLManager {
             throw new RuntimeException(e);
         }
     }
+
     public String getOrginQuest(String questType) {
         String quest = null;
 
@@ -367,12 +378,13 @@ public class MYSQLManager {
         }
         return quest;
     }
+
     public void updateOrginQuest(String questType, String value) {
         try (Connection connection = dataSource.getConnection()) {
             String checkQuery = "SELECT quest FROM orgin_quest WHERE type = ?";
-            try (PreparedStatement chechStatement = connection.prepareStatement(checkQuery)){
+            try (PreparedStatement chechStatement = connection.prepareStatement(checkQuery)) {
                 chechStatement.setString(1, questType);
-                try (ResultSet resultSet = chechStatement.executeQuery()){
+                try (ResultSet resultSet = chechStatement.executeQuery()) {
                     if (resultSet.next()) {
                         String updateQuery = "UPDATE orgin_quest SET quest = ? WHERE type = ?";
                         try (PreparedStatement updateStatement = connection.prepareStatement(updateQuery)) {
@@ -380,9 +392,9 @@ public class MYSQLManager {
                             updateStatement.setString(2, questType);
                             updateStatement.executeUpdate();
                         }
-                    }else {
+                    } else {
                         String insertQuery = "INSERT INTO orgin_quest (type, quest) VALUES (?, ?)";
-                        try (PreparedStatement insertStatement = connection.prepareStatement(insertQuery)){
+                        try (PreparedStatement insertStatement = connection.prepareStatement(insertQuery)) {
                             insertStatement.setString(1, questType);
                             insertStatement.setString(2, value);
                             insertStatement.executeUpdate();
@@ -397,12 +409,13 @@ public class MYSQLManager {
             throw new RuntimeException(e);
         }
     }
+
     public void updatePlayerQuest(String questType, boolean value, String uuid) {
         try (Connection connection = dataSource.getConnection()) {
             String checkQuery = "SELECT " + questType + " FROM player_quest WHERE uuid = ?";
-            try (PreparedStatement chechStatement = connection.prepareStatement(checkQuery)){
+            try (PreparedStatement chechStatement = connection.prepareStatement(checkQuery)) {
                 chechStatement.setString(1, uuid);
-                try (ResultSet resultSet = chechStatement.executeQuery()){
+                try (ResultSet resultSet = chechStatement.executeQuery()) {
                     if (resultSet.next()) {
                         String updateQuery = "UPDATE player_quest SET " + questType + " = ? WHERE uuid = ?";
                         try (PreparedStatement updateStatement = connection.prepareStatement(updateQuery)) {
@@ -410,9 +423,9 @@ public class MYSQLManager {
                             updateStatement.setString(2, uuid);
                             updateStatement.executeUpdate();
                         }
-                    }else {
+                    } else {
                         String insertQuery = "INSERT INTO player_quest (uuid, " + questType + ") VALUES (?, ?)";
-                        try (PreparedStatement insertStatement = connection.prepareStatement(insertQuery)){
+                        try (PreparedStatement insertStatement = connection.prepareStatement(insertQuery)) {
                             insertStatement.setString(1, uuid);
                             insertStatement.setBoolean(2, value);
                             insertStatement.executeUpdate();
@@ -427,6 +440,7 @@ public class MYSQLManager {
             throw new RuntimeException(e);
         }
     }
+
     public Boolean getPlayerQuest(String questType, String uuid) {
         Boolean quest = null;
 
@@ -453,9 +467,9 @@ public class MYSQLManager {
     public void updatePlayerTempQuest(String questType, String uuid, int value) {
         try (Connection connection = dataSource.getConnection()) {
             String checkQuery = "SELECT " + questType + " FROM player_temp_quest WHERE uuid = ?";
-            try (PreparedStatement chechStatement = connection.prepareStatement(checkQuery)){
+            try (PreparedStatement chechStatement = connection.prepareStatement(checkQuery)) {
                 chechStatement.setString(1, uuid);
-                try (ResultSet resultSet = chechStatement.executeQuery()){
+                try (ResultSet resultSet = chechStatement.executeQuery()) {
                     if (resultSet.next()) {
                         String updateQuery = "UPDATE player_temp_quest SET " + questType + " = ? WHERE uuid = ?";
                         try (PreparedStatement updateStatement = connection.prepareStatement(updateQuery)) {
@@ -463,9 +477,9 @@ public class MYSQLManager {
                             updateStatement.setString(2, uuid);
                             updateStatement.executeUpdate();
                         }
-                    }else {
+                    } else {
                         String insertQuery = "INSERT INTO player_temp_quest (uuid, " + questType + ") VALUES (?, ?)";
-                        try (PreparedStatement insertStatement = connection.prepareStatement(insertQuery)){
+                        try (PreparedStatement insertStatement = connection.prepareStatement(insertQuery)) {
                             insertStatement.setString(1, uuid);
                             insertStatement.setInt(2, value);
                             insertStatement.executeUpdate();
@@ -480,6 +494,7 @@ public class MYSQLManager {
             throw new RuntimeException(e);
         }
     }
+
     public int getPlayerTempQuest(String questType, String uuid) {
         int quest = 0;
 
@@ -502,6 +517,7 @@ public class MYSQLManager {
         }
         return quest;
     }
+
     public String getBegleiterID(String uuid) {
         String id = null;
 
@@ -522,6 +538,7 @@ public class MYSQLManager {
 
         return id;
     }
+
     public void updateBegleiterID(String uuid, String id) {
         try (Connection connection = dataSource.getConnection()) {
             // Überprüfen
@@ -560,11 +577,12 @@ public class MYSQLManager {
             e.printStackTrace();
         }
     }
+
     public String getBegleiterData(String id, String data) {
         String value = null;
 
         try (Connection connection = dataSource.getConnection()) {
-            String query = "SELECT "+ data +" FROM player_begleiter_data WHERE id = ?";
+            String query = "SELECT " + data + " FROM player_begleiter_data WHERE id = ?";
             try (PreparedStatement statement = connection.prepareStatement(query)) {
                 statement.setString(1, id);
 
@@ -580,16 +598,17 @@ public class MYSQLManager {
 
         return value;
     }
+
     public void updateBegleiterData(String id, String data, String value) {
         try (Connection connection = dataSource.getConnection()) {
             // Überprüfen
-            String checkQuery = "SELECT "+ data +" FROM player_begleiter_data WHERE id = ?";
+            String checkQuery = "SELECT " + data + " FROM player_begleiter_data WHERE id = ?";
             try (PreparedStatement checkStatement = connection.prepareStatement(checkQuery)) {
                 checkStatement.setString(1, id);
                 try (ResultSet resultSet = checkStatement.executeQuery()) {
                     if (resultSet.next()) {
                         // Exestiert
-                        String updateQuery = "UPDATE player_begleiter_data SET "+ data +" = ? WHERE id = ?";
+                        String updateQuery = "UPDATE player_begleiter_data SET " + data + " = ? WHERE id = ?";
                         try (PreparedStatement updateStatement = connection.prepareStatement(updateQuery)) {
                             updateStatement.setString(1, value);
                             updateStatement.setString(2, id);
@@ -599,7 +618,7 @@ public class MYSQLManager {
                         }
                     } else {
                         // Existiert nicht
-                        String insertQuery = "INSERT INTO player_begleiter_data (id, "+ data +") VALUES (?, ?)";
+                        String insertQuery = "INSERT INTO player_begleiter_data (id, " + data + ") VALUES (?, ?)";
                         try (PreparedStatement insertStatement = connection.prepareStatement(insertQuery)) {
                             insertStatement.setString(1, id);
                             insertStatement.setString(2, value);
@@ -614,6 +633,7 @@ public class MYSQLManager {
             e.printStackTrace();
         }
     }
+
     public List<String> getAllBegleiterIDsOfPlayer(String uuid) {
         List<String> primaryKeys = new ArrayList<>();
 
@@ -661,6 +681,7 @@ public class MYSQLManager {
         }
         return false;
     }
+
     public void grantDailyReward(String playerUUID) {
         try (Connection connection = dataSource.getConnection()) {
             Timestamp currentTimestamp = new Timestamp(System.currentTimeMillis());
@@ -674,6 +695,7 @@ public class MYSQLManager {
             e.printStackTrace();
         }
     }
+
     public void updateBalance(String uuid, String balance) {
         try (Connection connection = dataSource.getConnection()) {
             String checkQuery = "SELECT uuid FROM player_accounts WHERE uuid = ?";
@@ -706,6 +728,7 @@ public class MYSQLManager {
             logger.log(Level.SEVERE, "Fehler beim Aktualisieren des Kontostands in der Datenbank", e);
         }
     }
+
     public String getBalance(String uuid) {
         String balance = "0.00";
 
@@ -728,6 +751,7 @@ public class MYSQLManager {
         }
         return balance;
     }
+
     public int getItemAmount(String uuid, String itemName) {
         int itemAmount = 0;
 
@@ -748,6 +772,7 @@ public class MYSQLManager {
         return itemAmount;
 
     }
+
     public void updateItemAmount(String uuid, String itemName, int newItemAmount) {
         try (Connection connection = dataSource.getConnection()) {
             // Aktualisiere die Item-Menge
@@ -776,6 +801,7 @@ public class MYSQLManager {
             e.printStackTrace();
         }
     }
+
     public void deletePlayerfromItems(String uuid) {
         try (Connection connection = dataSource.getConnection()) {
             // Erstelle das SQL-Statement zum Löschen des gesamten Eintrags
@@ -795,6 +821,7 @@ public class MYSQLManager {
             e.printStackTrace();
         }
     }
+
     public void deletePlayerfromMobKills(String uuid) {
         try (Connection connection = dataSource.getConnection()) {
             // Erstelle das SQL-Statement zum Löschen des gesamten Eintrags
@@ -814,6 +841,7 @@ public class MYSQLManager {
             e.printStackTrace();
         }
     }
+
     public int getDeaths(String uuid) {
         int totalDeaths = 0;
 
@@ -832,6 +860,7 @@ public class MYSQLManager {
         }
         return totalDeaths;
     }
+
     public void updateDeaths(String uuid, int newDeaths) {
         try (Connection connection = dataSource.getConnection()) {
             // Überprüfen, ob der Spieler bereits in der Tabelle vorhanden ist
@@ -870,6 +899,7 @@ public class MYSQLManager {
             e.printStackTrace();
         }
     }
+
     public String getKills(String uuid) {
         String kills = "0";
 
@@ -892,6 +922,7 @@ public class MYSQLManager {
         }
         return kills;
     }
+
     public void updateKills(String uuid, String newKills) {
         String checkQuery = "SELECT uuid FROM player_stats WHERE uuid = ?";
         String updateQuery = "UPDATE player_stats SET kills = ? WHERE uuid = ?";
@@ -925,6 +956,7 @@ public class MYSQLManager {
             logger.log(Level.SEVERE, "Fehler beim Aktualisieren der Kills in der Datenbank", e);
         }
     }
+
     public int getSwordLevel(String uuid) {
         int swordLevel = 0;
 
@@ -945,8 +977,9 @@ public class MYSQLManager {
         }
         return swordLevel;
     }
+
     public void updateSwordLevel(String uuid, int newSwordLevel) {
-        try (Connection connection = dataSource.getConnection()){
+        try (Connection connection = dataSource.getConnection()) {
             // Überprüfen, ob der Spieler bereits in der Tabelle vorhanden ist
             String checkQuery = "SELECT uuid FROM player_stats WHERE uuid = ?";
             try (PreparedStatement checkStatement = connection.prepareStatement(checkQuery)) {
@@ -983,10 +1016,11 @@ public class MYSQLManager {
             e.printStackTrace();
         }
     }
+
     public int getHelmetLevel(String uuid) {
         int helmetLevel = 0;
 
-        try (Connection connection = dataSource.getConnection()){
+        try (Connection connection = dataSource.getConnection()) {
             String query = "SELECT helm_lvl FROM player_stats WHERE uuid = ?";
             try (PreparedStatement statement = connection.prepareStatement(query)) {
                 statement.setString(1, uuid);
@@ -1003,8 +1037,9 @@ public class MYSQLManager {
         }
         return helmetLevel;
     }
+
     public void updateHelmLevel(String uuid, int newHelmLevel) {
-        try (Connection connection = dataSource.getConnection()){
+        try (Connection connection = dataSource.getConnection()) {
             // Überprüfen, ob der Spieler bereits in der Tabelle vorhanden ist
             String checkQuery = "SELECT uuid FROM player_stats WHERE uuid = ?";
             try (PreparedStatement checkStatement = connection.prepareStatement(checkQuery)) {
@@ -1041,10 +1076,11 @@ public class MYSQLManager {
             e.printStackTrace();
         }
     }
+
     public int getChestplateLevel(String uuid) {
         int chestplateLevel = 0;
 
-        try (Connection connection = dataSource.getConnection()){
+        try (Connection connection = dataSource.getConnection()) {
             String query = "SELECT chestplate_lvl FROM player_stats WHERE uuid = ?";
             try (PreparedStatement statement = connection.prepareStatement(query)) {
                 statement.setString(1, uuid);
@@ -1061,8 +1097,9 @@ public class MYSQLManager {
         }
         return chestplateLevel;
     }
+
     public void updateChestplateLevel(String uuid, int newChestplateLevel) {
-        try (Connection connection = dataSource.getConnection()){
+        try (Connection connection = dataSource.getConnection()) {
             // Überprüfen, ob der Spieler bereits in der Tabelle vorhanden ist
             String checkQuery = "SELECT uuid FROM player_stats WHERE uuid = ?";
             try (PreparedStatement checkStatement = connection.prepareStatement(checkQuery)) {
@@ -1099,10 +1136,11 @@ public class MYSQLManager {
             e.printStackTrace();
         }
     }
+
     public int getLeggingsLevel(String uuid) {
         int leggingsLevel = 0;
 
-        try (Connection connection = dataSource.getConnection()){
+        try (Connection connection = dataSource.getConnection()) {
             String query = "SELECT leggings_lvl FROM player_stats WHERE uuid = ?";
             try (PreparedStatement statement = connection.prepareStatement(query)) {
                 statement.setString(1, uuid);
@@ -1119,8 +1157,9 @@ public class MYSQLManager {
         }
         return leggingsLevel;
     }
+
     public void updateLeggingsLevel(String uuid, int newLeggingsLevel) {
-        try (Connection connection = dataSource.getConnection()){
+        try (Connection connection = dataSource.getConnection()) {
             // Überprüfen, ob der Spieler bereits in der Tabelle vorhanden ist
             String checkQuery = "SELECT uuid FROM player_stats WHERE uuid = ?";
             try (PreparedStatement checkStatement = connection.prepareStatement(checkQuery)) {
@@ -1157,10 +1196,11 @@ public class MYSQLManager {
             e.printStackTrace();
         }
     }
+
     public int getBootsLevel(String uuid) {
         int bootsLevel = 0;
 
-        try (Connection connection = dataSource.getConnection()){
+        try (Connection connection = dataSource.getConnection()) {
             String query = "SELECT boots_lvl FROM player_stats WHERE uuid = ?";
             try (PreparedStatement statement = connection.prepareStatement(query)) {
                 statement.setString(1, uuid);
@@ -1177,8 +1217,9 @@ public class MYSQLManager {
         }
         return bootsLevel;
     }
+
     public void updateBootsLevel(String uuid, int newBootsLevel) {
-        try (Connection connection = dataSource.getConnection()){
+        try (Connection connection = dataSource.getConnection()) {
             // Überprüfen, ob der Spieler bereits in der Tabelle vorhanden ist
             String checkQuery = "SELECT uuid FROM player_stats WHERE uuid = ?";
             try (PreparedStatement checkStatement = connection.prepareStatement(checkQuery)) {
@@ -1215,10 +1256,11 @@ public class MYSQLManager {
             e.printStackTrace();
         }
     }
+
     public int getArmorLvl(String uuid) {
         int armorLevel = 0;
 
-        try (Connection connection = dataSource.getConnection()){
+        try (Connection connection = dataSource.getConnection()) {
             String query = "SELECT armor_lvl FROM player_stats WHERE uuid = ?";
             try (PreparedStatement statement = connection.prepareStatement(query)) {
                 statement.setString(1, uuid);
@@ -1235,8 +1277,9 @@ public class MYSQLManager {
         }
         return armorLevel;
     }
+
     public void updateArmorLvl(String uuid, int newArmorLevel) {
-        try (Connection connection = dataSource.getConnection()){
+        try (Connection connection = dataSource.getConnection()) {
             // Überprüfen, ob der Spieler bereits in der Tabelle vorhanden ist
             String checkQuery = "SELECT uuid FROM player_stats WHERE uuid = ?";
             try (PreparedStatement checkStatement = connection.prepareStatement(checkQuery)) {
@@ -1273,6 +1316,7 @@ public class MYSQLManager {
             e.printStackTrace();
         }
     }
+
     public int getPlayerMobKills(String uuid, String mobType) {
         int mobKills = 0;
         try (Connection connection = dataSource.getConnection()) {
@@ -1290,6 +1334,7 @@ public class MYSQLManager {
         }
         return mobKills;
     }
+
     public void updateMobKillsForPlayer(String uuid, String mobType, int kills) {
         try (Connection connection = dataSource.getConnection()) {
             // Check if the player record exists; if not, create it
@@ -1306,6 +1351,7 @@ public class MYSQLManager {
             e.printStackTrace();
         }
     }
+
     private void ensurePlayerExists(Connection connection, String uuid) throws SQLException {
         String query = "INSERT IGNORE INTO player_mob_kills (uuid) VALUES (?)";
         try (PreparedStatement statement = connection.prepareStatement(query)) {
@@ -1317,7 +1363,7 @@ public class MYSQLManager {
     public int getDungeonCountForPlayer(String uuid) {
         int dungeonCount = 0;
 
-        try (Connection connection = dataSource.getConnection()){
+        try (Connection connection = dataSource.getConnection()) {
             String query = "SELECT dungeon FROM player_stats WHERE uuid = ?";
             try (PreparedStatement statement = connection.prepareStatement(query)) {
                 statement.setString(1, uuid);
@@ -1334,8 +1380,9 @@ public class MYSQLManager {
         }
         return dungeonCount;
     }
+
     public void updateDungeonCount(String uuid, int newDungeonCount) {
-        try (Connection connection = dataSource.getConnection()){
+        try (Connection connection = dataSource.getConnection()) {
             // Überprüfen, ob der Spieler bereits in der Tabelle vorhanden ist
             String checkQuery = "SELECT uuid FROM player_stats WHERE uuid = ?";
             try (PreparedStatement checkStatement = connection.prepareStatement(checkQuery)) {
@@ -1396,6 +1443,7 @@ public class MYSQLManager {
 
         return uuid;  // Gibt die UUID zurück oder null, wenn kein Spieler gefunden wurde
     }
+
     public String getPlayerNameByUUID(String playerUUID) {
         String uuid = null;
 
@@ -1418,6 +1466,7 @@ public class MYSQLManager {
 
         return uuid;  // Gibt die UUID zurück oder null, wenn kein Spieler gefunden wurde
     }
+
     public void updatePlayerUUIDByName(String playerName, String playerUUID) {
         try (Connection connection = dataSource.getConnection()) {
             // Überprüfen, ob der Spielername bereits existiert
@@ -1473,6 +1522,7 @@ public class MYSQLManager {
         }
         return result;
     }
+
     public String getToplistDungeonCount(int rank) {
         String result = "N/A";
         try (Connection connection = dataSource.getConnection()) {
@@ -1497,6 +1547,7 @@ public class MYSQLManager {
         }
         return result;
     }
+
     public String getPlayerRankAndDungeonCount(String playerUUID) {
         String result = "N/A";
         try (Connection connection = dataSource.getConnection()) {
@@ -1537,21 +1588,22 @@ public class MYSQLManager {
     public int getDamageDealt(String uuid) {
         int damageDealt = 0;
 
-        try (Connection connection = dataSource.getConnection()){
-        String query = "SELECT damage_dealt FROM player_stats WHERE uuid =?";
-        try (PreparedStatement statement = connection.prepareStatement(query)){
-            statement.setString(1, uuid);
-            try (ResultSet resultSet = statement.executeQuery()){
-                if (resultSet.next()) {
-                    damageDealt = resultSet.getInt("damage_dealt");
+        try (Connection connection = dataSource.getConnection()) {
+            String query = "SELECT damage_dealt FROM player_stats WHERE uuid =?";
+            try (PreparedStatement statement = connection.prepareStatement(query)) {
+                statement.setString(1, uuid);
+                try (ResultSet resultSet = statement.executeQuery()) {
+                    if (resultSet.next()) {
+                        damageDealt = resultSet.getInt("damage_dealt");
+                    }
                 }
             }
-        }
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
         return damageDealt;
     }
+
     public int getDamageAbsorbed(String uuid) {
         int damageAbsorbed = 0;
 
@@ -1570,6 +1622,7 @@ public class MYSQLManager {
         }
         return damageAbsorbed;
     }
+
     public void updateDamageDealt(String uuid, int newDamageDealt) {
         try (Connection connection = dataSource.getConnection()) {
             String updateQuery = "UPDATE player_stats SET damage_dealt = ? WHERE uuid = ?";
@@ -1582,6 +1635,7 @@ public class MYSQLManager {
             e.printStackTrace();
         }
     }
+
     public void updateDamageAbsorbed(String uuid, int newDamageAbsorbed) {
         try (Connection connection = dataSource.getConnection()) {
             String updateQuery = "UPDATE player_stats SET damage_absorbed = ? WHERE uuid = ?";
@@ -1613,6 +1667,7 @@ public class MYSQLManager {
         }
         return playTime;
     }
+
     public void updatePlayTime(String uuid, int ticks) {
         int playTimeInSeconds = ticks / 20;
 
@@ -1627,6 +1682,7 @@ public class MYSQLManager {
             e.printStackTrace();
         }
     }
+
     public String getPlayerRankAndKills(String playerUUID) {
         String result = "N/A";
         try (Connection connection = dataSource.getConnection()) {
@@ -1663,6 +1719,7 @@ public class MYSQLManager {
         }
         return result;
     }
+
     public String getPlayerName(String playerUUID) {
         String playerName = null;
         // Abfrage: Suche nach dem Namen basierend auf der UUID
@@ -1709,6 +1766,7 @@ public class MYSQLManager {
             throw new RuntimeException(e);
         }
     }
+
     public boolean getFoundEnchantment(String uuid, String enchantment) {
         boolean foundEnchantment = false;
 
@@ -1739,7 +1797,7 @@ public class MYSQLManager {
                 int rowsUpdated = updateStatment.executeUpdate();
 
                 if (rowsUpdated == 0) {
-                    String insertQuery = "INSERTI INTO player_erforscht_enchantments (uuid, " + enchantment + ") VALUES (?, ?)";
+                    String insertQuery = "INSERT INTO player_erforscht_enchantments (uuid, " + enchantment + ") VALUES (?, ?)";
                     try (PreparedStatement insertStatement = connection.prepareStatement(insertQuery)) {
                         insertStatement.setString(1, uuid);
                         insertStatement.setInt(2, level);
@@ -1756,6 +1814,7 @@ public class MYSQLManager {
             throw new RuntimeException(e);
         }
     }
+
     public int geterforchtEnchantmentlvl(String uuid, String enchantment) {
         int enchantmentlevel = 0;
 
@@ -1786,7 +1845,7 @@ public class MYSQLManager {
                 int rowsUpdated = updateStatment.executeUpdate();
 
                 if (rowsUpdated == 0) {
-                    String insertQuery = "INSERTI INTO player_level_enchantments (uuid, " + enchantment + ") VALUES (?, ?)";
+                    String insertQuery = "INSERT INTO player_level_enchantments (uuid, " + enchantment + ") VALUES (?, ?)";
                     try (PreparedStatement insertStatement = connection.prepareStatement(insertQuery)) {
                         insertStatement.setString(1, uuid);
                         insertStatement.setInt(2, level);
@@ -1803,6 +1862,7 @@ public class MYSQLManager {
             throw new RuntimeException(e);
         }
     }
+
     public int getlevelEnchantment(String uuid, String enchantment) {
         int enchantmentlevel = 0;
 
@@ -1821,5 +1881,77 @@ public class MYSQLManager {
             throw new RuntimeException(e);
         }
         return enchantmentlevel;
+    }
+
+    public void updateEquipedEnchantments(String uuid, String enchantment, boolean value) {
+        try (Connection connection = dataSource.getConnection()) {
+            String updateQuery = "UPDATE player_equiped_enchantments SET " + enchantment + " = ? WHERE uuid = ?";
+            try (PreparedStatement updateStatement = connection.prepareStatement(updateQuery)) {
+                updateStatement.setBoolean(1, value);
+                updateStatement.setString(2, uuid);
+
+                int rowsUpdated = updateStatement.executeUpdate();
+
+                if (rowsUpdated == 0) {
+                    String insertQuery = "INSERT INTO player_equiped_enchantments (uuid, " + enchantment + ") VALUES (?, ?)";
+                    try (PreparedStatement insertStatement = connection.prepareStatement(insertQuery)) {
+                        insertStatement.setString(1, uuid);
+                        insertStatement.setBoolean(2, value);
+                        insertStatement.executeUpdate();
+                    }
+                }
+            }
+
+            if (!connection.getAutoCommit()) {
+                connection.commit();
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public boolean getEquipedEnchantment(String uuid, String enchantment) {
+        boolean foundEnchantment = false;
+
+        try (Connection connection = dataSource.getConnection()) {
+            String query = "SELECT " + enchantment + " FROM player_equiped_enchantments WHERE uuid = ?";
+            try (PreparedStatement statement = connection.prepareStatement(query)) {
+                statement.setString(1, uuid);
+
+                try (ResultSet resultSet = statement.executeQuery()) {
+                    if (resultSet.next()) {
+                        foundEnchantment = resultSet.getBoolean(enchantment);
+                    }
+                }
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return foundEnchantment;
+    }
+
+    public int getEquipeedEnchantmentsCount(String playerUUID) {
+        try (Connection connection = dataSource.getConnection()) {
+            // Query, um die Anzahl der ausgerüsteten Verzauberungen zu zählen
+            String query = "SELECT " +
+                    "CASE WHEN fesselschlag > 0 THEN 1 ELSE 0 END + " +
+                    "CASE WHEN windklinge > 0 THEN 1 ELSE 0 END + " +
+                    "CASE WHEN gifthieb > 0 THEN 1 ELSE 0 END + " +
+                    "CASE WHEN seelenentzug > 0 THEN 1 ELSE 0 END + " +
+                    "CASE WHEN wutentbrannt > 0 THEN 1 ELSE 0 END " +
+                    "FROM player_equiped_enchantments WHERE uuid = ?";
+
+            try (PreparedStatement statement = connection.prepareStatement(query)) {
+                statement.setString(1, playerUUID);
+                try (ResultSet resultSet = statement.executeQuery()) {
+                    if (resultSet.next()) {
+                        return resultSet.getInt(1);  // Gibt die Anzahl der ausgerüsteten Verzauberungen zurück
+                    }
+                }
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return 0;
     }
 }

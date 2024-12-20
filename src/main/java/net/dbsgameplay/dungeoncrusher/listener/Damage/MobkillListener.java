@@ -1,6 +1,7 @@
 package net.dbsgameplay.dungeoncrusher.listener.Damage;
 
 import net.dbsgameplay.dungeoncrusher.DungeonCrusher;
+import net.dbsgameplay.dungeoncrusher.enums.Enchantments.SwordEnchantments;
 import net.dbsgameplay.dungeoncrusher.enums.MobNameTranslator;
 import net.dbsgameplay.dungeoncrusher.sql.MYSQLManager;
 import net.dbsgameplay.dungeoncrusher.utils.Configs.ConfigManager;
@@ -31,6 +32,14 @@ public class MobkillListener implements Listener {
         LivingEntity entity = event.getEntity();
         if (entity.getKiller() instanceof Player) {
             Player player = entity.getKiller();
+            String PlayerUUID = player.getUniqueId().toString();
+            SwordEnchantments swordEnchantments = new SwordEnchantments(mysqlManager);
+            int fesselschlagerforschtlvl = mysqlManager.geterforchtEnchantmentlvl(PlayerUUID, "fesselschlag");
+            boolean hasKillsforerforschenfesselschlag = swordEnchantments.checkKillsforErforschen(player, fesselschlagerforschtlvl, "fesselschlag");
+            if (hasKillsforerforschenfesselschlag) {
+                player.sendMessage(ConfigManager.getPrefix() + ConfigManager.getConfigMessage("message.erforschtlvlenchantment", "%enchantmentname%", "fesselschlag"));
+                mysqlManager.updateerfoschtEnchantmentlvl(PlayerUUID, "fesselschlag", fesselschlagerforschtlvl + 1);
+            }
 
                 for (ItemStack item : event.getDrops()) {
                     player.getInventory().addItem(item);
