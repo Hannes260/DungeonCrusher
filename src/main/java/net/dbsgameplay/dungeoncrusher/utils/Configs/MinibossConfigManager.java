@@ -24,9 +24,9 @@ public class MinibossConfigManager {
         this.config = YamlConfiguration.loadConfiguration(configFile);
     }
 
-    HashMap<String, HashMap<String, HashMap<String, Integer>>> miniboss_data_Hashmap = new HashMap<>();
+    public static HashMap<String, HashMap<String, HashMap<String, Integer>>> miniboss_data_Hashmap = new HashMap<>();
 
-    public void loadConfig() {
+    public static void loadConfig() {
         for (String dungeon1 : config.getConfigurationSection("dungeons.").getKeys(false)) {
             HashMap<String, HashMap<String, Integer>> hashmap1= new HashMap<>();
             HashMap<String, Integer> hashmap2 = new HashMap<>();

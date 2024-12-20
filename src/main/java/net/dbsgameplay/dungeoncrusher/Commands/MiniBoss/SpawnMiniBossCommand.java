@@ -3,6 +3,7 @@ package net.dbsgameplay.dungeoncrusher.Commands.MiniBoss;
 import net.dbsgameplay.dungeoncrusher.DungeonCrusher;
 import net.dbsgameplay.dungeoncrusher.listener.DungeonListener;
 import net.dbsgameplay.dungeoncrusher.sql.MYSQLManager;
+import net.dbsgameplay.dungeoncrusher.utils.Configs.MinibossConfigManager;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.command.Command;
@@ -16,6 +17,7 @@ import org.bukkit.inventory.meta.ItemMeta;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 public class SpawnMiniBossCommand implements CommandExecutor {
@@ -40,7 +42,7 @@ public class SpawnMiniBossCommand implements CommandExecutor {
             if(dungeon != null) {
                 CreateMiniBossSpawnInv(dungeon, p);
             }else {
-                p.sendMessage("§4Du kannst nur in einem Dungeon einen Miniboss beschwören!");
+                p.sendMessage("§cDu kannst nur in einem Dungeon einen Miniboss beschwören!");
                 return true;
             }
 
@@ -50,34 +52,39 @@ public class SpawnMiniBossCommand implements CommandExecutor {
     }
 
     private void CreateMiniBossSpawnInv(String dungeon, Player p) {
-
         Inventory bossInv = Bukkit.createInventory(null, 27, "Miniboss " + dungeon);
 
-        FileConfiguration config = dungeonCrusher.getConfig();
+        MinibossConfigManager.loadConfig();
+        HashMap<String, HashMap<String, HashMap<String, Integer>>> minibossHashMap = MinibossConfigManager.miniboss_data_Hashmap;
+
+        Bukkit.getLogger().info(minibossHashMap.toString());
 
         ItemStack lv1BossItem = new ItemStack(Material.CREEPER_SPAWN_EGG);
         ItemMeta lv1BossMeta = lv1BossItem.getItemMeta();
         lv1BossMeta.setDisplayName("Miniboss §aLevel 1");
         List<String> lv1Lore = new ArrayList();
-        lv1Lore.add("§6Preis: " + config.getString(dungeon + ".lvl1.preis"));
-        lv1Lore.add("§6Mobs getötet: " + config.getString(dungeon + ".lvl1.kills"));
+        lv1Lore.add("§6Preis: " + "§7" +  minibossHashMap.get(dungeon).get("lvl1").get("preis") + "€");
+        lv1Lore.add("§6Mobs getötet: " + "§7" +  minibossHashMap.get(dungeon).get("lvl1").get("kills"));
         lv1BossMeta.setLore(lv1Lore);
+        lv1BossItem.setItemMeta(lv1BossMeta);
 
         ItemStack lv2BossItem = new ItemStack(Material.BEE_SPAWN_EGG);
         ItemMeta lv2BossMeta = lv2BossItem.getItemMeta();
         lv2BossMeta.setDisplayName("Miniboss §aLevel 2");
         List<String> lv2Lore = new ArrayList();
-        lv1Lore.add("§6Preis: " + config.getString(dungeon + ".lvl2.preis"));
-        lv1Lore.add("§6Mobs getötet: " + config.getString(dungeon + ".lvl2.kills"));
+        lv2Lore.add("§6Preis: " + "§7" + minibossHashMap.get(dungeon).get("lvl2").get("preis") + "€");
+        lv2Lore.add("§6Mobs getötet: " + "§7" +  minibossHashMap.get(dungeon).get("lvl2").get("kills"));
         lv2BossMeta.setLore(lv2Lore);
+        lv2BossItem.setItemMeta(lv2BossMeta);
 
-        ItemStack lv3BossItem = new ItemStack(Material.CREEPER_SPAWN_EGG);
+        ItemStack lv3BossItem = new ItemStack(Material.MOOSHROOM_SPAWN_EGG);
         ItemMeta lv3BossMeta = lv3BossItem.getItemMeta();
         lv3BossMeta.setDisplayName("Miniboss §aLevel 3");
         List<String> lv3Lore = new ArrayList();
-        lv1Lore.add("§6Preis: " + config.getString(dungeon + ".lvl3.preis"));
-        lv1Lore.add("§6Mobs getötet: " + config.getString(dungeon + ".lvl3.kills"));
+        lv3Lore.add("§6Preis: " + "§7" +  minibossHashMap.get(dungeon).get("lvl3").get("preis") + "€");
+        lv3Lore.add("§6Mobs getötet: " + "§7" +  minibossHashMap.get(dungeon).get("lvl3").get("kills"));
         lv3BossMeta.setLore(lv3Lore);
+        lv3BossItem.setItemMeta(lv3BossMeta);
 
         bossInv.setItem(11, lv1BossItem);
         bossInv.setItem(13, lv2BossItem);
