@@ -68,6 +68,7 @@ net\dbsgameplay\dungeoncrusher\Commands\Flycommand.class
 net\dbsgameplay\dungeoncrusher\Commands\Shops\ShopCommand.class
 net\dbsgameplay\dungeoncrusher\listener\Damage\DeathListener.class
 net\dbsgameplay\dungeoncrusher\enums\MobNameTranslator.class
+net\dbsgameplay\dungeoncrusher\listener\BegleiterListener$1.class
 net\dbsgameplay\dungeoncrusher\utils\Begleiter\BegleiterBuilder.class
 net\dbsgameplay\dungeoncrusher\utils\Configs\ErfolgeConfigManager.class
 net\dbsgameplay\dungeoncrusher\utils\quests\Daily.class

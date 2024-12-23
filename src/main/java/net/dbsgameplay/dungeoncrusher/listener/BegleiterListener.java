@@ -17,6 +17,7 @@ import org.bukkit.entity.*;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
+import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.inventory.ItemStack;
@@ -29,8 +30,9 @@ import java.util.*;
 public class BegleiterListener implements Listener {
     public static MYSQLManager mysqlManager;
     public static DungeonCrusher dungeonCrusher;
+    public static HashMap<UUID, String> statusHashmap = new HashMap<>();
+    public static HashMap<UUID, LivingEntity> targetHashmap = new HashMap<>();
 
-    public static HashMap<UUID, String> begleiterMap = new HashMap<>();
 
     public BegleiterListener(MYSQLManager mysqlManager, DungeonCrusher dungeonCrusher) {
         this.mysqlManager = mysqlManager;
@@ -60,19 +62,13 @@ public class BegleiterListener implements Listener {
                         mysqlManager.updateBegleiterID(p.getUniqueId().toString(), null);
 
                         despawn_Begleiter(p, e.getCurrentItem().getItemMeta().getItemName());
-                        begleiterMap.remove(p.getUniqueId());
 
                     }else {
-//                        if (mysqlManager.getBegleiterID(p.getUniqueId().toString())) {
-//                            p.sendMessage("§cDu hast bereits einen Begleiter ausgerüstet!");
-//                            return;
-//                        }
 
                         String itemname = e.getCurrentItem().getItemMeta().getItemName();
                         mysqlManager.updateBegleiterID(p.getUniqueId().toString(), itemname);
 
-                        spawn_Begleiter(p, e.getCurrentItem().getType(), e.getCurrentItem().getItemMeta().getItemName());
-                        begleiterMap.put(p.getUniqueId(), e.getCurrentItem().getItemMeta().getItemName());
+                        spawn_Begleiter(p, e.getCurrentItem().getItemMeta().getItemName());
                     }
                     BegleiterBuilder.openBegleiterAuswahlMenü(p);
                     return;
@@ -97,15 +93,17 @@ public class BegleiterListener implements Listener {
         }
     }
 
-    public static void spawn_Begleiter(Player p, Material mat, String ID) {
+    public static void spawn_Begleiter(Player p, String ID) {
         ArmorStand begleiter = (ArmorStand) p.getWorld().spawnEntity(p.getLocation(), org.bukkit.entity.EntityType.ARMOR_STAND);
-        begleiter.setHelmet(ItemStack.of(mat));
+        begleiter.setHelmet(ItemStack.of(Material.getMaterial(mysqlManager.getBegleiterData(ID, "material"))));
         begleiter.setVisible(false);
         begleiter.setGravity(true);
         begleiter.setCustomNameVisible(false);
         begleiter.setSmall(true);
         begleiter.setBasePlate(false);
         begleiter.setCustomName(p.getUniqueId() + " - " + ID);
+
+        statusHashmap.put(p.getUniqueId(), "following");
     }
 
     public static void despawn_Begleiter(Player p, String ID) {
@@ -116,28 +114,113 @@ public class BegleiterListener implements Listener {
                 entity.remove();
             }
         }
+
+        targetHashmap.remove(p.getUniqueId());
+        statusHashmap.remove(p.getUniqueId());
     }
 
     @EventHandler
     public void onPlayerMoveEvent(PlayerMoveEvent e) {
         if (e.getFrom().getX() != e.getTo().getX() || e.getFrom().getZ() != e.getTo().getZ()) {
-            if (begleiterMap.containsKey(e.getPlayer().getUniqueId())) {
+            if (mysqlManager.getBegleiterID(e.getPlayer().getUniqueId().toString()) != null) {
                 Player p = e.getPlayer();
 
                 for (Entity entity : p.getWorld().getEntitiesByClass(ArmorStand.class)) {
                     if (entity.getCustomName() == null) continue;
 
                     if (entity.getCustomName().startsWith(p.getUniqueId().toString())) {
-                        entity.teleport(p.getLocation());
 
-                        Vector differenz = e.getTo().toVector().subtract(e.getFrom().toVector());
-                        entity.getLocation().setDirection(differenz);
+                        switch (statusHashmap.get(p.getUniqueId())) {
+                            case "following" :
+                                entity.teleport(p.getLocation());
+                                entity.teleport(entity.getLocation().setDirection(e.getTo().toVector().subtract(e.getFrom().toVector()).normalize()));
+
+                                //Choose entity target if possible
+                                if (!entity.getNearbyEntities(5,5,5).isEmpty()) {
+                                    List<Entity> entityList = entity.getNearbyEntities(5,5,5);
+
+                                    while (!(entityList.getFirst() instanceof LivingEntity) || (entityList.getFirst() instanceof Player) || (entityList.getFirst() instanceof ArmorStand)) {
+                                        entityList.remove(entityList.getFirst());
+                                        if (entityList.isEmpty()) break;
+                                    }
+
+                                    List<LivingEntity> entity_Target_List = (List<LivingEntity>) targetHashmap.values();
+                                    while (entity_Target_List.contains(entityList.getFirst())) {
+                                        entityList.remove(entityList.getFirst());
+                                    }
+
+                                    if (!entityList.isEmpty()) {
+                                        statusHashmap.put(p.getUniqueId(), "progressAttack");
+                                        targetHashmap.put(p.getUniqueId(), (LivingEntity) entityList.getFirst());
+                                    }
+                                }
+                                break;
+
+                            case "progressAttack" :
+                                //switch status to attacking and start runnable so it starts just one time
+                                LivingEntity entity_target = targetHashmap.get(p.getUniqueId());
+
+                                statusHashmap.put(p.getUniqueId(), "attacking");
+
+                                Vector directionToEntity = entity_target.getLocation().toVector().subtract(entity.getLocation().toVector()).normalize();
+
+                                entity.setVelocity(directionToEntity);
+                                entity_target.setAI(false);
+
+                                new BukkitRunnable() {
+                                    @Override
+                                    public void run() {
+                                        String ID = mysqlManager.getBegleiterID(p.getUniqueId().toString());
+                                        double damage = Double.parseDouble(mysqlManager.getBegleiterData(ID, "damage"));
+                                        entity_target.damage(damage);
+                                        p.playSound(entity_target.getLocation(), Sound.ENTITY_PLAYER_ATTACK_SWEEP, 1, 1);
+
+                                        if (entity_target.isDead()) {
+                                            this.cancel();
+                                        }
+                                    }
+                                }.runTaskTimer(dungeonCrusher, 20L,20L*2);
+                                break;
+
+                            case "attacking" :
+                                //Move begleiter to target and return to "follow" when target is dead
+                                LivingEntity target = targetHashmap.get(p.getUniqueId());
+
+                                if (target.isDead()) {
+                                    Vector directionToPlayer = p.getLocation().toVector().subtract(entity.getLocation().toVector()).normalize();
+
+                                    entity.setVelocity(directionToPlayer);
+                                    statusHashmap.put(p.getUniqueId(), "following");
+                                }
+                                break;
+                        }
                     }
                 }
             }
         }
     }
 
+    @EventHandler
+    public void onPlayerQuitEvent(PlayerQuitEvent e) {
+        Player p = e.getPlayer();
+
+        if (mysqlManager.getBegleiterID(p.getUniqueId().toString()) != null) {
+            despawn_Begleiter(p, mysqlManager.getBegleiterID(p.getUniqueId().toString()));
+        }
+    }
+
+    @EventHandler
+    public void onPlayerJoinEvent(PlayerJoinEvent e) {
+        Player p = e.getPlayer();
+
+        if (mysqlManager.getBegleiterID(p.getUniqueId().toString()) != null) {
+            String ID = mysqlManager.getBegleiterID(p.getUniqueId().toString());
+            spawn_Begleiter(p, ID);
+        }
+
+    }
+
+    //Statuse: following, progessAttack ,attacking
 
 //    boolean isattacking = false;
 //    boolean attackInProgress = false;
