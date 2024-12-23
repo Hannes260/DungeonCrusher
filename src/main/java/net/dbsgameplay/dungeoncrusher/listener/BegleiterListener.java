@@ -33,6 +33,7 @@ public class BegleiterListener implements Listener {
     public static HashMap<UUID, String> statusHashmap = new HashMap<>();
     public static HashMap<UUID, LivingEntity> targetHashmap = new HashMap<>();
 
+
     public BegleiterListener(MYSQLManager mysqlManager, DungeonCrusher dungeonCrusher) {
         this.mysqlManager = mysqlManager;
         this.dungeonCrusher = dungeonCrusher;
