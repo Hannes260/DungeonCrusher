@@ -43,13 +43,13 @@ public class UpgradeListener implements Listener {
             return; // Kein gültiges Item, also nichts tun
         }
         String title = event.getView().getTitle();
-        String DisplayNameSwordUpgrade = "§f<shift:-8>%oraxen_upgrade_sword%";
+        String DisplayNameSwordUpgrade = "§f<shift:-8>%nexo_upgrade_sword%";
         DisplayNameSwordUpgrade = PlaceholderAPI.setPlaceholders(player, DisplayNameSwordUpgrade);
 
-        String DisplayNameArmorUpgrade = "§f<shift:-8>%oraxen_upgrade_armor%";
+        String DisplayNameArmorUpgrade = "§f<shift:-8>%nexo_upgrade_armor%";
         DisplayNameArmorUpgrade = PlaceholderAPI.setPlaceholders(player, DisplayNameArmorUpgrade);
 
-        String DisplayName = "§f<shift:-8>%oraxen_upgrade%";
+        String DisplayName = "§f<shift:-8>%nexo_upgrade%";
         DisplayName = PlaceholderAPI.setPlaceholders(player, DisplayName);
         // Prüfe, ob der Titel des Inventars mit dem Upgrade-Inventar übereinstimmt
         if (DisplayName.equalsIgnoreCase(title)) {

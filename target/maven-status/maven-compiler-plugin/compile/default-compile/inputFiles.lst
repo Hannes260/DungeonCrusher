@@ -23,6 +23,7 @@ C:\Users\kathr\Desktop\Coding\DungeonCrusher\src\main\java\net\dbsgameplay\dunge
 C:\Users\kathr\Desktop\Coding\DungeonCrusher\src\main\java\net\dbsgameplay\dungeoncrusher\Commands\Admin\Gamemode.java
 C:\Users\kathr\Desktop\Coding\DungeonCrusher\src\main\java\net\dbsgameplay\dungeoncrusher\Commands\Flycommand.java
 C:\Users\kathr\Desktop\Coding\DungeonCrusher\src\main\java\net\dbsgameplay\dungeoncrusher\listener\Damage\MobDamageListener.java
+C:\Users\kathr\Desktop\Coding\DungeonCrusher\src\main\java\net\dbsgameplay\dungeoncrusher\listener\Enchantments\EnchantmentKillsListener.java
 C:\Users\kathr\Desktop\Coding\DungeonCrusher\src\main\java\net\dbsgameplay\dungeoncrusher\listener\Joinlistener.java
 C:\Users\kathr\Desktop\Coding\DungeonCrusher\src\main\java\net\dbsgameplay\dungeoncrusher\utils\MobHealthBuilder.java
 C:\Users\kathr\Desktop\Coding\DungeonCrusher\src\main\java\net\dbsgameplay\dungeoncrusher\utils\ScoreboardBuilder.java

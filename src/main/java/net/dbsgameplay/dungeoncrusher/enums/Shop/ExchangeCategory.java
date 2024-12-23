@@ -65,7 +65,7 @@ public class ExchangeCategory implements ShopCategory {
 
 @Override
 public void openMenu(Player player) {
-    String displayNameExchange = "§f<shift:-8>%oraxen_exchange_gui%";
+    String displayNameExchange = "§f<shift:-8>%nexo_exchange_gui%";
     displayNameExchange = PlaceholderAPI.setPlaceholders(player, displayNameExchange);
     Inventory inv = Bukkit.createInventory(null, 9 * 6, displayNameExchange);
 

@@ -94,7 +94,7 @@ public class KillsCategory implements StatsCategory {
         openMenu(player, 1);
     }
     public void openMenu(Player player, int page) {
-        String displayNameKills = "§f<shift:-8>%oraxen_kills_gui%";
+        String displayNameKills = "§f<shift:-8>%nexo_kills_gui%";
         displayNameKills = PlaceholderAPI.setPlaceholders(player, displayNameKills);
 
         Inventory inv = Bukkit.createInventory(null, 9 * 6, displayNameKills);

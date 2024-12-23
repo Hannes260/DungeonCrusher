@@ -45,13 +45,13 @@ public class StatsListener implements Listener {
         if (clickedItem == null || clickedItem.getItemMeta() == null || clickedItem.getItemMeta().getDisplayName() == null) {
             return; // Kein gültiges Item, also nichts tun
         }
-        String displayName = "§f<shift:-8>%oraxen_stats_gui%";
+        String displayName = "§f<shift:-8>%nexo_stats_gui%";
         displayName = PlaceholderAPI.setPlaceholders(player, displayName);
         String title = event.getView().getTitle();
 
-        String displayNameKills = "§f<shift:-8>%oraxen_kills_gui%";
+        String displayNameKills = "§f<shift:-8>%nexo_kills_gui%";
         displayNameKills = PlaceholderAPI.setPlaceholders(player, displayNameKills);
-        String displayNameGeneralStats = "§f<shift:-8>%oraxen_general_stats_gui%";
+        String displayNameGeneralStats = "§f<shift:-8>%nexo_general_stats_gui%";
         displayNameGeneralStats = PlaceholderAPI.setPlaceholders(player, displayNameGeneralStats);
 
         // Main Stats Inventory

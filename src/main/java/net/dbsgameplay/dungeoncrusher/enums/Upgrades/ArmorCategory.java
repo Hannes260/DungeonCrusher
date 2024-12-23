@@ -46,7 +46,7 @@ public class ArmorCategory implements UpgradeCategory {
 
     @Override
     public void openMenu(Player player) {
-        String DisplayName = "§f<shift:-8>%oraxen_upgrade_armor%";
+        String DisplayName = "§f<shift:-8>%nexo_upgrade_armor%";
         DisplayName = PlaceholderAPI.setPlaceholders(player, DisplayName);
         Inventory inv = Bukkit.createInventory(null, 9 * 6, DisplayName);
 

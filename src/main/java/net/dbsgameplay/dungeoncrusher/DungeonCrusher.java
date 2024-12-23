@@ -16,6 +16,7 @@ import net.dbsgameplay.dungeoncrusher.enums.Shop.FoodCategory;
 import net.dbsgameplay.dungeoncrusher.listener.*;
 import net.dbsgameplay.dungeoncrusher.listener.Damage.*;
 import net.dbsgameplay.dungeoncrusher.listener.Enchantments.EnchantmentListener;
+import net.dbsgameplay.dungeoncrusher.listener.Enchantments.EquipedEnchantmentsListener;
 import net.dbsgameplay.dungeoncrusher.listener.Navigator.NavigatorListener;
 import net.dbsgameplay.dungeoncrusher.listener.Stats.StatsListener;
 import net.dbsgameplay.dungeoncrusher.listener.Upgrades.UpgradeListener;
@@ -285,7 +286,7 @@ public final class DungeonCrusher extends JavaPlugin {
         pluginManager.registerEvents(new BlockListener(markierungsManager), this); // Use the singleton instance
         pluginManager.registerEvents(new DungeonProtectionListener(), this);
         pluginManager.registerEvents(new SavezoneListener(new SavezoneManager(locationConfigManager)), this);
-        pluginManager.registerEvents(new MobDamageListener(new MobHealthBuilder()), this);
+        pluginManager.registerEvents(new MobDamageListener(new MobHealthBuilder(), mysqlManager), this);
         pluginManager.registerEvents(new CustomDropListener(this, mysqlManager, dropsConfigManager), this);
         pluginManager.registerEvents(new DungeonListener(locationConfigManager), this);
         pluginManager.registerEvents(new MobkillListener(mysqlManager, this), this);
@@ -301,6 +302,7 @@ public final class DungeonCrusher extends JavaPlugin {
         pluginManager.registerEvents(new ChunkListener(this, mobTypesToKill), this);
         pluginManager.registerEvents(new BegleiterListener(mysqlManager, this), this);
         pluginManager.registerEvents(new EnchantmentListener(swordEnchantments), this);
+        pluginManager.registerEvents(new EquipedEnchantmentsListener(mysqlManager), this);
     }
 
     public void sendToDiscord(String content, int color) {

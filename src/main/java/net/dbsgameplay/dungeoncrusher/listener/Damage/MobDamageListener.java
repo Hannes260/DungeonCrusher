@@ -1,6 +1,7 @@
 package net.dbsgameplay.dungeoncrusher.listener.Damage;
 
 import net.dbsgameplay.dungeoncrusher.DungeonCrusher;
+import net.dbsgameplay.dungeoncrusher.sql.MYSQLManager;
 import net.dbsgameplay.dungeoncrusher.utils.MobHealthBuilder;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.entity.*;
@@ -9,6 +10,8 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.event.entity.EntitySpawnEvent;
+import org.bukkit.potion.PotionEffect;
+import org.bukkit.potion.PotionEffectType;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.HashMap;
@@ -18,9 +21,12 @@ public class MobDamageListener implements Listener {
 
     private final Map<LivingEntity, String> mobNames = new HashMap<>();
     private final MobHealthBuilder healthBuilder;
+    MYSQLManager mysqlManager;
 
-    public MobDamageListener(MobHealthBuilder healthBuilder) {
+    public MobDamageListener(MobHealthBuilder healthBuilder, MYSQLManager mysqlManager) {
         this.healthBuilder = healthBuilder;
+        this.mysqlManager = mysqlManager;
+
     }
 
     @EventHandler
@@ -42,6 +48,7 @@ public class MobDamageListener implements Listener {
         if (entity instanceof LivingEntity && event.getDamager() instanceof Player) {
             final LivingEntity livingEntity = (LivingEntity) entity;
             String mobName = mobNames.get(livingEntity);
+            Player player = (Player) event.getDamager();
             if (mobName != null) {
                 updateHealthBar(livingEntity, mobName);
                 new BukkitRunnable() {

@@ -31,7 +31,7 @@ public class ShopManager { ;
     }
 
     public static void openMainShopMenu(Player player, MYSQLManager mysqlManager) {
-        String DisplayName = "§f<shift:-8>%oraxen_shop%";
+        String DisplayName = "§f<shift:-8>%nexo_shop%";
         DisplayName = PlaceholderAPI.setPlaceholders(player, DisplayName);
 
         Inventory inv = Bukkit.createInventory(null, 9*6, DisplayName);

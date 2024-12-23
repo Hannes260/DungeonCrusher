@@ -28,7 +28,7 @@ public class StatsManager {
     }
 
     public static void openMainShopMenu(Player player) {
-        String DisplayName = "§f<shift:-8>%oraxen_stats_gui%";
+        String DisplayName = "§f<shift:-8>%nexo_stats_gui%";
         DisplayName = PlaceholderAPI.setPlaceholders(player, DisplayName);
 
         Inventory inv = Bukkit.createInventory(null, 9*6, DisplayName);

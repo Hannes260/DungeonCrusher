@@ -30,7 +30,7 @@ public class UpgradeManager {
     }
 
     public static void openMainMenu(Player player) {
-        String DisplayName = "§f<shift:-8>%oraxen_upgrade%";
+        String DisplayName = "§f<shift:-8>%nexo_upgrade%";
         DisplayName = PlaceholderAPI.setPlaceholders(player, DisplayName);
         Inventory inv = Bukkit.createInventory(null, 9 * 6, DisplayName);
 

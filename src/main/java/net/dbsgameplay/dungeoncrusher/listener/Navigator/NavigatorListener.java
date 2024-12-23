@@ -112,7 +112,7 @@ public class NavigatorListener implements Listener {
     @EventHandler
     public void onInventoryClick(InventoryClickEvent event) {
         Player player = (Player) event.getWhoClicked();
-        String DisplayName = "§f<shift:-8>%oraxen_teleporter_gui%";
+        String DisplayName = "§f<shift:-8>%nexo_teleporter_gui%";
         DisplayName = PlaceholderAPI.setPlaceholders(player, DisplayName);
 
         // Prüfen, ob das Inventar das spezielle Navigator-Inventar ist
@@ -148,7 +148,7 @@ public class NavigatorListener implements Listener {
         int totalItems = sortedDungeonNames.size();
         int itemsPerPage = 45; // 44 für Items, 1 für den "Nächste Seite"-Button
         int totalPages = (int) Math.ceil((double) totalItems / itemsPerPage);
-        String DisplayName = "§f<shift:-8>%oraxen_teleporter_gui%";
+        String DisplayName = "§f<shift:-8>%nexo_teleporter_gui%";
         DisplayName = PlaceholderAPI.setPlaceholders(player, DisplayName);
         Inventory navigatorInventory = Bukkit.createInventory(null, 9 * 6, "§f" + DisplayName);
 
@@ -255,11 +255,11 @@ public class NavigatorListener implements Listener {
         navigatorInventory.setItem(47, shop);
 
         // Spielerstatistiken anzeigen
-        String Geld = "§f%oraxen_geld%";
+        String Geld = "§f%nexo_geld%";
         Geld = PlaceholderAPI.setPlaceholders(player, Geld);
-        String Kills = "§f%oraxen_kills%";
+        String Kills = "§f%nexo_kills%";
         Kills = PlaceholderAPI.setPlaceholders(player, Kills);
-        String Tode = "§f%oraxen_tode%";
+        String Tode = "§f%nexo_tode%";
         Tode = PlaceholderAPI.setPlaceholders(player, Tode);
 
         String currentmoney = mysqlManager.getBalance(player.getUniqueId().toString());

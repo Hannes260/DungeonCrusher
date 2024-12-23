@@ -2,15 +2,11 @@ package net.dbsgameplay.dungeoncrusher.listener.Enchantments;
 
 import net.dbsgameplay.dungeoncrusher.sql.MYSQLManager;
 import net.dbsgameplay.dungeoncrusher.utils.Configs.ConfigManager;
-import org.bukkit.Material;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDeathEvent;
-import org.bukkit.inventory.ItemStack;
-
-import java.util.UUID;
 
 public class EnchantmentKillsListener implements Listener {
     private final MYSQLManager mysqlManager;
