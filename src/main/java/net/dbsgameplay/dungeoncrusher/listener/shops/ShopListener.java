@@ -48,17 +48,17 @@ public class ShopListener implements Listener {
         if (clickedItem == null || clickedItem.getItemMeta() == null || clickedItem.getItemMeta().getDisplayName() == null) {
             return; // Kein gültiges Item, also nichts tun
         }
-        String displayName = "§f<shift:-8>%oraxen_shop%";
+        String displayName = "§f<shift:-8>%nexo_shop%";
         displayName = PlaceholderAPI.setPlaceholders(player, displayName);
         String title = event.getView().getTitle();
 
-        String displayNameFood = "§f<shift:-8>%oraxen_food_gui%";
+        String displayNameFood = "§f<shift:-8>%nexo_food_gui%";
         displayNameFood = PlaceholderAPI.setPlaceholders(player, displayNameFood);
 
-        String displayNamePotion = "§f<shift:-8>%oraxen_potion_gui%";
+        String displayNamePotion = "§f<shift:-8>%nexo_potion_gui%";
         displayNamePotion = PlaceholderAPI.setPlaceholders(player, displayNamePotion);
 
-        String displayNameExchange = "§f<shift:-8>%oraxen_exchange_gui%";
+        String displayNameExchange = "§f<shift:-8>%nexc_exchange_gui%";
         displayNameExchange = PlaceholderAPI.setPlaceholders(player, displayNameExchange);
 
         // Originales Shop-Inventar

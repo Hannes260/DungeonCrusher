@@ -33,7 +33,7 @@ public class EnchantmentListener implements Listener {
 
         // Debug: Titel des Inventars prüfen
         String title = event.getView().getTitle();
-        String placeholderTitle = "§f<shift:-8>%oraxen_enchantment%";
+        String placeholderTitle = "§f<shift:-8>%nexo_enchantment%";
         String expectedTitle = PlaceholderAPI.setPlaceholders(player, placeholderTitle);
 
         if (!expectedTitle.equalsIgnoreCase(title)) {

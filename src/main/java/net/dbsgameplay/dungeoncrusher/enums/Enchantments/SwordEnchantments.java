@@ -2,7 +2,9 @@ package net.dbsgameplay.dungeoncrusher.enums.Enchantments;
 
 import me.clip.placeholderapi.PlaceholderAPI;
 import net.dbsgameplay.dungeoncrusher.DungeonCrusher;
+import net.dbsgameplay.dungeoncrusher.enums.Upgrades.SwordCategory;
 import net.dbsgameplay.dungeoncrusher.interfaces.EnchantmentCategory;
+import net.dbsgameplay.dungeoncrusher.interfaces.UpgradeCategory;
 import net.dbsgameplay.dungeoncrusher.sql.MYSQLManager;
 import net.dbsgameplay.dungeoncrusher.utils.Configs.ConfigManager;
 import net.dbsgameplay.dungeoncrusher.utils.ScoreboardBuilder;
@@ -33,7 +35,7 @@ public class SwordEnchantments implements EnchantmentCategory {
 
         this.items = new HashMap<>();
         items.put(0, new EnchantmentItem("§7§kFesselschlag", Material.BOOK, 500, Arrays.asList(""), "fesselschlag","Dein Gegner wird verlangsamt", "wenn du ihn schlägst."));
-        items.put(9, new EnchantmentItem("§7§kWindklinge", Material.BOOK, 500, Arrays.asList(""), "windklinge","Test", "Test"));
+        items.put(9, new EnchantmentItem("§7§kWindklinge", Material.BOOK, 500, Arrays.asList(""), "windklinge", "Erhöht deine Geschwindigkeit", "wenn du das Schwert in der Hand hältst."));
         items.put(18, new EnchantmentItem("§7§kGifthieb", Material.BOOK, 500, Arrays.asList(""), "gifthieb","Test", "Test"));
         items.put(27, new EnchantmentItem("§7§kSeelenentzug", Material.BOOK, 500, Arrays.asList(""), "seelenentzug","Test", "Test"));
         items.put(36, new EnchantmentItem("§7§kWutentbrannt", Material.BOOK, 500, Arrays.asList(""), "wutentbrannt","Test", "Test"));
@@ -49,11 +51,34 @@ public class SwordEnchantments implements EnchantmentCategory {
         fesselschlag.put(3, Map.of("Schaf", 180, "Schweine", 90, "Kuh", 35));
         enchantmentRequirements.put("fesselschlag", fesselschlag);
 
+        Map<Integer, Map<String, Integer>> windklinge = new HashMap<>();
+        windklinge.put(1, Map.of("Schwein", 75, "Kuh", 40, "Pferd", 15));
+        windklinge.put(2, Map.of("Schwein", 135, "Kuh", 70, "Pferd", 30));
+        windklinge.put(3, Map.of("Schwein", 270, "Kuh", 140, "Pferd", 60));
+        windklinge.put(4, Map.of("Schwein", 590, "Kuh", 305, "Pferd", 130, "Esel", 40));
+        enchantmentRequirements.put("windklinge", windklinge);
     }
+    private static final Map<String, Map<Integer, EnchantmentCost>> enchantmentCosts = new HashMap<>();
 
+    static {
+        // Define costs for Fesselschlag
+        Map<Integer, EnchantmentCost> fesselschlagCosts = new HashMap<>();
+        fesselschlagCosts.put(1, new EnchantmentCost(12000, 500));
+        fesselschlagCosts.put(2, new EnchantmentCost(21000, 900));
+        fesselschlagCosts.put(3, new EnchantmentCost(46000, 1800));
+        enchantmentCosts.put("fesselschlag", fesselschlagCosts);
+
+        // Define costs for Windklinge
+        Map<Integer, EnchantmentCost> windklingeCosts = new HashMap<>();
+        windklingeCosts.put(1, new EnchantmentCost(15000, 800));
+        windklingeCosts.put(2, new EnchantmentCost(27000, 1450));
+        windklingeCosts.put(3, new EnchantmentCost(54000, 2900));
+        windklingeCosts.put(4, new EnchantmentCost(118000, 6400));
+        enchantmentCosts.put("windklinge", windklingeCosts);
+    }
     @Override
     public void openMenu(Player player) {
-        String displayName = "§f<shift:-8>%oraxen_enchantment%";
+        String displayName = "§f<shift:-8>%nexo_enchantment%";
         displayName = PlaceholderAPI.setPlaceholders(player, displayName);
         Inventory inv = Bukkit.createInventory(null, 9 * 6, displayName);
         String playerUUID = player.getUniqueId().toString();
@@ -179,14 +204,37 @@ public class SwordEnchantments implements EnchantmentCategory {
     }
 
     private void handleLeftClick(Player player, String enchantmentName, ItemStack clickedItem) {
+        String playerUUID = player.getUniqueId().toString();
         int level = mysqlManager.getlevelEnchantment(player.getUniqueId().toString(), enchantmentName);
 
-        boolean hasResourcesforUpgrade = checkRecourcesforUpgrade(player, level, enchantmentName);
+        boolean hasResourcesforUpgrade = checkRecourcesforUpgrade(player, level + 1, enchantmentName);
         if (!hasResourcesforUpgrade) {
             return;
         }
+        // Deduct the required resources
+        EnchantmentCost cost = getEnchantmentCost(enchantmentName, level + 1);
+        System.out.println("1. " + cost);
+        if (cost != null) {
+            // Update player's balance
+            double currentBalance = Double.parseDouble(mysqlManager.getBalance(playerUUID).replace(",", ""));
+            double newMoney = currentBalance - cost.money;
+            String formattedMoney = String.format(Locale.ENGLISH, "%,.2f", newMoney);
+            mysqlManager.updateBalance(playerUUID, formattedMoney);
 
-        player.sendMessage(ConfigManager.getPrefix() + ConfigManager.getConfigMessage("message.enchantmentupgraded", "%enchantmentname%" , enchantmentName));
+            // Update player's raw copper amount
+            int currentRawCopper = mysqlManager.getItemAmount(playerUUID, "raw_copper");
+            mysqlManager.updateItemAmount(playerUUID, "raw_copper", currentRawCopper - cost.rawCopper);
+
+            // Increase the enchantment level
+            mysqlManager.updatelevelEnchantment(playerUUID, enchantmentName, level + 1);
+            player.updateInventory();
+            player.sendMessage(ConfigManager.getPrefix() + ConfigManager.getConfigMessage("message.enchantmentupgraded", "%enchantmentname%", enchantmentName));
+            scoreboardBuilder.updateMoney(player);
+            SwordCategory swordCategory = new SwordCategory(mysqlManager);
+            swordCategory.setPlayerInventoryItems(player);
+        } else {
+            player.sendMessage(ConfigManager.getPrefix() + "§cFehler: Kosten für das Enchantment nicht gefunden.");
+        }
     }
 
     // Funktion für Rechtsklick
@@ -284,6 +332,7 @@ public class SwordEnchantments implements EnchantmentCategory {
             }
         }
     }
+
     private String getEnchantmentNameFromItem(ItemStack item) {
         if (item.hasItemMeta()) {
             NamespacedKey key = new NamespacedKey(DungeonCrusher.getInstance(), "enchantment");
@@ -298,45 +347,33 @@ public class SwordEnchantments implements EnchantmentCategory {
 
     private boolean checkRecourcesforUpgrade(Player player, int level, String enchantmentName) {
         String playerUUID = player.getUniqueId().toString();
-        double requiredGeld = RequiredMaterialForFesselschlag(level);
-        String balanceString = mysqlManager.getBalance(playerUUID).replace(",", ""); // Komma entfernen
-        double currentGeld = Double.parseDouble(balanceString);
-        int nextlevel = level + 1;
+        EnchantmentCost cost = getEnchantmentCost(enchantmentName, level);
+        if (cost == null) {
+            player.sendMessage(ConfigManager.getPrefix() + "§cFehler: Kosten für das Enchantment nicht gefunden.");
+            return false;
+        }
 
-        if (currentGeld < requiredGeld) {
-            player.sendMessage(ConfigManager.getPrefix() + ConfigManager.getConfigMessage("message.notenoughmoneyforupgrade","",""));
+        double currentGeld = Double.parseDouble(mysqlManager.getBalance(playerUUID).replace(",", ""));
+        if (currentGeld < cost.money) {
+            player.sendMessage(ConfigManager.getPrefix() + ConfigManager.getConfigMessage("message.notenoughmoneyforupgrade", "", ""));
             return false;
         }
 
         int currentRawCopper = mysqlManager.getItemAmount(playerUUID, "raw_copper");
-        int requiredRawCopper = RequiredMaterialForFesselschlag(level);
-
-        if (currentRawCopper < requiredRawCopper) {
-            player.sendMessage(ConfigManager.getPrefix() + ConfigManager.getConfigMessage("message.enchantmentnotenoughrawcopper","",""));
+        if (currentRawCopper < cost.rawCopper) {
+            player.sendMessage(ConfigManager.getPrefix() + ConfigManager.getConfigMessage("message.enchantmentnotenoughrawcopper", "", ""));
             return false;
         }
 
         return true;
     }
 
-    private double RequiredMoneyForFesselschlag(int level) {
-        if (level < 2) {
-            return 12000;
-        }else if (level < 3) {
-            return 21000;
-        }else {
-            return 46000;
+    private EnchantmentCost getEnchantmentCost(String enchantmentName, int level) {
+        Map<Integer, EnchantmentCost> costs = enchantmentCosts.get(enchantmentName);
+        if (costs != null) {
+            return costs.get(level);
         }
-    }
-
-    private int RequiredMaterialForFesselschlag(int level) {
-        if (level < 2) {
-            return 500;
-        } else if (level < 3) {
-            return 900;
-        } else  {
-            return 1800;
-        }
+        return null;
     }
 
     private Map<String, Integer> getKillRequirements(String enchantment, int level) {
@@ -352,6 +389,20 @@ public class SwordEnchantments implements EnchantmentCategory {
 
     private String capitalize(String str) {
         return str.substring(0,1).toUpperCase() + str.substring(1);
+    }
+
+    public boolean checkKillsforErforschen(Player player, int level, String enchantmentName) {
+        String playerUUID = player.getUniqueId().toString();
+        Map<String, Integer> requirements = getKillRequirements(enchantmentName, level + 1);
+        for (String mobType : requirements.keySet()) {
+            int requiredKills = requirements.get(mobType);
+            int currentKills = getPlayerKills(playerUUID, mobType);
+            if (currentKills < requiredKills) {
+                return false;
+            }
+        }
+
+        return true;
     }
 
     private static class EnchantmentItem {
@@ -377,17 +428,14 @@ public class SwordEnchantments implements EnchantmentCategory {
     }
     }
 
-    public boolean checkKillsforErforschen(Player player, int level, String enchantmentName) {
-        String playerUUID = player.getUniqueId().toString();
-        Map<String, Integer> requirements = getKillRequirements(enchantmentName, level + 1);
-        for (String mobType : requirements.keySet()) {
-            int requiredKills = requirements.get(mobType);
-            int currentKills = getPlayerKills(playerUUID, mobType);
-            if (currentKills < requiredKills) {
-                return false;
-            }
-        }
+    private static class EnchantmentCost {
+        private final double money;
+        private final int rawCopper;
 
-        return true;
+        public EnchantmentCost(double money, int rawCopper) {
+            this.money = money;
+            this.rawCopper = rawCopper;
+        }
     }
+
 }

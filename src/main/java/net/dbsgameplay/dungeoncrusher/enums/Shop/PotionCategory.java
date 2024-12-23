@@ -62,7 +62,7 @@ public class PotionCategory implements ShopCategory {
 
     @Override
     public void openMenu(Player player) {
-        String displayNamePotion = "§f<shift:-8>%oraxen_potion_gui%";
+        String displayNamePotion = "§f<shift:-8>%nexo_potion_gui%";
         displayNamePotion = PlaceholderAPI.setPlaceholders(player, displayNamePotion);
 
         Inventory inv = Bukkit.createInventory(null, 9 * 6, displayNamePotion);

@@ -92,6 +92,7 @@ net\dbsgameplay\dungeoncrusher\Commands\Dailyreward.class
 net\dbsgameplay\dungeoncrusher\utils\ScoreboardBuilder$2.class
 net\dbsgameplay\dungeoncrusher\utils\Manager\HologramManager.class
 net\dbsgameplay\dungeoncrusher\listener\BegleiterListener.class
+net\dbsgameplay\dungeoncrusher\listener\Enchantments\EnchantmentKillsListener.class
 net\dbsgameplay\dungeoncrusher\listener\InvseeListener.class
 net\dbsgameplay\dungeoncrusher\enums\Upgrades\SwordCategory.class
 net\dbsgameplay\dungeoncrusher\utils\Manager\DungeonManager.class
@@ -111,4 +112,5 @@ net\dbsgameplay\dungeoncrusher\Commands\test$2.class
 net\dbsgameplay\dungeoncrusher\enums\Shop\FoodCategory$ShopItem.class
 net\dbsgameplay\dungeoncrusher\listener\ChatListener.class
 net\dbsgameplay\dungeoncrusher\Commands\SpawnCommand.class
+net\dbsgameplay\dungeoncrusher\enums\Enchantments\SwordEnchantments$EnchantmentCost.class
 net\dbsgameplay\dungeoncrusher\listener\ChunkListener.class

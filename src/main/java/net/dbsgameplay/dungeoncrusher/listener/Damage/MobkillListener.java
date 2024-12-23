@@ -28,17 +28,17 @@ public class MobkillListener implements Listener {
 
     @EventHandler
     public void onEntityDeath(EntityDeathEvent event) {
-
         LivingEntity entity = event.getEntity();
         if (entity.getKiller() instanceof Player) {
             Player player = entity.getKiller();
-            String PlayerUUID = player.getUniqueId().toString();
+            String playerUUID = player.getUniqueId().toString();
             SwordEnchantments swordEnchantments = new SwordEnchantments(mysqlManager);
-            int fesselschlagerforschtlvl = mysqlManager.geterforchtEnchantmentlvl(PlayerUUID, "fesselschlag");
+            int fesselschlagerforschtlvl = mysqlManager.geterforchtEnchantmentlvl(playerUUID, "fesselschlag");
             boolean hasKillsforerforschenfesselschlag = swordEnchantments.checkKillsforErforschen(player, fesselschlagerforschtlvl, "fesselschlag");
-            if (hasKillsforerforschenfesselschlag) {
+
+            if (hasKillsforerforschenfesselschlag && fesselschlagerforschtlvl < 3) {
                 player.sendMessage(ConfigManager.getPrefix() + ConfigManager.getConfigMessage("message.erforschtlvlenchantment", "%enchantmentname%", "fesselschlag"));
-                mysqlManager.updateerfoschtEnchantmentlvl(PlayerUUID, "fesselschlag", fesselschlagerforschtlvl + 1);
+                mysqlManager.updateerfoschtEnchantmentlvl(playerUUID, "fesselschlag", fesselschlagerforschtlvl + 1);
             }
 
                 for (ItemStack item : event.getDrops()) {

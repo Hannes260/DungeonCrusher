@@ -39,13 +39,13 @@ public class ScoreboardBuilder implements Listener {
         Scoreboard scoreboard = Bukkit.getScoreboardManager().getNewScoreboard();
         Objective obj = scoreboard.registerNewObjective("abcd", "abcd");
 
-        String Geld = "%oraxen_geld%";
+        String Geld = "%nexo_geld%";
         Geld = PlaceholderAPI.setPlaceholders(player, Geld);
 
-        String Online = "%oraxen_online%";
+        String Online = "%nexo_online%";
         Online = PlaceholderAPI.setPlaceholders(player, Online);
 
-        String displayname = "%oraxen_dungeoncrusher%";
+        String displayname = "%nexo_dungeoncrusher%";
         displayname = PlaceholderAPI.setPlaceholders(player, displayname);
         obj.setDisplayName(displayname);
         obj.setDisplaySlot(DisplaySlot.SIDEBAR);
@@ -151,7 +151,7 @@ public class ScoreboardBuilder implements Listener {
                 if (dungeonTeam == null) {
                     dungeonTeam = scoreboard.registerNewTeam("dungeon");
                 }
-                String Dungeon = "%oraxen_dungeon%";
+                String Dungeon = "%nexo_dungeon%";
                 Dungeon = PlaceholderAPI.setPlaceholders(player, Dungeon);
                 String newPrefix = Dungeon + " §f"+ dungeon;
                 dungeonTeam.setPrefix(newPrefix);
@@ -169,7 +169,7 @@ public class ScoreboardBuilder implements Listener {
         if (killsTeam == null) {
             killsTeam = scoreboard.registerNewTeam("kills");
         }
-        String Kills = "%oraxen_kills%";
+        String Kills = "%nexo_kills%";
         Kills = PlaceholderAPI.setPlaceholders(player, Kills);
         String newPrefix = Kills + " §f"+ kills;
         killsTeam.setPrefix(newPrefix);
@@ -201,9 +201,9 @@ public class ScoreboardBuilder implements Listener {
                 if (dungeonKillsTeam == null) {
                     dungeonKillsTeam = scoreboard.registerNewTeam("dungeonkills");
                 }
-                String nextDungeon = "%oraxen_next_dungeon%";
+                String nextDungeon = "%nexo_next_dungeon%";
                 nextDungeon = PlaceholderAPI.setPlaceholders(player, nextDungeon);
-                String skull = "%oraxen_skull%";
+                String skull = "%nexo_skull%";
                 skull = PlaceholderAPI.setPlaceholders(player, skull);
                 String newPrefix = nextDungeon + " §f" + finalkills + skull;
                 dungeonKillsTeam.setPrefix(newPrefix);
@@ -219,7 +219,7 @@ public class ScoreboardBuilder implements Listener {
         if (SwordTeam == null) {
             SwordTeam = scoreboard.registerNewTeam("sword");
         }
-        String Swordlvl = "%oraxen_sword_level%";
+        String Swordlvl = "%nexo_sword_level%";
         Swordlvl = PlaceholderAPI.setPlaceholders(player, Swordlvl);
         String newPrefix = Swordlvl + " §f" + currentSwordLevel;
         SwordTeam.setPrefix(newPrefix);
@@ -233,7 +233,7 @@ public class ScoreboardBuilder implements Listener {
         if (ArmorTeam == null) {
             ArmorTeam = scoreboard.registerNewTeam("armor");
         }
-        String Armorlvl = "%oraxen_armor_level%";
+        String Armorlvl = "%nexo_armor_level%";
         Armorlvl = PlaceholderAPI.setPlaceholders(player, Armorlvl);
         String newPrefix = Armorlvl + " §f" + currentArmorLevel;
         ArmorTeam.setPrefix(newPrefix);

@@ -39,7 +39,7 @@ public class FoodCategory implements ShopCategory {
     @Override
     public void openMenu(Player player) {
         // Setze den Titel für das Inventar mit dem Oraxen-Placeholder
-        String displayNameFood = "§f<shift:-8>%oraxen_food_gui%";
+        String displayNameFood = "§f<shift:-8>%nexo_food_gui%";
         displayNameFood = PlaceholderAPI.setPlaceholders(player, displayNameFood);
 
         Inventory inv = Bukkit.createInventory(null, 9 * 6, displayNameFood);
