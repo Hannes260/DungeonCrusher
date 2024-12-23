@@ -17,6 +17,7 @@ import net.dbsgameplay.dungeoncrusher.listener.*;
 import net.dbsgameplay.dungeoncrusher.listener.Damage.*;
 import net.dbsgameplay.dungeoncrusher.listener.Enchantments.EnchantmentListener;
 import net.dbsgameplay.dungeoncrusher.listener.Enchantments.EquipedEnchantmentsListener;
+import net.dbsgameplay.dungeoncrusher.listener.Miniboss.MinibossListener;
 import net.dbsgameplay.dungeoncrusher.listener.Navigator.NavigatorListener;
 import net.dbsgameplay.dungeoncrusher.listener.Stats.StatsListener;
 import net.dbsgameplay.dungeoncrusher.listener.Upgrades.UpgradeListener;
@@ -303,6 +304,7 @@ public final class DungeonCrusher extends JavaPlugin {
         pluginManager.registerEvents(new BegleiterListener(mysqlManager, this), this);
         pluginManager.registerEvents(new EnchantmentListener(swordEnchantments), this);
         pluginManager.registerEvents(new EquipedEnchantmentsListener(mysqlManager), this);
+        pluginManager.registerEvents(new MinibossListener(this, mysqlManager), this);
     }
 
     public void sendToDiscord(String content, int color) {
