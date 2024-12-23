@@ -29,6 +29,7 @@ import java.util.*;
 public class BegleiterListener implements Listener {
     public static MYSQLManager mysqlManager;
     public static DungeonCrusher dungeonCrusher;
+
     public static HashMap<UUID, String> begleiterMap = new HashMap<>();
 
     public BegleiterListener(MYSQLManager mysqlManager, DungeonCrusher dungeonCrusher) {
