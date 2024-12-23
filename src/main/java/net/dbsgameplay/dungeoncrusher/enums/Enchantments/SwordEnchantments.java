@@ -52,10 +52,10 @@ public class SwordEnchantments implements EnchantmentCategory {
         enchantmentRequirements.put("fesselschlag", fesselschlag);
 
         Map<Integer, Map<String, Integer>> windklinge = new HashMap<>();
-        windklinge.put(1, Map.of("Schwein", 75, "Kuh", 40, "Pferd", 15));
-        windklinge.put(2, Map.of("Schwein", 135, "Kuh", 70, "Pferd", 30));
-        windklinge.put(3, Map.of("Schwein", 270, "Kuh", 140, "Pferd", 60));
-        windklinge.put(4, Map.of("Schwein", 590, "Kuh", 305, "Pferd", 130, "Esel", 40));
+        windklinge.put(1, Map.of("Schweine", 75, "Kuh", 40, "Pferd", 15));
+        windklinge.put(2, Map.of("Schweine", 135, "Kuh", 70, "Pferd", 30));
+        windklinge.put(3, Map.of("Schweine", 270, "Kuh", 140, "Pferd", 60));
+        windklinge.put(4, Map.of("Schweine", 590, "Kuh", 305, "Pferd", 130, "Esel", 40));
         enchantmentRequirements.put("windklinge", windklinge);
     }
     private static final Map<String, Map<Integer, EnchantmentCost>> enchantmentCosts = new HashMap<>();
@@ -93,11 +93,8 @@ public class SwordEnchantments implements EnchantmentCategory {
             meta.setDisplayName(enchantmentItem.displayName);
             meta.setCustomModelData(enchantmentItem.modeldata);
             itemStack.setItemMeta(meta);
-
-            // Setze das Item in das Inventar
             inv.setItem(slot, itemStack);
 
-            // Zeige das Verzauberungs-Item dynamisch an
             showEnchantmentItem(player, inv, playerUUID, enchantmentItem.getEnchantmentName(), slot, enchantmentItem.description, enchantmentItem.description2);
         }
         player.openInventory(inv);
@@ -213,7 +210,6 @@ public class SwordEnchantments implements EnchantmentCategory {
         }
         // Deduct the required resources
         EnchantmentCost cost = getEnchantmentCost(enchantmentName, level + 1);
-        System.out.println("1. " + cost);
         if (cost != null) {
             // Update player's balance
             double currentBalance = Double.parseDouble(mysqlManager.getBalance(playerUUID).replace(",", ""));
@@ -237,13 +233,16 @@ public class SwordEnchantments implements EnchantmentCategory {
         }
     }
 
-    // Funktion für Rechtsklick
     private void handleRightClick(Player player, ItemStack clickedItem) {
         // Sicherstellen, dass das geklickte Item ein Buch (normal oder verzaubert) ist
         if (clickedItem != null && (clickedItem.getType() == Material.BOOK || clickedItem.getType() == Material.ENCHANTED_BOOK)) {
             String enchantmentName = getEnchantmentNameFromItem(clickedItem);
             boolean equipedenchantment = mysqlManager.getEquipedEnchantment(player.getUniqueId().toString(), enchantmentName);
-
+            int level = mysqlManager.getlevelEnchantment(player.getUniqueId().toString(), enchantmentName);
+            if (level == 0) {
+                player.sendMessage(ConfigManager.getPrefix() + ConfigManager.getConfigMessage("message.defaultlevelenchantment", "",""));
+                return;
+            }
             if (enchantmentName != null) {
                 // Überprüfen, ob der Spieler bereits maximal 3 ausgerüstete Verzauberungen hat
                 int equippedEnchantmentsCount = mysqlManager.getEquipeedEnchantmentsCount(player.getUniqueId().toString());

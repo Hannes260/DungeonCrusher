@@ -82,5 +82,7 @@ commands:
     permission: dc.command.test
   begleiter:
   enchantment:
+    description: Enchante deine Waffe!
+    aliases: [enchant]
   spawnminiboss:
 

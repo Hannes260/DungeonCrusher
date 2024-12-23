@@ -76,6 +76,7 @@ net\dbsgameplay\dungeoncrusher\utils\shops\ShopManager.class
 net\dbsgameplay\dungeoncrusher\listener\QuestListener$2.class
 net\dbsgameplay\dungeoncrusher\Commands\test$1.class
 net\dbsgameplay\dungeoncrusher\utils\Configs\RewardConfigManager.class
+net\dbsgameplay\dungeoncrusher\listener\Enchantments\EquipedEnchantmentsListener.class
 net\dbsgameplay\dungeoncrusher\listener\Navigator\NavigatorListener.class
 net\dbsgameplay\dungeoncrusher\Commands\HelpCommand.class
 net\dbsgameplay\dungeoncrusher\listener\PotionListener$1.class
