@@ -52,22 +52,24 @@ public class MobDamageListener implements Listener {
         Entity entity = event.getEntity();
         if (entity instanceof LivingEntity) {
             final LivingEntity livingEntity = (LivingEntity) entity;
-            String mobName = mobNames.get(livingEntity);
-            if (mobName != null) {
-                updateHealthBar(livingEntity, mobName);
-                new BukkitRunnable() {
-                    int count = 0;
+            if(!MinibossListener.livingMinibosse.containsKey(livingEntity)) {
+                String mobName = mobNames.get(livingEntity);
+                if (mobName != null) {
+                    updateHealthBar(livingEntity, mobName);
+                    new BukkitRunnable() {
+                        int count = 0;
 
-                    @Override
-                    public void run() {
-                        count++;
-                        if (count >= 2) {
-                            cancel();
-                            return;
+                        @Override
+                        public void run() {
+                            count++;
+                            if (count >= 2) {
+                                cancel();
+                                return;
+                            }
+                            updateHealthBar(livingEntity, mobName);
                         }
-                        updateHealthBar(livingEntity, mobName);
-                    }
-                }.runTaskTimer(DungeonCrusher.getInstance(), 5L, 10L);
+                    }.runTaskTimer(DungeonCrusher.getInstance(), 5L, 10L);
+                }
             }
         }
     }

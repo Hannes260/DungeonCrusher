@@ -3,6 +3,7 @@ package net.dbsgameplay.dungeoncrusher.listener;
 import net.dbsgameplay.dungeoncrusher.DungeonCrusher;
 import net.dbsgameplay.dungeoncrusher.listener.Miniboss.MinibossListener;
 import net.dbsgameplay.dungeoncrusher.utils.Configs.LocationConfigManager;
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.World;
@@ -131,9 +132,7 @@ public class DungeonListener implements Listener {
                 if (entity instanceof LivingEntity && isInDungeon(entity.getLocation(), pos1, pos2)) {
                     LivingEntity livingEntity = (LivingEntity) entity;
                     if (mobTypes.contains(livingEntity.getType().name().toLowerCase())) {
-                        if(!MinibossListener.livingMinibosse.get(livingEntity)) {
-                            livingEntity.remove();
-                        }
+                        livingEntity.remove();
                     }
                 }
             }

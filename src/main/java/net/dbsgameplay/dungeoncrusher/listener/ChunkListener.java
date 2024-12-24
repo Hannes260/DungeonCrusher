@@ -1,5 +1,7 @@
 package net.dbsgameplay.dungeoncrusher.listener;
 
+import net.dbsgameplay.dungeoncrusher.listener.Miniboss.MinibossListener;
+import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
