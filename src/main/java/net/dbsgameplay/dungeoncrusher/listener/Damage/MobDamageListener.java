@@ -8,6 +8,7 @@ import org.bukkit.entity.*;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
+import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.event.entity.EntitySpawnEvent;
 import org.bukkit.potion.PotionEffect;
@@ -43,12 +44,11 @@ public class MobDamageListener implements Listener {
     }
 
     @EventHandler
-    public void onEntityDamage(EntityDamageByEntityEvent event) {
+    public void onEntityDamage(EntityDamageEvent event) {
         Entity entity = event.getEntity();
-        if (entity instanceof LivingEntity && event.getDamager() instanceof Player) {
+        if (entity instanceof LivingEntity) {
             final LivingEntity livingEntity = (LivingEntity) entity;
             String mobName = mobNames.get(livingEntity);
-            Player player = (Player) event.getDamager();
             if (mobName != null) {
                 updateHealthBar(livingEntity, mobName);
                 new BukkitRunnable() {
