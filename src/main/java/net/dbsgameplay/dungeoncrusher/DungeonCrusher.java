@@ -111,7 +111,7 @@ public final class DungeonCrusher extends JavaPlugin {
         getLogger().info(ANSI_BLUE +" | |_| | |___     "+ ANSI_WHITE + "Running on Bukkit - Paper");
         getLogger().info(ANSI_BLUE +" |____/ \\____|");
         getLogger().info(ANSI_BLUE +" ");
-        getLogger().info(ANSI_WHITE +"Authors: HanneZHD, Ditomax");
+        getLogger().info(ANSI_WHITE +"Authors: HanneZHD, Ditomax, Dandeib");
         getLogger().info(ANSI_GREEN +" ");
 
         // Register Commands
