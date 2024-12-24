@@ -9,6 +9,7 @@ net\dbsgameplay\dungeoncrusher\enums\Stats\KillsCategory$1$1.class
 net\dbsgameplay\dungeoncrusher\utils\Configs\MinibossConfigManager.class
 net\dbsgameplay\dungeoncrusher\utils\quests\Monthly.class
 net\dbsgameplay\dungeoncrusher\listener\KillListener.class
+net\dbsgameplay\dungeoncrusher\listener\QuestListener.class
 net\dbsgameplay\dungeoncrusher\utils\Configs\DropsConfigManager.class
 net\dbsgameplay\dungeoncrusher\interfaces\ShopCategory.class
 net\dbsgameplay\dungeoncrusher\utils\ScoreboardBuilder$1.class
@@ -42,6 +43,8 @@ net\dbsgameplay\dungeoncrusher\Commands\Upgrades\UpgradeCommand.class
 net\dbsgameplay\dungeoncrusher\listener\Stats\StatsListener.class
 net\dbsgameplay\dungeoncrusher\listener\Miniboss\MinibossListener$2.class
 net\dbsgameplay\dungeoncrusher\listener\QuestListener$1.class
+net\dbsgameplay\dungeoncrusher\enums\Enchantments\SwordEnchantments.class
+net\dbsgameplay\dungeoncrusher\utils\Configs\HealthConfigManager.class
 net\dbsgameplay\dungeoncrusher\Commands\Quests\QuestCommand.class
 net\dbsgameplay\dungeoncrusher\DungeonCrusher.class
 net\dbsgameplay\dungeoncrusher\listener\Damage\CustomDropListener.class
@@ -88,7 +91,9 @@ net\dbsgameplay\dungeoncrusher\Commands\Admin\ConfigCommand.class
 net\dbsgameplay\dungeoncrusher\utils\MobHealthBuilder.class
 net\dbsgameplay\dungeoncrusher\Commands\PingCommand.class
 net\dbsgameplay\dungeoncrusher\utils\Configs\LocationConfigManager.class
+net\dbsgameplay\dungeoncrusher\listener\shops\ShopListener.class
 net\dbsgameplay\dungeoncrusher\listener\Damage\MobkillListener.class
+net\dbsgameplay\dungeoncrusher\interfaces\EnchantmentCategory.class
 net\dbsgameplay\dungeoncrusher\utils\Manager\MarkingsManager.class
 net\dbsgameplay\dungeoncrusher\interfaces\StatsCategory.class
 net\dbsgameplay\dungeoncrusher\enums\Shop\PotionCategory$ShopItem.class
@@ -110,6 +115,7 @@ net\dbsgameplay\dungeoncrusher\listener\PotionListener.class
 net\dbsgameplay\dungeoncrusher\Commands\test.class
 net\dbsgameplay\dungeoncrusher\Commands\ErfolgeCommand.class
 net\dbsgameplay\dungeoncrusher\listener\Joinlistener.class
+net\dbsgameplay\dungeoncrusher\listener\Miniboss\MinibossListener.class
 net\dbsgameplay\dungeoncrusher\utils\ScoreboardBuilder$3.class
 net\dbsgameplay\dungeoncrusher\Commands\Economy\PayCommand.class
 net\dbsgameplay\dungeoncrusher\Commands\test$2.class
