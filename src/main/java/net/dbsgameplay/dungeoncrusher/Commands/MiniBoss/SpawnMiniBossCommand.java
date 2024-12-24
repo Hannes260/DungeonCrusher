@@ -16,6 +16,7 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.jetbrains.annotations.NotNull;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -55,7 +56,7 @@ public class SpawnMiniBossCommand implements CommandExecutor {
         Inventory bossInv = Bukkit.createInventory(null, 27, "Spawn Miniboss");
 
         MinibossConfigManager.loadConfig();
-        HashMap<String, HashMap<String, HashMap<String, Integer>>> minibossHashMap = MinibossConfigManager.miniboss_data_Hashmap;
+        HashMap<String, HashMap<String, HashMap<String, Double>>> minibossHashMap = MinibossConfigManager.miniboss_data_Hashmap;
 
         Bukkit.getLogger().info(minibossHashMap.toString());
 
@@ -63,8 +64,8 @@ public class SpawnMiniBossCommand implements CommandExecutor {
         ItemMeta lv1BossMeta = lv1BossItem.getItemMeta();
         lv1BossMeta.setDisplayName("Miniboss §aLevel 1");
         List<String> lv1Lore = new ArrayList();
-        lv1Lore.add("§6Preis: " + "§7" +  minibossHashMap.get(dungeon).get("lvl1").get("preis") + "€");
-        lv1Lore.add("§6Mobs getötet: " + "§7" +  minibossHashMap.get(dungeon).get("lvl1").get("kills"));
+        lv1Lore.add("§6Preis: " + "§7" +  minibossHashMap.get(dungeon).get("lvl1").get("preis").intValue() + "€");
+        lv1Lore.add("§6Mobs getötet: " + "§7" +  minibossHashMap.get(dungeon).get("lvl1").get("kills").intValue());
         lv1BossMeta.setLore(lv1Lore);
         lv1BossItem.setItemMeta(lv1BossMeta);
 
@@ -72,8 +73,8 @@ public class SpawnMiniBossCommand implements CommandExecutor {
         ItemMeta lv2BossMeta = lv2BossItem.getItemMeta();
         lv2BossMeta.setDisplayName("Miniboss §aLevel 2");
         List<String> lv2Lore = new ArrayList();
-        lv2Lore.add("§6Preis: " + "§7" + minibossHashMap.get(dungeon).get("lvl2").get("preis") + "€");
-        lv2Lore.add("§6Mobs getötet: " + "§7" +  minibossHashMap.get(dungeon).get("lvl2").get("kills"));
+        lv2Lore.add("§6Preis: " + "§7" + minibossHashMap.get(dungeon).get("lvl2").get("preis").intValue() + "€");
+        lv2Lore.add("§6Mobs getötet: " + "§7" +  minibossHashMap.get(dungeon).get("lvl2").get("kills").intValue());
         lv2BossMeta.setLore(lv2Lore);
         lv2BossItem.setItemMeta(lv2BossMeta);
 
@@ -81,14 +82,28 @@ public class SpawnMiniBossCommand implements CommandExecutor {
         ItemMeta lv3BossMeta = lv3BossItem.getItemMeta();
         lv3BossMeta.setDisplayName("Miniboss §aLevel 3");
         List<String> lv3Lore = new ArrayList();
-        lv3Lore.add("§6Preis: " + "§7" +  minibossHashMap.get(dungeon).get("lvl3").get("preis") + "€");
-        lv3Lore.add("§6Mobs getötet: " + "§7" +  minibossHashMap.get(dungeon).get("lvl3").get("kills"));
+        lv3Lore.add("§6Preis: " + "§7" +  minibossHashMap.get(dungeon).get("lvl3").get("preis").intValue() + "€");
+        lv3Lore.add("§6Mobs getötet: " + "§7" +  minibossHashMap.get(dungeon).get("lvl3").get("kills").intValue());
         lv3BossMeta.setLore(lv3Lore);
         lv3BossItem.setItemMeta(lv3BossMeta);
 
+        int bossLevel = 0;
+
+        bossLevel = mysqlManager.getMinibossLevel(p.getUniqueId().toString(), dungeon);
+
         bossInv.setItem(11, lv1BossItem);
-        bossInv.setItem(13, lv2BossItem);
-        bossInv.setItem(15, lv3BossItem);
+
+        if(bossLevel == 1) {
+            bossInv.setItem(13, lv2BossItem);
+        } else {
+            bossInv.setItem(13, new ItemStack(Material.BARRIER));
+        }
+
+        if(bossLevel == 2) {
+            bossInv.setItem(15, lv3BossItem);
+        }else {
+            bossInv.setItem(15, new ItemStack(Material.BARRIER));
+        }
 
         p.openInventory(bossInv);
 

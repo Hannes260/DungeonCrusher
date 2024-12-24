@@ -10,6 +10,7 @@ import java.io.File;
 import java.util.HashMap;
 
 public class MinibossConfigManager {
+
     private final JavaPlugin plugin;
     private final File configFile;
     private static FileConfiguration config;
@@ -24,21 +25,20 @@ public class MinibossConfigManager {
         this.config = YamlConfiguration.loadConfiguration(configFile);
     }
 
-    public static HashMap<String, HashMap<String, HashMap<String, Integer>>> miniboss_data_Hashmap = new HashMap<>();
+    public static HashMap<String, HashMap<String, HashMap<String, Double>>> miniboss_data_Hashmap = new HashMap<>();
 
     public static void loadConfig() {
-        for (String dungeon1 : config.getConfigurationSection("dungeons.").getKeys(false)) {
-            HashMap<String, HashMap<String, Integer>> hashmap1= new HashMap<>();
-            HashMap<String, Integer> hashmap2 = new HashMap<>();
-            ConfigurationSection section = config.getConfigurationSection("dungeons." + dungeon1);
-            for (String boss : section.getKeys(false)) {
-                ConfigurationSection section1 = config.getConfigurationSection("dungeons." + dungeon1 + "." + boss);
-                for (String lvl1 : section1.getKeys(false)) {
-                    hashmap2.put(lvl1, config.getInt("dungeons." + dungeon1 + "." + boss + "." + lvl1));
+        for (String dungeon : config.getConfigurationSection("dungeons").getKeys(false)) {
+            HashMap<String, HashMap<String, Double>> hashmap1 = new HashMap<>();
+            for (String boss : config.getConfigurationSection("dungeons." + dungeon).getKeys(false)) {
+                HashMap<String, Double> hashmap2 = new HashMap<>();
+                ConfigurationSection section = config.getConfigurationSection("dungeons." + dungeon + "." + boss);
+                for (String lvl : section.getKeys(false)) {
+                    hashmap2.put(lvl, config.getDouble("dungeons." + dungeon + "." + boss + "." + lvl));
                 }
                 hashmap1.put(boss, hashmap2);
             }
-            miniboss_data_Hashmap.put(dungeon1, hashmap1);
+            miniboss_data_Hashmap.put(dungeon, hashmap1);
         }
     }
 }

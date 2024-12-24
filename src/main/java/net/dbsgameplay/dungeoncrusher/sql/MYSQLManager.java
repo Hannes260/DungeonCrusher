@@ -296,6 +296,21 @@ public class MYSQLManager {
                     + "maxXp INT DEFAULT 0"
                     + ")";
             statement.execute(createBegleiterDataQuery);
+            String createMinibossLevelQuery = "CREATE TABLE IF NOT EXISTS player_miniboss_level ("
+                    + "uuid VARCHAR(255) PRIMARY KEY,"
+                    + "dungeon1 VARCHAR(255) DEFAULT NULL,"
+                    + "dungeon2 VARCHAR(255) DEFAULT NULL,"
+                    + "dungeon3 VARCHAR(255) DEFAULT NULL,"
+                    + "dungeon4 VARCHAR(255) DEFAULT NULL,"
+                    + "dungeon5 VARCHAR(255) DEFAULT NULL,"
+                    + "dungeon6 VARCHAR(255) DEFAULT NULL,"
+                    + "dungeon7 VARCHAR(255) DEFAULT NULL,"
+                    + "dungeon8 VARCHAR(255) DEFAULT NULL,"
+                    + "dungeon9 VARCHAR(255) DEFAULT NULL,"
+                    + "dungeon10 VARCHAR(255) DEFAULT NULL,"
+                    + "level INT DEFAULT 0"
+                    +")";
+            statement.execute(createMinibossLevelQuery);
             statement.close();
         } catch (Exception e) {
             e.printStackTrace();
@@ -1953,5 +1968,61 @@ public class MYSQLManager {
             throw new RuntimeException(e);
         }
         return 0;
+    }
+
+    public int getMinibossLevel(String UUID, String dungeon) {
+
+        int minibossLevel = 0;
+
+        try (Connection connection = dataSource.getConnection()) {
+
+            String query = "SELECT " + dungeon + " FROM player_miniboss_level WHERE uuid = ?";
+
+            try (PreparedStatement statement = connection.prepareStatement(query)) {
+                statement.setString(1, UUID);
+                try (ResultSet resultSet = statement.executeQuery()) {
+                    if(resultSet.next()) {
+                        minibossLevel = resultSet.getInt(dungeon);
+
+                    }
+                }
+            }
+        }
+        catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
+        return minibossLevel;
+    }
+
+    public void updateMinibossLevel(String UUID, String Dungeon, int Level) {
+
+        try (Connection connection = dataSource.getConnection()) {
+            String updateQuery = "UPDATE player_miniboss_level SET " + Dungeon + " = ? WHERE uuid = ?";
+            try (PreparedStatement statement = connection.prepareStatement(updateQuery)) {
+                statement.setInt(1, Level);
+                statement.setString(2, UUID);
+
+                int rowsUpdate = statement.executeUpdate();
+
+                if(rowsUpdate == 0) {
+                    String insertQuery = "INSERT INTO player_miniboss_level (uuid, " + Dungeon + ") VALUES (?, ?)";
+                    try(PreparedStatement insertStatement = connection.prepareStatement(insertQuery)) {
+
+                        insertStatement.setString(1, UUID);
+                        insertStatement.setInt(2, Level);
+
+                        insertStatement.executeUpdate();
+                    }
+                }
+            }
+
+            if(!connection.getAutoCommit()) {
+                connection.commit();
+            }
+        }
+        catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 }

@@ -3,9 +3,31 @@ dungeons:
     lvl1:
       preis: 1000
       kills: 15
+      health: 200
+      damage: 2.5
     lvl2:
       preis: 2000
       kills: 30
+      health: 200
+      damage: 2.5
     lvl3:
       preis: 3000
       kills: 45
+      health: 200
+      damage: 2.5
+  dungeon2:
+    lvl1:
+      preis: 10000
+      kills: 150
+      health: 2000
+      damage: 2.5
+    lvl2:
+      preis: 20000
+      kills: 300
+      health: 2000
+      damage: 2.5
+    lvl3:
+      preis: 30000
+      kills: 450
+      health: 2000
+      damage: 2.5

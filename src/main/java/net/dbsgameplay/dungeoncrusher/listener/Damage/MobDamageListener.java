@@ -1,6 +1,7 @@
 package net.dbsgameplay.dungeoncrusher.listener.Damage;
 
 import net.dbsgameplay.dungeoncrusher.DungeonCrusher;
+import net.dbsgameplay.dungeoncrusher.listener.Miniboss.MinibossListener;
 import net.dbsgameplay.dungeoncrusher.sql.MYSQLManager;
 import net.dbsgameplay.dungeoncrusher.utils.MobHealthBuilder;
 import org.bukkit.attribute.Attribute;
@@ -34,12 +35,15 @@ public class MobDamageListener implements Listener {
     public void onEntitySpawn(EntitySpawnEvent event) {
         Entity entity = event.getEntity();
         if (entity instanceof LivingEntity && isAllowedEntity(entity)) {
-            LivingEntity livingEntity = (LivingEntity) entity;
-            healthBuilder.setMobHealth(livingEntity);
+            if(!MinibossListener.livingMinibosse.get(entity)) {
+                LivingEntity livingEntity = (LivingEntity) entity;
+                healthBuilder.setMobHealth(livingEntity);
 
-            String mobName = livingEntity.getType().name();
-            mobNames.put(livingEntity, mobName);
-            updateHealthBar(livingEntity, mobName);
+                String mobName = livingEntity.getType().name();
+                mobNames.put(livingEntity, mobName);
+                updateHealthBar(livingEntity, mobName);
+            }
+
         }
     }
 

@@ -25,6 +25,7 @@ net\dbsgameplay\dungeoncrusher\Commands\DiscordCommand.class
 net\dbsgameplay\dungeoncrusher\sql\MYSQLManager.class
 net\dbsgameplay\dungeoncrusher\Commands\Enchantments\EnchantmentCommand.class
 net\dbsgameplay\dungeoncrusher\listener\DungeonListener$1.class
+net\dbsgameplay\dungeoncrusher\listener\Miniboss\MinibossListener$1.class
 net\dbsgameplay\dungeoncrusher\listener\Damage\MobDamageListener.class
 net\dbsgameplay\dungeoncrusher\Commands\Admin\ClearChatCommand.class
 net\dbsgameplay\dungeoncrusher\Commands\test$3.class
@@ -39,6 +40,7 @@ net\dbsgameplay\dungeoncrusher\listener\Damage\CustomDropListener$2.class
 net\dbsgameplay\dungeoncrusher\listener\SavezoneListener.class
 net\dbsgameplay\dungeoncrusher\Commands\Upgrades\UpgradeCommand.class
 net\dbsgameplay\dungeoncrusher\listener\Stats\StatsListener.class
+net\dbsgameplay\dungeoncrusher\listener\Miniboss\MinibossListener$2.class
 net\dbsgameplay\dungeoncrusher\listener\QuestListener$1.class
 net\dbsgameplay\dungeoncrusher\Commands\Quests\QuestCommand.class
 net\dbsgameplay\dungeoncrusher\DungeonCrusher.class

@@ -16,6 +16,8 @@ public class ErfolgeConfigManager {
     private final File configFile;
     private static FileConfiguration config;
 
+    public static List<String> enNamesList = new ArrayList<>();
+
     public ErfolgeConfigManager(JavaPlugin plugin) {
         this.plugin = plugin;
         this.configFile = new File(plugin.getDataFolder(), "erfolge.yml");
@@ -29,7 +31,6 @@ public class ErfolgeConfigManager {
     public static void loadMap() {
         List<String> mobList = ErfolgeBuilders.moblist;
         List<String> titlesList = new ArrayList<>();
-        List<String> enNamesList = new ArrayList<>();
         HashMap<String, String> titlesHashmap = ErfolgeBuilders.titlesHashmap;
 
         if (config.contains("erfolge.")) {
