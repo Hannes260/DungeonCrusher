@@ -41,7 +41,14 @@ public class SpawnMiniBossCommand implements CommandExecutor {
             String dungeon = DungeonListener.getCurrentDungeon(p.getLocation());
 
             if(dungeon != null) {
-                CreateMiniBossSpawnInv(dungeon, p);
+
+                int currentDungeonNumber = Integer.parseInt(dungeon.replace("dungeon", ""));
+
+                if(currentDungeonNumber > 10) {
+                    p.sendMessage("§cDie Minibosse sind bisher nur bis Dungeon 10 spielbar!");
+                }else {
+                    CreateMiniBossSpawnInv(dungeon, p);
+                }
             }else {
                 p.sendMessage("§cDu kannst nur in einem Dungeon einen Miniboss beschwören!");
                 return true;
@@ -57,8 +64,6 @@ public class SpawnMiniBossCommand implements CommandExecutor {
 
         MinibossConfigManager.loadConfig();
         HashMap<String, HashMap<String, HashMap<String, Double>>> minibossHashMap = MinibossConfigManager.miniboss_data_Hashmap;
-
-        Bukkit.getLogger().info(minibossHashMap.toString());
 
         ItemStack lv1BossItem = new ItemStack(Material.CREEPER_SPAWN_EGG);
         ItemMeta lv1BossMeta = lv1BossItem.getItemMeta();
@@ -93,13 +98,13 @@ public class SpawnMiniBossCommand implements CommandExecutor {
 
         bossInv.setItem(11, lv1BossItem);
 
-        if(bossLevel == 1) {
+        if(bossLevel >= 1) {
             bossInv.setItem(13, lv2BossItem);
         } else {
             bossInv.setItem(13, new ItemStack(Material.BARRIER));
         }
 
-        if(bossLevel == 2) {
+        if(bossLevel >= 2) {
             bossInv.setItem(15, lv3BossItem);
         }else {
             bossInv.setItem(15, new ItemStack(Material.BARRIER));

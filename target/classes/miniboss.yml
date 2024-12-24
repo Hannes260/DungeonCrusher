@@ -31,3 +31,131 @@ dungeons:
       kills: 450
       health: 2000
       damage: 2.5
+  dungeon3:
+    lvl1:
+      preis: 10000
+      kills: 150
+      health: 2000
+      damage: 2.5
+    lvl2:
+      preis: 20000
+      kills: 300
+      health: 2000
+      damage: 2.5
+    lvl3:
+      preis: 30000
+      kills: 450
+      health: 2000
+      damage: 2.5
+  dungeon4:
+    lvl1:
+      preis: 10000
+      kills: 150
+      health: 2000
+      damage: 2.5
+    lvl2:
+      preis: 20000
+      kills: 300
+      health: 2000
+      damage: 2.5
+    lvl3:
+      preis: 30000
+      kills: 450
+      health: 2000
+      damage: 2.5
+  dungeon5:
+    lvl1:
+      preis: 10000
+      kills: 150
+      health: 2000
+      damage: 2.5
+    lvl2:
+      preis: 20000
+      kills: 300
+      health: 2000
+      damage: 2.5
+    lvl3:
+      preis: 30000
+      kills: 450
+      health: 2000
+      damage: 2.5
+  dungeon6:
+    lvl1:
+      preis: 10000
+      kills: 150
+      health: 2000
+      damage: 2.5
+    lvl2:
+      preis: 20000
+      kills: 300
+      health: 2000
+      damage: 2.5
+    lvl3:
+      preis: 30000
+      kills: 450
+      health: 2000
+      damage: 2.5
+  dungeon7:
+    lvl1:
+      preis: 10000
+      kills: 150
+      health: 2000
+      damage: 2.5
+    lvl2:
+      preis: 20000
+      kills: 300
+      health: 2000
+      damage: 2.5
+    lvl3:
+      preis: 30000
+      kills: 450
+      health: 2000
+      damage: 2.5
+  dungeon8:
+    lvl1:
+      preis: 10000
+      kills: 150
+      health: 2000
+      damage: 2.5
+    lvl2:
+      preis: 20000
+      kills: 300
+      health: 2000
+      damage: 2.5
+    lvl3:
+      preis: 30000
+      kills: 450
+      health: 2000
+      damage: 2.5
+  dungeon9:
+    lvl1:
+      preis: 10000
+      kills: 150
+      health: 2000
+      damage: 2.5
+    lvl2:
+      preis: 20000
+      kills: 300
+      health: 2000
+      damage: 2.5
+    lvl3:
+      preis: 30000
+      kills: 450
+      health: 2000
+      damage: 2.5
+  dungeon10:
+    lvl1:
+      preis: 10000
+      kills: 150
+      health: 2000
+      damage: 2.5
+    lvl2:
+      preis: 20000
+      kills: 300
+      health: 2000
+      damage: 2.5
+    lvl3:
+      preis: 30000
+      kills: 450
+      health: 2000
+      damage: 2.5
