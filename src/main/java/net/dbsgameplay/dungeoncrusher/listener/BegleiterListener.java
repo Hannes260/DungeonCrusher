@@ -144,7 +144,7 @@ public class BegleiterListener implements Listener {
                                         if (entityList.isEmpty()) break;
                                     }
 
-                                    List<LivingEntity> entity_Target_List = (List<LivingEntity>) targetHashmap.values();
+                                    Collection<LivingEntity> entity_Target_List = targetHashmap.values();
                                     while (entity_Target_List.contains(entityList.getFirst())) {
                                         entityList.remove(entityList.getFirst());
                                     }
