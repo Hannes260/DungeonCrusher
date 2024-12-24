@@ -62,7 +62,6 @@ public class SpawnMiniBossCommand implements CommandExecutor {
     private void CreateMiniBossSpawnInv(String dungeon, Player p) {
         Inventory bossInv = Bukkit.createInventory(null, 27, "Spawn Miniboss");
 
-        MinibossConfigManager.loadConfig();
         HashMap<String, HashMap<String, HashMap<String, Double>>> minibossHashMap = MinibossConfigManager.miniboss_data_Hashmap;
 
         ItemStack lv1BossItem = new ItemStack(Material.CREEPER_SPAWN_EGG);

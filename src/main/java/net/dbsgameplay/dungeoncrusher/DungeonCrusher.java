@@ -137,6 +137,7 @@ public final class DungeonCrusher extends JavaPlugin {
         Weekly.checkForOrginQuest();
         Monthly.checkForOrginQuest();
 
+        MinibossConfigManager.loadConfig();
 
         mobTypesToKill.add(EntityType.SHEEP);
         mobTypesToKill.add(EntityType.PIG);
