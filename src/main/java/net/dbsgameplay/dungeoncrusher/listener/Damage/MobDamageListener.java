@@ -35,7 +35,7 @@ public class MobDamageListener implements Listener {
     public void onEntitySpawn(EntitySpawnEvent event) {
         Entity entity = event.getEntity();
         if (entity instanceof LivingEntity && isAllowedEntity(entity)) {
-            if(!MinibossListener.livingMinibosse.get(entity)) {
+            if(!MinibossListener.livingMinibosse.containsKey(entity)) {
                 LivingEntity livingEntity = (LivingEntity) entity;
                 healthBuilder.setMobHealth(livingEntity);
 
