@@ -52,7 +52,7 @@ public class SpawnMiniBossCommand implements CommandExecutor {
     }
 
     private void CreateMiniBossSpawnInv(String dungeon, Player p) {
-        Inventory bossInv = Bukkit.createInventory(null, 27, "Miniboss " + dungeon);
+        Inventory bossInv = Bukkit.createInventory(null, 27, "Spawn Miniboss");
 
         MinibossConfigManager.loadConfig();
         HashMap<String, HashMap<String, HashMap<String, Integer>>> minibossHashMap = MinibossConfigManager.miniboss_data_Hashmap;
