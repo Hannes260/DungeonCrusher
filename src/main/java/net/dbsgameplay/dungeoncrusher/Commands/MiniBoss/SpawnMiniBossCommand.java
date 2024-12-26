@@ -91,6 +91,16 @@ public class SpawnMiniBossCommand implements CommandExecutor {
         lv3BossMeta.setLore(lv3Lore);
         lv3BossItem.setItemMeta(lv3BossMeta);
 
+        ItemStack notUnlocked = new ItemStack(Material.CHICKEN_SPAWN_EGG);
+        ItemMeta notUnlockedMeta = notUnlocked.getItemMeta();
+        notUnlockedMeta.setDisplayName("§cMiniboss nicht freigeschaltet");
+        List<String> notUnlockedLore = new ArrayList();
+        notUnlockedLore.add("§6Besiege den Miniboss vom vorherigen");
+        notUnlockedLore.add("§6Level um diesen Miniboss freizuschalten");
+        notUnlockedMeta.setLore(notUnlockedLore);
+        notUnlockedMeta.setCustomModelData(501);
+        notUnlocked.setItemMeta(notUnlockedMeta);
+
         int bossLevel = 0;
 
         bossLevel = mysqlManager.getMinibossLevel(p.getUniqueId().toString(), dungeon);
@@ -100,13 +110,13 @@ public class SpawnMiniBossCommand implements CommandExecutor {
         if(bossLevel >= 1) {
             bossInv.setItem(13, lv2BossItem);
         } else {
-            bossInv.setItem(13, new ItemStack(Material.BARRIER));
+            bossInv.setItem(13, notUnlocked);
         }
 
         if(bossLevel >= 2) {
             bossInv.setItem(15, lv3BossItem);
         }else {
-            bossInv.setItem(15, new ItemStack(Material.BARRIER));
+            bossInv.setItem(15, notUnlocked);
         }
 
         p.openInventory(bossInv);

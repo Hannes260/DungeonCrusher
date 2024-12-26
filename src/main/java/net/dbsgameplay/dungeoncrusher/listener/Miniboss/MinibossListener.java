@@ -5,36 +5,40 @@ import net.dbsgameplay.dungeoncrusher.listener.DungeonListener;
 import net.dbsgameplay.dungeoncrusher.sql.MYSQLManager;
 import net.dbsgameplay.dungeoncrusher.utils.Configs.ErfolgeConfigManager;
 import net.dbsgameplay.dungeoncrusher.utils.Configs.MinibossConfigManager;
-import org.bukkit.Bukkit;
-import org.bukkit.Location;
-import org.bukkit.Material;
-import org.bukkit.boss.BarColor;
-import org.bukkit.boss.BarFlag;
-import org.bukkit.boss.BarStyle;
-import org.bukkit.boss.BossBar;
+import org.bukkit.*;
+import org.bukkit.boss.*;
 import org.bukkit.entity.*;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.inventory.InventoryClickEvent;
-import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.attribute.Attribute;
-import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
 
+import java.util.EnumMap;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Random;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 public class MinibossListener implements Listener {
+    private static final int SPAWN_RADIUS = 10;
+    private static final int FOLLOW_DISTANCE = 50;
+    private static final double BOSS_SCALE = 2.0;
+    private static final int DAMAGE_RADIUS = 2;
 
-    MYSQLManager mysqlManager;
-    private DungeonCrusher dungeonCrusher;
+    private final DungeonCrusher dungeonCrusher;
+    private final MYSQLManager mysqlManager;
+    private final Map<LivingEntity, BossBar> bossBars = new ConcurrentHashMap<>();
+    private final Map<LivingEntity, Integer> bossLevel = new ConcurrentHashMap<>();
+    public static final Map<LivingEntity, Boolean> livingMinibosse = new ConcurrentHashMap<>();
 
-    private HashMap<LivingEntity, BossBar> bossBars = new HashMap<>();
-    private HashMap<LivingEntity, Integer> bossLevel = new HashMap<>();
-    public static  HashMap<LivingEntity, Boolean> livingMinibosse = new HashMap<>();
+    private final Map<Material, Integer> spawnEggToLevel = new EnumMap<>(Material.class) {{
+        put(Material.CREEPER_SPAWN_EGG, 1);
+        put(Material.BEE_SPAWN_EGG, 2);
+        put(Material.MOOSHROOM_SPAWN_EGG, 3);
+    }};
 
     public MinibossListener(DungeonCrusher dungeonCrusher, MYSQLManager mysqlManager) {
         this.dungeonCrusher = dungeonCrusher;
@@ -43,246 +47,174 @@ public class MinibossListener implements Listener {
 
     @EventHandler
     public void onInventoryClick(InventoryClickEvent event) {
-        Player p = (Player) event.getWhoClicked();
-        ItemStack clickedItem = event.getCurrentItem();
-        Inventory clickedInventory = event.getInventory();
-
-        if (clickedItem == null) {
+        if (!(event.getWhoClicked() instanceof Player) ||
+                !event.getView().getTitle().equalsIgnoreCase("Spawn Miniboss") ||
+                event.getCurrentItem() == null) {
             return;
         }
 
-        if(event.getView().getTitle().equalsIgnoreCase("Spawn Miniboss")) {
+        event.setCancelled(true);
+        Player player = (Player) event.getWhoClicked();
+        Material clickedType = event.getCurrentItem().getType();
 
-            event.setCancelled(true);
+        Integer level = spawnEggToLevel.get(clickedType);
+        if (level == null) return;
 
-            String dungeon = DungeonListener.getCurrentDungeon(p.getLocation());
-            String currentMoneyString = mysqlManager.getBalance(p.getUniqueId().toString());
-            currentMoneyString = currentMoneyString.replace(",", "");
-            Double currentMoney = Double.parseDouble(currentMoneyString);
+        spawnMiniboss(player, level);
+    }
 
-            HashMap<String, HashMap<String, HashMap<String, Double>>> minibossHashMap = MinibossConfigManager.miniboss_data_Hashmap;
+    private void spawnMiniboss(Player player, int level) {
+        String dungeon = DungeonListener.getCurrentDungeon(player.getLocation());
+        double currentMoney = Double.parseDouble(mysqlManager.getBalance(player.getUniqueId().toString()).replace(",", ""));
+        HashMap<String, HashMap<String, HashMap<String, Double>>> minibossData = MinibossConfigManager.miniboss_data_Hashmap;
 
-            if(clickedItem.getType() == Material.CREEPER_SPAWN_EGG) {
+        double cost = minibossData.get(dungeon).get("lvl" + level).get("preis");
 
-                double costs = minibossHashMap.get(dungeon).get("lvl1").get("preis").intValue();
-
-                if (currentMoney >= costs) {
-                    Location playerLocation = p.getLocation();
-
-                    Random random = new Random();
-                    int x = playerLocation.getBlockX() + random.nextInt(21) - 10;
-                    int y = playerLocation.getBlockY();
-                    int z = playerLocation.getBlockZ() + random.nextInt(21) - 10;
-
-                    // Zombie spawnen
-                    Location spawnLocation = new Location(playerLocation.getWorld(), x, y, z);
-
-                    List<String> dungeonMobList =  ErfolgeConfigManager.enNamesList;
-                    EntityType entityType = EntityType.fromName(dungeonMobList.get((Integer.parseInt(dungeon.replace("dungeon", "")) - 1)));
-
-                    LivingEntity boss = (LivingEntity) p.getWorld().spawnEntity(spawnLocation, entityType);
-                    boss.setCustomName("§cMiniboss");
-                    boss.setCustomNameVisible(true);
-                    boss.setMaxHealth(minibossHashMap.get(dungeon).get("lvl1").get("health").intValue());
-                    boss.setHealth(minibossHashMap.get(dungeon).get("lvl1").get("health").intValue());
-                    boss.getAttribute(Attribute.GENERIC_SCALE).setBaseValue(2.0);
-                    boss.setVisibleByDefault(false);
-                    p.showEntity(dungeonCrusher, boss);
-                    followPlayer((Mob) boss, p);
-                    applyDamageToNearbyPlayers((Mob) boss, p, minibossHashMap.get(dungeon).get("lvl1").get("damage"));
-
-                    BossBar bossBar = Bukkit.createBossBar(
-                            "§cMiniboss §f" + (int)boss.getHealth() + "§c/§f" + (int)boss.getMaxHealth() + " §cHP",
-                            BarColor.RED,
-                            BarStyle.SOLID,
-                            BarFlag.PLAY_BOSS_MUSIC
-                    );
-
-                    bossBar.addPlayer(p);
-                    bossBar.setProgress(boss.getHealth() / boss.getMaxHealth());
-                    bossBars.put(boss, bossBar);
-                    bossLevel.put(boss, 1);
-                    livingMinibosse.put(boss, true);
-
-                    p.closeInventory();
-
-                }else {
-                    p.sendMessage("§cDu hast nicht genug Geld um diesen Miniboss zu beschwören");
-                }
-            }
-
-            if(clickedItem.getType() == Material.BEE_SPAWN_EGG) {
-
-                double costs = minibossHashMap.get(dungeon).get("lvl2").get("preis").intValue();
-
-                if (currentMoney >= costs) {
-                    Location playerLocation = p.getLocation();
-
-                    Random random = new Random();
-                    int x = playerLocation.getBlockX() + random.nextInt(21) - 10;
-                    int y = playerLocation.getBlockY();
-                    int z = playerLocation.getBlockZ() + random.nextInt(21) - 10;
-
-                    // Zombie spawnen
-                    Location spawnLocation = new Location(playerLocation.getWorld(), x, y, z);
-
-                    List<String> dungeonMobList =  ErfolgeConfigManager.enNamesList;
-                    EntityType entityType = EntityType.fromName(dungeonMobList.get((Integer.parseInt(dungeon.replace("dungeon", "")) - 1)));
-
-                    LivingEntity boss = (LivingEntity) p.getWorld().spawnEntity(spawnLocation, entityType);
-                    boss.setCustomName("§cMiniboss");
-                    boss.setCustomNameVisible(true);
-                    boss.setMaxHealth(minibossHashMap.get(dungeon).get("lvl2").get("health").intValue());
-                    boss.setHealth(minibossHashMap.get(dungeon).get("lvl2").get("health").intValue());
-                    boss.getAttribute(Attribute.GENERIC_SCALE).setBaseValue(2.0);
-                    boss.setVisibleByDefault(false);
-                    p.showEntity(dungeonCrusher, boss);
-                    followPlayer((Mob) boss, p);
-                    applyDamageToNearbyPlayers((Mob) boss, p, minibossHashMap.get(dungeon).get("lvl2").get("damage"));
-
-                    BossBar bossBar = Bukkit.createBossBar(
-                            "§cMiniboss §f" + (int)boss.getHealth() + "§c/§f" + (int)boss.getMaxHealth() + " §cHP",
-                            BarColor.RED,
-                            BarStyle.SOLID,
-                            BarFlag.PLAY_BOSS_MUSIC
-                    );
-
-                    bossBar.addPlayer(p);
-                    bossBar.setProgress(boss.getHealth() / boss.getMaxHealth());
-                    bossBars.put(boss, bossBar);
-                    bossLevel.put(boss, 2);
-                    livingMinibosse.put(boss, true);
-
-                    p.closeInventory();
-
-                }else {
-                    p.sendMessage("§cDu hast nicht genug Geld um diesen Miniboss zu beschwören");
-                }
-            }
-
-            if(clickedItem.getType() == Material.MOOSHROOM_SPAWN_EGG) {
-
-                double costs = minibossHashMap.get(dungeon).get("lvl3").get("preis").intValue();
-
-                if (currentMoney >= costs) {
-                    Location playerLocation = p.getLocation();
-
-                    Random random = new Random();
-                    int x = playerLocation.getBlockX() + random.nextInt(21) - 10;
-                    int y = playerLocation.getBlockY();
-                    int z = playerLocation.getBlockZ() + random.nextInt(21) - 10;
-
-                    // Zombie spawnen
-                    Location spawnLocation = new Location(playerLocation.getWorld(), x, y, z);
-
-                    List<String> dungeonMobList =  ErfolgeConfigManager.enNamesList;
-                    EntityType entityType = EntityType.fromName(dungeonMobList.get((Integer.parseInt(dungeon.replace("dungeon", "")) - 1)));
-
-                    LivingEntity boss = (LivingEntity) p.getWorld().spawnEntity(spawnLocation, entityType);
-                    boss.setCustomName("§cMiniboss");
-                    boss.setCustomNameVisible(true);
-                    boss.setMaxHealth(minibossHashMap.get(dungeon).get("lvl3").get("health").intValue());
-                    boss.setHealth(minibossHashMap.get(dungeon).get("lvl3").get("health").intValue());
-                    boss.getAttribute(Attribute.GENERIC_SCALE).setBaseValue(2.0);
-                    boss.setVisibleByDefault(false);
-                    p.showEntity(dungeonCrusher, boss);
-                    followPlayer((Mob) boss, p);
-                    applyDamageToNearbyPlayers((Mob) boss, p, minibossHashMap.get(dungeon).get("lvl3").get("damage"));
-
-                    BossBar bossBar = Bukkit.createBossBar(
-                            "§cMiniboss §f" + (int)boss.getHealth() + "§c/§f" + (int)boss.getMaxHealth() + " §cHP",
-                            BarColor.RED,
-                            BarStyle.SOLID,
-                            BarFlag.PLAY_BOSS_MUSIC
-                    );
-
-                    bossBar.addPlayer(p);
-                    bossBar.setProgress(boss.getHealth() / boss.getMaxHealth());
-                    bossBars.put(boss, bossBar);
-                    bossLevel.put(boss, 3);
-                    livingMinibosse.put(boss, true);
-
-                    p.closeInventory();
-
-                }else {
-                    p.sendMessage("§cDu hast nicht genug Geld um diesen Miniboss zu beschwören");
-                }
-            }
-
-
+        if (currentMoney < cost) {
+            player.sendMessage("§cDu hast nicht genug Geld um diesen Miniboss zu beschwören");
+            return;
         }
+
+        Location spawnLoc = getRandomSpawnLocation(player.getLocation());
+        LivingEntity boss = spawnBoss(player, spawnLoc, dungeon, level, minibossData);
+
+        createBossBar(boss, player);
+        followPlayer(boss, player);
+        applyDamageToNearbyPlayers(boss, player, minibossData.get(dungeon).get("lvl" + level).get("damage"));
+
+        player.closeInventory();
     }
 
-    private void followPlayer(Mob mob, Player player) {
+    private Location getRandomSpawnLocation(Location playerLoc) {
+        return playerLoc.clone().add(
+                (Math.random() * 2 - 1) * SPAWN_RADIUS,
+                0,
+                (Math.random() * 2 - 1) * SPAWN_RADIUS
+        );
+    }
+
+    private LivingEntity spawnBoss(Player player, Location location, String dungeon, int level, Map<String, HashMap<String, HashMap<String, Double>>> minibossData) {
+        List<String> dungeonMobList = ErfolgeConfigManager.enNamesList;
+        EntityType entityType = EntityType.fromName(dungeonMobList.get(Integer.parseInt(dungeon.replace("dungeon", "")) - 1));
+
+        LivingEntity boss = (LivingEntity) player.getWorld().spawnEntity(location, entityType);
+        double health = minibossData.get(dungeon).get("lvl" + level).get("health");
+
+        boss.setCustomName("§cMiniboss");
+        boss.setCustomNameVisible(true);
+        boss.setMaxHealth(health);
+        boss.setHealth(health);
+        boss.getAttribute(Attribute.GENERIC_SCALE).setBaseValue(BOSS_SCALE);
+        boss.setVisibleByDefault(false);
+
+        player.showEntity(dungeonCrusher, boss);
+        bossLevel.put(boss, level);
+        livingMinibosse.put(boss, true);
+
+        return boss;
+    }
+
+    private void createBossBar(LivingEntity boss, Player player) {
+        BossBar bossBar = Bukkit.createBossBar(
+                getBossBarTitle(boss),
+                BarColor.RED,
+                BarStyle.SOLID,
+                BarFlag.PLAY_BOSS_MUSIC
+        );
+
+        bossBar.addPlayer(player);
+        bossBar.setProgress(1.0);
+        bossBars.put(boss, bossBar);
+    }
+
+    private String getBossBarTitle(LivingEntity boss) {
+        return String.format("§cMiniboss §f%d§c/§f%d §cHP",
+                (int)boss.getHealth(),
+                (int)boss.getMaxHealth());
+    }
+
+    private void followPlayer(LivingEntity boss, Player player) {
+        if (!(boss instanceof Mob)) return;
+        Mob mob = (Mob) boss;
+
         new BukkitRunnable() {
             @Override
             public void run() {
-                if (mob.isDead() || !player.isOnline()) {
+                if (!isValidTarget(mob, player)) {
+                    this.cancel();
+                    return;
+                }
+                updateMobTarget(mob, player);
+            }
+        }.runTaskTimer(dungeonCrusher, 0L, 5L);
+    }
+
+    private boolean isValidTarget(Mob mob, Player player) {
+        return !mob.isDead() &&
+                player.isOnline() &&
+                mob.getLocation().distance(player.getLocation()) <= FOLLOW_DISTANCE;
+    }
+
+    private void updateMobTarget(Mob mob, Player player) {
+        mob.setTarget(player);
+        mob.getPathfinder().moveTo(player);
+    }
+
+    private void applyDamageToNearbyPlayers(LivingEntity boss, Player target, double damage) {
+        if (!(boss instanceof Mob)) return;
+
+        new BukkitRunnable() {
+            @Override
+            public void run() {
+                if (boss.isDead()) {
                     this.cancel();
                     return;
                 }
 
-                if (mob.getLocation().distance(player.getLocation()) > 50) {
-                    mob.setTarget(null); // Stoppe die Verfolgung
-                    return;
-                }
-
-                mob.setTarget(player);
-                mob.getPathfinder().moveTo(player);
+                boss.getNearbyEntities(DAMAGE_RADIUS, DAMAGE_RADIUS, DAMAGE_RADIUS).stream()
+                        .filter(entity -> entity instanceof Player && entity.equals(target))
+                        .forEach(entity -> ((Player) entity).damage(damage));
             }
-        }.runTaskTimer(DungeonCrusher.getInstance(), 0L, 5L);
-    }
-
-    private void applyDamageToNearbyPlayers(Mob mob, Player p, double damage) {
-        new BukkitRunnable() {
-
-            @Override
-            public void run() {
-                if (mob.isDead()) {
-                    this.cancel();
-                    return;
-                }
-                for (Entity entity : mob.getNearbyEntities(2,2,2)){
-                    if (entity instanceof Player) {
-                        Player nearbyPlayer = (Player) entity;
-                        if(nearbyPlayer == p){
-                            nearbyPlayer.damage(damage);
-                        }
-                    }
-                }
-            }
-        }.runTaskTimer(DungeonCrusher.getInstance(), 0L, 20L);
+        }.runTaskTimer(dungeonCrusher, 0L, 20L);
     }
 
     @EventHandler
     public void onEntityDamage(EntityDamageEvent event) {
         if (!(event.getEntity() instanceof LivingEntity)) return;
-        
-        LivingEntity entity = (LivingEntity) event.getEntity();
 
-        if (!bossBars.containsKey(entity)) return;
+        LivingEntity entity = (LivingEntity) event.getEntity();
         BossBar bossBar = bossBars.get(entity);
+        if (bossBar == null) return;
 
         Bukkit.getScheduler().runTaskLater(dungeonCrusher, () -> {
-            bossBar.setTitle("§cMiniboss §f" + (int) entity.getHealth() + "§c/§f" + (int) entity.getMaxHealth() + " §cHP");
-            bossBar.setProgress(Math.max(0, entity.getHealth() / entity.getMaxHealth()));
-
             if (entity.isDead()) {
-                bossBar.removeAll();
-                bossBars.remove(entity);
-                livingMinibosse.remove(entity);
-
-                if(entity.getKiller() instanceof Player){
-
-                    Player p = entity.getKiller();
-                    String dungeon = DungeonListener.getCurrentDungeon(p.getLocation());
-                    int level = bossLevel.get(entity);
-
-                    mysqlManager.updateMinibossLevel(p.getUniqueId().toString(), dungeon, level);
-
-                    p.sendMessage("§aDu hast erfolgreich den Miniboss gekillt");
-                }
+                handleBossDeath(entity);
+                return;
             }
-        }, 1L );
+            updateBossBar(entity, bossBar);
+        }, 1L);
+    }
+
+    private void handleBossDeath(LivingEntity entity) {
+        BossBar bossBar = bossBars.get(entity);
+        bossBar.removeAll();
+        bossBars.remove(entity);
+        livingMinibosse.remove(entity);
+
+        if (entity.getKiller() instanceof Player) {
+            Player killer = entity.getKiller();
+            String dungeon = DungeonListener.getCurrentDungeon(killer.getLocation());
+
+            int currentLevel = mysqlManager.getMinibossLevel(killer.getUniqueId().toString(), dungeon);
+            if(!(bossLevel.get(entity) <= currentLevel)) {
+                mysqlManager.updateMinibossLevel(killer.getUniqueId().toString(), dungeon, bossLevel.get(entity));
+            }
+            killer.sendMessage("§aDu hast erfolgreich den Miniboss gekillt");
+        }
+    }
+
+    private void updateBossBar(LivingEntity entity, BossBar bossBar) {
+        bossBar.setTitle(getBossBarTitle(entity));
+        bossBar.setProgress(Math.max(0, entity.getHealth() / entity.getMaxHealth()));
     }
 }

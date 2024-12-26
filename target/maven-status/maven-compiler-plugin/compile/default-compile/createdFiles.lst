@@ -67,6 +67,7 @@ net\dbsgameplay\dungeoncrusher\DungeonCrusher$1.class
 net\dbsgameplay\dungeoncrusher\enums\Shop\ExchangeCategory.class
 net\dbsgameplay\dungeoncrusher\enums\Stats\KillsCategory$1.class
 net\dbsgameplay\dungeoncrusher\listener\Enchantments\EnchantmentListener.class
+net\dbsgameplay\dungeoncrusher\listener\Miniboss\MinibossListener$3.class
 net\dbsgameplay\dungeoncrusher\Commands\StatsCommand.class
 net\dbsgameplay\dungeoncrusher\enums\Shop\ExchangeCategory$ShopItem.class
 net\dbsgameplay\dungeoncrusher\Commands\Flycommand.class
