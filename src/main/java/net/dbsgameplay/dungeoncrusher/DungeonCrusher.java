@@ -459,7 +459,7 @@ public final class DungeonCrusher extends JavaPlugin {
                     mysqlManager.updatePlayerQuest("daily" + questNumber, true, p.getUniqueId().toString());
                     if (Daily.RewardMoneyList.get(quest) != null) {
                         foodCategory.addMoney(p, Daily.RewardMoneyList.get(quest));
-                        p.sendMessage(" §7[§a+§7] §6" + Daily.RewardMoneyList.get(quest) + "€");
+                        p.sendMessage("Error 1 §7[§a+§7] §6" + Daily.RewardMoneyList.get(quest) + "€");
                     }
                     p.sendActionBar("§6Du hast eine Quest abgeschlossen hol dir deine Belohnung §d/quest");
                     for (int i = 0; i!= 10; i++) {
@@ -496,7 +496,7 @@ public final class DungeonCrusher extends JavaPlugin {
                     mysqlManager.updatePlayerQuest("weekly" + questNumber, true, p.getUniqueId().toString());
                     if (Weekly.RewardMoneyList.get(quest) != null) {
                         foodCategory.addMoney(p, Weekly.RewardMoneyList.get(quest));
-                        p.sendMessage(" §7[§a+§7] §6" + Weekly.RewardMoneyList.get(quest) + "€");
+                        p.sendMessage("Error 2 §7[§a+§7] §6" + Weekly.RewardMoneyList.get(quest) + "€");
                     }
                     p.sendActionBar("§6Du hast eine Quest abgeschlossen hol dir deine Belohnung §d/quest");
                     for (int i = 0; i!= 10; i++) {
@@ -533,7 +533,7 @@ public final class DungeonCrusher extends JavaPlugin {
                     mysqlManager.updatePlayerQuest("monthly" + questNumber, true, p.getUniqueId().toString());
                     if (Monthly.RewardMoneyList.get(quest) != null) {
                         foodCategory.addMoney(p, Monthly.RewardMoneyList.get(quest));
-                        p.sendMessage(" §7[§a+§7] §6" + Monthly.RewardMoneyList.get(quest) + "€");
+                        p.sendMessage("Error 3 §7[§a+§7] §6" + Monthly.RewardMoneyList.get(quest) + "€");
                     }
                     p.sendActionBar("§6Du hast eine Quest abgeschlossen hol dir deine Belohnung §d/quest");
                     for (int i = 0; i!= 10; i++) {
