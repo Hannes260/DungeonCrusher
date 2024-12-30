@@ -262,7 +262,7 @@ public class Weekly {
         return mysqlManager.getPlayerQuest("weekly" + num, p.getUniqueId().toString());
     }
 
-    public static void doQuest(Player p, HashMap<String, Integer> questMap) {
+    public static void doQuest(Player p, HashMap<String, Integer> questMap, int progress) {
         if (QuestBuilder.isTutorialDone(p)) {
             FileConfiguration cfg = dungeonCrusher.getConfig();
             String Quest1 = mysqlManager.getOrginQuest("weekly1");
@@ -283,19 +283,19 @@ public class Weekly {
 
             for (String s : questMap.keySet()) {
                 if (s.equals(Quest1)) {
-                    handle(1, "weekly1", p, questMap, s, foodCategory);
+                    handle(1, "weekly1", p, questMap, s, foodCategory, progress);
                 } else if (s.equals(Quest2)) {
-                    handle(2, "weekly2", p, questMap, s, foodCategory);
+                    handle(2, "weekly2", p, questMap, s, foodCategory, progress);
                 } else if (s.equals(Quest3)) {
-                    handle(3, "weekly3", p, questMap, s, foodCategory);
+                    handle(3, "weekly3", p, questMap, s, foodCategory, progress);
                 }
             }
         }
     }
 
-    public static void handle(int num, String questType, Player p, HashMap<String, Integer> questMap, String s, FoodCategory foodCategory) {
+    public static void handle(int num, String questType, Player p, HashMap<String, Integer> questMap, String s, FoodCategory foodCategory, int progress) {
         if (!Weekly.isDone(num, p)) {
-            mysqlManager.updatePlayerTempQuest(questType, p.getUniqueId().toString(), mysqlManager.getPlayerTempQuest(questType, p.getUniqueId().toString())+1);
+            mysqlManager.updatePlayerTempQuest(questType, p.getUniqueId().toString(), mysqlManager.getPlayerTempQuest(questType, p.getUniqueId().toString())+ progress);
 
             if (mysqlManager.getPlayerTempQuest(questType, p.getUniqueId().toString()) >= questMap.get(s)) {
                 p.playSound(p.getLocation(), Sound.ENTITY_ARROW_HIT_PLAYER, 100, 1);

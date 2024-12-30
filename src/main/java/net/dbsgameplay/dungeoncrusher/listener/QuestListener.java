@@ -208,13 +208,17 @@ public class QuestListener implements Listener {
         //Es gibt nur essen und potions die man konsumieren kann deswegen ist ein iff ned nötig
         if (QuestBuilder.isTutorialDone(p)) {
             if (e.getItem().getItemMeta() instanceof  PotionMeta) {
-                Daily.doQuest(p, Daily.DrinkQuestList);
-                Weekly.doQuest(p, Weekly.DrinkQuestList);
-                Monthly.doQuest(p, Monthly.DrinkQuestList);
+                Bukkit.getScheduler().runTaskAsynchronously(dungeonCrusher, () -> {
+                    Daily.doQuest(p, Daily.DrinkQuestList, 1);
+                    Weekly.doQuest(p, Weekly.DrinkQuestList, 1);
+                    Monthly.doQuest(p, Monthly.DrinkQuestList, 1);
+                });
             }else {
-                Daily.doQuest(p, Daily.EatQuestList);
-                Weekly.doQuest(p, Weekly.EatQuestList);
-                Monthly.doQuest(p, Monthly.EatQuestList);
+                Bukkit.getScheduler().runTaskAsynchronously(dungeonCrusher, () -> {
+                    Daily.doQuest(p, Daily.EatQuestList, 1);
+                    Weekly.doQuest(p, Weekly.EatQuestList, 1);
+                    Monthly.doQuest(p, Monthly.EatQuestList, 1);
+                });
             }
         }
     }
@@ -223,9 +227,12 @@ public class QuestListener implements Listener {
     public void EntityDeathEvent(EntityDeathEvent e) {
         if (e.getEntity().getKiller() instanceof Player p) {
             if (QuestBuilder.isTutorialDone(p)) {
-                Daily.doQuest(p, Daily.KillQuestList);
-                Weekly.doQuest(p, Weekly.KillQuestList);
-                Monthly.doQuest(p, Monthly.KillQuestList);
+
+                Bukkit.getScheduler().runTaskAsynchronously(dungeonCrusher, () -> {
+                    Daily.doQuest(p, Daily.KillQuestList, 1);
+                    Weekly.doQuest(p, Weekly.KillQuestList, 1);
+                    Monthly.doQuest(p, Monthly.KillQuestList, 1);
+                });
             }
 
             if (mysqlManager.getDungeonCountForPlayer(p.getUniqueId().toString()) >= 2 && mysqlManager.getTutorialQuest(p.getUniqueId().toString()).equalsIgnoreCase("t1")) {
@@ -251,9 +258,9 @@ public class QuestListener implements Listener {
         if (QuestBuilder.isTutorialDone(e.getPlayer())) {
             if (e.getFrom().getBlockX() != e.getTo().getBlockX() || e.getFrom().getBlockZ() != e.getTo().getBlockZ()) {
                 Bukkit.getScheduler().runTaskAsynchronously(dungeonCrusher, () -> {
-                    Daily.doQuest(e.getPlayer(), Daily.MoveQuestList);
-                    Weekly.doQuest(e.getPlayer(), Weekly.MoveQuestList);
-                    Monthly.doQuest(e.getPlayer(), Monthly.MoveQuestList);
+                    Daily.doQuest(e.getPlayer(), Daily.MoveQuestList,1);
+                    Weekly.doQuest(e.getPlayer(), Weekly.MoveQuestList,1);
+                    Monthly.doQuest(e.getPlayer(), Monthly.MoveQuestList,1);
                 });
 
             }
@@ -263,14 +270,15 @@ public class QuestListener implements Listener {
     @EventHandler
     public void EntityDamageByEntityEvent(EntityDamageByEntityEvent e) {
         if (e.getDamager() instanceof Player p) {
-            int damage = (int) e.getDamage();
 
             if (QuestBuilder.isTutorialDone(p)) {
-                for (int i = 0; i != damage; i++) {
-                    Daily.doQuest(p, Daily.DamageQuestList);
-                    Weekly.doQuest(p, Weekly.DamageQuestList);
-                    Monthly.doQuest(p, Monthly.DamageQuestList);
-                }
+                int damage = (int) e.getDamage();
+
+                Bukkit.getScheduler().runTaskAsynchronously(dungeonCrusher, () -> {
+                    Daily.doQuest(p, Daily.DamageQuestList,damage);
+                    Weekly.doQuest(p, Weekly.DamageQuestList,damage);
+                    Monthly.doQuest(p, Monthly.DamageQuestList,damage);
+                });
             }
         }
     }

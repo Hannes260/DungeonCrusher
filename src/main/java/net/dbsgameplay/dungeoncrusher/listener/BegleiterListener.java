@@ -88,12 +88,12 @@ public class BegleiterListener implements Listener {
 
     @EventHandler
     public void onPlayerMoveEvent(PlayerMoveEvent e) {
-        Player p = e.getPlayer();
-
         //only precess if player is moving
         if (e.getFrom().getX() == e.getTo().getX() && e.getFrom().getZ() == e.getTo().getZ()) {
             return;
         }
+
+        Player p = e.getPlayer();
 
         //only process if player has a begleiter
         if (mysqlManager.getBegleiterID(p.getUniqueId().toString()) == null) {

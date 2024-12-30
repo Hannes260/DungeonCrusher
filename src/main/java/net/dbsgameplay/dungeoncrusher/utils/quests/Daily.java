@@ -258,7 +258,7 @@ public class Daily {
         return mysqlManager.getPlayerQuest("daily" + num, p.getUniqueId().toString());
     }
 
-    public static void doQuest(Player p, HashMap<String, Integer> questMap) {
+    public static void doQuest(Player p, HashMap<String, Integer> questMap, int progress) {
         if (QuestBuilder.isTutorialDone(p)) {
             FileConfiguration cfg = dungeonCrusher.getConfig();
             String Quest1 = mysqlManager.getOrginQuest("daily1");
@@ -279,19 +279,19 @@ public class Daily {
 
             for (String s : questMap.keySet()) {
                 if (s.equals(Quest1)) {
-                    handle(1, "daily1", p, questMap, s, foodCategory);
+                    handle(1, "daily1", p, questMap, s, foodCategory, progress);
                 } else if (s.equals(Quest2)) {
-                    handle(2, "daily2", p, questMap, s, foodCategory);
+                    handle(2, "daily2", p, questMap, s, foodCategory, progress);
                 } else if (s.equals(Quest3)) {
-                    handle(3, "daily3", p, questMap, s, foodCategory);
+                    handle(3, "daily3", p, questMap, s, foodCategory, progress);
                 }
             }
         }
     }
 
-    public static void handle(int num, String questType, Player p, HashMap<String, Integer> questMap, String s, FoodCategory foodCategory) {
+    public static void handle(int num, String questType, Player p, HashMap<String, Integer> questMap, String s, FoodCategory foodCategory, int progress) {
         if (!Daily.isDone(num, p)) {
-            mysqlManager.updatePlayerTempQuest(questType, p.getUniqueId().toString(), mysqlManager.getPlayerTempQuest(questType, p.getUniqueId().toString())+1);
+            mysqlManager.updatePlayerTempQuest(questType, p.getUniqueId().toString(), mysqlManager.getPlayerTempQuest(questType, p.getUniqueId().toString())+progress);
 
             if (mysqlManager.getPlayerTempQuest(questType, p.getUniqueId().toString()) >= questMap.get(s)) {
                 p.playSound(p.getLocation(), Sound.ENTITY_ARROW_HIT_PLAYER, 100, 1);

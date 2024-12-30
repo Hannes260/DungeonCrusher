@@ -87,11 +87,11 @@ public class CustomDropListener implements Listener {
             mysqlManager.updateItemAmount(playerUUID, material.name(), currentItem + amountToDrop);
 
             if (QuestBuilder.isTutorialDone(player)) {
-                for (int i = 0; i != amountToDrop; i++) {
-                    Daily.doQuest(player, Daily.GetQuestList);
-                    Weekly.doQuest(player, Weekly.GetQuestList);
-                    Monthly.doQuest(player, Monthly.GetQuestList);
-                }
+                Bukkit.getScheduler().runTaskAsynchronously(dungeonCrusher, () -> {
+                    Daily.doQuest(player, Daily.GetQuestList, amountToDrop);
+                    Weekly.doQuest(player, Weekly.GetQuestList, amountToDrop);
+                    Monthly.doQuest(player, Monthly.GetQuestList, amountToDrop);
+                });
             }
 
             // Sync Task für Inventaroperationen und Hologramme
