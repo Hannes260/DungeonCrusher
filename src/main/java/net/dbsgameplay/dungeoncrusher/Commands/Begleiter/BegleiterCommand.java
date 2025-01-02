@@ -1,7 +1,6 @@
 package net.dbsgameplay.dungeoncrusher.Commands.Begleiter;
 
 import net.dbsgameplay.dungeoncrusher.utils.Begleiter.BegleiterBuilder;
-import org.bukkit.Material;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -18,10 +17,6 @@ public class BegleiterCommand implements CommandExecutor {
         }else if (strings[0].equalsIgnoreCase("ziehen")) {
             BegleiterBuilder.zieheBegleiter(p);
         }
-
-
-//        BegleiterBuilder begleiterBuilder = new BegleiterBuilder();
-//        begleiterBuilder.setLocation(p).setName(p.getUniqueId().toString()).setSkin(Material.ZOMBIE_HEAD).addToList().build();
 
         return false;
     }

@@ -1,7 +1,6 @@
 package net.dbsgameplay.dungeoncrusher.listener;
 
 import net.dbsgameplay.dungeoncrusher.DungeonCrusher;
-import net.dbsgameplay.dungeoncrusher.utils.Configs.LocationConfigManager;
 import net.dbsgameplay.dungeoncrusher.utils.ErfolgeBuilders;
 import net.luckperms.api.model.user.User;
 import net.luckperms.api.node.types.SuffixNode;
@@ -18,19 +17,10 @@ import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
-import javax.naming.spi.DirObjectFactory;
 import java.util.HashMap;
 import java.util.UUID;
 
 public class ErfolgeListener implements Listener {
-    private LocationConfigManager locationConfigManager;
-    private DungeonCrusher dungeonCrusher;
-
-    public ErfolgeListener(DungeonCrusher dungeonCrusher, LocationConfigManager locationConfigManager) {
-        this.dungeonCrusher = dungeonCrusher;
-        this.locationConfigManager = locationConfigManager;
-    }
-
     public static HashMap<UUID, Integer> ebeneHashMap = new HashMap<>();
 
     @EventHandler
@@ -106,10 +96,7 @@ public class ErfolgeListener implements Listener {
 
         if (e.getCurrentItem().equals(ErfolgeBuilders.createCustomMobHead("3ed1aba73f639f4bc42bd48196c715197be2712c3b962c97ebf9e9ed8efa025", "§cZurück"))) {
             p.openInventory(ErfolgeBuilders.getInventory(p, 0));
-            //geht ned das untere
-            if (ebeneHashMap.containsKey(p.getUniqueId())) {
-                ebeneHashMap.remove(p.getUniqueId());
-            }
+
             ebeneHashMap.put(p.getUniqueId(), 0);
             e.setCancelled(true);
             return;

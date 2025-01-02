@@ -24,9 +24,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.UUID;
 
-import static net.dbsgameplay.dungeoncrusher.utils.Begleiter.BegleiterBuilder.dungeonCrusher;
-
-
 public class ErfolgeBuilders {
     private static final UUID RANDOM_UUID = UUID.fromString("92864445-51c5-4c3b-9039-517c9927d1b4");
     public static Inventory inv;
@@ -110,7 +107,7 @@ public class ErfolgeBuilders {
             int needed_kills = stufe*killAmount;
             ArrayList<String> lore = new ArrayList<>();
 
-            ItemStack item = new ItemStack(Material.GRAY_DYE);;
+            ItemStack item = new ItemStack(Material.GRAY_DYE);
             ItemMeta meta = item.getItemMeta();
 
             meta.setItemName(s);
@@ -170,7 +167,7 @@ public class ErfolgeBuilders {
             int needed_kills = stufe*killAmount;
             ArrayList<String> lore = new ArrayList<>();
 
-            ItemStack item = new ItemStack(Material.GRAY_DYE);;
+            ItemStack item = new ItemStack(Material.GRAY_DYE);
             ItemMeta meta = item.getItemMeta();
 
             meta.setItemName(s);
@@ -208,20 +205,17 @@ public class ErfolgeBuilders {
         }
     }
 
+    public static void fillInv2() {
+        inv.clear();
+        setOperators(inv);
+
+
+    }
+
     public static void openTitleMenü(Player p, String mob) {
         int kills = mysqlManager.getPlayerMobKills(p.getUniqueId().toString(), mob);
-        double rawstufe = Math.ceil((double) kills/killAmount);
-        int stufe = (int) rawstufe;
         inventory = Bukkit.createInventory(null, 27, mob + " Titelmenü");
         User user = DungeonCrusher.api.getUserManager().getUser(p.getUniqueId());
-
-        if (stufe == 0) {
-            stufe = 1;
-        }
-
-        if (stufe*killAmount == kills && stufe != 20) {
-            stufe++;
-        }
 
         for (int i = 1; i != 21; i++) {
             ArrayList<String> arrayList = new ArrayList<>();
@@ -240,7 +234,6 @@ public class ErfolgeBuilders {
                 itemMeta.setDisplayName("§fKille §d" + needed_kills + " §f" + mob + ".§a");
 
                 arrayList.add("§7Du brauchst noch §6" + (needed_kills-kills) + " §7Kills.");
-
             }
 
             if (user.getCachedData().getMetaData().getSuffix() != null) {

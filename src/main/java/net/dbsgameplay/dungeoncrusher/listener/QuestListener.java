@@ -30,20 +30,19 @@ import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.HashMap;
 import java.util.UUID;
-import java.util.concurrent.CompletableFuture;
 
 public class QuestListener implements Listener {
-
     public static MYSQLManager mysqlManager;
-    DungeonCrusher dungeonCrusher;
+    public DungeonCrusher dungeonCrusher;
     public static HashMap<UUID, Integer> rewardChoosenMap = new HashMap<>();
+    public static HashMap<UUID, Integer> dailyPlaytimeMap = new HashMap<>();
+    public static HashMap<UUID, Integer> weeklyPlaytimeMap = new HashMap<>();
+    public static HashMap<UUID, Integer> monthlyPlaytimeMap = new HashMap<>();
 
     public QuestListener(MYSQLManager mysqlManager, DungeonCrusher dungeonCrusher) {
         this.mysqlManager = mysqlManager;
         this.dungeonCrusher = dungeonCrusher;
     }
-
-    public static HashMap<UUID, Integer> playtimeMap = new HashMap<UUID, Integer>();
 
     @EventHandler
     public void PlayerJoinEvent(PlayerJoinEvent e) {
@@ -80,7 +79,10 @@ public class QuestListener implements Listener {
 
     @EventHandler
     public void PlayerQuitEvent(PlayerQuitEvent e) {
-        playtimeMap.remove(e.getPlayer().getUniqueId());
+        dailyPlaytimeMap.remove(e.getPlayer().getUniqueId());
+        weeklyPlaytimeMap.remove(e.getPlayer().getUniqueId());
+        monthlyPlaytimeMap.remove(e.getPlayer().getUniqueId());
+
     }
 
     @EventHandler
@@ -106,77 +108,72 @@ public class QuestListener implements Listener {
         }
 
         if (e.getClickedInventory().equals(QuestBuilder.rewardMenu)) {
-            for (int i = 0; i != 10; i++) {
-                if (rewardChoosenMap.containsKey(p.getUniqueId())) {
-                    rewardChoosenMap.remove(p.getUniqueId());
+            if (rewardChoosenMap.containsKey(p.getUniqueId())) {
+                rewardChoosenMap.remove(p.getUniqueId());
 
-                    if (e.getCurrentItem() != null) {
-                        String material = null;
-                        int amount = Integer.parseInt(e.getCurrentItem().getItemMeta().getDisplayName().substring(10));
+                if (e.getCurrentItem() != null) {
+                    String material = null;
+                    int amount = Integer.parseInt(e.getCurrentItem().getItemMeta().getDisplayName().substring(10));
 
-                        if (amount == 0) {
-                            e.setCancelled(true);
-                            return;
-                        }
-
-                        switch (e.getCurrentItem().getType()) {
-                            case Material.RAW_COPPER -> material = "raw_copper";
-                            case Material.COPPER_INGOT -> material = "copper_ingot";
-                            case Material.RAW_IRON -> material = "raw_iron";
-                            case Material.IRON_INGOT -> material = "iron_ingot";
-                            case Material.RAW_GOLD -> material = "raw_gold";
-                            case Material.GOLD_INGOT -> material = "gold_ingot";
-                            case Material.COAL -> material = "coal";
-                            case Material.COBBLESTONE -> material = "cobblestone";
-                            case Material.DIAMOND_ORE -> material = "diamond_ore";
-                            case Material.DIAMOND -> material = "diamond";
-                            case Material.STONE -> material = "stone";
-                            case Material.NETHERITE_INGOT -> material = "netherite_ingot";
-                            case Material.NETHERITE_SCRAP -> material = "netherite_scrap";
-                        }
-                        p.playSound(p.getLocation(), Sound.ENTITY_ARROW_HIT_PLAYER, 100, 1);
-                        mysqlManager.updateItemAmount(p.getUniqueId().toString(), material, mysqlManager.getItemAmount(p.getUniqueId().toString(), material)+amount);
-                        updateItems(p);
+                    if (amount == 0) {
+                        e.setCancelled(true);
+                        return;
                     }
 
-                    p.closeInventory();
-                    e.setCancelled(true);
-                    break;
-                }else {
-                    rewardChoosenMap.put(p.getUniqueId(), 1);
-                    if (e.getCurrentItem() != null) {
-                        String material = null;
-                        int amount = Integer.parseInt(e.getCurrentItem().getItemMeta().getDisplayName().substring(10));
-
-                        if (amount == 0) {
-                            e.setCancelled(true);
-                            return;
-                        }
-
-                        switch (e.getCurrentItem().getType()) {
-                            case Material.RAW_COPPER -> material = "raw_copper";
-                            case Material.COPPER_INGOT -> material = "copper_ingot";
-                            case Material.RAW_IRON -> material = "raw_iron";
-                            case Material.IRON_INGOT -> material = "iron_ingot";
-                            case Material.RAW_GOLD -> material = "raw_gold";
-                            case Material.GOLD_INGOT -> material = "gold_ingot";
-                            case Material.COAL -> material = "coal";
-                            case Material.COBBLESTONE -> material = "cobblestone";
-                            case Material.DIAMOND_ORE -> material = "diamond_ore";
-                            case Material.DIAMOND -> material = "diamond";
-                            case Material.STONE -> material = "stone";
-                            case Material.NETHERITE_INGOT -> material = "netherite_ingot";
-                            case Material.NETHERITE_SCRAP -> material = "netherite_scrap";
-                        }
-                        p.playSound(p.getLocation(), Sound.ENTITY_ARROW_HIT_PLAYER, 100, 1);
-                        mysqlManager.updateItemAmount(p.getUniqueId().toString(), material, mysqlManager.getItemAmount(p.getUniqueId().toString(), material)+amount);
-                        updateItems(p);
+                    switch (e.getCurrentItem().getType()) {
+                        case Material.RAW_COPPER -> material = "raw_copper";
+                        case Material.COPPER_INGOT -> material = "copper_ingot";
+                        case Material.RAW_IRON -> material = "raw_iron";
+                        case Material.IRON_INGOT -> material = "iron_ingot";
+                        case Material.RAW_GOLD -> material = "raw_gold";
+                        case Material.GOLD_INGOT -> material = "gold_ingot";
+                        case Material.COAL -> material = "coal";
+                        case Material.COBBLESTONE -> material = "cobblestone";
+                        case Material.DIAMOND_ORE -> material = "diamond_ore";
+                        case Material.DIAMOND -> material = "diamond";
+                        case Material.STONE -> material = "stone";
+                        case Material.NETHERITE_INGOT -> material = "netherite_ingot";
+                        case Material.NETHERITE_SCRAP -> material = "netherite_scrap";
                     }
-                    e.setCancelled(true);
-                    break;
+                    p.playSound(p.getLocation(), Sound.ENTITY_ARROW_HIT_PLAYER, 100, 1);
+                    mysqlManager.updateItemAmount(p.getUniqueId().toString(), material, mysqlManager.getItemAmount(p.getUniqueId().toString(), material)+amount);
+                    updateItems(p);
                 }
-            }
 
+                p.closeInventory();
+                e.setCancelled(true);
+            }else {
+                rewardChoosenMap.put(p.getUniqueId(), 1);
+                if (e.getCurrentItem() != null) {
+                    String material = null;
+                    int amount = Integer.parseInt(e.getCurrentItem().getItemMeta().getDisplayName().substring(10));
+
+                    if (amount == 0) {
+                        e.setCancelled(true);
+                        return;
+                    }
+
+                    switch (e.getCurrentItem().getType()) {
+                        case Material.RAW_COPPER -> material = "raw_copper";
+                        case Material.COPPER_INGOT -> material = "copper_ingot";
+                        case Material.RAW_IRON -> material = "raw_iron";
+                        case Material.IRON_INGOT -> material = "iron_ingot";
+                        case Material.RAW_GOLD -> material = "raw_gold";
+                        case Material.GOLD_INGOT -> material = "gold_ingot";
+                        case Material.COAL -> material = "coal";
+                        case Material.COBBLESTONE -> material = "cobblestone";
+                        case Material.DIAMOND_ORE -> material = "diamond_ore";
+                        case Material.DIAMOND -> material = "diamond";
+                        case Material.STONE -> material = "stone";
+                        case Material.NETHERITE_INGOT -> material = "netherite_ingot";
+                        case Material.NETHERITE_SCRAP -> material = "netherite_scrap";
+                    }
+                    p.playSound(p.getLocation(), Sound.ENTITY_ARROW_HIT_PLAYER, 100, 1);
+                    mysqlManager.updateItemAmount(p.getUniqueId().toString(), material, mysqlManager.getItemAmount(p.getUniqueId().toString(), material)+amount);
+                    updateItems(p);
+                }
+                e.setCancelled(true);
+            }
         }
 
     }
@@ -390,32 +387,32 @@ public class QuestListener implements Listener {
     }
 
     public static void loadPlaytime(Player p) {
-        if (Daily.getQuestKategorie(mysqlManager.getOrginQuest("daily1")).equalsIgnoreCase("Play")) {
-            playtimeMap.put(p.getUniqueId(), mysqlManager.getPlayerTempQuest("daily1", p.getUniqueId().toString()));
+        if (Daily.getQuestKategorie(mysqlManager.getOrginQuest("daily1")).equalsIgnoreCase("Play") && !Daily.isDone(1, p)) {
+            dailyPlaytimeMap.put(p.getUniqueId(), mysqlManager.getPlayerTempQuest("daily1", p.getUniqueId().toString()));
         }
-        if (Daily.getQuestKategorie(mysqlManager.getOrginQuest("daily2")).equalsIgnoreCase("Play")) {
-            playtimeMap.put(p.getUniqueId(), mysqlManager.getPlayerTempQuest("daily2", p.getUniqueId().toString()));
+        if (Daily.getQuestKategorie(mysqlManager.getOrginQuest("daily2")).equalsIgnoreCase("Play") && !Daily.isDone(2, p)) {
+            dailyPlaytimeMap.put(p.getUniqueId(), mysqlManager.getPlayerTempQuest("daily2", p.getUniqueId().toString()));
         }
-        if (Daily.getQuestKategorie(mysqlManager.getOrginQuest("daily3")).equalsIgnoreCase("Play")) {
-            playtimeMap.put(p.getUniqueId(), mysqlManager.getPlayerTempQuest("daily3", p.getUniqueId().toString()));
+        if (Daily.getQuestKategorie(mysqlManager.getOrginQuest("daily3")).equalsIgnoreCase("Play") && !Daily.isDone(3, p)) {
+            dailyPlaytimeMap.put(p.getUniqueId(), mysqlManager.getPlayerTempQuest("daily3", p.getUniqueId().toString()));
         }
-        if (Weekly.getQuestKategorie(mysqlManager.getOrginQuest("weekly1")).equalsIgnoreCase("Play")) {
-            playtimeMap.put(p.getUniqueId(), mysqlManager.getPlayerTempQuest("weekly1", p.getUniqueId().toString()));
+        if (Weekly.getQuestKategorie(mysqlManager.getOrginQuest("weekly1")).equalsIgnoreCase("Play") && !Weekly.isDone(1, p)) {
+            weeklyPlaytimeMap.put(p.getUniqueId(), mysqlManager.getPlayerTempQuest("weekly1", p.getUniqueId().toString()));
         }
-        if (Weekly.getQuestKategorie(mysqlManager.getOrginQuest("weekly2")).equalsIgnoreCase("Play")) {
-            playtimeMap.put(p.getUniqueId(), mysqlManager.getPlayerTempQuest("weekly2", p.getUniqueId().toString()));
+        if (Weekly.getQuestKategorie(mysqlManager.getOrginQuest("weekly2")).equalsIgnoreCase("Play") && !Weekly.isDone(2, p)){
+            weeklyPlaytimeMap.put(p.getUniqueId(), mysqlManager.getPlayerTempQuest("weekly2", p.getUniqueId().toString()));
         }
-        if (Weekly.getQuestKategorie(mysqlManager.getOrginQuest("weekly3")).equalsIgnoreCase("Play")) {
-            playtimeMap.put(p.getUniqueId(), mysqlManager.getPlayerTempQuest("weekly3", p.getUniqueId().toString()));
+        if (Weekly.getQuestKategorie(mysqlManager.getOrginQuest("weekly3")).equalsIgnoreCase("Play") && !Weekly.isDone(3, p)) {
+            weeklyPlaytimeMap.put(p.getUniqueId(), mysqlManager.getPlayerTempQuest("weekly3", p.getUniqueId().toString()));
         }
-        if (Monthly.getQuestKategorie(mysqlManager.getOrginQuest("monthly1")).equalsIgnoreCase("Play")) {
-            playtimeMap.put(p.getUniqueId(), mysqlManager.getPlayerTempQuest("monthly1", p.getUniqueId().toString()));
+        if (Monthly.getQuestKategorie(mysqlManager.getOrginQuest("monthly1")).equalsIgnoreCase("Play") && !Monthly.isDone(1, p)) {
+            monthlyPlaytimeMap.put(p.getUniqueId(), mysqlManager.getPlayerTempQuest("monthly1", p.getUniqueId().toString()));
         }
-        if (Monthly.getQuestKategorie(mysqlManager.getOrginQuest("monthly2")).equalsIgnoreCase("Play")) {
-            playtimeMap.put(p.getUniqueId(), mysqlManager.getPlayerTempQuest("monthly2", p.getUniqueId().toString()));
+        if (Monthly.getQuestKategorie(mysqlManager.getOrginQuest("monthly2")).equalsIgnoreCase("Play") && !Monthly.isDone(2, p)) {
+            monthlyPlaytimeMap.put(p.getUniqueId(), mysqlManager.getPlayerTempQuest("monthly2", p.getUniqueId().toString()));
         }
-        if (Monthly.getQuestKategorie(mysqlManager.getOrginQuest("monthly3")).equalsIgnoreCase("Play")) {
-            playtimeMap.put(p.getUniqueId(), mysqlManager.getPlayerTempQuest("monthly3", p.getUniqueId().toString()));
+        if (Monthly.getQuestKategorie(mysqlManager.getOrginQuest("monthly3")).equalsIgnoreCase("Play") && !Monthly.isDone(3, p)) {
+            monthlyPlaytimeMap.put(p.getUniqueId(), mysqlManager.getPlayerTempQuest("monthly3", p.getUniqueId().toString()));
         }
     }
 }

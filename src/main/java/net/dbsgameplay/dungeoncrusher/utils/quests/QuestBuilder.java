@@ -2,7 +2,6 @@ package net.dbsgameplay.dungeoncrusher.utils.quests;
 
 import net.dbsgameplay.dungeoncrusher.DungeonCrusher;
 import net.dbsgameplay.dungeoncrusher.sql.MYSQLManager;
-import net.dbsgameplay.dungeoncrusher.utils.Configs.LocationConfigManager;
 
 import org.bukkit.*;
 import org.bukkit.boss.BarColor;
@@ -27,8 +26,7 @@ public class QuestBuilder {
         this.dungeonCrusher = dungeonCrusher;
         this.mysqlManager = mysqlManager;
     }
-    private LocationConfigManager locationConfigManager;
-    private static DungeonCrusher dungeonCrusher;
+    public static DungeonCrusher dungeonCrusher;
 
     public static Inventory questMenu = Bukkit.createInventory(null, 54, "§7Questmenü");
     public static Inventory rewardMenu = Bukkit.createInventory(null, 27, "§7Rewardmenü - §6Such dir 2 aus!");

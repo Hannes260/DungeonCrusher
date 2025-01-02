@@ -303,7 +303,7 @@ public class Daily {
 
                 if (Daily.RewardMoneyList.get(s) != null) {
                     foodCategory.addMoney(p, Daily.RewardMoneyList.get(s));
-                    p.sendMessage("»Quests §7[§a+§7] §6" + Daily.RewardMoneyList.get(s) + "€");
+                    p.sendMessage("» §7[§a+§7] §6" + Daily.RewardMoneyList.get(s) + "€");
                 }
 
                 for (int i = 0; i!= 10; i++) {
